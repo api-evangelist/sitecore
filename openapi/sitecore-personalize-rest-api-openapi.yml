@@ -1,0 +1,942 @@
+openapi: 3.1.0
+info:
+  title: Sitecore Personalize REST API
+  description: >-
+    The Sitecore Personalize REST API allows developers to programmatically
+    interact with Sitecore Personalize experiments, decisioning flows, connection
+    configurations, and template assets. It supports retrieving, creating,
+    updating, and deleting personalization resources through standard HTTP methods.
+    Developers use this API to integrate decisioning logic into server-side
+    applications, trigger personalization flows programmatically, manage
+    personalization assets as part of automated deployment pipelines, and connect
+    to external systems via configurable connection objects. The API base URL is
+    environment-specific and is determined by the region of the Sitecore Personalize
+    instance.
+  version: 'v1'
+  contact:
+    name: Sitecore Support
+    url: https://www.sitecore.com/support
+  termsOfService: https://www.sitecore.com/legal/terms-of-service
+externalDocs:
+  description: Sitecore Personalize Developer Documentation
+  url: https://doc.sitecore.com/personalize/en/developers/api/index-en.html
+servers:
+  - url: https://api.boxever.com
+    description: Sitecore Personalize Production Server
+tags:
+  - name: Connections
+    description: >-
+      Endpoints for creating, retrieving, updating, and testing connections to
+      external systems used in personalization flows and decision models. Connections
+      define authentication credentials and URL configurations for external services.
+  - name: Decision Models
+    description: >-
+      Endpoints for managing decision models that power programmatic targeting and
+      offer selection logic within Sitecore Personalize. Decision models contain
+      variant configurations and deployment settings.
+  - name: Flow Definitions
+    description: >-
+      Endpoints for creating, retrieving, and updating flow definitions that
+      represent experiments, experiences, and personalization flows in Sitecore
+      Personalize. Flows can be web-based, full-stack, or triggered by API calls.
+  - name: Templates
+    description: >-
+      Endpoints for managing web and decision templates used to define the
+      visual and logic components of personalization experiences within flows.
+security:
+  - apiKeyAuth: []
+paths:
+  /v1/connections:
+    get:
+      operationId: listConnections
+      summary: List connections
+      description: >-
+        Retrieves a paginated collection of all connections configured in the
+        Sitecore Personalize instance. Connections represent integrations with
+        external systems used within decision models and personalization flows.
+        Supports search, sorting, and pagination via query parameters.
+      tags:
+        - Connections
+      parameters:
+        - $ref: '#/components/parameters/pageSize'
+        - $ref: '#/components/parameters/pageOffset'
+        - $ref: '#/components/parameters/sortBy'
+      responses:
+        '200':
+          description: A paginated list of connections
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConnectionListResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createConnection
+      summary: Create a connection
+      description: >-
+        Creates a new connection to an external system. Connections define the
+        authentication type, endpoint URL, request configuration, and field
+        mappings used when calling the external service from within a
+        personalization flow or decision model.
+      tags:
+        - Connections
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateConnectionRequest'
+      responses:
+        '201':
+          description: Connection created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Connection'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /v1/connections/{id}:
+    get:
+      operationId: getConnection
+      summary: Get a connection
+      description: >-
+        Retrieves a specific connection by its unique identifier. Returns the
+        full connection configuration including authentication settings, URL,
+        and field mappings.
+      tags:
+        - Connections
+      parameters:
+        - $ref: '#/components/parameters/resourceId'
+      responses:
+        '200':
+          description: Connection details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Connection'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      operationId: updateConnection
+      summary: Update a connection
+      description: >-
+        Performs a full replacement update of a connection. All fields are
+        replaced with the values provided in the request body.
+      tags:
+        - Connections
+      parameters:
+        - $ref: '#/components/parameters/resourceId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateConnectionRequest'
+      responses:
+        '200':
+          description: Connection updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Connection'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /v1/connections/{id}/test:
+    post:
+      operationId: testConnection
+      summary: Test a connection
+      description: >-
+        Performs a test call to the external system using the connection
+        configuration to verify that the credentials and endpoint URL are
+        correct and the service is reachable.
+      tags:
+        - Connections
+      parameters:
+        - $ref: '#/components/parameters/resourceId'
+      responses:
+        '200':
+          description: Connection test result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConnectionTestResult'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /v1/decision-models:
+    get:
+      operationId: listDecisionModels
+      summary: List decision models
+      description: >-
+        Retrieves a paginated collection of all decision models configured in
+        the Sitecore Personalize instance. Decision models drive offer selection
+        and targeting logic. Supports search, sorting, and pagination.
+      tags:
+        - Decision Models
+      parameters:
+        - $ref: '#/components/parameters/pageSize'
+        - $ref: '#/components/parameters/pageOffset'
+        - $ref: '#/components/parameters/sortBy'
+      responses:
+        '200':
+          description: A paginated list of decision models
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DecisionModelListResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createDecisionModel
+      summary: Create a decision model
+      description: >-
+        Creates a new decision model in Sitecore Personalize. Decision models
+        contain items, variant configurations, and deployment settings that
+        control how offers or content are selected for a given audience.
+      tags:
+        - Decision Models
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateDecisionModelRequest'
+      responses:
+        '201':
+          description: Decision model created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DecisionModel'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /v1/decision-models/{id}:
+    get:
+      operationId: getDecisionModel
+      summary: Get a decision model
+      description: >-
+        Retrieves a specific decision model by its unique identifier. Returns
+        the full model including its items, variant configuration, and current
+        deployment status.
+      tags:
+        - Decision Models
+      parameters:
+        - $ref: '#/components/parameters/resourceId'
+      responses:
+        '200':
+          description: Decision model details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DecisionModel'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      operationId: updateDecisionModel
+      summary: Update a decision model
+      description: >-
+        Performs a full replacement update of a decision model. All fields are
+        replaced with the values in the request body. This creates a new
+        revision of the model.
+      tags:
+        - Decision Models
+      parameters:
+        - $ref: '#/components/parameters/resourceId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateDecisionModelRequest'
+      responses:
+        '200':
+          description: Decision model updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DecisionModel'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /v1/flow-definitions:
+    get:
+      operationId: listFlowDefinitions
+      summary: List flow definitions
+      description: >-
+        Retrieves a paginated collection of all flow definitions configured in
+        the Sitecore Personalize instance. Flow definitions represent experiments,
+        full-stack experiences, and API-triggered personalization flows.
+      tags:
+        - Flow Definitions
+      parameters:
+        - $ref: '#/components/parameters/pageSize'
+        - $ref: '#/components/parameters/pageOffset'
+        - $ref: '#/components/parameters/sortBy'
+        - name: type
+          in: query
+          description: Filter flow definitions by type
+          required: false
+          schema:
+            type: string
+            enum:
+              - WEB
+              - FULLSTACK
+              - API
+      responses:
+        '200':
+          description: A paginated list of flow definitions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FlowDefinitionListResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createFlowDefinition
+      summary: Create a flow definition
+      description: >-
+        Creates a new flow definition representing a personalization experiment
+        or experience. Flow definitions contain variant configurations, targeting
+        rules, and scheduling settings.
+      tags:
+        - Flow Definitions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateFlowDefinitionRequest'
+      responses:
+        '201':
+          description: Flow definition created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FlowDefinition'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /v1/flow-definitions/{id}:
+    get:
+      operationId: getFlowDefinition
+      summary: Get a flow definition
+      description: >-
+        Retrieves a specific flow definition by its unique identifier. Returns the
+        full definition including type, variant configuration, status, and scheduling.
+      tags:
+        - Flow Definitions
+      parameters:
+        - $ref: '#/components/parameters/resourceId'
+      responses:
+        '200':
+          description: Flow definition details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FlowDefinition'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      operationId: updateFlowDefinition
+      summary: Update a flow definition
+      description: >-
+        Performs a full replacement update of a flow definition. All fields are
+        replaced with the values in the request body.
+      tags:
+        - Flow Definitions
+      parameters:
+        - $ref: '#/components/parameters/resourceId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateFlowDefinitionRequest'
+      responses:
+        '200':
+          description: Flow definition updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FlowDefinition'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /v1/templates:
+    get:
+      operationId: listTemplates
+      summary: List templates
+      description: >-
+        Retrieves a paginated collection of all templates configured in the
+        Sitecore Personalize instance. Templates define the visual or logic
+        components used within personalization flows.
+      tags:
+        - Templates
+      parameters:
+        - $ref: '#/components/parameters/pageSize'
+        - $ref: '#/components/parameters/pageOffset'
+        - $ref: '#/components/parameters/sortBy'
+      responses:
+        '200':
+          description: A paginated list of templates
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateListResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createTemplate
+      summary: Create a template
+      description: >-
+        Creates a new template in Sitecore Personalize. Templates contain HTML,
+        CSS, and JavaScript that define the visual presentation or decision logic
+        of a personalization experience.
+      tags:
+        - Templates
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTemplateRequest'
+      responses:
+        '201':
+          description: Template created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Template'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /v1/templates/{id}:
+    get:
+      operationId: getTemplate
+      summary: Get a template
+      description: >-
+        Retrieves a specific template by its unique identifier. Returns the full
+        template including its code, revision history, and status.
+      tags:
+        - Templates
+      parameters:
+        - $ref: '#/components/parameters/resourceId'
+      responses:
+        '200':
+          description: Template details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Template'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      operationId: updateTemplate
+      summary: Update a template
+      description: >-
+        Performs a full replacement update of a template. A new revision is
+        created upon each update.
+      tags:
+        - Templates
+      parameters:
+        - $ref: '#/components/parameters/resourceId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTemplateRequest'
+      responses:
+        '200':
+          description: Template updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Template'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+components:
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: >-
+        API key authentication. Provide the API key in the Authorization header
+        obtained from the Sitecore Personalize instance configuration.
+
+  parameters:
+    resourceId:
+      name: id
+      in: path
+      description: The unique identifier of the resource
+      required: true
+      schema:
+        type: string
+    pageSize:
+      name: pageSize
+      in: query
+      description: Number of items to return per page
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+    pageOffset:
+      name: pageOffset
+      in: query
+      description: Number of records to skip for pagination
+      required: false
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+    sortBy:
+      name: sort
+      in: query
+      description: Field name and direction to sort results by (e.g., name:asc)
+      required: false
+      schema:
+        type: string
+
+  responses:
+    Unauthorized:
+      description: Authentication credentials are missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: The request body or parameters are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+  schemas:
+    Connection:
+      type: object
+      description: >-
+        A connection to an external system used within Sitecore Personalize
+        decision models and flows
+      properties:
+        ref:
+          type: string
+          description: The unique identifier of the connection
+        name:
+          type: string
+          description: The display name of the connection
+        description:
+          type: string
+          description: A description of what the connection is used for
+        authType:
+          type: string
+          description: The authentication method used by the connection
+          enum:
+            - NONE
+            - BASIC
+            - OAUTH
+            - API_KEY
+        connectionUrl:
+          type: string
+          description: The URL of the external service endpoint
+          format: uri
+        requestType:
+          type: string
+          description: The HTTP method used for requests
+          enum:
+            - GET
+            - POST
+            - PUT
+            - PATCH
+            - DELETE
+        connectionTimeout:
+          type: integer
+          description: Timeout in milliseconds before aborting the connection
+        socketTimeout:
+          type: integer
+          description: Timeout in milliseconds waiting for response data
+        createdAt:
+          type: string
+          description: The ISO 8601 timestamp when the connection was created
+          format: date-time
+        modifiedAt:
+          type: string
+          description: The ISO 8601 timestamp when the connection was last modified
+          format: date-time
+
+    CreateConnectionRequest:
+      type: object
+      description: Request body for creating or updating a connection
+      required:
+        - name
+        - connectionUrl
+        - requestType
+      properties:
+        name:
+          type: string
+          description: The display name of the connection
+        description:
+          type: string
+          description: A description of what the connection is used for
+        authType:
+          type: string
+          description: The authentication method
+          enum:
+            - NONE
+            - BASIC
+            - OAUTH
+            - API_KEY
+        connectionUrl:
+          type: string
+          description: The URL of the external service endpoint
+          format: uri
+        requestType:
+          type: string
+          description: The HTTP method for requests
+          enum:
+            - GET
+            - POST
+            - PUT
+            - PATCH
+            - DELETE
+        connectionTimeout:
+          type: integer
+          description: Timeout in milliseconds before aborting the connection
+        socketTimeout:
+          type: integer
+          description: Timeout in milliseconds waiting for response data
+
+    ConnectionListResponse:
+      type: object
+      description: A paginated list of connections
+      properties:
+        items:
+          type: array
+          description: The connections for the current page
+          items:
+            $ref: '#/components/schemas/Connection'
+        total:
+          type: integer
+          description: Total number of connections
+
+    ConnectionTestResult:
+      type: object
+      description: Result of a connection test
+      properties:
+        success:
+          type: boolean
+          description: Whether the connection test succeeded
+        statusCode:
+          type: integer
+          description: The HTTP status code returned by the external service
+        message:
+          type: string
+          description: A description of the test result or error
+
+    DecisionModel:
+      type: object
+      description: >-
+        A decision model that defines targeting and offer selection logic within
+        Sitecore Personalize
+      properties:
+        ref:
+          type: string
+          description: The unique identifier of the decision model
+        name:
+          type: string
+          description: The display name of the decision model
+        status:
+          type: string
+          description: The current status of the decision model
+          enum:
+            - DRAFT
+            - TEST
+            - PRODUCTION
+            - ARCHIVED
+        revision:
+          type: integer
+          description: The current revision number of the decision model
+        archived:
+          type: boolean
+          description: Whether the decision model has been archived
+        deploymentConfiguration:
+          type: array
+          description: Variant configuration specifying traffic splits and content
+          items:
+            $ref: '#/components/schemas/VariantConfig'
+        createdAt:
+          type: string
+          description: The ISO 8601 timestamp when the model was created
+          format: date-time
+        modifiedAt:
+          type: string
+          description: The ISO 8601 timestamp when the model was last modified
+          format: date-time
+
+    VariantConfig:
+      type: object
+      description: Configuration for a variant within a decision model or flow
+      properties:
+        variantRef:
+          type: string
+          description: The identifier of the variant
+        split:
+          type: integer
+          description: The percentage of traffic allocated to this variant
+          minimum: 0
+          maximum: 100
+
+    CreateDecisionModelRequest:
+      type: object
+      description: Request body for creating or updating a decision model
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: The display name of the decision model
+        status:
+          type: string
+          description: The deployment status of the decision model
+          enum:
+            - DRAFT
+            - TEST
+            - PRODUCTION
+        deploymentConfiguration:
+          type: array
+          description: Variant configuration for the decision model
+          items:
+            $ref: '#/components/schemas/VariantConfig'
+
+    DecisionModelListResponse:
+      type: object
+      description: A paginated list of decision models
+      properties:
+        items:
+          type: array
+          description: The decision models for the current page
+          items:
+            $ref: '#/components/schemas/DecisionModel'
+        total:
+          type: integer
+          description: Total number of decision models
+
+    FlowDefinition:
+      type: object
+      description: >-
+        A flow definition representing a personalization experiment or experience
+        in Sitecore Personalize
+      properties:
+        ref:
+          type: string
+          description: The unique identifier of the flow definition
+        name:
+          type: string
+          description: The display name of the flow
+        type:
+          type: string
+          description: The type of flow
+          enum:
+            - WEB
+            - FULLSTACK
+            - API
+        status:
+          type: string
+          description: The current deployment status of the flow
+          enum:
+            - DRAFT
+            - ACTIVE
+            - PAUSED
+            - ENDED
+            - ARCHIVED
+        variants:
+          type: array
+          description: Variant configurations for the flow
+          items:
+            $ref: '#/components/schemas/VariantConfig'
+        createdAt:
+          type: string
+          description: The ISO 8601 timestamp when the flow was created
+          format: date-time
+        modifiedAt:
+          type: string
+          description: The ISO 8601 timestamp when the flow was last modified
+          format: date-time
+
+    CreateFlowDefinitionRequest:
+      type: object
+      description: Request body for creating or updating a flow definition
+      required:
+        - name
+        - type
+      properties:
+        name:
+          type: string
+          description: The display name of the flow
+        type:
+          type: string
+          description: The type of flow
+          enum:
+            - WEB
+            - FULLSTACK
+            - API
+        status:
+          type: string
+          description: The deployment status of the flow
+          enum:
+            - DRAFT
+            - ACTIVE
+            - PAUSED
+
+    FlowDefinitionListResponse:
+      type: object
+      description: A paginated list of flow definitions
+      properties:
+        items:
+          type: array
+          description: The flow definitions for the current page
+          items:
+            $ref: '#/components/schemas/FlowDefinition'
+        total:
+          type: integer
+          description: Total number of flow definitions
+
+    Template:
+      type: object
+      description: A template defining visual or logic components of a personalization experience
+      properties:
+        ref:
+          type: string
+          description: The unique identifier of the template
+        name:
+          type: string
+          description: The display name of the template
+        type:
+          type: string
+          description: The template type
+          enum:
+            - WEB
+            - DECISION
+        revision:
+          type: integer
+          description: The current revision number of the template
+        html:
+          type: string
+          description: The HTML markup of the template
+        css:
+          type: string
+          description: The CSS styles for the template
+        javascript:
+          type: string
+          description: The JavaScript code for the template
+        createdAt:
+          type: string
+          description: The ISO 8601 timestamp when the template was created
+          format: date-time
+        modifiedAt:
+          type: string
+          description: The ISO 8601 timestamp when the template was last modified
+          format: date-time
+
+    CreateTemplateRequest:
+      type: object
+      description: Request body for creating or updating a template
+      required:
+        - name
+        - type
+      properties:
+        name:
+          type: string
+          description: The display name of the template
+        type:
+          type: string
+          description: The type of template
+          enum:
+            - WEB
+            - DECISION
+        html:
+          type: string
+          description: The HTML markup of the template
+        css:
+          type: string
+          description: The CSS styles for the template
+        javascript:
+          type: string
+          description: The JavaScript code for the template
+
+    TemplateListResponse:
+      type: object
+      description: A paginated list of templates
+      properties:
+        items:
+          type: array
+          description: The templates for the current page
+          items:
+            $ref: '#/components/schemas/Template'
+        total:
+          type: integer
+          description: Total number of templates
+
+    ErrorResponse:
+      type: object
+      description: An error response body
+      properties:
+        message:
+          type: string
+          description: A human-readable error message
+        statusCode:
+          type: integer
+          description: The HTTP status code
+        errors:
+          type: array
+          description: List of detailed error messages
+          items:
+            type: string

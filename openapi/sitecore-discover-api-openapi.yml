@@ -1,0 +1,655 @@
+openapi: 3.1.0
+info:
+  title: Sitecore Discover API
+  description: >-
+    The Sitecore Discover API provides search and product discovery capabilities
+    for commerce applications, enabling developers to build search experiences,
+    product listing pages, and recommendation widgets. It exposes endpoints for
+    full-text search, faceted filtering, product recommendations, behavioral event
+    tracking, and incremental product feed updates. The Search and Recommendation
+    API accepts requests as JSON and returns ranked results. Events sent through
+    the Events API feed behavioral signals back into the discovery algorithms to
+    improve recommendation relevance. The Incremental Feed API enables real-time
+    product catalog updates. Endpoint URLs are customer-specific and contain either
+    a subdomain URL or customer key retrieved from the Sitecore Discover Customer
+    Engagement Console.
+  version: 'v3'
+  contact:
+    name: Sitecore Support
+    url: https://www.sitecore.com/support
+  termsOfService: https://www.sitecore.com/legal/terms-of-service
+externalDocs:
+  description: Sitecore Discover Developer Guide
+  url: https://doc.sitecore.com/discover/en/developers/discover-developer-guide/integrate-using-discover-rest-apis.html
+servers:
+  - url: https://{subdomain}.rfksrv.com
+    description: Sitecore Discover Production Server (subdomain URL)
+    variables:
+      subdomain:
+        description: The customer-specific subdomain provided in the Discover CEC
+        default: your-domain
+  - url: https://api.rfksrv.com
+    description: Sitecore Discover Production Server (customer key URL)
+tags:
+  - name: Search and Recommendations
+    description: >-
+      Endpoints for performing product and content search queries, retrieving
+      ranked results, applying faceted filters, and fetching personalized
+      product recommendations based on behavioral data.
+  - name: Events
+    description: >-
+      Endpoints for sending behavioral and interaction events from storefronts
+      to Sitecore Discover. Events include clicks, purchases, and page views
+      that improve recommendation relevance over time.
+  - name: Incremental Feed
+    description: >-
+      Endpoints for pushing real-time product catalog updates to Sitecore Discover
+      without requiring a full feed re-index. Supports adding, updating, and
+      removing products incrementally.
+  - name: Authentication
+    description: >-
+      Endpoints for obtaining access tokens used to authenticate API requests
+      to Sitecore Discover.
+security:
+  - bearerAuth: []
+paths:
+  /account/1/access-token:
+    put:
+      operationId: renewAccessToken
+      summary: Renew an access token
+      description: >-
+        Renews the access token used to authenticate requests to the Sitecore
+        Discover API. Tokens must be refreshed periodically to maintain API
+        access.
+      tags:
+        - Authentication
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRenewRequest'
+      responses:
+        '200':
+          description: Access token renewed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createAccessToken
+      summary: Create an access token
+      description: >-
+        Creates a new access token for authenticating requests to the Sitecore
+        Discover API using the provided API credentials.
+      tags:
+        - Authentication
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenCreateRequest'
+      responses:
+        '200':
+          description: Access token created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/search-rec/3:
+    get:
+      operationId: searchAndRecommend
+      summary: Search and recommend products
+      description: >-
+        Performs a product or content search and retrieves ranked results with
+        optional faceted filtering and personalized recommendations. Supports
+        keyword search, category browsing, and recommendation widget contexts.
+        The key parameter contains a JSON string with all query parameters.
+      tags:
+        - Search and Recommendations
+      parameters:
+        - $ref: '#/components/parameters/customerKey'
+        - name: key
+          in: query
+          description: >-
+            URL-encoded JSON object containing the search query parameters
+            including keyword, widget ID, page context, and filter facets
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Search and recommendation results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: searchAndRecommendPost
+      summary: Search and recommend products (POST)
+      description: >-
+        Performs a product or content search using a POST request body instead
+        of query parameters. Supports the same functionality as the GET endpoint
+        with the query parameters provided as a JSON request body.
+      tags:
+        - Search and Recommendations
+      parameters:
+        - $ref: '#/components/parameters/customerKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchRequest'
+      responses:
+        '200':
+          description: Search and recommendation results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/event/1:
+    get:
+      operationId: trackEventGet
+      summary: Track a behavioral event (GET)
+      description: >-
+        Sends a behavioral event from a storefront visitor session to Sitecore
+        Discover. Events are used to improve the relevance of search results
+        and product recommendations. The key parameter contains a URL-encoded
+        JSON object with the event details.
+      tags:
+        - Events
+      parameters:
+        - $ref: '#/components/parameters/customerKey'
+        - name: key
+          in: query
+          description: URL-encoded JSON object containing event details
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Event tracked successfully
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: trackEventPost
+      summary: Track a behavioral event (POST)
+      description: >-
+        Sends one or more behavioral events from a storefront visitor session
+        using a POST request body. Events are used to improve search and
+        recommendation relevance over time.
+      tags:
+        - Events
+      parameters:
+        - $ref: '#/components/parameters/customerKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EventRequest'
+      responses:
+        '200':
+          description: Event tracked successfully
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/feed/v1/products/incremental/update:
+    post:
+      operationId: updateProductsFeed
+      summary: Incrementally update products
+      description: >-
+        Pushes real-time product catalog updates to the Sitecore Discover index
+        without requiring a full feed re-process. Supports adding new products,
+        updating existing product attributes, and removing products from the
+        Discover catalog.
+      tags:
+        - Incremental Feed
+      parameters:
+        - $ref: '#/components/parameters/customerKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IncrementalFeedRequest'
+      responses:
+        '200':
+          description: Incremental product update accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FeedUpdateResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: >-
+        Bearer access token obtained from the Sitecore Discover authentication
+        endpoint. Include in the Authorization header.
+
+  parameters:
+    customerKey:
+      name: customerKey
+      in: query
+      description: >-
+        The customer key identifying the Sitecore Discover account. Found in
+        the Customer Engagement Console under Developer Resources > API Access.
+      required: false
+      schema:
+        type: string
+
+  responses:
+    Unauthorized:
+      description: Authentication token is missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: The request body or parameters are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+  schemas:
+    TokenCreateRequest:
+      type: object
+      description: Request body for creating a Discover access token
+      required:
+        - apiKey
+        - customerId
+      properties:
+        apiKey:
+          type: string
+          description: The API key for the Sitecore Discover account
+        customerId:
+          type: string
+          description: The customer identifier for the Discover account
+
+    TokenRenewRequest:
+      type: object
+      description: Request body for renewing an access token
+      required:
+        - refreshToken
+      properties:
+        refreshToken:
+          type: string
+          description: The refresh token from a previous authentication response
+
+    TokenResponse:
+      type: object
+      description: Authentication token response
+      properties:
+        accessToken:
+          type: string
+          description: The bearer access token for API authentication
+        expiresIn:
+          type: integer
+          description: Token validity duration in seconds
+        refreshToken:
+          type: string
+          description: Refresh token for renewing access
+
+    SearchRequest:
+      type: object
+      description: Search and recommendation request parameters
+      properties:
+        widget:
+          type: object
+          description: Widget configuration identifying the search or recommendation context
+          properties:
+            rfkid:
+              type: string
+              description: The Reflektion widget ID identifying the search or recommendation placement
+        search:
+          type: object
+          description: Search configuration including keyword and pagination
+          properties:
+            content:
+              type: object
+              description: Content filters for the search request
+              additionalProperties: true
+            query:
+              type: object
+              description: Query configuration
+              properties:
+                keyphrase:
+                  type: string
+                  description: The search keyword entered by the user
+            limit:
+              type: integer
+              description: Maximum number of results to return
+              default: 12
+            offset:
+              type: integer
+              description: Number of results to skip for pagination
+              default: 0
+            facet:
+              type: object
+              description: Facet filter configuration
+              additionalProperties: true
+        context:
+          type: object
+          description: User context including locale and device information
+          properties:
+            locale:
+              type: object
+              description: Locale settings
+              properties:
+                country:
+                  type: string
+                  description: ISO 3166-1 alpha-2 country code
+                  example: US
+                language:
+                  type: string
+                  description: ISO 639-1 language code
+                  example: en
+
+    SearchResponse:
+      type: object
+      description: Search and recommendation results
+      properties:
+        widgets:
+          type: array
+          description: Widget-level results containing search hits and facets
+          items:
+            $ref: '#/components/schemas/WidgetResult'
+
+    WidgetResult:
+      type: object
+      description: Results for a specific search or recommendation widget
+      properties:
+        rfkid:
+          type: string
+          description: The widget identifier
+        total_item:
+          type: integer
+          description: Total number of matching items
+        content:
+          type: object
+          description: Content result metadata
+          properties:
+            product:
+              $ref: '#/components/schemas/ProductResults'
+        facet:
+          type: array
+          description: Available facets for filtering results
+          items:
+            $ref: '#/components/schemas/Facet'
+
+    ProductResults:
+      type: object
+      description: Product-level search results
+      properties:
+        value:
+          type: array
+          description: The list of matching product results
+          items:
+            $ref: '#/components/schemas/DiscoverProduct'
+        total_item:
+          type: integer
+          description: Total number of matching products
+
+    DiscoverProduct:
+      type: object
+      description: A product result from Sitecore Discover search or recommendations
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the product
+        name:
+          type: string
+          description: The display name of the product
+        sku:
+          type: string
+          description: The product SKU or variant identifier
+        description:
+          type: string
+          description: The product description
+        url:
+          type: string
+          description: The URL of the product detail page
+          format: uri
+        image_url:
+          type: string
+          description: The URL of the product image
+          format: uri
+        price:
+          type: number
+          description: The base price of the product
+          format: float
+        final_price:
+          type: number
+          description: The final selling price after any discounts
+          format: float
+        brand:
+          type: string
+          description: The brand name of the product
+        category:
+          type: string
+          description: The primary category of the product
+        ccurrencyCode:
+          type: string
+          description: The ISO 4217 currency code for prices
+          example: USD
+
+    Facet:
+      type: object
+      description: A search facet with available filter values
+      properties:
+        name:
+          type: string
+          description: The facet field name
+        label:
+          type: string
+          description: The display label for the facet
+        value:
+          type: array
+          description: Available values for this facet
+          items:
+            $ref: '#/components/schemas/FacetValue'
+
+    FacetValue:
+      type: object
+      description: A single facet value with its count
+      properties:
+        id:
+          type: string
+          description: The facet value identifier
+        text:
+          type: string
+          description: The display text for the facet value
+        count:
+          type: integer
+          description: The number of matching products with this value
+
+    EventRequest:
+      type: object
+      description: Behavioral event tracking request
+      required:
+        - data
+      properties:
+        data:
+          type: array
+          description: List of behavioral events to track
+          items:
+            $ref: '#/components/schemas/BehavioralEvent'
+
+    BehavioralEvent:
+      type: object
+      description: A single behavioral event from a storefront visitor
+      required:
+        - type
+      properties:
+        type:
+          type: string
+          description: The type of behavioral event
+          enum:
+            - click
+            - purchase
+            - view
+            - search
+            - addToCart
+            - removeFromCart
+            - impression
+        sku:
+          type: string
+          description: The product SKU involved in the event
+        price:
+          type: number
+          description: The price of the product at time of the event
+          format: float
+        quantity:
+          type: integer
+          description: The quantity involved in the event
+        orderId:
+          type: string
+          description: The order identifier for purchase events
+        pageType:
+          type: string
+          description: The type of page where the event occurred
+          enum:
+            - home
+            - search
+            - plp
+            - pdp
+            - cart
+            - order-confirm
+            - other
+
+    IncrementalFeedRequest:
+      type: object
+      description: Request body for incrementally updating the product catalog
+      required:
+        - operation
+        - products
+      properties:
+        operation:
+          type: string
+          description: The operation to perform on the products
+          enum:
+            - add
+            - update
+            - delete
+        products:
+          type: array
+          description: The products to add, update, or delete
+          items:
+            $ref: '#/components/schemas/FeedProduct'
+
+    FeedProduct:
+      type: object
+      description: A product record for the Discover catalog feed
+      required:
+        - id
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the product
+        name:
+          type: string
+          description: The display name of the product
+        sku:
+          type: string
+          description: The product SKU
+        description:
+          type: string
+          description: The product description
+        url:
+          type: string
+          description: The URL of the product detail page
+          format: uri
+        image_url:
+          type: string
+          description: The URL of the product image
+          format: uri
+        price:
+          type: number
+          description: The base price of the product
+          format: float
+        final_price:
+          type: number
+          description: The final selling price after discounts
+          format: float
+        brand:
+          type: string
+          description: The brand name
+        category:
+          type: string
+          description: The primary product category
+        in_stock:
+          type: boolean
+          description: Whether the product is currently in stock
+
+    FeedUpdateResponse:
+      type: object
+      description: Response from a product feed update operation
+      properties:
+        status:
+          type: string
+          description: The status of the feed update request
+          enum:
+            - accepted
+            - failed
+        processed:
+          type: integer
+          description: The number of products successfully processed
+        failed:
+          type: integer
+          description: The number of products that failed to process
+        errors:
+          type: array
+          description: List of error details for failed products
+          items:
+            type: string
+
+    ErrorResponse:
+      type: object
+      description: An error response body
+      properties:
+        message:
+          type: string
+          description: A human-readable error message
+        statusCode:
+          type: integer
+          description: The HTTP status code
+        errors:
+          type: array
+          description: List of detailed error messages
+          items:
+            type: string

@@ -1,0 +1,376 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sitecore.com/schemas/ordercloud/order.json",
+  "title": "Sitecore OrderCloud Order",
+  "description": "Schema representing an order in the Sitecore OrderCloud commerce platform. Orders capture the full lifecycle of a purchase transaction from creation through fulfillment, including line items, payment, shipping, and promotions.",
+  "type": "object",
+  "properties": {
+    "ID": {
+      "type": "string",
+      "description": "The unique identifier of the order, either system-generated or provided at creation"
+    },
+    "FromUser": {
+      "$ref": "#/$defs/UserReference",
+      "description": "The user who created or owns the order"
+    },
+    "FromUserID": {
+      "type": "string",
+      "description": "The identifier of the user who placed the order"
+    },
+    "BillingAddressID": {
+      "type": "string",
+      "description": "The identifier of the billing address for this order"
+    },
+    "BillingAddress": {
+      "$ref": "#/$defs/Address",
+      "description": "The billing address details for this order"
+    },
+    "ShippingAddressID": {
+      "type": "string",
+      "description": "The identifier of the shipping address for this order"
+    },
+    "Comments": {
+      "type": "string",
+      "description": "Free-form comments attached to the order by the buyer or administrator",
+      "maxLength": 2000
+    },
+    "LineItemCount": {
+      "type": "integer",
+      "description": "The total number of distinct line items in this order",
+      "minimum": 0
+    },
+    "Status": {
+      "type": "string",
+      "description": "The current workflow status of the order",
+      "enum": [
+        "Unsubmitted",
+        "Open",
+        "AwaitingApproval",
+        "Declined",
+        "Completed",
+        "Canceled"
+      ]
+    },
+    "DateCreated": {
+      "type": "string",
+      "description": "The ISO 8601 timestamp when the order was first created",
+      "format": "date-time"
+    },
+    "DateSubmitted": {
+      "type": "string",
+      "description": "The ISO 8601 timestamp when the order was submitted for fulfillment",
+      "format": "date-time"
+    },
+    "DateApproved": {
+      "type": "string",
+      "description": "The ISO 8601 timestamp when the order was approved (for orders requiring approval)",
+      "format": "date-time"
+    },
+    "DateDeclined": {
+      "type": "string",
+      "description": "The ISO 8601 timestamp when the order was declined by an approver",
+      "format": "date-time"
+    },
+    "DateCanceled": {
+      "type": "string",
+      "description": "The ISO 8601 timestamp when the order was canceled",
+      "format": "date-time"
+    },
+    "DateCompleted": {
+      "type": "string",
+      "description": "The ISO 8601 timestamp when the order was fulfilled and marked complete",
+      "format": "date-time"
+    },
+    "Subtotal": {
+      "type": "number",
+      "description": "The order subtotal calculated from line item prices before promotions, shipping, and tax",
+      "format": "double",
+      "minimum": 0
+    },
+    "ShippingCost": {
+      "type": "number",
+      "description": "The total shipping cost applied to the order",
+      "format": "double",
+      "minimum": 0
+    },
+    "TaxCost": {
+      "type": "number",
+      "description": "The total tax amount calculated for the order",
+      "format": "double",
+      "minimum": 0
+    },
+    "PromotionDiscount": {
+      "type": "number",
+      "description": "The total discount amount subtracted from the order by applied promotions",
+      "format": "double",
+      "minimum": 0
+    },
+    "Total": {
+      "type": "number",
+      "description": "The final order total after adding shipping, tax, and subtracting promotions",
+      "format": "double",
+      "minimum": 0
+    },
+    "IsSubmitted": {
+      "type": "boolean",
+      "description": "Whether the order has been submitted for fulfillment"
+    },
+    "xp": {
+      "type": "object",
+      "description": "Extended properties for storing custom order-level attributes not covered by the standard schema",
+      "additionalProperties": true
+    }
+  },
+  "$defs": {
+    "LineItem": {
+      "type": "object",
+      "description": "A product line item within an OrderCloud order",
+      "required": ["ProductID", "Quantity"],
+      "properties": {
+        "ID": {
+          "type": "string",
+          "description": "The unique identifier of this line item within the order"
+        },
+        "ProductID": {
+          "type": "string",
+          "description": "The identifier of the product being purchased in this line item"
+        },
+        "Quantity": {
+          "type": "integer",
+          "description": "The number of units being purchased for this product",
+          "minimum": 1
+        },
+        "DateAdded": {
+          "type": "string",
+          "description": "The ISO 8601 timestamp when this line item was added to the order",
+          "format": "date-time"
+        },
+        "QuantityShipped": {
+          "type": "integer",
+          "description": "The number of units that have been shipped for this line item",
+          "minimum": 0
+        },
+        "UnitPrice": {
+          "type": "number",
+          "description": "The price per unit for this product at the time of ordering",
+          "format": "double",
+          "minimum": 0
+        },
+        "PromotionDiscount": {
+          "type": "number",
+          "description": "The promotional discount applied to this specific line item",
+          "format": "double",
+          "minimum": 0
+        },
+        "LineTotal": {
+          "type": "number",
+          "description": "The total price for this line item (unit price multiplied by quantity, minus discounts)",
+          "format": "double",
+          "minimum": 0
+        },
+        "LineSubtotal": {
+          "type": "number",
+          "description": "The subtotal for this line item before promotions and discounts",
+          "format": "double",
+          "minimum": 0
+        },
+        "ShippingAddressID": {
+          "type": "string",
+          "description": "The shipping address identifier for this specific line item, overrides the order-level address"
+        },
+        "Product": {
+          "$ref": "#/$defs/LineItemProduct",
+          "description": "Snapshot of product details at the time the line item was added"
+        },
+        "Specs": {
+          "type": "array",
+          "description": "Spec option selections that identify the specific product variant",
+          "items": {
+            "$ref": "#/$defs/LineItemSpec"
+          }
+        },
+        "xp": {
+          "type": "object",
+          "description": "Extended properties for custom line item attributes",
+          "additionalProperties": true
+        }
+      }
+    },
+    "LineItemProduct": {
+      "type": "object",
+      "description": "A snapshot of product information captured at the time a line item was added",
+      "properties": {
+        "ID": {
+          "type": "string",
+          "description": "The product identifier"
+        },
+        "Name": {
+          "type": "string",
+          "description": "The product display name"
+        },
+        "Description": {
+          "type": "string",
+          "description": "The product description"
+        },
+        "QuantityMultiplier": {
+          "type": "integer",
+          "description": "The minimum purchase quantity increment"
+        },
+        "ShipWeight": {
+          "type": "number",
+          "description": "The shipping weight of the product",
+          "format": "double"
+        },
+        "xp": {
+          "type": "object",
+          "description": "Extended properties for custom product attributes",
+          "additionalProperties": true
+        }
+      }
+    },
+    "LineItemSpec": {
+      "type": "object",
+      "description": "A spec option selection defining which product variant is in the line item",
+      "properties": {
+        "SpecID": {
+          "type": "string",
+          "description": "The identifier of the spec (e.g., Color, Size)"
+        },
+        "OptionID": {
+          "type": "string",
+          "description": "The identifier of the selected spec option value"
+        },
+        "Value": {
+          "type": "string",
+          "description": "The display value of the selected spec option"
+        }
+      }
+    },
+    "Payment": {
+      "type": "object",
+      "description": "A payment record associated with an order",
+      "properties": {
+        "ID": {
+          "type": "string",
+          "description": "The unique identifier of this payment"
+        },
+        "Type": {
+          "type": "string",
+          "description": "The type of payment instrument used",
+          "enum": ["PurchaseOrder", "CreditCard", "SpendingAccount"]
+        },
+        "CreditCardID": {
+          "type": "string",
+          "description": "The identifier of the credit card used (for CreditCard type payments)"
+        },
+        "SpendingAccountID": {
+          "type": "string",
+          "description": "The identifier of the spending account used"
+        },
+        "Description": {
+          "type": "string",
+          "description": "A description of this payment"
+        },
+        "Amount": {
+          "type": "number",
+          "description": "The payment amount in the order currency",
+          "format": "double",
+          "minimum": 0
+        },
+        "Accepted": {
+          "type": "boolean",
+          "description": "Whether the payment has been accepted"
+        },
+        "xp": {
+          "type": "object",
+          "description": "Extended properties for custom payment attributes",
+          "additionalProperties": true
+        }
+      }
+    },
+    "Address": {
+      "type": "object",
+      "description": "A shipping or billing address for an order",
+      "properties": {
+        "ID": {
+          "type": "string",
+          "description": "The unique identifier of the address record"
+        },
+        "FirstName": {
+          "type": "string",
+          "description": "The recipient's first name at this address"
+        },
+        "LastName": {
+          "type": "string",
+          "description": "The recipient's last name at this address"
+        },
+        "Company": {
+          "type": "string",
+          "description": "The company name at this address"
+        },
+        "Street1": {
+          "type": "string",
+          "description": "The primary street address line"
+        },
+        "Street2": {
+          "type": "string",
+          "description": "The secondary street address line (suite, apartment, etc.)"
+        },
+        "City": {
+          "type": "string",
+          "description": "The city name"
+        },
+        "State": {
+          "type": "string",
+          "description": "The state, province, or region code"
+        },
+        "Zip": {
+          "type": "string",
+          "description": "The postal or ZIP code"
+        },
+        "Country": {
+          "type": "string",
+          "description": "The ISO 3166-1 alpha-2 country code",
+          "pattern": "^[A-Z]{2}$",
+          "example": "US"
+        },
+        "Phone": {
+          "type": "string",
+          "description": "The phone number at this address"
+        },
+        "xp": {
+          "type": "object",
+          "description": "Extended properties for custom address attributes",
+          "additionalProperties": true
+        }
+      }
+    },
+    "UserReference": {
+      "type": "object",
+      "description": "A reference to the user who placed or owns the order",
+      "properties": {
+        "ID": {
+          "type": "string",
+          "description": "The unique identifier of the user"
+        },
+        "FirstName": {
+          "type": "string",
+          "description": "The user's first name"
+        },
+        "LastName": {
+          "type": "string",
+          "description": "The user's last name"
+        },
+        "Username": {
+          "type": "string",
+          "description": "The user's login username"
+        },
+        "Email": {
+          "type": "string",
+          "description": "The user's email address",
+          "format": "email"
+        }
+      }
+    }
+  }
+}

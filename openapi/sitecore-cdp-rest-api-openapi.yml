@@ -1,0 +1,903 @@
+openapi: 3.1.0
+info:
+  title: Sitecore CDP REST API
+  description: >-
+    The Sitecore CDP REST API provides synchronous access to retrieve, create,
+    update, and delete data stored in Sitecore Customer Data Platform. It exposes
+    guest profiles, orders, order items, order contacts, order consumers, and
+    data extensions through standard HTTP methods. Developers use this API to
+    build integrations that read or write customer data programmatically, enabling
+    use cases such as audience segmentation, data enrichment, and reporting.
+    Authentication uses HTTP Basic Auth with a client key and API token obtained
+    from the CDP instance settings. Regional server endpoints must be used based
+    on the CDP instance's geographic deployment.
+  version: 'v2.1'
+  contact:
+    name: Sitecore Support
+    url: https://www.sitecore.com/support
+  termsOfService: https://www.sitecore.com/legal/terms-of-service
+externalDocs:
+  description: Sitecore CDP REST API Documentation
+  url: https://doc.sitecore.com/cdp/en/developers/api/rest-apis.html
+servers:
+  - url: https://api-engage-eu.sitecorecloud.io
+    description: EU Production Server
+  - url: https://api-engage-us.sitecorecloud.io
+    description: US Production Server
+  - url: https://api-engage-ap.sitecorecloud.io
+    description: Asia-Pacific Production Server
+  - url: https://api-engage-jpe.sitecorecloud.io
+    description: Japan Production Server
+tags:
+  - name: Guests
+    description: >-
+      Endpoints for creating, retrieving, updating, and deleting guest profiles
+      in Sitecore CDP. Guests represent the core customer entity storing
+      personal, behavioral, and transactional data.
+  - name: Guest Data Extensions
+    description: >-
+      Endpoints for managing custom key-value data extensions attached to guest
+      profiles. Data extensions allow organizations to store additional structured
+      information beyond the standard guest fields.
+  - name: Orders
+    description: >-
+      Endpoints for creating, retrieving, updating, and deleting order records
+      associated with guests. Orders capture purchase transactions including
+      line items, payments, and fulfillment data.
+  - name: Order Items
+    description: >-
+      Endpoints for managing individual line items within guest orders, including
+      product references, quantities, and pricing information.
+  - name: Order Data Extensions
+    description: >-
+      Endpoints for managing custom data extensions attached to orders, allowing
+      additional structured information to be stored against order records.
+security:
+  - basicAuth: []
+paths:
+  /v2.1/guests:
+    get:
+      operationId: listGuests
+      summary: List guests
+      description: >-
+        Retrieves a paginated list of guest profiles from Sitecore CDP. Returns
+        up to 100 guests per request. Use the offset and limit parameters to
+        paginate through results. Supports filtering by email or other identifiers
+        using query parameters.
+      tags:
+        - Guests
+      parameters:
+        - name: email
+          in: query
+          description: Filter guests by email address
+          required: false
+          schema:
+            type: string
+            format: email
+        - name: limit
+          in: query
+          description: Maximum number of guests to return (max 100)
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 10
+        - name: offset
+          in: query
+          description: Number of records to skip for pagination
+          required: false
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+      responses:
+        '200':
+          description: A list of guest profiles
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GuestListResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createGuest
+      summary: Create a guest
+      description: >-
+        Creates a new guest profile in Sitecore CDP. The guest record stores
+        identity and behavioral data used for personalization and segmentation.
+        An email address or other identifying attributes should be provided to
+        enable identity resolution.
+      tags:
+        - Guests
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateGuestRequest'
+      responses:
+        '201':
+          description: Guest created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Guest'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /v2.1/guests/{guestRef}:
+    get:
+      operationId: getGuest
+      summary: Get a guest
+      description: >-
+        Retrieves a specific guest profile by its unique reference identifier.
+        Returns the full guest object including all stored personal and behavioral
+        attributes.
+      tags:
+        - Guests
+      parameters:
+        - $ref: '#/components/parameters/guestRef'
+      responses:
+        '200':
+          description: Guest profile details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Guest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      operationId: updateGuest
+      summary: Update a guest (full)
+      description: >-
+        Performs a full replacement update of a guest profile. All fields in the
+        guest object are replaced with the values provided in the request body.
+        Fields not included in the request will be cleared.
+      tags:
+        - Guests
+      parameters:
+        - $ref: '#/components/parameters/guestRef'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateGuestRequest'
+      responses:
+        '200':
+          description: Guest updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Guest'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      operationId: patchGuest
+      summary: Update a guest (partial)
+      description: >-
+        Performs a partial update of a guest profile. Only the fields provided
+        in the request body are updated; all other fields retain their current
+        values. Use this operation when updating a subset of guest attributes.
+      tags:
+        - Guests
+      parameters:
+        - $ref: '#/components/parameters/guestRef'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateGuestRequest'
+      responses:
+        '200':
+          description: Guest partially updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Guest'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteGuest
+      summary: Delete a guest
+      description: >-
+        Permanently and irreversibly deletes a guest profile and all associated
+        data from Sitecore CDP. This operation cannot be undone. All orders,
+        sessions, and data extensions linked to the guest are also removed.
+      tags:
+        - Guests
+      parameters:
+        - $ref: '#/components/parameters/guestRef'
+      responses:
+        '204':
+          description: Guest deleted successfully
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /v2.1/guests/{guestRef}/extensions:
+    get:
+      operationId: listGuestDataExtensions
+      summary: List guest data extensions
+      description: >-
+        Retrieves all custom data extensions associated with a guest profile.
+        Data extensions are named sets of key-value pairs that store additional
+        structured information beyond the standard guest attributes.
+      tags:
+        - Guest Data Extensions
+      parameters:
+        - $ref: '#/components/parameters/guestRef'
+      responses:
+        '200':
+          description: List of data extensions for the guest
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DataExtension'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    post:
+      operationId: createGuestDataExtension
+      summary: Create a guest data extension
+      description: >-
+        Creates a new named data extension on a guest profile. Each extension
+        is identified by a unique name and contains a set of key-value pairs.
+        Only one data extension of each name is supported per guest.
+      tags:
+        - Guest Data Extensions
+      parameters:
+        - $ref: '#/components/parameters/guestRef'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DataExtension'
+      responses:
+        '201':
+          description: Data extension created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataExtension'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /v2.1/guests/{guestRef}/extensions/{dataExtensionName}:
+    get:
+      operationId: getGuestDataExtension
+      summary: Get a guest data extension
+      description: >-
+        Retrieves a specific named data extension for a guest profile. Returns
+        all key-value pairs stored within the extension.
+      tags:
+        - Guest Data Extensions
+      parameters:
+        - $ref: '#/components/parameters/guestRef'
+        - $ref: '#/components/parameters/dataExtensionName'
+      responses:
+        '200':
+          description: Data extension details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataExtension'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      operationId: updateGuestDataExtension
+      summary: Update a guest data extension (full)
+      description: >-
+        Performs a full replacement of a guest data extension. All existing
+        key-value pairs are replaced with those provided in the request body.
+      tags:
+        - Guest Data Extensions
+      parameters:
+        - $ref: '#/components/parameters/guestRef'
+        - $ref: '#/components/parameters/dataExtensionName'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DataExtension'
+      responses:
+        '200':
+          description: Data extension updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataExtension'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      operationId: patchGuestDataExtension
+      summary: Update a guest data extension (partial)
+      description: >-
+        Performs a partial update of a guest data extension. Only the key-value
+        pairs included in the request are updated; existing pairs not mentioned
+        are retained.
+      tags:
+        - Guest Data Extensions
+      parameters:
+        - $ref: '#/components/parameters/guestRef'
+        - $ref: '#/components/parameters/dataExtensionName'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DataExtension'
+      responses:
+        '200':
+          description: Data extension partially updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataExtension'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteGuestDataExtension
+      summary: Delete a guest data extension
+      description: >-
+        Permanently deletes a named data extension from a guest profile. All
+        key-value pairs within the extension are removed.
+      tags:
+        - Guest Data Extensions
+      parameters:
+        - $ref: '#/components/parameters/guestRef'
+        - $ref: '#/components/parameters/dataExtensionName'
+      responses:
+        '204':
+          description: Data extension deleted successfully
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /v2.1/guests/{guestRef}/orders:
+    get:
+      operationId: listGuestOrders
+      summary: List guest orders
+      description: >-
+        Retrieves all orders associated with a guest profile. Returns order
+        summaries including order references, totals, status, and creation dates.
+      tags:
+        - Orders
+      parameters:
+        - $ref: '#/components/parameters/guestRef'
+      responses:
+        '200':
+          description: List of orders for the guest
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Order'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    post:
+      operationId: createOrder
+      summary: Create an order
+      description: >-
+        Creates a new order record associated with a guest profile. Orders capture
+        purchase transactions and support segmentation and personalization based
+        on purchasing behavior. The referenceId and orderedAt fields are
+        immutable after creation.
+      tags:
+        - Orders
+      parameters:
+        - $ref: '#/components/parameters/guestRef'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrderRequest'
+      responses:
+        '201':
+          description: Order created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /v2.1/guests/{guestRef}/orders/{orderRef}:
+    get:
+      operationId: getOrder
+      summary: Get an order
+      description: >-
+        Retrieves a specific order by its reference identifier. Returns the full
+        order object including all line items, contacts, and data extensions.
+      tags:
+        - Orders
+      parameters:
+        - $ref: '#/components/parameters/guestRef'
+        - $ref: '#/components/parameters/orderRef'
+      responses:
+        '200':
+          description: Order details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      operationId: updateOrder
+      summary: Update an order
+      description: >-
+        Performs a full replacement update of an order record. Note that the
+        referenceId and orderedAt fields cannot be changed after the order has
+        been created.
+      tags:
+        - Orders
+      parameters:
+        - $ref: '#/components/parameters/guestRef'
+        - $ref: '#/components/parameters/orderRef'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrderRequest'
+      responses:
+        '200':
+          description: Order updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteOrder
+      summary: Delete an order
+      description: >-
+        Permanently deletes an order record and all associated items, contacts,
+        consumers, and data extensions. This operation is irreversible.
+      tags:
+        - Orders
+      parameters:
+        - $ref: '#/components/parameters/guestRef'
+        - $ref: '#/components/parameters/orderRef'
+      responses:
+        '204':
+          description: Order deleted successfully
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /v2.1/guests/{guestRef}/orders/{orderRef}/items:
+    get:
+      operationId: listOrderItems
+      summary: List order items
+      description: >-
+        Retrieves all line items within a specific order. Each item represents
+        a product included in the order with its quantity and pricing.
+      tags:
+        - Order Items
+      parameters:
+        - $ref: '#/components/parameters/guestRef'
+        - $ref: '#/components/parameters/orderRef'
+      responses:
+        '200':
+          description: List of order items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrderItem'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    post:
+      operationId: createOrderItem
+      summary: Create an order item
+      description: >-
+        Adds a new line item to an existing order. Each item references a product
+        and includes quantity and pricing information.
+      tags:
+        - Order Items
+      parameters:
+        - $ref: '#/components/parameters/guestRef'
+        - $ref: '#/components/parameters/orderRef'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrderItemRequest'
+      responses:
+        '201':
+          description: Order item created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderItem'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: >-
+        HTTP Basic authentication using a client key as the username and an API
+        token as the password. Credentials are obtained from Sitecore CDP
+        Settings > API access.
+
+  parameters:
+    guestRef:
+      name: guestRef
+      in: path
+      description: The unique reference identifier for the guest profile
+      required: true
+      schema:
+        type: string
+    orderRef:
+      name: orderRef
+      in: path
+      description: The unique reference identifier for the order
+      required: true
+      schema:
+        type: string
+    dataExtensionName:
+      name: dataExtensionName
+      in: path
+      description: The name of the data extension
+      required: true
+      schema:
+        type: string
+
+  responses:
+    Unauthorized:
+      description: Authentication credentials are missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: The request body or parameters are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+  schemas:
+    Guest:
+      type: object
+      description: >-
+        The core entity of Sitecore CDP representing a customer with personal,
+        behavioral, and transactional data used for personalization and segmentation
+      properties:
+        guestRef:
+          type: string
+          description: The unique reference identifier for the guest
+        email:
+          type: string
+          description: The email address of the guest
+          format: email
+        firstName:
+          type: string
+          description: The guest's first name
+        lastName:
+          type: string
+          description: The guest's last name
+        dateOfBirth:
+          type: string
+          description: The guest's date of birth in ISO 8601 format
+          format: date
+        gender:
+          type: string
+          description: The guest's gender
+          enum:
+            - Male
+            - Female
+            - Other
+            - Unknown
+        phoneNumbers:
+          type: array
+          description: Phone numbers associated with the guest
+          items:
+            type: string
+        createdAt:
+          type: string
+          description: The ISO 8601 timestamp when the guest was created
+          format: date-time
+        modifiedAt:
+          type: string
+          description: The ISO 8601 timestamp when the guest was last modified
+          format: date-time
+        identifiers:
+          type: array
+          description: External identifiers linked to this guest for identity resolution
+          items:
+            $ref: '#/components/schemas/GuestIdentifier'
+
+    GuestIdentifier:
+      type: object
+      description: An external identifier that links a guest to an external system
+      properties:
+        provider:
+          type: string
+          description: The name of the identity provider or source system
+        id:
+          type: string
+          description: The identifier value from the external system
+        expiryDate:
+          type: string
+          description: The expiry date of this identifier
+          format: date-time
+
+    GuestListResponse:
+      type: object
+      description: A paginated response containing a list of guest profiles
+      properties:
+        items:
+          type: array
+          description: The list of guests for the current page
+          items:
+            $ref: '#/components/schemas/Guest'
+        totalCount:
+          type: integer
+          description: The total number of guests matching the query
+        limit:
+          type: integer
+          description: The maximum number of items per page
+        offset:
+          type: integer
+          description: The offset used for this page of results
+
+    CreateGuestRequest:
+      type: object
+      description: Request body for creating or updating a guest profile
+      properties:
+        email:
+          type: string
+          description: The email address of the guest
+          format: email
+        firstName:
+          type: string
+          description: The guest's first name
+        lastName:
+          type: string
+          description: The guest's last name
+        dateOfBirth:
+          type: string
+          description: The guest's date of birth in ISO 8601 format
+          format: date
+        gender:
+          type: string
+          description: The guest's gender
+          enum:
+            - Male
+            - Female
+            - Other
+            - Unknown
+        phoneNumbers:
+          type: array
+          description: Phone numbers associated with the guest
+          items:
+            type: string
+
+    DataExtension:
+      type: object
+      description: A named set of custom key-value pairs attached to a guest or order
+      properties:
+        name:
+          type: string
+          description: The unique name identifying this data extension
+        key:
+          type: string
+          description: The key within the data extension (for single-pair extensions)
+        value:
+          type: string
+          description: The value for the specified key
+
+    Order:
+      type: object
+      description: A purchase transaction record associated with a guest profile
+      properties:
+        orderRef:
+          type: string
+          description: The unique reference identifier for the order
+        referenceId:
+          type: string
+          description: >-
+            An external reference identifier for the order, immutable after creation.
+            Orders with the same referenceId and orderedAt within two days are grouped.
+        status:
+          type: string
+          description: The current status of the order
+          enum:
+            - PENDING
+            - CONFIRMED
+            - SHIPPED
+            - DELIVERED
+            - CANCELED
+        currencyCode:
+          type: string
+          description: The ISO 4217 currency code for the order
+          example: USD
+        totalPrice:
+          type: number
+          description: The total price of the order
+          format: float
+        orderedAt:
+          type: string
+          description: >-
+            The ISO 8601 timestamp when the order was placed. Immutable after
+            creation.
+          format: date-time
+        createdAt:
+          type: string
+          description: The ISO 8601 timestamp when the order record was created in CDP
+          format: date-time
+        items:
+          type: array
+          description: Line items included in the order
+          items:
+            $ref: '#/components/schemas/OrderItem'
+
+    CreateOrderRequest:
+      type: object
+      description: Request body for creating or updating an order record
+      required:
+        - referenceId
+        - orderedAt
+      properties:
+        referenceId:
+          type: string
+          description: >-
+            An external reference identifier for the order. Cannot be changed
+            after creation.
+        status:
+          type: string
+          description: The current status of the order
+          enum:
+            - PENDING
+            - CONFIRMED
+            - SHIPPED
+            - DELIVERED
+            - CANCELED
+        currencyCode:
+          type: string
+          description: The ISO 4217 currency code for the order
+        totalPrice:
+          type: number
+          description: The total price of the order
+          format: float
+        orderedAt:
+          type: string
+          description: The ISO 8601 timestamp when the order was placed. Cannot be changed after creation.
+          format: date-time
+
+    OrderItem:
+      type: object
+      description: A line item within an order representing a purchased product
+      properties:
+        itemRef:
+          type: string
+          description: The unique reference identifier for the order item
+        sku:
+          type: string
+          description: The product SKU or identifier
+        name:
+          type: string
+          description: The product name
+        quantity:
+          type: integer
+          description: The quantity of this product purchased
+          minimum: 1
+        price:
+          type: number
+          description: The unit price of the product
+          format: float
+        totalPrice:
+          type: number
+          description: The total price for this line item (quantity * price)
+          format: float
+
+    CreateOrderItemRequest:
+      type: object
+      description: Request body for adding a line item to an order
+      required:
+        - sku
+        - quantity
+      properties:
+        sku:
+          type: string
+          description: The product SKU or identifier
+        name:
+          type: string
+          description: The product name
+        quantity:
+          type: integer
+          description: The quantity of this product purchased
+          minimum: 1
+        price:
+          type: number
+          description: The unit price of the product
+          format: float
+
+    ErrorResponse:
+      type: object
+      description: An error response body
+      properties:
+        message:
+          type: string
+          description: A human-readable error message
+        statusCode:
+          type: integer
+          description: The HTTP status code
+        errors:
+          type: array
+          description: List of detailed error messages
+          items:
+            type: string

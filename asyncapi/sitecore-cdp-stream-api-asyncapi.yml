@@ -1,0 +1,404 @@
+asyncapi: 2.6.0
+info:
+  title: Sitecore CDP Stream API
+  description: >-
+    The Sitecore CDP Stream API enables applications to send real-time behavioral
+    and transactional events about users to the Sitecore Customer Data Platform.
+    It is designed for high-throughput event ingestion from web, mobile, and
+    server-side applications, capturing interactions such as page views, product
+    views, identity events, and purchases. Events sent through the Stream API update
+    guest profiles in near real-time, powering personalization and segmentation
+    use cases. The API consists of two components: the Browser API for managing
+    browser cookies and guest identification, and the Event API for transmitting
+    structured event payloads. The target endpoint is environment-specific and must
+    be configured based on the Sitecore CDP instance region.
+  version: '2.1'
+  contact:
+    name: Sitecore Support
+    url: https://www.sitecore.com/support
+servers:
+  eu:
+    url: 'https://api-engage-eu.sitecorecloud.io'
+    protocol: https
+    description: EU Production Stream Server
+    security:
+      - basicAuth: []
+  us:
+    url: 'https://api-engage-us.sitecorecloud.io'
+    protocol: https
+    description: US Production Stream Server
+    security:
+      - basicAuth: []
+  ap:
+    url: 'https://api-engage-ap.sitecorecloud.io'
+    protocol: https
+    description: Asia-Pacific Production Stream Server
+    security:
+      - basicAuth: []
+  jp:
+    url: 'https://api-engage-jpe.sitecorecloud.io'
+    protocol: https
+    description: Japan Production Stream Server
+    security:
+      - basicAuth: []
+channels:
+  /v1.2/event/create.json:
+    description: >-
+      The primary channel for submitting all behavioral and transactional events
+      to Sitecore CDP. Each event payload must include the channel, type, browser
+      ID, and session identifier along with event-specific data.
+    publish:
+      operationId: sendEvent
+      summary: Send a behavioral or transactional event
+      description: >-
+        Publishes a single event to Sitecore CDP representing a guest interaction.
+        Events are processed asynchronously and update guest profiles in near
+        real-time. The event type determines the required and optional fields.
+      message:
+        oneOf:
+          - $ref: '#/components/messages/ViewEvent'
+          - $ref: '#/components/messages/IdentityEvent'
+          - $ref: '#/components/messages/OrderCheckoutEvent'
+          - $ref: '#/components/messages/AddEvent'
+          - $ref: '#/components/messages/SearchEvent'
+          - $ref: '#/components/messages/CustomEvent'
+
+components:
+  securitySchemes:
+    basicAuth:
+      type: httpApiKey
+      name: Authorization
+      in: header
+      description: >-
+        HTTP Basic authentication using the client key as username and API token
+        as password. Credentials are obtained from Sitecore CDP Settings > API access.
+
+  messages:
+    ViewEvent:
+      name: VIEW
+      title: Page View Event
+      summary: Captures a guest's page view interaction
+      description: >-
+        A VIEW event is sent whenever a guest views a page in the application.
+        It captures the URL, page type, and contextual information about the
+        visit. VIEW events trigger every time a webpage loads and are used to
+        build session profiles and behavioral segments.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/ViewEventPayload'
+
+    IdentityEvent:
+      name: IDENTITY
+      title: Guest Identity Event
+      summary: Associates a guest profile with identifying information
+      description: >-
+        An IDENTITY event links session activity to a known guest by providing
+        identifying information such as email address, name, and other profile
+        attributes. This event triggers identity resolution and merges anonymous
+        session data with the guest's persistent profile.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/IdentityEventPayload'
+
+    OrderCheckoutEvent:
+      name: ORDER_CHECKOUT
+      title: Order Checkout Event
+      summary: Records a completed purchase transaction
+      description: >-
+        An ORDER_CHECKOUT event captures a completed or confirmed purchase
+        including order totals, items, and payment information. This event is
+        used to build order history in the guest profile and enables purchase
+        behavior-based segmentation.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/OrderCheckoutEventPayload'
+
+    AddEvent:
+      name: ADD
+      title: Add to Cart Event
+      summary: Records a product being added to the shopping cart
+      description: >-
+        An ADD event captures a guest adding a product to their shopping cart.
+        These events feed into cart abandonment tracking and product affinity
+        modeling within Sitecore CDP.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/AddEventPayload'
+
+    SearchEvent:
+      name: SEARCH
+      title: Search Event
+      summary: Records a search query performed by the guest
+      description: >-
+        A SEARCH event captures search queries performed by guests within the
+        application. These events contribute to interest modeling and can be
+        used to trigger relevant personalization rules.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/SearchEventPayload'
+
+    CustomEvent:
+      name: CUSTOM
+      title: Custom Event
+      summary: Records a custom application-defined event
+      description: >-
+        A CUSTOM event allows organizations to send application-specific
+        behavioral events with a custom event name and arbitrary data in the
+        ext extension object. Custom event names must not conflict with reserved
+        Sitecore CDP event names.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/CustomEventPayload'
+
+  schemas:
+    BaseEventPayload:
+      type: object
+      description: Base fields shared by all Sitecore CDP Stream API events
+      required:
+        - channel
+        - type
+        - browser_id
+        - session_id
+        - pos
+        - currency
+      properties:
+        channel:
+          type: string
+          description: The channel from which the event originates
+          enum:
+            - WEB
+            - MOBILE_WEB
+            - MOBILE_APP
+            - SERVER_SIDE
+        type:
+          type: string
+          description: The type identifier for the event
+        browser_id:
+          type: string
+          description: >-
+            The unique identifier for the guest's browser session, set by the
+            CDP Browser API cookie
+        session_id:
+          type: string
+          description: >-
+            The unique identifier for the current session, generated by the
+            client and consistent within a single visit
+        pos:
+          type: string
+          description: >-
+            The point of sale identifier that maps to the brand or channel
+            configured in the Sitecore CDP instance
+        currency:
+          type: string
+          description: The ISO 4217 currency code for monetary values in this event
+          example: USD
+        language:
+          type: string
+          description: The ISO 639-1 language code for the session
+          example: EN
+        page:
+          type: string
+          description: The URL of the page where the event occurred
+          format: uri
+        ext:
+          type: object
+          description: >-
+            Custom extension data for the event. Only one ext object is supported
+            per event and its name must match the configured data extension name.
+          additionalProperties: true
+
+    ViewEventPayload:
+      allOf:
+        - $ref: '#/components/schemas/BaseEventPayload'
+        - type: object
+          description: Payload for a VIEW event capturing page view interactions
+          properties:
+            type:
+              type: string
+              description: Event type identifier, must be VIEW
+              const: VIEW
+            page:
+              type: string
+              description: The URL of the page being viewed
+              format: uri
+
+    IdentityEventPayload:
+      allOf:
+        - $ref: '#/components/schemas/BaseEventPayload'
+        - type: object
+          description: Payload for an IDENTITY event associating a guest with known identifiers
+          required:
+            - email
+          properties:
+            type:
+              type: string
+              description: Event type identifier, must be IDENTITY
+              const: IDENTITY
+            email:
+              type: string
+              description: The email address of the guest being identified
+              format: email
+            firstname:
+              type: string
+              description: The guest's first name
+            lastname:
+              type: string
+              description: The guest's last name
+            date_of_birth:
+              type: string
+              description: The guest's date of birth in YYYY-MM-DD format
+              format: date
+            gender:
+              type: string
+              description: The guest's gender
+              enum:
+                - Male
+                - Female
+                - Other
+                - Unknown
+            phone:
+              type: string
+              description: The guest's phone number
+
+    OrderCheckoutEventPayload:
+      allOf:
+        - $ref: '#/components/schemas/BaseEventPayload'
+        - type: object
+          description: Payload for an ORDER_CHECKOUT event recording a completed purchase
+          required:
+            - reference_id
+            - total_price
+          properties:
+            type:
+              type: string
+              description: Event type identifier, must be ORDER_CHECKOUT
+              const: ORDER_CHECKOUT
+            reference_id:
+              type: string
+              description: The external order reference identifier
+            status:
+              type: string
+              description: The order status
+              enum:
+                - CONFIRMED
+                - PENDING
+                - CANCELED
+            total_price:
+              type: number
+              description: The total price of the order
+              format: float
+            payment_type:
+              type: string
+              description: The payment method used
+              enum:
+                - CREDIT_CARD
+                - DEBIT_CARD
+                - PAYPAL
+                - GIFT_CARD
+                - OTHER
+            ordered_at:
+              type: string
+              description: The ISO 8601 timestamp when the order was placed
+              format: date-time
+            items:
+              type: array
+              description: The products included in the order
+              items:
+                $ref: '#/components/schemas/OrderItem'
+
+    AddEventPayload:
+      allOf:
+        - $ref: '#/components/schemas/BaseEventPayload'
+        - type: object
+          description: Payload for an ADD event recording a product added to cart
+          required:
+            - product
+          properties:
+            type:
+              type: string
+              description: Event type identifier, must be ADD
+              const: ADD
+            product:
+              $ref: '#/components/schemas/ProductReference'
+
+    SearchEventPayload:
+      allOf:
+        - $ref: '#/components/schemas/BaseEventPayload'
+        - type: object
+          description: Payload for a SEARCH event recording a guest search query
+          required:
+            - search_term
+          properties:
+            type:
+              type: string
+              description: Event type identifier, must be SEARCH
+              const: SEARCH
+            search_term:
+              type: string
+              description: The search query entered by the guest
+            num_results:
+              type: integer
+              description: The number of results returned for the search query
+              minimum: 0
+
+    CustomEventPayload:
+      allOf:
+        - $ref: '#/components/schemas/BaseEventPayload'
+        - type: object
+          description: Payload for a custom application-defined event
+          required:
+            - type
+          properties:
+            type:
+              type: string
+              description: >-
+                The custom event type name defined by the organization. Must not
+                conflict with reserved Sitecore CDP event names.
+              minLength: 1
+              maxLength: 50
+
+    OrderItem:
+      type: object
+      description: A product line item within an order checkout event
+      required:
+        - sku
+        - quantity
+        - price
+      properties:
+        sku:
+          type: string
+          description: The product SKU or identifier
+        name:
+          type: string
+          description: The product display name
+        quantity:
+          type: integer
+          description: The quantity of the product purchased
+          minimum: 1
+        price:
+          type: number
+          description: The unit price of the product
+          format: float
+        category:
+          type: string
+          description: The product category
+
+    ProductReference:
+      type: object
+      description: A reference to a product in a behavioral event
+      required:
+        - sku
+      properties:
+        sku:
+          type: string
+          description: The product SKU or identifier
+        name:
+          type: string
+          description: The product display name
+        price:
+          type: number
+          description: The unit price of the product
+          format: float
+        category:
+          type: string
+          description: The product category

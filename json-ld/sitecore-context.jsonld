@@ -1,0 +1,392 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "sc": "https://www.sitecore.com/vocab/",
+    "schema": "https://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+
+    "Site": {
+      "@id": "sc:Site",
+      "@context": {
+        "id": "sc:siteId",
+        "name": "schema:name",
+        "displayName": "schema:alternateName",
+        "collectionId": {
+          "@id": "sc:collection",
+          "@type": "@id"
+        },
+        "renderingHost": {
+          "@id": "sc:renderingHost",
+          "@type": "@id"
+        },
+        "languages": {
+          "@id": "sc:languages",
+          "@container": "@set"
+        },
+        "sortOrder": {
+          "@id": "sc:sortOrder",
+          "@type": "xsd:integer"
+        }
+      }
+    },
+
+    "SiteCollection": {
+      "@id": "sc:SiteCollection",
+      "@context": {
+        "id": "sc:collectionId",
+        "name": "schema:name",
+        "displayName": "schema:alternateName",
+        "sites": {
+          "@id": "sc:hasSite",
+          "@container": "@set",
+          "@type": "@id"
+        },
+        "sortOrder": {
+          "@id": "sc:sortOrder",
+          "@type": "xsd:integer"
+        }
+      }
+    },
+
+    "Page": {
+      "@id": "sc:Page",
+      "@context": {
+        "id": "sc:pageId",
+        "name": "schema:name",
+        "displayName": "schema:alternateName",
+        "path": {
+          "@id": "sc:itemPath",
+          "@type": "xsd:string"
+        },
+        "url": {
+          "@id": "schema:url",
+          "@type": "@id"
+        },
+        "language": {
+          "@id": "sc:language",
+          "@type": "xsd:string"
+        },
+        "version": {
+          "@id": "sc:version",
+          "@type": "xsd:integer"
+        },
+        "templateId": {
+          "@id": "sc:template",
+          "@type": "@id"
+        },
+        "publishingState": {
+          "@id": "sc:publishingState",
+          "@type": "xsd:string"
+        }
+      }
+    },
+
+    "Guest": {
+      "@id": "sc:Guest",
+      "@context": {
+        "guestRef": "sc:guestRef",
+        "email": "schema:email",
+        "firstName": "schema:givenName",
+        "lastName": "schema:familyName",
+        "dateOfBirth": {
+          "@id": "schema:birthDate",
+          "@type": "xsd:date"
+        },
+        "gender": "schema:gender",
+        "identifiers": {
+          "@id": "sc:identifiers",
+          "@container": "@set"
+        },
+        "orders": {
+          "@id": "sc:hasOrder",
+          "@container": "@set",
+          "@type": "@id"
+        },
+        "createdAt": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        },
+        "modifiedAt": {
+          "@id": "dcterms:modified",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+
+    "GuestIdentifier": {
+      "@id": "sc:GuestIdentifier",
+      "@context": {
+        "provider": {
+          "@id": "sc:identityProvider",
+          "@type": "xsd:string"
+        },
+        "id": {
+          "@id": "sc:identifierValue",
+          "@type": "xsd:string"
+        },
+        "expiryDate": {
+          "@id": "sc:identifierExpiry",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+
+    "Order": {
+      "@id": "sc:Order",
+      "@context": {
+        "orderRef": "sc:orderRef",
+        "referenceId": {
+          "@id": "sc:externalOrderRef",
+          "@type": "xsd:string"
+        },
+        "status": {
+          "@id": "sc:orderStatus",
+          "@type": "xsd:string"
+        },
+        "currencyCode": {
+          "@id": "sc:currencyCode",
+          "@type": "xsd:string"
+        },
+        "totalPrice": {
+          "@id": "schema:totalPrice",
+          "@type": "xsd:decimal"
+        },
+        "orderedAt": {
+          "@id": "sc:orderedAt",
+          "@type": "xsd:dateTime"
+        },
+        "items": {
+          "@id": "schema:orderedItem",
+          "@container": "@set"
+        },
+        "createdAt": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+
+    "OrderItem": {
+      "@id": "sc:OrderItem",
+      "@context": {
+        "sku": {
+          "@id": "schema:sku",
+          "@type": "xsd:string"
+        },
+        "name": "schema:name",
+        "quantity": {
+          "@id": "schema:orderQuantity",
+          "@type": "xsd:integer"
+        },
+        "price": {
+          "@id": "schema:price",
+          "@type": "xsd:decimal"
+        },
+        "totalPrice": {
+          "@id": "sc:lineTotal",
+          "@type": "xsd:decimal"
+        }
+      }
+    },
+
+    "StreamEvent": {
+      "@id": "sc:StreamEvent",
+      "@context": {
+        "meta_ref": "sc:eventRef",
+        "type": {
+          "@id": "sc:eventType",
+          "@type": "xsd:string"
+        },
+        "channel": {
+          "@id": "sc:channel",
+          "@type": "xsd:string"
+        },
+        "page": {
+          "@id": "schema:url",
+          "@type": "@id"
+        },
+        "currency": {
+          "@id": "sc:currency",
+          "@type": "xsd:string"
+        },
+        "createdAt": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+
+    "ContentHubEntity": {
+      "@id": "sc:ContentHubEntity",
+      "@context": {
+        "id": "sc:entityId",
+        "identifier": {
+          "@id": "sc:entityIdentifier",
+          "@type": "xsd:string"
+        },
+        "definitionName": {
+          "@id": "sc:entityDefinition",
+          "@type": "xsd:string"
+        },
+        "cultures": {
+          "@id": "sc:cultures",
+          "@container": "@set"
+        },
+        "properties": {
+          "@id": "sc:entityProperties"
+        },
+        "createdOn": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        },
+        "modifiedOn": {
+          "@id": "dcterms:modified",
+          "@type": "xsd:dateTime"
+        },
+        "createdBy": {
+          "@id": "dcterms:creator",
+          "@type": "xsd:string"
+        }
+      }
+    },
+
+    "Asset": {
+      "@id": "sc:Asset",
+      "@context": {
+        "id": "sc:entityId",
+        "identifier": "sc:entityIdentifier",
+        "fileName": "schema:name",
+        "fileUrl": {
+          "@id": "schema:contentUrl",
+          "@type": "@id"
+        },
+        "fileSize": {
+          "@id": "schema:contentSize",
+          "@type": "xsd:integer"
+        },
+        "mimeType": "schema:encodingFormat",
+        "lifecycleState": {
+          "@id": "sc:lifecycleState",
+          "@type": "xsd:string"
+        },
+        "createdOn": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        },
+        "modifiedOn": {
+          "@id": "dcterms:modified",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+
+    "CommerceProduct": {
+      "@id": "sc:CommerceProduct",
+      "@context": {
+        "ID": "schema:productID",
+        "Name": "schema:name",
+        "Description": "schema:description",
+        "Active": {
+          "@id": "sc:active",
+          "@type": "xsd:boolean"
+        },
+        "DefaultPriceScheduleID": {
+          "@id": "sc:priceSchedule",
+          "@type": "@id"
+        },
+        "xp": {
+          "@id": "sc:extendedProperties"
+        }
+      }
+    },
+
+    "FlowDefinition": {
+      "@id": "sc:FlowDefinition",
+      "@context": {
+        "ref": "sc:flowRef",
+        "name": "schema:name",
+        "type": {
+          "@id": "sc:flowType",
+          "@type": "xsd:string"
+        },
+        "status": {
+          "@id": "sc:status",
+          "@type": "xsd:string"
+        },
+        "variants": {
+          "@id": "sc:variants",
+          "@container": "@set"
+        },
+        "createdAt": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        },
+        "modifiedAt": {
+          "@id": "dcterms:modified",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+
+    "DecisionModel": {
+      "@id": "sc:DecisionModel",
+      "@context": {
+        "ref": "sc:modelRef",
+        "name": "schema:name",
+        "status": {
+          "@id": "sc:status",
+          "@type": "xsd:string"
+        },
+        "revision": {
+          "@id": "sc:revision",
+          "@type": "xsd:integer"
+        },
+        "archived": {
+          "@id": "sc:archived",
+          "@type": "xsd:boolean"
+        },
+        "deploymentConfiguration": {
+          "@id": "sc:deploymentConfiguration",
+          "@container": "@set"
+        },
+        "createdAt": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+
+    "PublishingJob": {
+      "@id": "sc:PublishingJob",
+      "@context": {
+        "id": "sc:jobId",
+        "status": {
+          "@id": "sc:status",
+          "@type": "xsd:string"
+        },
+        "totalItems": {
+          "@id": "sc:totalItems",
+          "@type": "xsd:integer"
+        },
+        "processedItems": {
+          "@id": "sc:processedItems",
+          "@type": "xsd:integer"
+        },
+        "failedItems": {
+          "@id": "sc:failedItems",
+          "@type": "xsd:integer"
+        },
+        "createdAt": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        },
+        "completedAt": {
+          "@id": "sc:completedAt",
+          "@type": "xsd:dateTime"
+        }
+      }
+    }
+  }
+}

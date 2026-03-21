@@ -1,0 +1,285 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sitecore.com/schemas/cdp/guest.json",
+  "title": "Sitecore CDP Guest",
+  "description": "Schema representing a guest profile in Sitecore Customer Data Platform. Guests are the core entity storing personal, behavioral, and transactional data used for personalization, segmentation, and reporting.",
+  "type": "object",
+  "required": [],
+  "properties": {
+    "guestRef": {
+      "type": "string",
+      "description": "The unique reference identifier for the guest, assigned by Sitecore CDP upon creation"
+    },
+    "email": {
+      "type": "string",
+      "description": "The email address of the guest, used as the primary identifier for identity resolution",
+      "format": "email"
+    },
+    "firstName": {
+      "type": "string",
+      "description": "The guest's first name as stored in the CDP profile",
+      "maxLength": 100
+    },
+    "lastName": {
+      "type": "string",
+      "description": "The guest's last name as stored in the CDP profile",
+      "maxLength": 100
+    },
+    "dateOfBirth": {
+      "type": "string",
+      "description": "The guest's date of birth in ISO 8601 date format (YYYY-MM-DD)",
+      "format": "date"
+    },
+    "gender": {
+      "type": "string",
+      "description": "The guest's gender identity",
+      "enum": ["Male", "Female", "Other", "Unknown"]
+    },
+    "phoneNumbers": {
+      "type": "array",
+      "description": "Phone numbers associated with the guest profile",
+      "items": {
+        "type": "string",
+        "description": "A phone number in E.164 or local format"
+      }
+    },
+    "identifiers": {
+      "type": "array",
+      "description": "External identifiers that link this guest to source systems for identity resolution",
+      "items": {
+        "$ref": "#/$defs/GuestIdentifier"
+      }
+    },
+    "dataExtensions": {
+      "type": "object",
+      "description": "Named sets of custom key-value pairs attached to the guest profile for storing additional structured information",
+      "additionalProperties": {
+        "$ref": "#/$defs/DataExtension"
+      }
+    },
+    "orders": {
+      "type": "array",
+      "description": "Order records associated with this guest capturing purchase history",
+      "items": {
+        "$ref": "#/$defs/Order"
+      }
+    },
+    "sessions": {
+      "type": "array",
+      "description": "Behavioral sessions recorded for this guest capturing browsing and interaction events",
+      "items": {
+        "$ref": "#/$defs/Session"
+      }
+    },
+    "createdAt": {
+      "type": "string",
+      "description": "The ISO 8601 timestamp when the guest profile was created in CDP",
+      "format": "date-time"
+    },
+    "modifiedAt": {
+      "type": "string",
+      "description": "The ISO 8601 timestamp when the guest profile was last modified",
+      "format": "date-time"
+    }
+  },
+  "$defs": {
+    "GuestIdentifier": {
+      "type": "object",
+      "description": "An external identifier linking a guest to a specific source system or identity provider",
+      "required": ["provider", "id"],
+      "properties": {
+        "provider": {
+          "type": "string",
+          "description": "The name of the identity provider or source system (e.g., email, phone, loyalty)"
+        },
+        "id": {
+          "type": "string",
+          "description": "The identifier value from the external system"
+        },
+        "expiryDate": {
+          "type": "string",
+          "description": "The ISO 8601 timestamp after which this identifier is no longer valid",
+          "format": "date-time"
+        }
+      }
+    },
+    "DataExtension": {
+      "type": "object",
+      "description": "A named set of custom key-value pairs attached to a guest or order record for storing additional structured information",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name identifying this data extension, unique per guest"
+        },
+        "key": {
+          "type": "string",
+          "description": "The key for a specific field within the data extension"
+        },
+        "value": {
+          "type": "string",
+          "description": "The string value associated with the key in this data extension"
+        }
+      }
+    },
+    "Order": {
+      "type": "object",
+      "description": "A purchase transaction record associated with a guest profile",
+      "required": ["referenceId", "orderedAt"],
+      "properties": {
+        "orderRef": {
+          "type": "string",
+          "description": "The unique reference identifier assigned by CDP for this order"
+        },
+        "referenceId": {
+          "type": "string",
+          "description": "The external order reference identifier from the commerce platform. Immutable after creation."
+        },
+        "status": {
+          "type": "string",
+          "description": "The current fulfillment status of the order",
+          "enum": ["PENDING", "CONFIRMED", "SHIPPED", "DELIVERED", "CANCELED"]
+        },
+        "currencyCode": {
+          "type": "string",
+          "description": "The ISO 4217 currency code for order monetary values",
+          "pattern": "^[A-Z]{3}$",
+          "example": "USD"
+        },
+        "totalPrice": {
+          "type": "number",
+          "description": "The total price of the order including taxes and shipping",
+          "minimum": 0
+        },
+        "orderedAt": {
+          "type": "string",
+          "description": "The ISO 8601 timestamp when the order was placed. Immutable after creation.",
+          "format": "date-time"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "The ISO 8601 timestamp when the order record was created in CDP",
+          "format": "date-time"
+        },
+        "items": {
+          "type": "array",
+          "description": "The product line items included in this order",
+          "items": {
+            "$ref": "#/$defs/OrderItem"
+          }
+        }
+      }
+    },
+    "OrderItem": {
+      "type": "object",
+      "description": "A product line item within a guest order",
+      "required": ["sku", "quantity"],
+      "properties": {
+        "itemRef": {
+          "type": "string",
+          "description": "The unique reference identifier for this order item in CDP"
+        },
+        "sku": {
+          "type": "string",
+          "description": "The product stock keeping unit (SKU) or identifier"
+        },
+        "name": {
+          "type": "string",
+          "description": "The display name of the product at time of purchase"
+        },
+        "quantity": {
+          "type": "integer",
+          "description": "The quantity of the product purchased in this line item",
+          "minimum": 1
+        },
+        "price": {
+          "type": "number",
+          "description": "The unit price of the product at time of purchase",
+          "minimum": 0
+        },
+        "totalPrice": {
+          "type": "number",
+          "description": "The total price for this line item (unit price multiplied by quantity)",
+          "minimum": 0
+        }
+      }
+    },
+    "Session": {
+      "type": "object",
+      "description": "A behavioral session capturing a guest's activity within a visit to the application",
+      "properties": {
+        "sessionRef": {
+          "type": "string",
+          "description": "The unique reference identifier for this session in CDP"
+        },
+        "channel": {
+          "type": "string",
+          "description": "The channel through which the session was recorded",
+          "enum": ["WEB", "MOBILE_WEB", "MOBILE_APP", "SERVER_SIDE"]
+        },
+        "status": {
+          "type": "string",
+          "description": "The current status of the session",
+          "enum": ["OPEN", "CLOSED"]
+        },
+        "startedAt": {
+          "type": "string",
+          "description": "The ISO 8601 timestamp when the session started",
+          "format": "date-time"
+        },
+        "endedAt": {
+          "type": "string",
+          "description": "The ISO 8601 timestamp when the session ended",
+          "format": "date-time"
+        },
+        "events": {
+          "type": "array",
+          "description": "Behavioral events captured during this session",
+          "items": {
+            "$ref": "#/$defs/StreamEvent"
+          }
+        }
+      }
+    },
+    "StreamEvent": {
+      "type": "object",
+      "description": "A behavioral event captured from the Sitecore CDP Stream API within a guest session",
+      "required": ["type", "channel"],
+      "properties": {
+        "meta_ref": {
+          "type": "string",
+          "description": "The unique identifier for this event record in CDP"
+        },
+        "type": {
+          "type": "string",
+          "description": "The type of behavioral event",
+          "enum": ["VIEW", "IDENTITY", "ORDER_CHECKOUT", "ADD", "CONFIRM", "CHECKOUT", "PAYMENT", "CLEAR_CART", "SEARCH", "TRACKING"]
+        },
+        "channel": {
+          "type": "string",
+          "description": "The channel from which the event was received",
+          "enum": ["WEB", "MOBILE_WEB", "MOBILE_APP", "SERVER_SIDE"]
+        },
+        "currency": {
+          "type": "string",
+          "description": "The ISO 4217 currency code for monetary values in this event",
+          "pattern": "^[A-Z]{3}$"
+        },
+        "page": {
+          "type": "string",
+          "description": "The URL of the page where the event occurred",
+          "format": "uri"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "The ISO 8601 timestamp when the event was recorded in CDP",
+          "format": "date-time"
+        },
+        "ext": {
+          "type": "object",
+          "description": "Custom extension data attached to the event. One extension per event type.",
+          "additionalProperties": true
+        }
+      }
+    }
+  }
+}

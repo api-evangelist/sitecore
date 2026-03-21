@@ -1,0 +1,1244 @@
+openapi: 3.1.0
+info:
+  title: Sitecore XM Cloud REST API
+  description: >-
+    The Sitecore XM Cloud REST API provides endpoints for creating and managing
+    collections, sites, pages, languages, and publishing jobs within an XM Cloud
+    tenant. It covers the full lifecycle of site and collection management through
+    the XM Apps system, exposes page authoring operations, and enables programmatic
+    control of publishing workflows. The API follows RESTful conventions and is
+    authenticated via OAuth 2.0 tokens obtained from the Sitecore Cloud Portal
+    automation client credentials. It is organized into several functional areas:
+    the Sites API for managing sites, site collections, and languages; the Pages
+    API for managing site pages; and the Publishing API for creating, monitoring,
+    and managing publishing jobs.
+  version: 'v1'
+  contact:
+    name: Sitecore Support
+    url: https://www.sitecore.com/support
+  termsOfService: https://www.sitecore.com/legal/terms-of-service
+externalDocs:
+  description: Sitecore XM Cloud Developer Documentation
+  url: https://doc.sitecore.com/xmc/en/developers/xm-cloud/sitecore-xm-cloud.html
+servers:
+  - url: https://xmapps-api.sitecorecloud.io
+    description: XM Apps Production Server
+  - url: https://edge-platform.sitecorecloud.io
+    description: Experience Edge Platform Server
+tags:
+  - name: Collections
+    description: >-
+      Endpoints for creating, retrieving, updating, and deleting site collections
+      within an XM Cloud tenant. Collections group related sites that share
+      resources and organizational context.
+  - name: Sites
+    description: >-
+      Endpoints for managing sites within site collections, including creation,
+      duplication, renaming, deletion, sorting, and retrieving site hierarchies
+      and rendering hosts.
+  - name: Languages
+    description: >-
+      Endpoints for managing language availability at the tenant and site levels,
+      including listing supported languages and adding or removing language options.
+  - name: Pages
+    description: >-
+      Endpoints for managing site pages including full CRUD operations, versioning,
+      variant management, layout editing, field value updates, and publishing state
+      verification.
+  - name: Publishing Jobs
+    description: >-
+      Endpoints for creating, monitoring, and managing publishing jobs that push
+      content from XM Cloud authoring to the Experience Edge delivery layer.
+security:
+  - bearerAuth: []
+paths:
+  /api/v1/collections:
+    get:
+      operationId: listCollections
+      summary: List site collections
+      description: >-
+        Retrieves a list of all site collections within the authenticated XM Cloud
+        tenant. Returns collection metadata including names, identifiers, and
+        associated site counts.
+      tags:
+        - Collections
+      parameters:
+        - $ref: '#/components/parameters/environmentId'
+      responses:
+        '200':
+          description: A list of site collections
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SiteCollection'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createCollection
+      summary: Create a site collection
+      description: >-
+        Creates a new site collection within the XM Cloud tenant. Site collections
+        group related sites together and allow shared resource management. The
+        collection name must be unique within the tenant.
+      tags:
+        - Collections
+      parameters:
+        - $ref: '#/components/parameters/environmentId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCollectionRequest'
+      responses:
+        '201':
+          description: Site collection created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SiteCollection'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/v1/collections/{collectionId}:
+    get:
+      operationId: getCollection
+      summary: Get a site collection
+      description: >-
+        Retrieves a specific site collection by its unique identifier. Returns
+        full collection metadata including associated sites and configuration.
+      tags:
+        - Collections
+      parameters:
+        - $ref: '#/components/parameters/collectionId'
+        - $ref: '#/components/parameters/environmentId'
+      responses:
+        '200':
+          description: Site collection details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SiteCollection'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      operationId: updateCollection
+      summary: Update a site collection
+      description: >-
+        Updates the properties of an existing site collection, such as its name
+        or description. All updateable fields must be provided in the request body.
+      tags:
+        - Collections
+      parameters:
+        - $ref: '#/components/parameters/collectionId'
+        - $ref: '#/components/parameters/environmentId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCollectionRequest'
+      responses:
+        '200':
+          description: Site collection updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SiteCollection'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteCollection
+      summary: Delete a site collection
+      description: >-
+        Permanently deletes a site collection and all of its associated sites.
+        This operation is irreversible. All sites within the collection must be
+        removed or the operation will return an error.
+      tags:
+        - Collections
+      parameters:
+        - $ref: '#/components/parameters/collectionId'
+        - $ref: '#/components/parameters/environmentId'
+      responses:
+        '204':
+          description: Site collection deleted successfully
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /api/v1/collections/name/validate:
+    post:
+      operationId: validateCollectionName
+      summary: Validate a site collection name
+      description: >-
+        Validates whether a proposed site collection name is available and meets
+        naming requirements before creating a collection. Returns validation
+        status and any error messages.
+      tags:
+        - Collections
+      parameters:
+        - $ref: '#/components/parameters/environmentId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ValidateNameRequest'
+      responses:
+        '200':
+          description: Validation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidateNameResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/v1/collections/sort:
+    post:
+      operationId: sortCollections
+      summary: Sort site collections
+      description: >-
+        Updates the sort order of site collections as they appear in the Content
+        Editor, Pages, and API responses. Accepts an ordered list of collection
+        identifiers.
+      tags:
+        - Collections
+      parameters:
+        - $ref: '#/components/parameters/environmentId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SortRequest'
+      responses:
+        '200':
+          description: Sort order updated successfully
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/v1/sites:
+    get:
+      operationId: listSites
+      summary: List sites
+      description: >-
+        Retrieves a list of all sites within the authenticated XM Cloud tenant,
+        optionally filtered by collection. Returns site metadata including names,
+        identifiers, languages, and associated collection references.
+      tags:
+        - Sites
+      parameters:
+        - $ref: '#/components/parameters/environmentId'
+        - name: collectionId
+          in: query
+          description: Filter sites by parent collection identifier
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A list of sites
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Site'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createSite
+      summary: Create a site
+      description: >-
+        Creates a new site within an XM Cloud site collection. The site can be
+        created from a template or as a blank site, and the request must specify
+        the parent collection, name, and language configuration.
+      tags:
+        - Sites
+      parameters:
+        - $ref: '#/components/parameters/environmentId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSiteRequest'
+      responses:
+        '201':
+          description: Site created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Site'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/v1/sites/{siteId}:
+    get:
+      operationId: getSite
+      summary: Get a site
+      description: >-
+        Retrieves a specific site by its unique identifier, including its full
+        configuration, language settings, and collection membership.
+      tags:
+        - Sites
+      parameters:
+        - $ref: '#/components/parameters/siteId'
+        - $ref: '#/components/parameters/environmentId'
+      responses:
+        '200':
+          description: Site details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Site'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteSite
+      summary: Delete a site
+      description: >-
+        Permanently deletes a site and all of its associated pages and content.
+        This operation is irreversible and cannot be undone after execution.
+      tags:
+        - Sites
+      parameters:
+        - $ref: '#/components/parameters/siteId'
+        - $ref: '#/components/parameters/environmentId'
+      responses:
+        '204':
+          description: Site deleted successfully
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /api/v1/sites/name/validate:
+    post:
+      operationId: validateSiteName
+      summary: Validate a site name
+      description: >-
+        Validates whether a proposed site name is available and meets naming
+        requirements prior to site creation. Returns validation status and error
+        details if the name is unavailable or invalid.
+      tags:
+        - Sites
+      parameters:
+        - $ref: '#/components/parameters/environmentId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ValidateNameRequest'
+      responses:
+        '200':
+          description: Validation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidateNameResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/v1/sites/sort:
+    post:
+      operationId: sortSites
+      summary: Sort sites
+      description: >-
+        Updates the sort order of sites as they appear in the Content Editor,
+        Pages, and API responses. Accepts an ordered list of site identifiers.
+      tags:
+        - Sites
+      parameters:
+        - $ref: '#/components/parameters/environmentId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SortRequest'
+      responses:
+        '200':
+          description: Sort order updated successfully
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/v1/sites/{siteId}/renderinghosts:
+    get:
+      operationId: listSiteRenderingHosts
+      summary: List rendering hosts for a site
+      description: >-
+        Returns a list of editing hosts that can be assigned to the specified
+        site. Rendering hosts define the front-end application endpoints used
+        for Experience Editor and Pages rendering.
+      tags:
+        - Sites
+      parameters:
+        - $ref: '#/components/parameters/siteId'
+        - $ref: '#/components/parameters/environmentId'
+      responses:
+        '200':
+          description: List of available rendering hosts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RenderingHost'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /api/v1/languages:
+    get:
+      operationId: listLanguages
+      summary: List tenant languages
+      description: >-
+        Retrieves all languages configured at the tenant level. Languages listed
+        here are available for assignment to individual sites within the tenant.
+      tags:
+        - Languages
+      parameters:
+        - $ref: '#/components/parameters/environmentId'
+      responses:
+        '200':
+          description: List of tenant languages
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Language'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/v1/languages/supported:
+    get:
+      operationId: listSupportedLanguages
+      summary: List supported languages
+      description: >-
+        Returns all languages supported by the XM Cloud platform that can be
+        added to a tenant or site configuration.
+      tags:
+        - Languages
+      parameters:
+        - $ref: '#/components/parameters/environmentId'
+      responses:
+        '200':
+          description: List of supported languages
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Language'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/v1/sites/{siteId}/languages:
+    get:
+      operationId: listSiteLanguages
+      summary: List site languages
+      description: >-
+        Retrieves all languages enabled for a specific site. These languages
+        determine the locales in which content can be authored and delivered.
+      tags:
+        - Languages
+      parameters:
+        - $ref: '#/components/parameters/siteId'
+        - $ref: '#/components/parameters/environmentId'
+      responses:
+        '200':
+          description: List of languages for the site
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Language'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    post:
+      operationId: addSiteLanguage
+      summary: Add a language to a site
+      description: >-
+        Adds a language to a site, enabling content authoring and delivery in
+        that locale. The language must be present in the list of supported
+        languages before it can be added to a site.
+      tags:
+        - Languages
+      parameters:
+        - $ref: '#/components/parameters/siteId'
+        - $ref: '#/components/parameters/environmentId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddLanguageRequest'
+      responses:
+        '201':
+          description: Language added to site
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Language'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /api/v1/sites/{siteId}/languages/{languageId}:
+    delete:
+      operationId: removeSiteLanguage
+      summary: Remove a language from a site
+      description: >-
+        Removes a language from a site, preventing further content authoring
+        in that locale. Existing content in the language is not deleted but
+        becomes inaccessible through the site.
+      tags:
+        - Languages
+      parameters:
+        - $ref: '#/components/parameters/siteId'
+        - $ref: '#/components/parameters/languageId'
+        - $ref: '#/components/parameters/environmentId'
+      responses:
+        '204':
+          description: Language removed from site
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /api/v1/pages:
+    get:
+      operationId: listPages
+      summary: List pages
+      description: >-
+        Retrieves a list of pages for the specified site and environment. Supports
+        filtering by language, version, and other attributes. Results are paginated
+        and include basic page metadata.
+      tags:
+        - Pages
+      parameters:
+        - $ref: '#/components/parameters/environmentId'
+        - $ref: '#/components/parameters/siteQueryParam'
+        - $ref: '#/components/parameters/language'
+      responses:
+        '200':
+          description: A list of pages
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Page'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createPage
+      summary: Create a page
+      description: >-
+        Creates a new page within a site. Pages can be created from blueprints
+        or as blank pages. The request must specify the parent item, page name,
+        template, and optionally an insert options configuration.
+      tags:
+        - Pages
+      parameters:
+        - $ref: '#/components/parameters/environmentId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePageRequest'
+      responses:
+        '201':
+          description: Page created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Page'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/v1/pages/{pageId}:
+    get:
+      operationId: getPage
+      summary: Get a page
+      description: >-
+        Retrieves a specific page by its identifier. Returns full page metadata
+        including layout information, version history, field values, and publishing
+        state for the specified language and version.
+      tags:
+        - Pages
+      parameters:
+        - $ref: '#/components/parameters/pageId'
+        - $ref: '#/components/parameters/environmentId'
+        - $ref: '#/components/parameters/language'
+        - $ref: '#/components/parameters/version'
+      responses:
+        '200':
+          description: Page details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Page'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deletePage
+      summary: Delete a page
+      description: >-
+        Permanently deletes a page and all its versions and language variants.
+        This operation is irreversible. Child pages are also deleted unless they
+        are moved prior to deletion.
+      tags:
+        - Pages
+      parameters:
+        - $ref: '#/components/parameters/pageId'
+        - $ref: '#/components/parameters/environmentId'
+      responses:
+        '204':
+          description: Page deleted successfully
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /authoring/publishing/v1/jobs:
+    get:
+      operationId: listPublishingJobs
+      summary: List publishing jobs
+      description: >-
+        Retrieves a paginated list of publishing jobs for the authenticated tenant
+        and environment. Jobs can be filtered by status, date range, and other
+        criteria. Returns job metadata including status, creation time, and
+        item processing metrics.
+      tags:
+        - Publishing Jobs
+      parameters:
+        - $ref: '#/components/parameters/environmentId'
+        - name: status
+          in: query
+          description: Filter jobs by status
+          required: false
+          schema:
+            $ref: '#/components/schemas/JobStatus'
+        - name: pageSize
+          in: query
+          description: Number of jobs to return per page
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+      responses:
+        '200':
+          description: A paginated list of publishing jobs
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublishingJobList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createPublishingJob
+      summary: Create a publishing job
+      description: >-
+        Creates and queues a new publishing job to push content from XM Cloud
+        authoring to the Experience Edge delivery layer. The job can target
+        specific items, languages, or be configured as a full site publish.
+      tags:
+        - Publishing Jobs
+      parameters:
+        - $ref: '#/components/parameters/environmentId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePublishingJobRequest'
+      responses:
+        '202':
+          description: Publishing job accepted and queued
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublishingJob'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /authoring/publishing/v1/jobs/{id}:
+    get:
+      operationId: getPublishingJob
+      summary: Get a publishing job
+      description: >-
+        Retrieves a specific publishing job by its identifier. Returns the current
+        status, progress metrics, and any error information for the job.
+      tags:
+        - Publishing Jobs
+      parameters:
+        - $ref: '#/components/parameters/jobId'
+        - $ref: '#/components/parameters/environmentId'
+      responses:
+        '200':
+          description: Publishing job details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublishingJob'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /authoring/publishing/v1/jobs/{jobId}/cancel:
+    post:
+      operationId: cancelPublishingJob
+      summary: Cancel a publishing job
+      description: >-
+        Cancels an active publishing job that is currently queued or running.
+        Jobs in a terminal state (Completed, Failed, Canceled) cannot be cancelled.
+        Returns the updated job with a Canceling or Canceled status.
+      tags:
+        - Publishing Jobs
+      parameters:
+        - $ref: '#/components/parameters/jobId'
+        - $ref: '#/components/parameters/environmentId'
+      responses:
+        '200':
+          description: Publishing job cancellation initiated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublishingJob'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /authoring/publishing/v1/jobs/summary:
+    get:
+      operationId: getPublishingJobSummary
+      summary: Get publishing job summary
+      description: >-
+        Retrieves statistical summary information about publishing jobs within
+        the tenant, including counts by status, recent activity metrics, and
+        item processing totals.
+      tags:
+        - Publishing Jobs
+      parameters:
+        - $ref: '#/components/parameters/environmentId'
+      responses:
+        '200':
+          description: Publishing job statistics summary
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublishingJobSummary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: >-
+        JWT token obtained via OAuth 2.0 client credentials flow. Request tokens
+        from https://auth.sitecorecloud.io/oauth/token using automation client
+        credentials created in the Sitecore Cloud Portal. Tokens expire after
+        24 hours.
+
+  parameters:
+    environmentId:
+      name: sc_env
+      in: query
+      description: The XM Cloud environment identifier
+      required: false
+      schema:
+        type: string
+    collectionId:
+      name: collectionId
+      in: path
+      description: The unique identifier of the site collection
+      required: true
+      schema:
+        type: string
+    siteId:
+      name: siteId
+      in: path
+      description: The unique identifier of the site
+      required: true
+      schema:
+        type: string
+    siteQueryParam:
+      name: siteId
+      in: query
+      description: Filter results by site identifier
+      required: false
+      schema:
+        type: string
+    languageId:
+      name: languageId
+      in: path
+      description: The language identifier (e.g., en, fr-FR)
+      required: true
+      schema:
+        type: string
+    pageId:
+      name: pageId
+      in: path
+      description: The unique identifier of the page item
+      required: true
+      schema:
+        type: string
+    jobId:
+      name: jobId
+      in: path
+      description: The unique identifier of the publishing job
+      required: true
+      schema:
+        type: string
+    language:
+      name: language
+      in: query
+      description: Language code for the content (e.g., en, fr-FR)
+      required: false
+      schema:
+        type: string
+    version:
+      name: version
+      in: query
+      description: Content version number to retrieve
+      required: false
+      schema:
+        type: integer
+
+  responses:
+    Unauthorized:
+      description: Authentication token is missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+    BadRequest:
+      description: The request body or parameters are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+
+  schemas:
+    SiteCollection:
+      type: object
+      description: A site collection that groups related sites within an XM Cloud tenant
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the site collection
+        name:
+          type: string
+          description: The display name of the site collection
+        displayName:
+          type: string
+          description: The human-readable display name for the collection
+        sortOrder:
+          type: integer
+          description: The sort position of this collection relative to others
+        sites:
+          type: array
+          description: Sites contained within this collection
+          items:
+            $ref: '#/components/schemas/SiteSummary'
+
+    SiteSummary:
+      type: object
+      description: A summary representation of a site within a collection
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the site
+        name:
+          type: string
+          description: The name of the site
+
+    Site:
+      type: object
+      description: A website managed within an XM Cloud site collection
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the site
+        name:
+          type: string
+          description: The name of the site
+        displayName:
+          type: string
+          description: The human-readable display name for the site
+        collectionId:
+          type: string
+          description: The identifier of the parent site collection
+        languages:
+          type: array
+          description: Languages enabled for this site
+          items:
+            $ref: '#/components/schemas/Language'
+        sortOrder:
+          type: integer
+          description: The sort position of this site within its collection
+        renderingHost:
+          type: string
+          description: The URL of the rendering host assigned to this site
+
+    Language:
+      type: object
+      description: A language configuration for a tenant or site
+      properties:
+        isoCode:
+          type: string
+          description: The ISO language code (e.g., en, fr-FR, de-DE)
+          example: en
+        name:
+          type: string
+          description: The display name of the language
+          example: English
+        nativeName:
+          type: string
+          description: The language name in its native script
+          example: English
+
+    RenderingHost:
+      type: object
+      description: A rendering host endpoint that can be assigned to a site
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the rendering host
+        name:
+          type: string
+          description: The display name of the rendering host
+        url:
+          type: string
+          description: The URL of the rendering host endpoint
+          format: uri
+
+    Page:
+      type: object
+      description: A page item within an XM Cloud site
+      properties:
+        id:
+          type: string
+          description: The unique Sitecore item identifier for the page
+        name:
+          type: string
+          description: The item name of the page
+        displayName:
+          type: string
+          description: The display name of the page shown in navigation
+        path:
+          type: string
+          description: The Sitecore item path of the page
+        language:
+          type: string
+          description: The language of the page content
+        version:
+          type: integer
+          description: The version number of the page content
+        templateId:
+          type: string
+          description: The identifier of the template used by this page
+        publishingState:
+          type: string
+          description: The current publishing state of the page
+          enum:
+            - Draft
+            - Published
+            - NeedsPublishing
+        url:
+          type: string
+          description: The relative URL of the page within the site
+          format: uri
+
+    CreateCollectionRequest:
+      type: object
+      description: Request body for creating or updating a site collection
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: The name for the site collection
+          maxLength: 100
+        displayName:
+          type: string
+          description: The human-readable display name for the collection
+
+    CreateSiteRequest:
+      type: object
+      description: Request body for creating a new site
+      required:
+        - name
+        - collectionId
+        - language
+      properties:
+        name:
+          type: string
+          description: The name of the new site
+          maxLength: 100
+        displayName:
+          type: string
+          description: The human-readable display name for the site
+        collectionId:
+          type: string
+          description: The identifier of the parent site collection
+        language:
+          type: string
+          description: The default language ISO code for the site
+          example: en
+        templateId:
+          type: string
+          description: The identifier of the site template to use for creation
+
+    CreatePageRequest:
+      type: object
+      description: Request body for creating a new page
+      required:
+        - name
+        - parentId
+        - templateId
+        - siteId
+        - language
+      properties:
+        name:
+          type: string
+          description: The item name for the new page
+        displayName:
+          type: string
+          description: The display name for the new page
+        parentId:
+          type: string
+          description: The identifier of the parent item under which the page is created
+        templateId:
+          type: string
+          description: The identifier of the template to use for the page
+        siteId:
+          type: string
+          description: The identifier of the site to create the page in
+        language:
+          type: string
+          description: The language of the initial page version
+
+    CreatePublishingJobRequest:
+      type: object
+      description: Request body for creating a new publishing job
+      required:
+        - targetId
+      properties:
+        targetId:
+          type: string
+          description: The identifier of the publishing target (e.g., Experience Edge)
+        itemIds:
+          type: array
+          description: Specific item identifiers to publish; omit for full publish
+          items:
+            type: string
+        languages:
+          type: array
+          description: Language codes to publish; omit for all languages
+          items:
+            type: string
+        includeSubitems:
+          type: boolean
+          description: Whether to include child items in the publish
+          default: true
+
+    PublishingJob:
+      type: object
+      description: A publishing job that pushes content to Experience Edge
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the publishing job
+        status:
+          $ref: '#/components/schemas/JobStatus'
+        createdAt:
+          type: string
+          description: The ISO 8601 timestamp when the job was created
+          format: date-time
+        startedAt:
+          type: string
+          description: The ISO 8601 timestamp when the job started processing
+          format: date-time
+        completedAt:
+          type: string
+          description: The ISO 8601 timestamp when the job finished
+          format: date-time
+        totalItems:
+          type: integer
+          description: Total number of items to be processed by the job
+        processedItems:
+          type: integer
+          description: Number of items processed so far
+        failedItems:
+          type: integer
+          description: Number of items that failed to publish
+
+    PublishingJobList:
+      type: object
+      description: A paginated list of publishing jobs
+      properties:
+        items:
+          type: array
+          description: The list of publishing jobs for the current page
+          items:
+            $ref: '#/components/schemas/PublishingJob'
+        totalCount:
+          type: integer
+          description: The total number of jobs matching the query
+        pageSize:
+          type: integer
+          description: The number of items returned per page
+
+    PublishingJobSummary:
+      type: object
+      description: Statistical summary of publishing jobs for the tenant
+      properties:
+        queued:
+          type: integer
+          description: Number of jobs currently queued
+        running:
+          type: integer
+          description: Number of jobs currently running
+        completed:
+          type: integer
+          description: Number of jobs completed
+        failed:
+          type: integer
+          description: Number of jobs that failed
+        canceled:
+          type: integer
+          description: Number of jobs that were canceled
+
+    JobStatus:
+      type: string
+      description: The current status of a publishing job
+      enum:
+        - Queued
+        - Running
+        - Completed
+        - Failed
+        - Canceled
+        - Canceling
+
+    ValidateNameRequest:
+      type: object
+      description: Request body for validating a name
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: The name to validate
+
+    ValidateNameResponse:
+      type: object
+      description: Result of a name validation check
+      properties:
+        isValid:
+          type: boolean
+          description: Whether the name is valid and available
+        errors:
+          type: array
+          description: List of validation error messages if the name is invalid
+          items:
+            type: string
+
+    SortRequest:
+      type: object
+      description: Request body for updating the sort order of items
+      required:
+        - ids
+      properties:
+        ids:
+          type: array
+          description: Ordered list of item identifiers representing the new sort order
+          items:
+            type: string
+
+    AddLanguageRequest:
+      type: object
+      description: Request body for adding a language to a site
+      required:
+        - isoCode
+      properties:
+        isoCode:
+          type: string
+          description: The ISO language code to add (e.g., fr-FR, de-DE)
+
+    ProblemDetails:
+      type: object
+      description: RFC 7807 problem details response for errors
+      properties:
+        type:
+          type: string
+          description: A URI reference identifying the problem type
+        title:
+          type: string
+          description: A short human-readable summary of the problem
+        status:
+          type: integer
+          description: The HTTP status code for this occurrence of the problem
+        detail:
+          type: string
+          description: A human-readable explanation of the problem
+        instance:
+          type: string
+          description: A URI reference identifying the specific occurrence of the problem

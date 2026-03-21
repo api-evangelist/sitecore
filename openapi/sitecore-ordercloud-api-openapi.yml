@@ -1,0 +1,1321 @@
+openapi: 3.1.0
+info:
+  title: Sitecore OrderCloud API
+  description: >-
+    The Sitecore OrderCloud API is a headless, API-first commerce platform
+    providing RESTful endpoints for managing the full range of e-commerce
+    operations including products, catalogs, orders, buyers, sellers, promotions,
+    and fulfillment. It is designed to support B2C, B2B, and B2B2C commerce models
+    with a highly flexible and extensible data model that allows custom extended
+    properties (xp) on most resources. The API uses OAuth 2.0 for authentication
+    and supports granular role-based access control for different buyer, seller, and
+    supplier contexts. All responses are in JSON and the API supports filtering,
+    sorting, searching, and pagination on list endpoints.
+  version: 'v1'
+  contact:
+    name: Sitecore OrderCloud Support
+    url: https://ordercloud.io/contact
+  termsOfService: https://ordercloud.io/terms-of-service
+externalDocs:
+  description: Sitecore OrderCloud API Reference
+  url: https://api-docs.sitecore.com/ordercloud
+servers:
+  - url: https://api.ordercloud.io/v1
+    description: OrderCloud Production Server
+tags:
+  - name: Authentication
+    description: >-
+      Endpoints for obtaining and managing OAuth 2.0 access tokens. Supports
+      password, client credentials, and impersonation grant types with
+      role-based scope control.
+  - name: Buyers
+    description: >-
+      Endpoints for managing buyer organizations and their associated users,
+      user groups, addresses, credit cards, spending accounts, cost centers,
+      and approval rules.
+  - name: Catalogs
+    description: >-
+      Endpoints for managing product catalogs including categories, products,
+      price schedules, specs, variants, bundles, and inventory records.
+  - name: Products
+    description: >-
+      Endpoints for creating, retrieving, updating, and deleting products within
+      the OrderCloud catalog. Products support extended properties, variants,
+      specs, and inventory tracking.
+  - name: Orders
+    description: >-
+      Endpoints for creating and managing the full lifecycle of buyer and admin
+      orders, including line items, promotions, payments, and order submissions.
+  - name: Shipments
+    description: >-
+      Endpoints for tracking and managing shipment records including shipment
+      items and carrier information associated with fulfilled orders.
+  - name: Promotions
+    description: >-
+      Endpoints for creating and managing discount promotions and coupon codes
+      that can be applied to orders at checkout.
+  - name: Suppliers
+    description: >-
+      Endpoints for managing supplier organizations, supplier users, addresses,
+      and user groups within a multi-vendor marketplace.
+  - name: Admin Users
+    description: >-
+      Endpoints for managing marketplace administrator users, user groups, and
+      admin-level address records.
+security:
+  - bearerAuth: []
+paths:
+  /oauth/token:
+    post:
+      operationId: getAccessToken
+      summary: Get an access token
+      description: >-
+        Obtains an OAuth 2.0 access token using the specified grant type.
+        Supports password, client_credentials, and refresh_token grant types.
+        The roles scope determines which resources and operations the token
+        permits access to.
+      tags:
+        - Authentication
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenRequest'
+      responses:
+        '200':
+          description: Access token response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+  /buyers:
+    get:
+      operationId: listBuyers
+      summary: List buyers
+      description: >-
+        Retrieves a paginated list of buyer organizations. Buyers represent
+        customer-facing organizations with their own users, catalogs, and
+        purchasing contexts. Supports filtering, sorting, and pagination.
+      tags:
+        - Buyers
+      parameters:
+        - $ref: '#/components/parameters/search'
+        - $ref: '#/components/parameters/pageSize'
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/sortBy'
+      responses:
+        '200':
+          description: A paginated list of buyers
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BuyerListResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createBuyer
+      summary: Create a buyer
+      description: >-
+        Creates a new buyer organization. Buyers represent storefront customer
+        organizations and can be associated with catalogs, user groups, and
+        approval workflows.
+      tags:
+        - Buyers
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateBuyerRequest'
+      responses:
+        '201':
+          description: Buyer created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Buyer'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /buyers/{buyerID}:
+    get:
+      operationId: getBuyer
+      summary: Get a buyer
+      description: >-
+        Retrieves a specific buyer organization by its identifier. Returns
+        full buyer configuration including active status, default catalog,
+        and extended properties.
+      tags:
+        - Buyers
+      parameters:
+        - $ref: '#/components/parameters/buyerID'
+      responses:
+        '200':
+          description: Buyer details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Buyer'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      operationId: updateBuyer
+      summary: Update a buyer
+      description: >-
+        Performs a full replacement update of a buyer organization. All fields
+        are replaced with the values in the request body.
+      tags:
+        - Buyers
+      parameters:
+        - $ref: '#/components/parameters/buyerID'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateBuyerRequest'
+      responses:
+        '200':
+          description: Buyer updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Buyer'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteBuyer
+      summary: Delete a buyer
+      description: >-
+        Permanently deletes a buyer organization and all associated resources
+        including users, user groups, and addresses.
+      tags:
+        - Buyers
+      parameters:
+        - $ref: '#/components/parameters/buyerID'
+      responses:
+        '204':
+          description: Buyer deleted successfully
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /products:
+    get:
+      operationId: listProducts
+      summary: List products
+      description: >-
+        Retrieves a paginated list of products from the OrderCloud catalog.
+        Supports full-text search, filtering by any product field, sorting, and
+        pagination. Results include product metadata, pricing references, and
+        extended properties.
+      tags:
+        - Products
+      parameters:
+        - $ref: '#/components/parameters/search'
+        - $ref: '#/components/parameters/pageSize'
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/sortBy'
+        - name: catalogID
+          in: query
+          description: Filter products by catalog identifier
+          required: false
+          schema:
+            type: string
+        - name: categoryID
+          in: query
+          description: Filter products by category identifier
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A paginated list of products
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductListResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createProduct
+      summary: Create a product
+      description: >-
+        Creates a new product in the OrderCloud catalog. Products support
+        flexible extended properties (xp), variant generation via specs, and
+        inventory tracking. Products must be assigned to a catalog before buyers
+        can see or purchase them.
+      tags:
+        - Products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateProductRequest'
+      responses:
+        '201':
+          description: Product created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /products/{productID}:
+    get:
+      operationId: getProduct
+      summary: Get a product
+      description: >-
+        Retrieves a specific product by its identifier. Returns full product
+        details including description, price schedule assignment, inventory
+        configuration, and extended properties.
+      tags:
+        - Products
+      parameters:
+        - $ref: '#/components/parameters/productID'
+      responses:
+        '200':
+          description: Product details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      operationId: updateProduct
+      summary: Update a product
+      description: >-
+        Performs a full replacement update of a product. All fields are replaced
+        with the values in the request body. Use PATCH for partial updates.
+      tags:
+        - Products
+      parameters:
+        - $ref: '#/components/parameters/productID'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateProductRequest'
+      responses:
+        '200':
+          description: Product updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      operationId: patchProduct
+      summary: Partially update a product
+      description: >-
+        Performs a partial update of a product. Only the fields provided in the
+        request body are updated; all other fields retain their current values.
+      tags:
+        - Products
+      parameters:
+        - $ref: '#/components/parameters/productID'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateProductRequest'
+      responses:
+        '200':
+          description: Product partially updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteProduct
+      summary: Delete a product
+      description: >-
+        Permanently deletes a product from the catalog. All catalog assignments
+        and buyer visibility are also removed.
+      tags:
+        - Products
+      parameters:
+        - $ref: '#/components/parameters/productID'
+      responses:
+        '204':
+          description: Product deleted successfully
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /orders/{direction}:
+    get:
+      operationId: listOrders
+      summary: List orders
+      description: >-
+        Retrieves a paginated list of orders in the specified direction context.
+        Use 'Incoming' for orders received by the seller and 'Outgoing' for
+        orders placed by a buyer. Supports filtering, sorting, and pagination.
+      tags:
+        - Orders
+      parameters:
+        - $ref: '#/components/parameters/direction'
+        - $ref: '#/components/parameters/search'
+        - $ref: '#/components/parameters/pageSize'
+        - $ref: '#/components/parameters/page'
+        - name: buyerID
+          in: query
+          description: Filter orders by buyer identifier
+          required: false
+          schema:
+            type: string
+        - name: status
+          in: query
+          description: Filter orders by status
+          required: false
+          schema:
+            type: string
+            enum:
+              - Unsubmitted
+              - Open
+              - AwaitingApproval
+              - Declined
+              - Completed
+              - Canceled
+      responses:
+        '200':
+          description: A paginated list of orders
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderListResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createOrder
+      summary: Create an order
+      description: >-
+        Creates a new order in the specified direction context. New orders begin
+        in the Unsubmitted status. Line items, promotions, and payments can be
+        added before the order is submitted.
+      tags:
+        - Orders
+      parameters:
+        - $ref: '#/components/parameters/direction'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrderRequest'
+      responses:
+        '201':
+          description: Order created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /orders/{direction}/{orderID}:
+    get:
+      operationId: getOrder
+      summary: Get an order
+      description: >-
+        Retrieves a specific order by its identifier and direction. Returns the
+        full order object including status, totals, shipping address, and billing
+        address.
+      tags:
+        - Orders
+      parameters:
+        - $ref: '#/components/parameters/direction'
+        - $ref: '#/components/parameters/orderID'
+      responses:
+        '200':
+          description: Order details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      operationId: updateOrder
+      summary: Update an order
+      description: >-
+        Performs a full replacement update of an order. Only orders in Unsubmitted
+        status can be updated. Submitted orders cannot be modified.
+      tags:
+        - Orders
+      parameters:
+        - $ref: '#/components/parameters/direction'
+        - $ref: '#/components/parameters/orderID'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrderRequest'
+      responses:
+        '200':
+          description: Order updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteOrder
+      summary: Delete an order
+      description: >-
+        Permanently deletes an order. Only unsubmitted orders can be deleted.
+      tags:
+        - Orders
+      parameters:
+        - $ref: '#/components/parameters/direction'
+        - $ref: '#/components/parameters/orderID'
+      responses:
+        '204':
+          description: Order deleted successfully
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /orders/{direction}/{orderID}/submit:
+    post:
+      operationId: submitOrder
+      summary: Submit an order
+      description: >-
+        Submits an order for fulfillment. The order must be in Unsubmitted status
+        and have all required line items, payment methods, and addresses set before
+        submission. Submitted orders transition to Open or AwaitingApproval status.
+      tags:
+        - Orders
+      parameters:
+        - $ref: '#/components/parameters/direction'
+        - $ref: '#/components/parameters/orderID'
+      responses:
+        '200':
+          description: Order submitted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /orders/{direction}/{orderID}/lineitems:
+    get:
+      operationId: listLineItems
+      summary: List order line items
+      description: >-
+        Retrieves all line items within a specific order. Each line item represents
+        a product or variant being purchased with a specified quantity and pricing.
+      tags:
+        - Orders
+      parameters:
+        - $ref: '#/components/parameters/direction'
+        - $ref: '#/components/parameters/orderID'
+      responses:
+        '200':
+          description: List of order line items
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LineItemListResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    post:
+      operationId: createLineItem
+      summary: Create a line item
+      description: >-
+        Adds a line item to an order specifying a product and quantity. Specs
+        and spec option values can be provided to select a specific product variant.
+      tags:
+        - Orders
+      parameters:
+        - $ref: '#/components/parameters/direction'
+        - $ref: '#/components/parameters/orderID'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateLineItemRequest'
+      responses:
+        '201':
+          description: Line item added to order
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LineItem'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /promotions:
+    get:
+      operationId: listPromotions
+      summary: List promotions
+      description: >-
+        Retrieves a paginated list of promotions. Promotions define discount
+        rules, coupon codes, eligibility requirements, and usage limits.
+      tags:
+        - Promotions
+      parameters:
+        - $ref: '#/components/parameters/search'
+        - $ref: '#/components/parameters/pageSize'
+        - $ref: '#/components/parameters/page'
+      responses:
+        '200':
+          description: A paginated list of promotions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromotionListResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createPromotion
+      summary: Create a promotion
+      description: >-
+        Creates a new promotion with discount rules, an optional coupon code,
+        eligibility criteria, and usage limits. Promotions can be applied to
+        orders at checkout.
+      tags:
+        - Promotions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePromotionRequest'
+      responses:
+        '201':
+          description: Promotion created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Promotion'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: >-
+        OAuth 2.0 bearer token obtained from https://auth.ordercloud.io/oauth/token.
+        The token scope determines accessible resources based on assigned roles.
+
+  parameters:
+    buyerID:
+      name: buyerID
+      in: path
+      description: The unique identifier of the buyer organization
+      required: true
+      schema:
+        type: string
+    productID:
+      name: productID
+      in: path
+      description: The unique identifier of the product
+      required: true
+      schema:
+        type: string
+    orderID:
+      name: orderID
+      in: path
+      description: The unique identifier of the order
+      required: true
+      schema:
+        type: string
+    direction:
+      name: direction
+      in: path
+      description: The order direction context - Incoming (seller view) or Outgoing (buyer view)
+      required: true
+      schema:
+        type: string
+        enum:
+          - Incoming
+          - Outgoing
+    search:
+      name: search
+      in: query
+      description: Full-text search term to filter results
+      required: false
+      schema:
+        type: string
+    pageSize:
+      name: pageSize
+      in: query
+      description: Number of items to return per page (max 100)
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+    page:
+      name: page
+      in: query
+      description: Page number to retrieve (1-indexed)
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+    sortBy:
+      name: sortBy
+      in: query
+      description: Field name to sort results by; prefix with ! to sort descending
+      required: false
+      schema:
+        type: string
+
+  responses:
+    Unauthorized:
+      description: Authentication token is missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: The request body or parameters are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+  schemas:
+    TokenRequest:
+      type: object
+      description: OAuth 2.0 token request parameters
+      required:
+        - grant_type
+        - client_id
+      properties:
+        grant_type:
+          type: string
+          description: The OAuth grant type
+          enum:
+            - password
+            - client_credentials
+            - refresh_token
+        client_id:
+          type: string
+          description: The OrderCloud API client identifier
+        username:
+          type: string
+          description: The user's username (required for password grant)
+        password:
+          type: string
+          description: The user's password (required for password grant)
+        scope:
+          type: string
+          description: Space-separated list of OrderCloud role scopes
+        refresh_token:
+          type: string
+          description: The refresh token (required for refresh_token grant)
+
+    TokenResponse:
+      type: object
+      description: OAuth 2.0 token response
+      properties:
+        access_token:
+          type: string
+          description: The bearer access token to include in API requests
+        token_type:
+          type: string
+          description: The token type, always Bearer
+          example: Bearer
+        expires_in:
+          type: integer
+          description: Time in seconds until the token expires
+        refresh_token:
+          type: string
+          description: Refresh token for obtaining a new access token
+
+    Buyer:
+      type: object
+      description: A buyer organization in the OrderCloud marketplace
+      properties:
+        ID:
+          type: string
+          description: The unique identifier of the buyer organization
+        Name:
+          type: string
+          description: The display name of the buyer organization
+        DefaultCatalogID:
+          type: string
+          description: The identifier of the buyer's default product catalog
+        Active:
+          type: boolean
+          description: Whether the buyer organization is active
+        xp:
+          type: object
+          description: Extended properties for custom buyer attributes
+          additionalProperties: true
+
+    CreateBuyerRequest:
+      type: object
+      description: Request body for creating or updating a buyer
+      required:
+        - Name
+      properties:
+        ID:
+          type: string
+          description: Optional custom identifier for the buyer
+        Name:
+          type: string
+          description: The display name of the buyer organization
+        DefaultCatalogID:
+          type: string
+          description: The identifier of the default catalog to assign
+        Active:
+          type: boolean
+          description: Whether the buyer should be active on creation
+          default: true
+        xp:
+          type: object
+          description: Extended properties for custom buyer attributes
+          additionalProperties: true
+
+    BuyerListResponse:
+      type: object
+      description: A paginated list of buyers
+      properties:
+        Meta:
+          $ref: '#/components/schemas/ListMetadata'
+        Items:
+          type: array
+          description: The buyers for the current page
+          items:
+            $ref: '#/components/schemas/Buyer'
+
+    Product:
+      type: object
+      description: A product available for purchase within the OrderCloud catalog
+      properties:
+        ID:
+          type: string
+          description: The unique identifier of the product
+        Name:
+          type: string
+          description: The display name of the product
+        Description:
+          type: string
+          description: The detailed description of the product
+        QuantityMultiplier:
+          type: integer
+          description: The minimum purchase quantity increment for this product
+          default: 1
+        ShipWeight:
+          type: number
+          description: The shipping weight of the product in pounds
+          format: float
+        ShipHeight:
+          type: number
+          description: The shipping height of the product in inches
+          format: float
+        ShipWidth:
+          type: number
+          description: The shipping width of the product in inches
+          format: float
+        ShipLength:
+          type: number
+          description: The shipping length of the product in inches
+          format: float
+        Active:
+          type: boolean
+          description: Whether the product is active and visible to buyers
+        DefaultPriceScheduleID:
+          type: string
+          description: The identifier of the default price schedule for this product
+        Inventory:
+          $ref: '#/components/schemas/Inventory'
+        xp:
+          type: object
+          description: Extended properties for custom product attributes
+          additionalProperties: true
+
+    Inventory:
+      type: object
+      description: Inventory tracking configuration for a product
+      properties:
+        Enabled:
+          type: boolean
+          description: Whether inventory tracking is enabled for this product
+        VariantLevelTracking:
+          type: boolean
+          description: Whether inventory is tracked at the variant level
+        OrderCanExceed:
+          type: boolean
+          description: Whether orders can be placed when inventory is insufficient
+        QuantityAvailable:
+          type: integer
+          description: The current available inventory quantity
+        LastUpdated:
+          type: string
+          description: The ISO 8601 timestamp of the last inventory update
+          format: date-time
+
+    CreateProductRequest:
+      type: object
+      description: Request body for creating or updating a product
+      required:
+        - Name
+      properties:
+        ID:
+          type: string
+          description: Optional custom identifier for the product
+        Name:
+          type: string
+          description: The display name of the product
+        Description:
+          type: string
+          description: The detailed description of the product
+        Active:
+          type: boolean
+          description: Whether the product should be active
+          default: false
+        DefaultPriceScheduleID:
+          type: string
+          description: The identifier of the default price schedule
+        xp:
+          type: object
+          description: Extended properties for custom product attributes
+          additionalProperties: true
+
+    ProductListResponse:
+      type: object
+      description: A paginated list of products
+      properties:
+        Meta:
+          $ref: '#/components/schemas/ListMetadata'
+        Items:
+          type: array
+          description: The products for the current page
+          items:
+            $ref: '#/components/schemas/Product'
+
+    Order:
+      type: object
+      description: An order in the OrderCloud marketplace
+      properties:
+        ID:
+          type: string
+          description: The unique identifier of the order
+        FromUser:
+          $ref: '#/components/schemas/UserReference'
+        BillingAddress:
+          $ref: '#/components/schemas/Address'
+        ShippingAddressID:
+          type: string
+          description: The identifier of the shipping address for the order
+        Comments:
+          type: string
+          description: Free-form comments attached to the order
+        LineItemCount:
+          type: integer
+          description: The total number of line items in the order
+        Status:
+          type: string
+          description: The current status of the order
+          enum:
+            - Unsubmitted
+            - Open
+            - AwaitingApproval
+            - Declined
+            - Completed
+            - Canceled
+        DateCreated:
+          type: string
+          description: The ISO 8601 timestamp when the order was created
+          format: date-time
+        DateSubmitted:
+          type: string
+          description: The ISO 8601 timestamp when the order was submitted
+          format: date-time
+        DateApproved:
+          type: string
+          description: The ISO 8601 timestamp when the order was approved
+          format: date-time
+        DateCompleted:
+          type: string
+          description: The ISO 8601 timestamp when the order was completed
+          format: date-time
+        Subtotal:
+          type: number
+          description: The order subtotal before promotions and shipping
+          format: float
+        ShippingCost:
+          type: number
+          description: The shipping cost for the order
+          format: float
+        TaxCost:
+          type: number
+          description: The tax amount for the order
+          format: float
+        PromotionDiscount:
+          type: number
+          description: The total discount amount from applied promotions
+          format: float
+        Total:
+          type: number
+          description: The total order amount after all adjustments
+          format: float
+        xp:
+          type: object
+          description: Extended properties for custom order attributes
+          additionalProperties: true
+
+    CreateOrderRequest:
+      type: object
+      description: Request body for creating or updating an order
+      properties:
+        BillingAddressID:
+          type: string
+          description: The identifier of the billing address
+        ShippingAddressID:
+          type: string
+          description: The identifier of the shipping address
+        Comments:
+          type: string
+          description: Free-form comments for the order
+        xp:
+          type: object
+          description: Extended properties for custom order attributes
+          additionalProperties: true
+
+    OrderListResponse:
+      type: object
+      description: A paginated list of orders
+      properties:
+        Meta:
+          $ref: '#/components/schemas/ListMetadata'
+        Items:
+          type: array
+          description: The orders for the current page
+          items:
+            $ref: '#/components/schemas/Order'
+
+    LineItem:
+      type: object
+      description: A line item within an OrderCloud order
+      properties:
+        ID:
+          type: string
+          description: The unique identifier of the line item
+        ProductID:
+          type: string
+          description: The identifier of the product for this line item
+        Quantity:
+          type: integer
+          description: The quantity of the product ordered
+          minimum: 1
+        UnitPrice:
+          type: number
+          description: The unit price of the product
+          format: float
+        LineTotal:
+          type: number
+          description: The total price for this line item
+          format: float
+        ShippingAddressID:
+          type: string
+          description: The identifier of the shipping address for this line item
+        xp:
+          type: object
+          description: Extended properties for custom line item attributes
+          additionalProperties: true
+
+    CreateLineItemRequest:
+      type: object
+      description: Request body for creating a line item
+      required:
+        - ProductID
+        - Quantity
+      properties:
+        ProductID:
+          type: string
+          description: The identifier of the product to add
+        Quantity:
+          type: integer
+          description: The quantity to purchase
+          minimum: 1
+        ShippingAddressID:
+          type: string
+          description: The identifier of the shipping address for this item
+        xp:
+          type: object
+          description: Extended properties for custom line item attributes
+          additionalProperties: true
+
+    LineItemListResponse:
+      type: object
+      description: A paginated list of order line items
+      properties:
+        Meta:
+          $ref: '#/components/schemas/ListMetadata'
+        Items:
+          type: array
+          description: The line items for the current page
+          items:
+            $ref: '#/components/schemas/LineItem'
+
+    Promotion:
+      type: object
+      description: A discount promotion that can be applied to orders
+      properties:
+        ID:
+          type: string
+          description: The unique identifier of the promotion
+        Code:
+          type: string
+          description: The coupon code customers enter to apply the promotion
+        Name:
+          type: string
+          description: The display name of the promotion
+        Description:
+          type: string
+          description: A description of the promotion
+        Active:
+          type: boolean
+          description: Whether the promotion is currently active
+        StartDate:
+          type: string
+          description: The ISO 8601 start date for the promotion
+          format: date-time
+        ExpirationDate:
+          type: string
+          description: The ISO 8601 expiration date for the promotion
+          format: date-time
+        Value:
+          type: number
+          description: The discount value (amount or percentage based on type)
+          format: float
+        xp:
+          type: object
+          description: Extended properties for custom promotion attributes
+          additionalProperties: true
+
+    CreatePromotionRequest:
+      type: object
+      description: Request body for creating a promotion
+      required:
+        - Code
+        - Value
+      properties:
+        ID:
+          type: string
+          description: Optional custom identifier for the promotion
+        Code:
+          type: string
+          description: The coupon code for the promotion
+        Name:
+          type: string
+          description: The display name of the promotion
+        Description:
+          type: string
+          description: A description of the promotion
+        Active:
+          type: boolean
+          description: Whether the promotion should be active
+          default: true
+        StartDate:
+          type: string
+          description: The ISO 8601 start date
+          format: date-time
+        ExpirationDate:
+          type: string
+          description: The ISO 8601 expiration date
+          format: date-time
+        Value:
+          type: number
+          description: The discount value
+          format: float
+        xp:
+          type: object
+          description: Extended properties for custom promotion attributes
+          additionalProperties: true
+
+    PromotionListResponse:
+      type: object
+      description: A paginated list of promotions
+      properties:
+        Meta:
+          $ref: '#/components/schemas/ListMetadata'
+        Items:
+          type: array
+          description: The promotions for the current page
+          items:
+            $ref: '#/components/schemas/Promotion'
+
+    Address:
+      type: object
+      description: A shipping or billing address
+      properties:
+        ID:
+          type: string
+          description: The unique identifier of the address
+        FirstName:
+          type: string
+          description: The recipient's first name
+        LastName:
+          type: string
+          description: The recipient's last name
+        Company:
+          type: string
+          description: The company name at this address
+        Street1:
+          type: string
+          description: The primary street address line
+        Street2:
+          type: string
+          description: The secondary street address line
+        City:
+          type: string
+          description: The city name
+        State:
+          type: string
+          description: The state or province code
+        Zip:
+          type: string
+          description: The postal or ZIP code
+        Country:
+          type: string
+          description: The ISO 3166-1 alpha-2 country code
+          example: US
+        Phone:
+          type: string
+          description: The phone number associated with this address
+
+    UserReference:
+      type: object
+      description: A reference to a user who placed or owns an order
+      properties:
+        ID:
+          type: string
+          description: The unique identifier of the user
+        FirstName:
+          type: string
+          description: The user's first name
+        LastName:
+          type: string
+          description: The user's last name
+        Username:
+          type: string
+          description: The user's login username
+        Email:
+          type: string
+          description: The user's email address
+          format: email
+
+    ListMetadata:
+      type: object
+      description: Pagination metadata for list responses
+      properties:
+        Page:
+          type: integer
+          description: The current page number (1-indexed)
+        PageSize:
+          type: integer
+          description: The number of items per page
+        TotalCount:
+          type: integer
+          description: The total number of items matching the query
+        TotalPages:
+          type: integer
+          description: The total number of pages
+        ItemRange:
+          type: array
+          description: The inclusive range [start, end] of item indexes for this page
+          items:
+            type: integer
+
+    ErrorResponse:
+      type: object
+      description: An error response body
+      properties:
+        Errors:
+          type: array
+          description: List of error details
+          items:
+            $ref: '#/components/schemas/ErrorDetail'
+
+    ErrorDetail:
+      type: object
+      description: A single error detail
+      properties:
+        ErrorCode:
+          type: string
+          description: The machine-readable error code
+        Message:
+          type: string
+          description: A human-readable description of the error
+        Data:
+          type: object
+          description: Additional data about the error context
+          additionalProperties: true
