@@ -33,35 +33,19 @@ tags:
       Endpoints for managing buyer organizations and their associated users,
       user groups, addresses, credit cards, spending accounts, cost centers,
       and approval rules.
-  - name: Catalogs
+  - name: Orders
     description: >-
-      Endpoints for managing product catalogs including categories, products,
-      price schedules, specs, variants, bundles, and inventory records.
+      Endpoints for creating and managing the full lifecycle of buyer and admin
+      orders, including line items, promotions, payments, and order submissions.
   - name: Products
     description: >-
       Endpoints for creating, retrieving, updating, and deleting products within
       the OrderCloud catalog. Products support extended properties, variants,
       specs, and inventory tracking.
-  - name: Orders
-    description: >-
-      Endpoints for creating and managing the full lifecycle of buyer and admin
-      orders, including line items, promotions, payments, and order submissions.
-  - name: Shipments
-    description: >-
-      Endpoints for tracking and managing shipment records including shipment
-      items and carrier information associated with fulfilled orders.
   - name: Promotions
     description: >-
       Endpoints for creating and managing discount promotions and coupon codes
       that can be applied to orders at checkout.
-  - name: Suppliers
-    description: >-
-      Endpoints for managing supplier organizations, supplier users, addresses,
-      and user groups within a multi-vendor marketplace.
-  - name: Admin Users
-    description: >-
-      Endpoints for managing marketplace administrator users, user groups, and
-      admin-level address records.
 security:
   - bearerAuth: []
 paths:

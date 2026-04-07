@@ -31,11 +31,10 @@ servers:
   - url: https://api.rfksrv.com
     description: Sitecore Discover Production Server (customer key URL)
 tags:
-  - name: Search and Recommendations
+  - name: Authentication
     description: >-
-      Endpoints for performing product and content search queries, retrieving
-      ranked results, applying faceted filters, and fetching personalized
-      product recommendations based on behavioral data.
+      Endpoints for obtaining access tokens used to authenticate API requests
+      to Sitecore Discover.
   - name: Events
     description: >-
       Endpoints for sending behavioral and interaction events from storefronts
@@ -46,10 +45,11 @@ tags:
       Endpoints for pushing real-time product catalog updates to Sitecore Discover
       without requiring a full feed re-index. Supports adding, updating, and
       removing products incrementally.
-  - name: Authentication
+  - name: Search and Recommendations
     description: >-
-      Endpoints for obtaining access tokens used to authenticate API requests
-      to Sitecore Discover.
+      Endpoints for performing product and content search queries, retrieving
+      ranked results, applying faceted filters, and fetching personalized
+      product recommendations based on behavioral data.
 security:
   - bearerAuth: []
 paths:

@@ -31,11 +31,6 @@ tags:
       Endpoints for creating, retrieving, updating, and deleting site collections
       within an XM Cloud tenant. Collections group related sites that share
       resources and organizational context.
-  - name: Sites
-    description: >-
-      Endpoints for managing sites within site collections, including creation,
-      duplication, renaming, deletion, sorting, and retrieving site hierarchies
-      and rendering hosts.
   - name: Languages
     description: >-
       Endpoints for managing language availability at the tenant and site levels,
@@ -49,6 +44,11 @@ tags:
     description: >-
       Endpoints for creating, monitoring, and managing publishing jobs that push
       content from XM Cloud authoring to the Experience Edge delivery layer.
+  - name: Sites
+    description: >-
+      Endpoints for managing sites within site collections, including creation,
+      duplication, renaming, deletion, sorting, and retrieving site hierarchies
+      and rendering hosts.
 security:
   - bearerAuth: []
 paths:

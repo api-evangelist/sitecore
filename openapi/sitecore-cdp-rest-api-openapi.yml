@@ -29,29 +29,25 @@ servers:
   - url: https://api-engage-jpe.sitecorecloud.io
     description: Japan Production Server
 tags:
-  - name: Guests
-    description: >-
-      Endpoints for creating, retrieving, updating, and deleting guest profiles
-      in Sitecore CDP. Guests represent the core customer entity storing
-      personal, behavioral, and transactional data.
   - name: Guest Data Extensions
     description: >-
       Endpoints for managing custom key-value data extensions attached to guest
       profiles. Data extensions allow organizations to store additional structured
       information beyond the standard guest fields.
+  - name: Guests
+    description: >-
+      Endpoints for creating, retrieving, updating, and deleting guest profiles
+      in Sitecore CDP. Guests represent the core customer entity storing
+      personal, behavioral, and transactional data.
+  - name: Order Items
+    description: >-
+      Endpoints for managing individual line items within guest orders, including
+      product references, quantities, and pricing information.
   - name: Orders
     description: >-
       Endpoints for creating, retrieving, updating, and deleting order records
       associated with guests. Orders capture purchase transactions including
       line items, payments, and fulfillment data.
-  - name: Order Items
-    description: >-
-      Endpoints for managing individual line items within guest orders, including
-      product references, quantities, and pricing information.
-  - name: Order Data Extensions
-    description: >-
-      Endpoints for managing custom data extensions attached to orders, allowing
-      additional structured information to be stored against order records.
 security:
   - basicAuth: []
 paths:

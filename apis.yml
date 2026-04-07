@@ -1,22 +1,18 @@
 aid: sitecore
-url: 
-  https://raw.githubusercontent.com/api-evangelist/sitecore/refs/heads/main/apis.yml
+url: https://raw.githubusercontent.com/api-evangelist/sitecore/refs/heads/main/apis.yml
 apis:
   - aid: sitecore:xm-cloud-graphql-delivery-api
     name: Sitecore XM Cloud GraphQL Delivery API
     tags:
-      - GraphQL
       - Content Delivery
-      - Headless CMS
       - Digital Experience Platform
-    image: 
-      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+      - GraphQL
+      - Headless CMS
+    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://edge.sitecorecloud.io/api/graphql
-    humanURL: 
-      https://doc.sitecore.com/xmc/en/developers/xm-cloud/delivery-api.html
+    humanURL: https://doc.sitecore.com/xmc/en/developers/xm-cloud/delivery-api.html
     properties:
-      - url: 
-          https://doc.sitecore.com/xmc/en/developers/xm-cloud/delivery-api.html
+      - url: https://doc.sitecore.com/xmc/en/developers/xm-cloud/delivery-api.html
         type: Documentation
     description: >-
       The Sitecore XM Cloud GraphQL Delivery API provides access to approved and published
@@ -29,18 +25,15 @@ apis:
   - aid: sitecore:xm-cloud-authoring-management-graphql-api
     name: Sitecore XM Cloud Authoring and Management GraphQL API
     tags:
-      - GraphQL
       - Content Management
-      - Headless CMS
       - Digital Experience Platform
-    image: 
-      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+      - GraphQL
+      - Headless CMS
+    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://edge.sitecorecloud.io/api/graphql
-    humanURL: 
-      https://doc.sitecore.com/xmc/en/developers/xm-cloud/sitecore-authoring-and-management-graphql-api.html
+    humanURL: https://doc.sitecore.com/xmc/en/developers/xm-cloud/sitecore-authoring-and-management-graphql-api.html
     properties:
-      - url: 
-          https://doc.sitecore.com/xmc/en/developers/xm-cloud/sitecore-authoring-and-management-graphql-api.html
+      - url: https://doc.sitecore.com/xmc/en/developers/xm-cloud/sitecore-authoring-and-management-graphql-api.html
         type: Documentation
     description: >-
       The Sitecore XM Cloud Authoring and Management GraphQL API provides a single
@@ -53,19 +46,16 @@ apis:
   - aid: sitecore:xm-cloud-rest-api
     name: Sitecore XM Cloud REST API
     tags:
-      - REST
-      - Content Management
-      - Sites
       - Collections
+      - Content Management
       - Digital Experience Platform
-    image: 
-      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+      - REST
+      - Sites
+    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://xmapps-api.sitecorecloud.io
-    humanURL: 
-      https://doc.sitecore.com/xmc/en/developers/xm-cloud/sitecore-xm-cloud.html
+    humanURL: https://doc.sitecore.com/xmc/en/developers/xm-cloud/sitecore-xm-cloud.html
     properties:
-      - url: 
-          https://doc.sitecore.com/xmc/en/developers/xm-cloud/sitecore-xm-cloud.html
+      - url: https://doc.sitecore.com/xmc/en/developers/xm-cloud/sitecore-xm-cloud.html
         type: Documentation
       - type: OpenAPI
         url: openapi/sitecore-xm-cloud-rest-api-openapi.yml
@@ -81,11 +71,10 @@ apis:
     name: Sitecore CDP REST API
     tags:
       - Customer Data Platform
-      - REST
       - Guest Data
       - Personalization
-    image: 
-      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+      - REST
+    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api-engage-us.sitecorecloud.io
     humanURL: https://doc.sitecore.com/cdp/en/developers/api/rest-apis.html
     properties:
@@ -104,12 +93,11 @@ apis:
   - aid: sitecore:cdp-stream-api
     name: Sitecore CDP Stream API
     tags:
-      - Customer Data Platform
-      - Real-Time
       - Behavioral Data
+      - Customer Data Platform
       - Event Tracking
-    image: 
-      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+      - Real-Time
+    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api-engage-us.sitecorecloud.io
     humanURL: https://doc.sitecore.com/cdp/en/developers/api/stream-api.html
     properties:
@@ -128,12 +116,11 @@ apis:
   - aid: sitecore:cdp-batch-api
     name: Sitecore CDP Batch API
     tags:
-      - Customer Data Platform
       - Batch Processing
-      - Guest Data
+      - Customer Data Platform
       - Data Import
-    image: 
-      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+      - Guest Data
+    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api-engage-us.sitecorecloud.io
     humanURL: https://doc.sitecore.com/cdp/en/developers/api/index-en.html
     properties:
@@ -150,18 +137,15 @@ apis:
   - aid: sitecore:personalize-rest-api
     name: Sitecore Personalize REST API
     tags:
+      - Decisioning
+      - Experiments
       - Personalization
       - REST
-      - Experiments
-      - Decisioning
-    image: 
-      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.boxever.com
-    humanURL: 
-      https://doc.sitecore.com/personalize/en/developers/api/index-en.html
+    humanURL: https://doc.sitecore.com/personalize/en/developers/api/index-en.html
     properties:
-      - url: 
-          https://doc.sitecore.com/personalize/en/developers/api/index-en.html
+      - url: https://doc.sitecore.com/personalize/en/developers/api/index-en.html
         type: Documentation
       - type: OpenAPI
         url: openapi/sitecore-personalize-rest-api-openapi.yml
@@ -176,12 +160,11 @@ apis:
   - aid: sitecore:content-hub-rest-api
     name: Sitecore Content Hub REST API
     tags:
-      - Digital Asset Management
       - Content Hub
-      - REST
+      - Digital Asset Management
       - Media Management
-    image: 
-      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+      - REST
+    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://your-tenant.stylelabs.io/api
     humanURL: https://doc.sitecore.com/ch/en/developers/cloud-dev/rest-apis.html
     properties:
@@ -201,18 +184,15 @@ apis:
   - aid: sitecore:content-hub-admin-api
     name: Sitecore Content Hub Admin API
     tags:
-      - Digital Asset Management
-      - Content Hub
-      - GraphQL
       - Administration
-    image: 
-      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+      - Content Hub
+      - Digital Asset Management
+      - GraphQL
+    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://your-tenant.stylelabs.io/api/graphql/admin/v1
-    humanURL: 
-      https://doc.sitecore.com/ch/en/developers/cloud-dev/content-hub-admin-api.html
+    humanURL: https://doc.sitecore.com/ch/en/developers/cloud-dev/content-hub-admin-api.html
     properties:
-      - url: 
-          https://doc.sitecore.com/ch/en/developers/cloud-dev/content-hub-admin-api.html
+      - url: https://doc.sitecore.com/ch/en/developers/cloud-dev/content-hub-admin-api.html
         type: Documentation
     description: >-
       The Sitecore Content Hub Admin API is a GraphQL API that provides access to
@@ -224,13 +204,12 @@ apis:
   - aid: sitecore:ordercloud-api
     name: Sitecore OrderCloud API
     tags:
-      - Commerce
       - B2B
       - B2C
+      - Commerce
       - Order Management
       - REST
-    image: 
-      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.ordercloud.io/v1
     humanURL: https://api-docs.sitecore.com/ordercloud
     properties:
@@ -250,18 +229,15 @@ apis:
   - aid: sitecore:discover-api
     name: Sitecore Discover API
     tags:
-      - Search
-      - Product Discovery
       - Commerce
+      - Product Discovery
       - Recommendations
-    image: 
-      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+      - Search
+    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.rfksrv.com
-    humanURL: 
-      https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html
+    humanURL: https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html
     properties:
-      - url: 
-          https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html
+      - url: https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html
         type: Documentation
       - type: OpenAPI
         url: openapi/sitecore-discover-api-openapi.yml

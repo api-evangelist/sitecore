@@ -28,35 +28,6 @@ servers:
         description: The tenant-specific subdomain for the Content Hub instance
         default: your-tenant
 tags:
-  - name: Entities
-    description: >-
-      Endpoints for performing CRUD operations on Content Hub entities including
-      assets, taxonomy nodes, content items, and all other entity types managed
-      within the platform.
-  - name: Entity Definitions
-    description: >-
-      Endpoints for managing entity definition schemas that describe the structure
-      and properties of entity types within the Content Hub instance.
-  - name: Search
-    description: >-
-      Endpoints for executing search queries against the Content Hub entity index,
-      retrieving facet values, and managing search filters.
-  - name: Querying
-    description: >-
-      Endpoints for fetching entities that match specific criteria using structured
-      query expressions against entity properties and relations.
-  - name: Upload
-    description: >-
-      Endpoints for uploading digital assets into Content Hub, including creating
-      upload requests, uploading binary content, and completing asset ingest.
-  - name: Jobs
-    description: >-
-      Endpoints for managing background job targets including retrieval, creation,
-      update, and deletion of job configurations.
-  - name: Selections
-    description: >-
-      Endpoints for managing entity selections across selection pools, allowing
-      grouping of entities for bulk operations or editorial workflows.
   - name: Audit
     description: >-
       Endpoints for retrieving and querying audit log entries that track changes
@@ -65,6 +36,31 @@ tags:
     description: >-
       Endpoints for creating and managing download orders that package assets
       for delivery, supporting both single and batch asset downloads.
+  - name: Entities
+    description: >-
+      Endpoints for performing CRUD operations on Content Hub entities including
+      assets, taxonomy nodes, content items, and all other entity types managed
+      within the platform.
+  - name: Jobs
+    description: >-
+      Endpoints for managing background job targets including retrieval, creation,
+      update, and deletion of job configurations.
+  - name: Querying
+    description: >-
+      Endpoints for fetching entities that match specific criteria using structured
+      query expressions against entity properties and relations.
+  - name: Search
+    description: >-
+      Endpoints for executing search queries against the Content Hub entity index,
+      retrieving facet values, and managing search filters.
+  - name: Selections
+    description: >-
+      Endpoints for managing entity selections across selection pools, allowing
+      grouping of entities for bulk operations or editorial workflows.
+  - name: Upload
+    description: >-
+      Endpoints for uploading digital assets into Content Hub, including creating
+      upload requests, uploading binary content, and completing asset ingest.
 security:
   - bearerAuth: []
 paths:
