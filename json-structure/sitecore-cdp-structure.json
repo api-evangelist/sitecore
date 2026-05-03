@@ -1,0 +1,52 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Sitecore CDP Structure",
+  "description": "JSON structure documentation for Sitecore Customer Data Platform REST API",
+  "version": "v2.1",
+  "resources": {
+    "Guest": {
+      "description": "Core customer entity in Sitecore CDP storing personal, behavioral, and transactional data",
+      "fields": {
+        "ref": { "type": "string", "description": "Unique reference identifier for the guest" },
+        "email": { "type": "string", "format": "email", "description": "Guest email address" },
+        "firstName": { "type": "string", "description": "Guest first name" },
+        "lastName": { "type": "string", "description": "Guest last name" },
+        "phoneNumbers": { "type": "array", "description": "Associated phone numbers" },
+        "identifiers": { "type": "array", "description": "External identifiers linking to other systems" },
+        "dataExtensions": { "type": "array", "description": "Custom key-value data attached to the profile" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Profile creation timestamp" },
+        "modifiedAt": { "type": "string", "format": "date-time", "description": "Last modification timestamp" }
+      }
+    },
+    "Order": {
+      "description": "Purchase transaction associated with a guest profile",
+      "fields": {
+        "ref": { "type": "string", "description": "Unique order reference" },
+        "referenceId": { "type": "string", "description": "External order reference ID" },
+        "status": { "type": "string", "description": "Order status (e.g., CONFIRMED, CANCELLED)" },
+        "currencyCode": { "type": "string", "description": "ISO currency code" },
+        "price": { "type": "number", "description": "Total order price" },
+        "orderedAt": { "type": "string", "format": "date-time", "description": "When the order was placed" },
+        "orderItems": { "type": "array", "items": "OrderItem", "description": "Line items in the order" }
+      }
+    },
+    "OrderItem": {
+      "description": "Individual line item within an order",
+      "fields": {
+        "ref": { "type": "string", "description": "Unique line item reference" },
+        "sku": { "type": "string", "description": "Product SKU identifier" },
+        "name": { "type": "string", "description": "Product name" },
+        "quantity": { "type": "integer", "description": "Quantity ordered" },
+        "price": { "type": "number", "description": "Unit price" },
+        "currencyCode": { "type": "string", "description": "ISO currency code" }
+      }
+    },
+    "DataExtension": {
+      "description": "Custom key-value data extension attached to a guest profile",
+      "fields": {
+        "key": { "type": "string", "description": "Extension key (attribute name)" },
+        "values": { "type": "object", "description": "Key-value pairs for the extension" }
+      }
+    }
+  }
+}

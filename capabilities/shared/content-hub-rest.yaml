@@ -1,0 +1,181 @@
+naftiko: "1.0.0-alpha1"
+
+info:
+  label: "Sitecore Content Hub REST API"
+  description: >-
+    Hypermedia REST API for programmatic access to Content Hub resources including
+    entities, assets, jobs, search, selections, upload, and audit logs. Authenticated
+    via OAuth 2.0 Bearer tokens.
+  tags:
+    - Sitecore
+    - Content Hub
+    - Digital Asset Management
+    - Media Management
+  created: "2026-05-02"
+  modified: "2026-05-02"
+
+binds:
+  - namespace: env
+    keys:
+      CONTENT_HUB_TOKEN: CONTENT_HUB_TOKEN
+      CONTENT_HUB_TENANT: CONTENT_HUB_TENANT
+
+capability:
+  consumes:
+    - type: http
+      namespace: content-hub-rest
+      baseUri: https://{{CONTENT_HUB_TENANT}}.stylelabs.io/api
+      description: "Sitecore Content Hub REST API for digital asset management"
+      authentication:
+        type: bearer
+        token: "{{CONTENT_HUB_TOKEN}}"
+      resources:
+        - name: entities
+          path: /entities
+          description: "Manage Content Hub entities (assets, metadata, configurations)"
+          operations:
+            - name: list-entities
+              method: GET
+              description: "List Content Hub entities with filtering"
+              inputParameters:
+                - name: take
+                  in: query
+                  type: integer
+                  required: false
+                  description: "Number of entities to return"
+                - name: skip
+                  in: query
+                  type: integer
+                  required: false
+                  description: "Offset for pagination"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+            - name: create-entity
+              method: POST
+              description: "Create a new Content Hub entity"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+              body:
+                type: json
+                data:
+                  identifier: "{{tools.identifier}}"
+
+        - name: entity
+          path: /entities/{id}
+          description: "Manage a specific Content Hub entity"
+          operations:
+            - name: get-entity
+              method: GET
+              description: "Get a Content Hub entity by ID"
+              inputParameters:
+                - name: id
+                  in: path
+                  type: integer
+                  required: true
+                  description: "The entity ID"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+            - name: update-entity
+              method: PUT
+              description: "Update a Content Hub entity"
+              inputParameters:
+                - name: id
+                  in: path
+                  type: integer
+                  required: true
+                  description: "The entity ID"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+              body:
+                type: json
+                data:
+                  properties: "{{tools.properties}}"
+
+        - name: search
+          path: /entities/query
+          description: "Search Content Hub entities using query language"
+          operations:
+            - name: query-entities
+              method: POST
+              description: "Search entities using Content Hub query language"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+              body:
+                type: json
+                data:
+                  query: "{{tools.query}}"
+                  take: "{{tools.take}}"
+
+        - name: jobs
+          path: /jobs
+          description: "Manage Content Hub processing jobs"
+          operations:
+            - name: list-jobs
+              method: GET
+              description: "List Content Hub jobs"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+  exposes:
+    - type: rest
+      port: 8104
+      namespace: content-hub-rest-api
+      resources:
+        - path: /v1/entities
+          name: entities
+          operations:
+            - method: GET
+              name: list-entities
+              call: "content-hub-rest.list-entities"
+            - method: POST
+              name: create-entity
+              call: "content-hub-rest.create-entity"
+        - path: /v1/entities/search
+          name: entity-search
+          operations:
+            - method: POST
+              name: query-entities
+              call: "content-hub-rest.query-entities"
+
+    - type: mcp
+      port: 9104
+      namespace: content-hub-mcp
+      transport: http
+      tools:
+        - name: list-entities
+          description: "List Content Hub entities"
+          hints:
+            readOnly: true
+          call: "content-hub-rest.list-entities"
+        - name: get-entity
+          description: "Get a specific Content Hub entity"
+          hints:
+            readOnly: true
+          call: "content-hub-rest.get-entity"
+        - name: query-entities
+          description: "Search Content Hub entities using query language"
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "content-hub-rest.query-entities"
+        - name: create-entity
+          description: "Create a new Content Hub entity"
+          call: "content-hub-rest.create-entity"

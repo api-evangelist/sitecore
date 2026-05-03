@@ -1,0 +1,232 @@
+aid: sitecore
+name: Sitecore Vocabulary
+description: >-
+  Domain vocabulary, taxonomy, and key terminology for the Sitecore Digital Experience
+  Platform, covering content management, customer data, personalization, commerce,
+  and digital asset management.
+created: '2026-05-02'
+modified: '2026-05-02'
+
+domains:
+  - name: Content Management
+    description: Terminology for managing digital content in Sitecore XM Cloud
+    terms:
+      - term: Site Collection
+        definition: >-
+          A logical grouping of related Sitecore sites within an XM Cloud tenant.
+          Collections allow shared resource management and organizational hierarchy.
+        aliases: [collection]
+        relatedTerms: [Site, Tenant]
+
+      - term: Site
+        definition: >-
+          An individual website managed within a site collection. Each site has its own
+          set of pages, languages, and rendering host configuration.
+        aliases: [website, XM Cloud site]
+        relatedTerms: [Site Collection, Page, Rendering Host]
+
+      - term: Page
+        definition: >-
+          A content item within an XM Cloud site that corresponds to a navigable URL.
+          Pages have versions, language variants, and publishing states.
+        aliases: [content page, page item]
+        relatedTerms: [Site, Publishing Job, Template]
+
+      - term: Rendering Host
+        definition: >-
+          A front-end application endpoint (Next.js, React, etc.) that renders XM Cloud
+          content. Used by Experience Editor and Pages for visual authoring.
+        aliases: [editing host, front-end application]
+        relatedTerms: [Site, Experience Edge]
+
+      - term: Experience Edge
+        definition: >-
+          Sitecore's globally distributed CDN layer that delivers published content to
+          headless front-end applications. Content is pushed via Publishing Jobs.
+        aliases: [Edge, content delivery]
+        relatedTerms: [Publishing Job, GraphQL Delivery API]
+
+      - term: Publishing Job
+        definition: >-
+          An asynchronous process that pushes content from XM Cloud authoring to
+          Experience Edge. Jobs track progress, status, and item processing metrics.
+        aliases: [publish job, content publish]
+        relatedTerms: [Experience Edge, Page, Site]
+
+      - term: Template
+        definition: >-
+          A Sitecore item template that defines the fields and structure of a content
+          type. Pages and other content items are created from templates.
+        relatedTerms: [Page, Field]
+
+  - name: Customer Data Platform
+    description: Terminology for Sitecore CDP guest data and behavioral tracking
+    terms:
+      - term: Guest
+        definition: >-
+          The core customer entity in Sitecore CDP. A guest profile aggregates personal
+          information, behavioral data, order history, and custom data extensions.
+        aliases: [customer, contact, user]
+        relatedTerms: [Guest Reference, Order, Data Extension, Session]
+
+      - term: Guest Reference
+        definition: >-
+          The unique identifier for a guest profile in Sitecore CDP. Used as the primary
+          key across API operations. Format is a UUID string prefixed by context.
+        aliases: [guestRef, ref]
+        relatedTerms: [Guest]
+
+      - term: Data Extension
+        definition: >-
+          Custom key-value attributes attached to a guest profile in CDP. Allows
+          organizations to store domain-specific data beyond standard guest fields.
+        aliases: [custom attribute, profile extension]
+        relatedTerms: [Guest]
+
+      - term: Stream API
+        definition: >-
+          The Sitecore CDP API for real-time behavioral event ingestion. Captures
+          page views, product interactions, and purchase events.
+        aliases: [event stream, behavioral streaming]
+        relatedTerms: [Session, Guest, Behavioral Data]
+
+      - term: Session
+        definition: >-
+          A bounded interaction period of a guest with a digital touchpoint. Sessions
+          contain events and are associated with guest profiles.
+        relatedTerms: [Guest, Stream API]
+
+  - name: Personalization
+    description: Terminology for Sitecore Personalize decisioning and experimentation
+    terms:
+      - term: Flow Definition
+        definition: >-
+          A reusable configuration defining the logic, variants, and triggers for a
+          Sitecore Personalize experience. Flows can be web-based, full-stack, or API-triggered.
+        aliases: [experiment, experience, personalization flow]
+        relatedTerms: [Decision Model, Variant, Connection]
+
+      - term: Decision Model
+        definition: >-
+          A programmatic targeting model in Sitecore Personalize that determines which
+          offer or experience variant to show a given user based on rules and ML scoring.
+        aliases: [decisioning, targeting model]
+        relatedTerms: [Flow Definition, Variant]
+
+      - term: Connection
+        definition: >-
+          A configured integration with an external system used within Sitecore Personalize
+          flows and decision models. Defines auth credentials and endpoint configuration.
+        aliases: [integration, external connection]
+        relatedTerms: [Flow Definition, Decision Model]
+
+      - term: Variant
+        definition: >-
+          An alternative version of content or experience within a flow definition.
+          Sitecore Personalize serves variants based on decisioning rules or A/B allocation.
+        relatedTerms: [Flow Definition, Decision Model]
+
+  - name: Commerce
+    description: Terminology for Sitecore OrderCloud and Discover commerce capabilities
+    terms:
+      - term: Marketplace
+        definition: >-
+          The top-level commerce organization in OrderCloud. Contains all buyers, sellers,
+          suppliers, products, and order management entities.
+        aliases: [org, organization]
+        relatedTerms: [Buyer, Seller, Supplier, Catalog]
+
+      - term: Buyer
+        definition: >-
+          An organization in OrderCloud that purchases goods. Buyers contain users,
+          user groups, addresses, cost centers, and spending accounts.
+        relatedTerms: [Marketplace, Order, Catalog]
+
+      - term: Seller
+        definition: >-
+          The primary organization within an OrderCloud marketplace that manages
+          the product catalog, pricing, and fulfillment.
+        relatedTerms: [Marketplace, Buyer, Supplier]
+
+      - term: Catalog
+        definition: >-
+          A collection of products made available to specific buyers in OrderCloud.
+          Catalogs control product visibility and access permissions.
+        relatedTerms: [Product, Buyer, Price Schedule]
+
+      - term: Price Schedule
+        definition: >-
+          A pricing configuration in OrderCloud that defines how products are priced
+          for different buyer segments, including quantity breaks and min/max order amounts.
+        relatedTerms: [Product, Catalog, Buyer]
+
+      - term: Extended Properties
+        definition: >-
+          Custom key-value fields (xp) that can be added to nearly any OrderCloud resource.
+          Enables domain-specific data without schema changes.
+        aliases: [xp, custom properties]
+        relatedTerms: [Product, Order, Buyer]
+
+      - term: Discovery
+        definition: >-
+          Sitecore's product search and recommendation engine (formerly Sitecore Search).
+          Provides ranked search results, faceted filtering, and personalized recommendations.
+        aliases: [Sitecore Discover, Sitecore Search]
+        relatedTerms: [Search, Recommendations, Behavioral Events]
+
+  - name: Digital Asset Management
+    description: Terminology for Sitecore Content Hub digital asset management
+    terms:
+      - term: Entity
+        definition: >-
+          The core data object in Content Hub. Entities represent assets, metadata schemas,
+          jobs, users, and all other configurable objects in the system.
+        relatedTerms: [Asset, Taxonomy, Schema]
+
+      - term: Asset
+        definition: >-
+          A digital file (image, video, document, etc.) managed within Sitecore Content Hub.
+          Assets are a specialized type of entity with file-related metadata.
+        relatedTerms: [Entity, Upload, DAM]
+
+      - term: Selection
+        definition: >-
+          A named set of Content Hub entities used for bulk operations and export workflows.
+        relatedTerms: [Entity, Job]
+
+      - term: Stylelabs
+        definition: >-
+          The brand name of the platform underlying Sitecore Content Hub (previously
+          Stylelabs M.Content). The domain stylelabs.io is used for Content Hub tenant URLs.
+        relatedTerms: [Content Hub, Entity]
+
+apis:
+  - name: XM Cloud REST API
+    baseUrl: https://xmapps-api.sitecorecloud.io
+    authType: Bearer (OAuth 2.0)
+    version: v1
+
+  - name: CDP REST API
+    baseUrl: https://api-engage-us.sitecorecloud.io
+    authType: Basic Auth
+    version: v2.1
+
+  - name: Personalize REST API
+    baseUrl: https://api.boxever.com
+    authType: API Key
+    version: v1
+
+  - name: OrderCloud API
+    baseUrl: https://api.ordercloud.io/v1
+    authType: Bearer (OAuth 2.0)
+    version: v1
+
+  - name: Content Hub REST API
+    baseUrl: https://{tenant}.stylelabs.io/api
+    authType: Bearer (OAuth 2.0)
+    version: v1
+
+  - name: Discover API
+    baseUrl: https://{subdomain}.rfksrv.com
+    authType: API Key
+    version: v3

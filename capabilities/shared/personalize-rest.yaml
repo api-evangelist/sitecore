@@ -1,0 +1,164 @@
+naftiko: "1.0.0-alpha1"
+
+info:
+  label: "Sitecore Personalize REST API"
+  description: >-
+    REST API for managing experiments, decision models, flow definitions, connections,
+    and templates within Sitecore Personalize. Authenticated via API key.
+  tags:
+    - Sitecore
+    - Personalization
+    - Experiments
+    - Decisioning
+  created: "2026-05-02"
+  modified: "2026-05-02"
+
+binds:
+  - namespace: env
+    keys:
+      PERSONALIZE_API_KEY: PERSONALIZE_API_KEY
+
+capability:
+  consumes:
+    - type: http
+      namespace: personalize-rest
+      baseUri: https://api.boxever.com
+      description: "Sitecore Personalize REST API for decisioning and experiment management"
+      authentication:
+        type: apikey
+        key: api_key
+        value: "{{PERSONALIZE_API_KEY}}"
+        placement: query
+      resources:
+        - name: connections
+          path: /v1/connections
+          description: "Manage connections to external systems"
+          operations:
+            - name: list-connections
+              method: GET
+              description: "List all configured connections"
+              inputParameters:
+                - name: pageSize
+                  in: query
+                  type: integer
+                  required: false
+                  description: "Results per page"
+                - name: pageOffset
+                  in: query
+                  type: integer
+                  required: false
+                  description: "Page offset"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+            - name: create-connection
+              method: POST
+              description: "Create a new external system connection"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+              body:
+                type: json
+                data:
+                  name: "{{tools.name}}"
+                  type: "{{tools.type}}"
+
+        - name: flow-definitions
+          path: /v1/flowDefinitions
+          description: "Manage personalization flow definitions"
+          operations:
+            - name: list-flow-definitions
+              method: GET
+              description: "List all flow definitions"
+              inputParameters:
+                - name: pageSize
+                  in: query
+                  type: integer
+                  required: false
+                  description: "Results per page"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+            - name: create-flow-definition
+              method: POST
+              description: "Create a new flow definition"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+              body:
+                type: json
+                data:
+                  name: "{{tools.name}}"
+                  type: "{{tools.type}}"
+
+        - name: decision-models
+          path: /v1/decisionModels
+          description: "Manage decision models for targeting"
+          operations:
+            - name: list-decision-models
+              method: GET
+              description: "List all decision models"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+            - name: create-decision-model
+              method: POST
+              description: "Create a new decision model"
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+              body:
+                type: json
+                data:
+                  name: "{{tools.name}}"
+
+  exposes:
+    - type: rest
+      port: 8102
+      namespace: personalize-rest-api
+      resources:
+        - path: /v1/connections
+          name: connections
+          operations:
+            - method: GET
+              name: list-connections
+              call: "personalize-rest.list-connections"
+        - path: /v1/flows
+          name: flows
+          operations:
+            - method: GET
+              name: list-flow-definitions
+              call: "personalize-rest.list-flow-definitions"
+
+    - type: mcp
+      port: 9102
+      namespace: personalize-mcp
+      transport: http
+      tools:
+        - name: list-connections
+          description: "List personalization connections"
+          hints:
+            readOnly: true
+          call: "personalize-rest.list-connections"
+        - name: list-flow-definitions
+          description: "List personalization flow definitions"
+          hints:
+            readOnly: true
+          call: "personalize-rest.list-flow-definitions"
+        - name: list-decision-models
+          description: "List decision models"
+          hints:
+            readOnly: true
+          call: "personalize-rest.list-decision-models"

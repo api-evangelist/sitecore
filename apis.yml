@@ -255,9 +255,22 @@ common:
     url: json-schema/sitecore-cdp-guest-schema.json
   - type: JSONSchema
     url: json-schema/sitecore-ordercloud-order-schema.json
+  - type: SpectralRules
+    url: rules/sitecore-rules.yml
+  - type: Vocabulary
+    url: vocabulary/sitecore-vocabulary.yml
+  - type: Capabilities
+    url: capabilities/content-management.yaml
+  - type: Capabilities
+    url: capabilities/customer-data-personalization.yaml
+  - type: Capabilities
+    url: capabilities/commerce-discovery.yaml
 
-modified: '2026-03-21'
+modified: '2026-05-02'
 description: >-
   Sitecore is a global digital experience platform that combines content management,
   marketing automation, e-commerce, customer insight, and personalization to help
-  brands deliver personalized customer experiences.
+  brands deliver personalized customer experiences. Through its developer documentation
+  at doc.sitecore.com and api-docs.sitecore.com, Sitecore provides REST, GraphQL, and
+  event-streaming APIs spanning XM Cloud, Customer Data Platform, Personalize, OrderCloud,
+  Content Hub, and Discover.

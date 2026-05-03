@@ -1,0 +1,224 @@
+naftiko: "1.0.0-alpha1"
+
+info:
+  label: "Sitecore Commerce and Discovery"
+  description: >-
+    Unified capability combining Sitecore OrderCloud headless commerce with Sitecore
+    Discover search and recommendations. Enables commerce teams and developers to
+    manage products, catalogs, orders, buyers, and deliver personalized search and
+    discovery experiences from a single interface.
+  tags:
+    - Sitecore
+    - Commerce
+    - Order Management
+    - Product Discovery
+    - Search
+    - Recommendations
+    - B2B
+    - B2C
+  created: "2026-05-02"
+  modified: "2026-05-02"
+
+binds:
+  - namespace: env
+    keys:
+      ORDERCLOUD_ACCESS_TOKEN: ORDERCLOUD_ACCESS_TOKEN
+      DISCOVER_SUBDOMAIN: DISCOVER_SUBDOMAIN
+      DISCOVER_API_KEY: DISCOVER_API_KEY
+
+capability:
+  consumes:
+    - import: ordercloud
+      location: ./shared/ordercloud.yaml
+    - import: discover
+      location: ./shared/discover.yaml
+
+  exposes:
+    - type: rest
+      port: 8082
+      namespace: commerce-discovery-api
+      description: "Unified REST API for Sitecore OrderCloud commerce and Discover search."
+      resources:
+        - path: /v1/products
+          name: products
+          description: "Manage commerce products and search product catalog"
+          operations:
+            - method: GET
+              name: list-products
+              description: "List OrderCloud products"
+              call: "ordercloud.list-products"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: POST
+              name: create-product
+              description: "Create a new OrderCloud product"
+              call: "ordercloud.create-product"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/products/search
+          name: product-search
+          description: "Search products using Discover"
+          operations:
+            - method: POST
+              name: search-products
+              description: "Full-text search products via Sitecore Discover"
+              call: "discover.search-products"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/recommendations
+          name: recommendations
+          description: "Get product recommendations"
+          operations:
+            - method: POST
+              name: get-recommendations
+              description: "Get personalized product recommendations via Discover"
+              call: "discover.get-recommendations"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/orders
+          name: orders
+          description: "Manage commerce orders"
+          operations:
+            - method: GET
+              name: list-orders
+              description: "List OrderCloud orders"
+              call: "ordercloud.list-orders"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: POST
+              name: create-order
+              description: "Create a new order"
+              call: "ordercloud.create-order"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/buyers
+          name: buyers
+          description: "Manage buyer organizations"
+          operations:
+            - method: GET
+              name: list-buyers
+              description: "List buyer organizations"
+              call: "ordercloud.list-buyers"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/catalogs
+          name: catalogs
+          description: "Manage product catalogs"
+          operations:
+            - method: GET
+              name: list-catalogs
+              description: "List product catalogs"
+              call: "ordercloud.list-catalogs"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/events
+          name: events
+          description: "Track behavioral events for discovery personalization"
+          operations:
+            - method: POST
+              name: track-event
+              description: "Track a behavioral event via Discover"
+              call: "discover.track-event"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+    - type: mcp
+      port: 9092
+      namespace: commerce-discovery-mcp
+      transport: http
+      description: "MCP server for AI-assisted Sitecore commerce and product discovery."
+      tools:
+        - name: ordercloud-list-products
+          description: "List products in the OrderCloud marketplace"
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "ordercloud.list-products"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: ordercloud-create-product
+          description: "Create a new product in OrderCloud"
+          call: "ordercloud.create-product"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: ordercloud-list-orders
+          description: "List orders in OrderCloud"
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "ordercloud.list-orders"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: ordercloud-create-order
+          description: "Create a new order in OrderCloud"
+          call: "ordercloud.create-order"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: ordercloud-list-buyers
+          description: "List buyer organizations in OrderCloud"
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "ordercloud.list-buyers"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: ordercloud-list-catalogs
+          description: "List product catalogs in OrderCloud"
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "ordercloud.list-catalogs"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: discover-search-products
+          description: "Search products using Sitecore Discover full-text and faceted search"
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "discover.search-products"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: discover-get-recommendations
+          description: "Get personalized product recommendations from Sitecore Discover"
+          hints:
+            readOnly: true
+          call: "discover.get-recommendations"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: discover-track-event
+          description: "Track a behavioral event to improve Discover personalization"
+          call: "discover.track-event"
+          outputParameters:
+            - type: object
+              mapping: "$."

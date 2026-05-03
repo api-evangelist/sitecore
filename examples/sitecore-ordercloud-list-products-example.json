@@ -1,0 +1,46 @@
+{
+  "title": "List Products - Example Response",
+  "operation": "listProducts",
+  "api": "Sitecore OrderCloud API",
+  "request": {
+    "method": "GET",
+    "url": "https://api.ordercloud.io/v1/products?pageSize=20&page=1&search=running",
+    "headers": {
+      "Authorization": "Bearer <ordercloud-access-token>",
+      "Content-Type": "application/json"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "Meta": {
+        "Page": 1,
+        "PageSize": 20,
+        "TotalCount": 142,
+        "TotalPages": 8,
+        "ItemRange": [1, 20]
+      },
+      "Items": [
+        {
+          "ID": "running-shoe-air-max-001",
+          "Name": "Air Max Running Shoe",
+          "Description": "Lightweight performance running shoe with responsive cushioning",
+          "Active": true,
+          "Type": "Simple",
+          "DefaultPriceScheduleID": "standard-consumer-pricing",
+          "ShipFromAddressID": "warehouse-west",
+          "Inventory": {
+            "Enabled": true,
+            "VariantLevelTracking": true,
+            "OrderCanExceed": false
+          },
+          "xp": {
+            "Brand": "Air Max",
+            "Category": "Running",
+            "Gender": "Unisex"
+          }
+        }
+      ]
+    }
+  }
+}

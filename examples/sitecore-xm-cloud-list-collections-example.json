@@ -1,0 +1,46 @@
+{
+  "title": "List Site Collections - Example Response",
+  "operation": "listCollections",
+  "api": "Sitecore XM Cloud REST API",
+  "request": {
+    "method": "GET",
+    "url": "https://xmapps-api.sitecorecloud.io/api/v1/collections",
+    "headers": {
+      "Authorization": "Bearer <jwt-token>",
+      "Content-Type": "application/json"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": [
+      {
+        "id": "coll-01abc123-4def-5678-ghij-90klmnopqrst",
+        "name": "corporate-sites",
+        "displayName": "Corporate Sites",
+        "sortOrder": 1,
+        "sites": [
+          {
+            "id": "site-01abc123-4def-5678-ghij-90klmnopqrst",
+            "name": "main-website"
+          },
+          {
+            "id": "site-02abc123-4def-5678-ghij-90klmnopqrst",
+            "name": "careers-portal"
+          }
+        ]
+      },
+      {
+        "id": "coll-02abc123-4def-5678-ghij-90klmnopqrst",
+        "name": "regional-sites",
+        "displayName": "Regional Sites",
+        "sortOrder": 2,
+        "sites": [
+          {
+            "id": "site-03abc123-4def-5678-ghij-90klmnopqrst",
+            "name": "emea-site"
+          }
+        ]
+      }
+    ]
+  }
+}

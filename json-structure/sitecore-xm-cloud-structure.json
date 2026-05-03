@@ -1,0 +1,65 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Sitecore XM Cloud Structure",
+  "description": "JSON structure documentation for Sitecore XM Cloud REST API core resources",
+  "version": "v1",
+  "resources": {
+    "SiteCollection": {
+      "description": "A site collection that groups related sites within an XM Cloud tenant",
+      "fields": {
+        "id": { "type": "string", "description": "Unique identifier of the site collection" },
+        "name": { "type": "string", "description": "Name of the site collection" },
+        "displayName": { "type": "string", "description": "Human-readable display name" },
+        "sortOrder": { "type": "integer", "description": "Sort position relative to other collections" },
+        "sites": { "type": "array", "items": "SiteSummary", "description": "Sites within the collection" }
+      }
+    },
+    "Site": {
+      "description": "A website managed within an XM Cloud site collection",
+      "fields": {
+        "id": { "type": "string", "description": "Unique identifier of the site" },
+        "name": { "type": "string", "description": "Name of the site" },
+        "displayName": { "type": "string", "description": "Human-readable display name" },
+        "collectionId": { "type": "string", "description": "Parent collection identifier" },
+        "languages": { "type": "array", "items": "Language", "description": "Languages enabled for this site" },
+        "sortOrder": { "type": "integer", "description": "Sort position within the collection" },
+        "renderingHost": { "type": "string", "description": "URL of the rendering host" }
+      }
+    },
+    "Page": {
+      "description": "A content page within an XM Cloud site",
+      "fields": {
+        "id": { "type": "string", "description": "Unique Sitecore item identifier" },
+        "name": { "type": "string", "description": "Item name of the page" },
+        "displayName": { "type": "string", "description": "Display name shown in navigation" },
+        "path": { "type": "string", "description": "Sitecore item path" },
+        "language": { "type": "string", "description": "Language of the page content" },
+        "version": { "type": "integer", "description": "Version number of the content" },
+        "templateId": { "type": "string", "description": "Template identifier" },
+        "publishingState": { "type": "string", "enum": ["Draft", "Published", "NeedsPublishing"], "description": "Current publishing state" },
+        "url": { "type": "string", "description": "Relative URL of the page" }
+      }
+    },
+    "PublishingJob": {
+      "description": "A publishing job that pushes content from XM Cloud to Experience Edge",
+      "fields": {
+        "id": { "type": "string", "description": "Unique identifier of the publishing job" },
+        "status": { "type": "string", "enum": ["Queued", "Running", "Completed", "Failed", "Canceled", "Canceling"] },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Job creation timestamp" },
+        "startedAt": { "type": "string", "format": "date-time", "description": "Job start timestamp" },
+        "completedAt": { "type": "string", "format": "date-time", "description": "Job completion timestamp" },
+        "totalItems": { "type": "integer", "description": "Total items to process" },
+        "processedItems": { "type": "integer", "description": "Items processed so far" },
+        "failedItems": { "type": "integer", "description": "Items that failed to publish" }
+      }
+    },
+    "Language": {
+      "description": "A language configuration for a tenant or site",
+      "fields": {
+        "isoCode": { "type": "string", "description": "ISO language code (e.g., en, fr-FR)" },
+        "name": { "type": "string", "description": "Display name of the language" },
+        "nativeName": { "type": "string", "description": "Language name in native script" }
+      }
+    }
+  }
+}

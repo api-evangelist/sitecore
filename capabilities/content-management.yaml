@@ -1,0 +1,276 @@
+naftiko: "1.0.0-alpha1"
+
+info:
+  label: "Sitecore Content Management"
+  description: >-
+    Unified capability for managing the full content lifecycle across XM Cloud sites
+    and Content Hub digital assets. Enables developers and content operations teams
+    to automate site provisioning, page management, publishing workflows, and digital
+    asset operations from a single interface.
+  tags:
+    - Sitecore
+    - Content Management
+    - Headless CMS
+    - Digital Asset Management
+    - Publishing
+  created: "2026-05-02"
+  modified: "2026-05-02"
+
+binds:
+  - namespace: env
+    keys:
+      XM_CLOUD_API_TOKEN: XM_CLOUD_API_TOKEN
+      CONTENT_HUB_TOKEN: CONTENT_HUB_TOKEN
+      CONTENT_HUB_TENANT: CONTENT_HUB_TENANT
+
+capability:
+  consumes:
+    - import: xm-cloud-rest
+      location: ./shared/xm-cloud-rest.yaml
+    - import: content-hub-rest
+      location: ./shared/content-hub-rest.yaml
+
+  exposes:
+    - type: rest
+      port: 8080
+      namespace: content-management-api
+      description: "Unified REST API for Sitecore content management across XM Cloud and Content Hub."
+      resources:
+        - path: /v1/collections
+          name: collections
+          description: "Manage XM Cloud site collections"
+          operations:
+            - method: GET
+              name: list-collections
+              description: "List all site collections in XM Cloud tenant"
+              call: "xm-cloud-rest.list-collections"
+              outputParameters:
+                - type: array
+                  mapping: "$."
+            - method: POST
+              name: create-collection
+              description: "Create a new XM Cloud site collection"
+              call: "xm-cloud-rest.create-collection"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/collections/{id}
+          name: collection
+          description: "Manage a specific site collection"
+          operations:
+            - method: GET
+              name: get-collection
+              description: "Get details of a site collection"
+              call: "xm-cloud-rest.get-collection"
+              with:
+                collectionId: "rest.id"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/sites
+          name: sites
+          description: "Manage XM Cloud sites"
+          operations:
+            - method: GET
+              name: list-sites
+              description: "List all sites in the tenant"
+              call: "xm-cloud-rest.list-sites"
+              outputParameters:
+                - type: array
+                  mapping: "$."
+            - method: POST
+              name: create-site
+              description: "Create a new XM Cloud site"
+              call: "xm-cloud-rest.create-site"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/pages
+          name: pages
+          description: "Manage pages within XM Cloud sites"
+          operations:
+            - method: GET
+              name: list-pages
+              description: "List pages for a site"
+              call: "xm-cloud-rest.list-pages"
+              outputParameters:
+                - type: array
+                  mapping: "$."
+            - method: POST
+              name: create-page
+              description: "Create a new page in a site"
+              call: "xm-cloud-rest.create-page"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/publishing-jobs
+          name: publishing-jobs
+          description: "Manage content publishing workflows"
+          operations:
+            - method: GET
+              name: list-publishing-jobs
+              description: "List content publishing jobs"
+              call: "xm-cloud-rest.list-publishing-jobs"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: POST
+              name: create-publishing-job
+              description: "Create and queue a publishing job"
+              call: "xm-cloud-rest.create-publishing-job"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+        - path: /v1/assets
+          name: assets
+          description: "Manage Content Hub digital assets"
+          operations:
+            - method: GET
+              name: list-assets
+              description: "List Content Hub entities (assets)"
+              call: "content-hub-rest.list-entities"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+            - method: POST
+              name: search-assets
+              description: "Search Content Hub assets using query language"
+              call: "content-hub-rest.query-entities"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+    - type: mcp
+      port: 9090
+      namespace: content-management-mcp
+      transport: http
+      description: "MCP server for AI-assisted Sitecore content management."
+      tools:
+        - name: list-collections
+          description: "List all XM Cloud site collections"
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "xm-cloud-rest.list-collections"
+          outputParameters:
+            - type: array
+              mapping: "$."
+
+        - name: get-collection
+          description: "Get details of a specific site collection"
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "xm-cloud-rest.get-collection"
+          with:
+            collectionId: "tools.collectionId"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: create-collection
+          description: "Create a new XM Cloud site collection"
+          call: "xm-cloud-rest.create-collection"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: list-sites
+          description: "List all XM Cloud sites"
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "xm-cloud-rest.list-sites"
+          outputParameters:
+            - type: array
+              mapping: "$."
+
+        - name: get-site
+          description: "Get details of a specific XM Cloud site"
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "xm-cloud-rest.get-site"
+          with:
+            siteId: "tools.siteId"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: create-site
+          description: "Create a new XM Cloud site"
+          call: "xm-cloud-rest.create-site"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: list-pages
+          description: "List pages for an XM Cloud site"
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "xm-cloud-rest.list-pages"
+          outputParameters:
+            - type: array
+              mapping: "$."
+
+        - name: create-page
+          description: "Create a new page within an XM Cloud site"
+          call: "xm-cloud-rest.create-page"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: list-publishing-jobs
+          description: "List XM Cloud content publishing jobs"
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "xm-cloud-rest.list-publishing-jobs"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: create-publishing-job
+          description: "Create and queue a content publishing job to Experience Edge"
+          call: "xm-cloud-rest.create-publishing-job"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: list-assets
+          description: "List Content Hub digital assets"
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "content-hub-rest.list-entities"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: get-asset
+          description: "Get a specific Content Hub digital asset by ID"
+          hints:
+            readOnly: true
+            idempotent: true
+          call: "content-hub-rest.get-entity"
+          with:
+            id: "tools.id"
+          outputParameters:
+            - type: object
+              mapping: "$."
+
+        - name: search-assets
+          description: "Search Content Hub assets using query language"
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "content-hub-rest.query-entities"
+          outputParameters:
+            - type: object
+              mapping: "$."

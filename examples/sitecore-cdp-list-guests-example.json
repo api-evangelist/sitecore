@@ -1,0 +1,37 @@
+{
+  "title": "List Guests - Example Response",
+  "operation": "listGuests",
+  "api": "Sitecore CDP REST API",
+  "request": {
+    "method": "GET",
+    "url": "https://api-engage-us.sitecorecloud.io/v2.1/guests?email=jane.doe%40example.com&limit=10&offset=0",
+    "headers": {
+      "Authorization": "Basic <base64-encoded-client-key:api-token>"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "items": [
+        {
+          "ref": "guest-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+          "email": "jane.doe@example.com",
+          "firstName": "Jane",
+          "lastName": "Doe",
+          "phoneNumbers": ["+1-555-123-4567"],
+          "identifiers": [
+            {
+              "provider": "SFMC",
+              "id": "sfmc-contact-12345"
+            }
+          ],
+          "createdAt": "2025-01-15T09:30:00Z",
+          "modifiedAt": "2026-04-10T14:22:00Z"
+        }
+      ],
+      "totalCount": 1,
+      "offset": 0,
+      "limit": 10
+    }
+  }
+}

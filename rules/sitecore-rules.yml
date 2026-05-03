@@ -1,0 +1,130 @@
+extends: spectral:oas
+rules:
+  sitecore-operation-summary-title-case:
+    description: All operation summaries must use Title Case
+    severity: warn
+    given: "$.paths[*][*].summary"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^([A-Z][a-z]*(\\s[A-Za-z][a-z]*)*)(\\s[A-Za-z][a-z]*)*$"
+
+  sitecore-operation-id-camel-case:
+    description: Operation IDs must use camelCase
+    severity: error
+    given: "$.paths[*][*].operationId"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^[a-z][a-zA-Z0-9]*$"
+
+  sitecore-path-kebab-case:
+    description: Path segments must use kebab-case or camelCase (no underscores)
+    severity: warn
+    given: "$.paths"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^(\\/[a-zA-Z0-9{}\\-\\.]+)*$"
+
+  sitecore-bearer-or-basic-auth:
+    description: Security schemes must be Bearer token or Basic Auth (Sitecore standard)
+    severity: error
+    given: "$.components.securitySchemes[*]"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          oneOf:
+            - properties:
+                type:
+                  const: http
+                scheme:
+                  enum: [bearer, basic]
+            - properties:
+                type:
+                  const: apiKey
+
+  sitecore-response-200-has-schema:
+    description: All 200 responses must define a schema
+    severity: warn
+    given: "$.paths[*][*].responses['200'].content['application/json']"
+    then:
+      field: schema
+      function: truthy
+
+  sitecore-400-uses-problem-details:
+    description: 400 error responses should reference a ProblemDetails or error schema
+    severity: info
+    given: "$.paths[*][*].responses['400']"
+    then:
+      function: truthy
+
+  sitecore-tags-must-match-defined:
+    description: Operation tags must correspond to tags defined in the root tags array
+    severity: warn
+    given: "$.paths[*][*].tags[*]"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^[A-Z][a-zA-Z\\s]*$"
+
+  sitecore-versioned-path:
+    description: API paths should include a version prefix (/v1/, /v2.1/, /authoring/)
+    severity: info
+    given: "$.paths"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^\\/(?:v[0-9]+(\\.[0-9]+)?|api\\/v[0-9]+|authoring)\\/.*$"
+
+  sitecore-no-trailing-slash:
+    description: Paths must not end with a trailing slash
+    severity: error
+    given: "$.paths"
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: "\\/$"
+
+  sitecore-post-has-request-body:
+    description: POST operations that create or update resources must have a request body
+    severity: warn
+    given: "$.paths[*].post"
+    then:
+      field: requestBody
+      function: truthy
+
+  sitecore-delete-returns-204:
+    description: DELETE operations should return 204 No Content on success
+    severity: info
+    given: "$.paths[*].delete.responses"
+    then:
+      field: "204"
+      function: truthy
+
+  sitecore-list-operations-paginated:
+    description: List operations should support pagination parameters
+    severity: info
+    given: "$.paths[*].get"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+
+  sitecore-info-contact-defined:
+    description: The info section must include a contact object
+    severity: warn
+    given: "$.info"
+    then:
+      field: contact
+      function: truthy
+
+  sitecore-servers-defined:
+    description: At least one server must be defined
+    severity: error
+    given: "$"
+    then:
+      field: servers
+      function: truthy
