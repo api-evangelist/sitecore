@@ -1,5 +1,6 @@
 specification: FinOps Framework
 specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
 alignedWith:
   framework: FinOps Foundation Framework
   frameworkUrl: https://www.finops.org/framework/
@@ -8,211 +9,72 @@ alignedWith:
   dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
 provider: sitecore
 providerId: sitecore
-publisherName: sitecore
-serviceCategory: API
+publisherName: Sitecore Corporation A/S
+serviceCategory: Digital Experience Platform
 created: '2026-05-04'
-modified: '2026-05-04'
+modified: '2026-05-05'
+reconciled: false
 tags:
+  - Content Management
+  - Digital Experience
+  - DXP
   - FinOps
-  - Cost Management
   - FOCUS
-description: FinOps framework definition for the sitecore API surface. Provides a FOCUS-aligned mapping
-  for cost allocation, usage measurement, and unit-economics reporting across the provider's APIs.
-principles:
-  - name: Visibility
-    description: Make API consumption costs visible to engineering, product, and finance teams in near
-      real-time.
-  - name: Allocation
-    description: Tag every chargeable API call with the consuming team, environment, application, and
-      feature so cost can be allocated.
-  - name: Optimization
-    description: Continuously evaluate request patterns, caching, batching, and tier selection to reduce
-      cost per useful unit of work.
-  - name: Accountability
-    description: Establish budget owners and chargeback or showback flows for each consuming team.
-domains:
-  - name: Understand Usage and Cost
-    capabilities:
-      - Data Ingestion
-      - Allocation
-      - Reporting and Analytics
-      - Anomaly Management
-  - name: Quantify Business Value
-    capabilities:
-      - Planning and Estimating
-      - Forecasting
-      - Budgeting
-      - Benchmarking
-      - Unit Economics
-  - name: Optimize Usage and Cost
-    capabilities:
-      - Architecting for Cloud
-      - Rate Optimization
-      - Workload Optimization
-      - Cloud Sustainability
-      - Licensing and SaaS
-  - name: Manage the FinOps Practice
-    capabilities:
-      - FinOps Practice Operations
-      - FinOps Education and Enablement
-      - Invoicing and Chargeback
-      - Onboarding Workloads
-      - Intersecting Disciplines
+description: 'FOCUS-aligned FinOps placeholder for Sitecore: contact-sales-only pricing means meters
+  and unit prices are defined per signed agreement rather than from a public catalog.'
+sources:
+  - https://www.sitecore.com/products
+notes: |
+  No public pricing or invoice-line catalog is published. Meters below are stubs based on the
+  product portfolio; reconcile against the customer's signed Sitecore order form for authoritative
+  billable units.
 billingModel:
-  pricingCategory: Usage-Based
-  billingFrequency: Monthly
+  pricingCategory: Contact Sales
+  billingFrequency: Annual
   billingCurrency: USD
   chargeCategories:
-    - Usage
     - Purchase
-    - Tax
-    - Credit
-    - Adjustment
-  chargeFrequency: Recurring
+    - Usage
 focusColumns:
-  ServiceName: sitecore
-  ServiceCategory: Developer Tools / API
-  ProviderName: sitecore
-  PublisherName: sitecore
-  InvoiceIssuerName: sitecore
-  PricingCategory: Usage-Based
-  PricingUnit: request
+  ServiceName: Sitecore
+  ServiceCategory: Digital Experience Platform
+  ProviderName: Sitecore
+  PublisherName: Sitecore Corporation A/S
+  InvoiceIssuerName: Sitecore Corporation A/S
   BillingCurrency: USD
-  ChargeCategory: Usage
 meters:
-  - name: api_requests
-    description: Count of billable API requests
-    unit: request
+  - name: contracted_subscription
+    description: Annual contracted subscription fee per Sitecore product on the order form.
+    unit: varies
     aggregation: sum
     dimensions:
-      - api
-      - endpoint
-      - tier
+      - product
+  - name: managed_cloud_capacity
+    description: Sitecore Managed Cloud capacity (environments, regions) negotiated on the order form.
+    unit: varies
+    aggregation: max
+    dimensions:
+      - product
       - region
-      - consumer
-  - name: data_egress
-    description: Bytes returned over the network in API responses
-    unit: GB
+  - name: ordercloud_transactions
+    description: OrderCloud commerce transactions; negotiated as contract volume.
+    unit: transaction
     aggregation: sum
     dimensions:
-      - api
-      - region
-      - consumer
-  - name: compute_seconds
-    description: Server-side compute consumed by the request, where applicable
-    unit: second
-    aggregation: sum
-    dimensions:
-      - api
-      - endpoint
-      - tier
-apis:
-  - name: Sitecore XM Cloud GraphQL Delivery API
-    baseURL: https://edge.sitecorecloud.io/api/graphql
-    tags:
-      - Content Delivery
-      - Digital Experience Platform
-      - GraphQL
-      - Headless CMS
-    serviceName: Sitecore XM Cloud GraphQL Delivery API
-    serviceCategory: API
-  - name: Sitecore XM Cloud Authoring and Management GraphQL API
-    baseURL: https://edge.sitecorecloud.io/api/graphql
-    tags:
-      - Content Management
-      - Digital Experience Platform
-      - GraphQL
-      - Headless CMS
-    serviceName: Sitecore XM Cloud Authoring and Management GraphQL API
-    serviceCategory: API
-  - name: Sitecore XM Cloud REST API
-    baseURL: https://xmapps-api.sitecorecloud.io
-    tags:
-      - Collections
-      - Content Management
-      - Digital Experience Platform
-      - REST
-      - Sites
-    serviceName: Sitecore XM Cloud REST API
-    serviceCategory: API
-  - name: Sitecore CDP REST API
-    baseURL: https://api-engage-us.sitecorecloud.io
-    tags:
-      - Customer Data Platform
-      - Guest Data
-      - Personalization
-      - REST
-    serviceName: Sitecore CDP REST API
-    serviceCategory: API
-  - name: Sitecore CDP Stream API
-    baseURL: https://api-engage-us.sitecorecloud.io
-    tags:
-      - Behavioral Data
-      - Customer Data Platform
-      - Event Tracking
-      - Real-Time
-    serviceName: Sitecore CDP Stream API
-    serviceCategory: API
-  - name: Sitecore CDP Batch API
-    baseURL: https://api-engage-us.sitecorecloud.io
-    tags:
-      - Batch Processing
-      - Customer Data Platform
-      - Data Import
-      - Guest Data
-    serviceName: Sitecore CDP Batch API
-    serviceCategory: API
-  - name: Sitecore Personalize REST API
-    baseURL: https://api.boxever.com
-    tags:
-      - Decisioning
-      - Experiments
-      - Personalization
-      - REST
-    serviceName: Sitecore Personalize REST API
-    serviceCategory: API
-  - name: Sitecore Content Hub REST API
-    baseURL: https://your-tenant.stylelabs.io/api
-    tags:
-      - Content Hub
-      - Digital Asset Management
-      - Media Management
-      - REST
-    serviceName: Sitecore Content Hub REST API
-    serviceCategory: API
-  - name: Sitecore Content Hub Admin API
-    baseURL: https://your-tenant.stylelabs.io/api/graphql/admin/v1
-    tags:
-      - Administration
-      - Content Hub
-      - Digital Asset Management
-      - GraphQL
-    serviceName: Sitecore Content Hub Admin API
-    serviceCategory: API
-  - name: Sitecore OrderCloud API
-    baseURL: https://api.ordercloud.io/v1
-    tags:
-      - B2B
-      - B2C
-      - Commerce
-      - Order Management
-      - REST
-    serviceName: Sitecore OrderCloud API
-    serviceCategory: API
-  - name: Sitecore Discover API
-    baseURL: https://api.rfksrv.com
-    tags:
-      - Commerce
-      - Product Discovery
-      - Recommendations
-      - Search
-    serviceName: Sitecore Discover API
-    serviceCategory: API
-unitEconomics:
-  - name: Cost per 1K Requests
-    metric: billed_cost / (api_requests / 1000)
-    target: TBD
-  - name: Cost per Active Consumer
-    metric: billed_cost / active_consumers
-    target: TBD
-maintainers: []
+      - environment
+principles:
+  - name: Visibility
+    description: Pull usage telemetry from each Sitecore product's admin (XM Cloud Portal, OrderCloud
+      Portal, CDP / Personalize dashboards) since there is no unified consumption export.
+  - name: Allocation
+    description: Allocate Sitecore spend per product / per brand, matching the order form line items
+      to the consuming digital property or business unit.
+  - name: Optimization
+    description: Optimization is contractual rather than dynamic — negotiate environment counts,
+      managed-cloud regions, and AI agent usage at renewal based on observed activity.
+  - name: Accountability
+    description: Digital experience program owner reconciles monthly product telemetry against the
+      annual contract and signs off on renewal scope.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
