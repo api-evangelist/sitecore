@@ -249,7 +249,7 @@ apis:
       event tracking that feeds back into the discovery algorithms.
 
 common:
-  - type: JSON-LD
+  - type: JSONLD
     url: json-ld/sitecore-context.jsonld
   - type: JSONSchema
     url: json-schema/sitecore-cdp-guest-schema.json
