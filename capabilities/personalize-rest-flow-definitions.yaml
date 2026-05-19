@@ -1,0 +1,183 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Sitecore Personalize REST API — Flow Definitions
+  description: 'Sitecore Personalize REST API — Flow Definitions. 4 operations. Lead operation: List flow definitions. Self-contained
+    Naftiko capability covering one Sitecore business surface.'
+  tags:
+  - Sitecore
+  - Flow Definitions
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SITECORE_API_KEY: SITECORE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: personalize-rest-flow-definitions
+    baseUri: https://api.boxever.com
+    description: Sitecore Personalize REST API — Flow Definitions business capability. Self-contained, no shared references.
+    resources:
+    - name: v1-flow-definitions
+      path: /v1/flow-definitions
+      operations:
+      - name: listflowdefinitions
+        method: GET
+        description: List flow definitions
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: type
+          in: query
+          type: string
+          description: Filter flow definitions by type
+      - name: createflowdefinition
+        method: POST
+        description: Create a flow definition
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: v1-flow-definitions-id
+      path: /v1/flow-definitions/{id}
+      operations:
+      - name: getflowdefinition
+        method: GET
+        description: Get a flow definition
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: updateflowdefinition
+        method: PUT
+        description: Update a flow definition
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: apikey
+      key: Authorization
+      value: '{{env.SITECORE_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: personalize-rest-flow-definitions-rest
+    port: 8080
+    description: REST adapter for Sitecore Personalize REST API — Flow Definitions. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/v1/flow-definitions
+      name: v1-flow-definitions
+      description: REST surface for v1-flow-definitions.
+      operations:
+      - method: GET
+        name: listflowdefinitions
+        description: List flow definitions
+        call: personalize-rest-flow-definitions.listflowdefinitions
+        with:
+          type: rest.type
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createflowdefinition
+        description: Create a flow definition
+        call: personalize-rest-flow-definitions.createflowdefinition
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v1/flow-definitions/{id}
+      name: v1-flow-definitions-id
+      description: REST surface for v1-flow-definitions-id.
+      operations:
+      - method: GET
+        name: getflowdefinition
+        description: Get a flow definition
+        call: personalize-rest-flow-definitions.getflowdefinition
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updateflowdefinition
+        description: Update a flow definition
+        call: personalize-rest-flow-definitions.updateflowdefinition
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: personalize-rest-flow-definitions-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Sitecore Personalize REST API — Flow Definitions. One tool per consumed operation, routed
+      inline through this capability's consumes block.
+    tools:
+    - name: list-flow-definitions
+      description: List flow definitions
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: personalize-rest-flow-definitions.listflowdefinitions
+      with:
+        type: tools.type
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-flow-definition
+      description: Create a flow definition
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: personalize-rest-flow-definitions.createflowdefinition
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-flow-definition
+      description: Get a flow definition
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: personalize-rest-flow-definitions.getflowdefinition
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-flow-definition
+      description: Update a flow definition
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: personalize-rest-flow-definitions.updateflowdefinition
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

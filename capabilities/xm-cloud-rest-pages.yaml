@@ -1,0 +1,162 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Sitecore XM Cloud REST API — Pages
+  description: 'Sitecore XM Cloud REST API — Pages. 4 operations. Lead operation: List pages. Self-contained Naftiko capability
+    covering one Sitecore business surface.'
+  tags:
+  - Sitecore
+  - Pages
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SITECORE_API_KEY: SITECORE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: xm-cloud-rest-pages
+    baseUri: https://xmapps-api.sitecorecloud.io
+    description: Sitecore XM Cloud REST API — Pages business capability. Self-contained, no shared references.
+    resources:
+    - name: api-v1-pages
+      path: /api/v1/pages
+      operations:
+      - name: listpages
+        method: GET
+        description: List pages
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createpage
+        method: POST
+        description: Create a page
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: api-v1-pages-pageId
+      path: /api/v1/pages/{pageId}
+      operations:
+      - name: getpage
+        method: GET
+        description: Get a page
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: deletepage
+        method: DELETE
+        description: Delete a page
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.SITECORE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: xm-cloud-rest-pages-rest
+    port: 8080
+    description: REST adapter for Sitecore XM Cloud REST API — Pages. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/api/v1/pages
+      name: api-v1-pages
+      description: REST surface for api-v1-pages.
+      operations:
+      - method: GET
+        name: listpages
+        description: List pages
+        call: xm-cloud-rest-pages.listpages
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createpage
+        description: Create a page
+        call: xm-cloud-rest-pages.createpage
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/api/v1/pages/{pageid}
+      name: api-v1-pages-pageid
+      description: REST surface for api-v1-pages-pageId.
+      operations:
+      - method: GET
+        name: getpage
+        description: Get a page
+        call: xm-cloud-rest-pages.getpage
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deletepage
+        description: Delete a page
+        call: xm-cloud-rest-pages.deletepage
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: xm-cloud-rest-pages-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Sitecore XM Cloud REST API — Pages. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: list-pages
+      description: List pages
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: xm-cloud-rest-pages.listpages
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-page
+      description: Create a page
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: xm-cloud-rest-pages.createpage
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-page
+      description: Get a page
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: xm-cloud-rest-pages.getpage
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-page
+      description: Delete a page
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: xm-cloud-rest-pages.deletepage
+      outputParameters:
+      - type: object
+        mapping: $.

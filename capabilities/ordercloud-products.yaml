@@ -1,0 +1,247 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Sitecore OrderCloud API — Products
+  description: 'Sitecore OrderCloud API — Products. 6 operations. Lead operation: List products. Self-contained Naftiko capability
+    covering one Sitecore business surface.'
+  tags:
+  - Sitecore
+  - Products
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SITECORE_API_KEY: SITECORE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: ordercloud-products
+    baseUri: https://api.ordercloud.io/v1
+    description: Sitecore OrderCloud API — Products business capability. Self-contained, no shared references.
+    resources:
+    - name: products
+      path: /products
+      operations:
+      - name: listproducts
+        method: GET
+        description: List products
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: catalogID
+          in: query
+          type: string
+          description: Filter products by catalog identifier
+        - name: categoryID
+          in: query
+          type: string
+          description: Filter products by category identifier
+      - name: createproduct
+        method: POST
+        description: Create a product
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: products-productID
+      path: /products/{productID}
+      operations:
+      - name: getproduct
+        method: GET
+        description: Get a product
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: updateproduct
+        method: PUT
+        description: Update a product
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: patchproduct
+        method: PATCH
+        description: Partially update a product
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deleteproduct
+        method: DELETE
+        description: Delete a product
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.SITECORE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: ordercloud-products-rest
+    port: 8080
+    description: REST adapter for Sitecore OrderCloud API — Products. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/products
+      name: products
+      description: REST surface for products.
+      operations:
+      - method: GET
+        name: listproducts
+        description: List products
+        call: ordercloud-products.listproducts
+        with:
+          catalogID: rest.catalogID
+          categoryID: rest.categoryID
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createproduct
+        description: Create a product
+        call: ordercloud-products.createproduct
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/products/{productid}
+      name: products-productid
+      description: REST surface for products-productID.
+      operations:
+      - method: GET
+        name: getproduct
+        description: Get a product
+        call: ordercloud-products.getproduct
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updateproduct
+        description: Update a product
+        call: ordercloud-products.updateproduct
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PATCH
+        name: patchproduct
+        description: Partially update a product
+        call: ordercloud-products.patchproduct
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deleteproduct
+        description: Delete a product
+        call: ordercloud-products.deleteproduct
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: ordercloud-products-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Sitecore OrderCloud API — Products. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: list-products
+      description: List products
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: ordercloud-products.listproducts
+      with:
+        catalogID: tools.catalogID
+        categoryID: tools.categoryID
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-product
+      description: Create a product
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: ordercloud-products.createproduct
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-product
+      description: Get a product
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: ordercloud-products.getproduct
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-product
+      description: Update a product
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: ordercloud-products.updateproduct
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: partially-update-product
+      description: Partially update a product
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: ordercloud-products.patchproduct
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-product
+      description: Delete a product
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: ordercloud-products.deleteproduct
+      outputParameters:
+      - type: object
+        mapping: $.

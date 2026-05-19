@@ -1,0 +1,109 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Sitecore Content Hub REST API — Audit
+  description: 'Sitecore Content Hub REST API — Audit. 1 operations. Lead operation: List audit log entries. Self-contained
+    Naftiko capability covering one Sitecore business surface.'
+  tags:
+  - Sitecore
+  - Audit
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SITECORE_API_KEY: SITECORE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: content-hub-rest-audit
+    baseUri: https://{tenant}.stylelabs.io/api
+    description: Sitecore Content Hub REST API — Audit business capability. Self-contained, no shared references.
+    resources:
+    - name: audit
+      path: /audit
+      operations:
+      - name: listauditentries
+        method: GET
+        description: List audit log entries
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: entityId
+          in: query
+          type: integer
+          description: Filter audit entries by entity identifier
+        - name: userId
+          in: query
+          type: string
+          description: Filter audit entries by the user who made the change
+        - name: from
+          in: query
+          type: string
+          description: Start date for audit entry filtering (ISO 8601)
+        - name: to
+          in: query
+          type: string
+          description: End date for audit entry filtering (ISO 8601)
+        - name: skip
+          in: query
+          type: integer
+          description: Number of entries to skip for pagination
+        - name: take
+          in: query
+          type: integer
+          description: Maximum number of entries to return
+    authentication:
+      type: bearer
+      token: '{{env.SITECORE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: content-hub-rest-audit-rest
+    port: 8080
+    description: REST adapter for Sitecore Content Hub REST API — Audit. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/audit
+      name: audit
+      description: REST surface for audit.
+      operations:
+      - method: GET
+        name: listauditentries
+        description: List audit log entries
+        call: content-hub-rest-audit.listauditentries
+        with:
+          entityId: rest.entityId
+          userId: rest.userId
+          from: rest.from
+          to: rest.to
+          skip: rest.skip
+          take: rest.take
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: content-hub-rest-audit-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Sitecore Content Hub REST API — Audit. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: list-audit-log-entries
+      description: List audit log entries
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: content-hub-rest-audit.listauditentries
+      with:
+        entityId: tools.entityId
+        userId: tools.userId
+        from: tools.from
+        to: tools.to
+        skip: tools.skip
+        take: tools.take
+      outputParameters:
+      - type: object
+        mapping: $.

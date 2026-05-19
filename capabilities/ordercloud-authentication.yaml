@@ -1,0 +1,80 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Sitecore OrderCloud API — Authentication
+  description: 'Sitecore OrderCloud API — Authentication. 1 operations. Lead operation: Get an access token. Self-contained
+    Naftiko capability covering one Sitecore business surface.'
+  tags:
+  - Sitecore
+  - Authentication
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SITECORE_API_KEY: SITECORE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: ordercloud-authentication
+    baseUri: https://api.ordercloud.io/v1
+    description: Sitecore OrderCloud API — Authentication business capability. Self-contained, no shared references.
+    resources:
+    - name: oauth-token
+      path: /oauth/token
+      operations:
+      - name: getaccesstoken
+        method: POST
+        description: Get an access token
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SITECORE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: ordercloud-authentication-rest
+    port: 8080
+    description: REST adapter for Sitecore OrderCloud API — Authentication. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/oauth/token
+      name: oauth-token
+      description: REST surface for oauth-token.
+      operations:
+      - method: POST
+        name: getaccesstoken
+        description: Get an access token
+        call: ordercloud-authentication.getaccesstoken
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: ordercloud-authentication-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Sitecore OrderCloud API — Authentication. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: get-access-token
+      description: Get an access token
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: ordercloud-authentication.getaccesstoken
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

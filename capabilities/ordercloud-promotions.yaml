@@ -1,0 +1,105 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Sitecore OrderCloud API — Promotions
+  description: 'Sitecore OrderCloud API — Promotions. 2 operations. Lead operation: List promotions. Self-contained Naftiko
+    capability covering one Sitecore business surface.'
+  tags:
+  - Sitecore
+  - Promotions
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SITECORE_API_KEY: SITECORE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: ordercloud-promotions
+    baseUri: https://api.ordercloud.io/v1
+    description: Sitecore OrderCloud API — Promotions business capability. Self-contained, no shared references.
+    resources:
+    - name: promotions
+      path: /promotions
+      operations:
+      - name: listpromotions
+        method: GET
+        description: List promotions
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createpromotion
+        method: POST
+        description: Create a promotion
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SITECORE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: ordercloud-promotions-rest
+    port: 8080
+    description: REST adapter for Sitecore OrderCloud API — Promotions. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/promotions
+      name: promotions
+      description: REST surface for promotions.
+      operations:
+      - method: GET
+        name: listpromotions
+        description: List promotions
+        call: ordercloud-promotions.listpromotions
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createpromotion
+        description: Create a promotion
+        call: ordercloud-promotions.createpromotion
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: ordercloud-promotions-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Sitecore OrderCloud API — Promotions. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: list-promotions
+      description: List promotions
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: ordercloud-promotions.listpromotions
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-promotion
+      description: Create a promotion
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: ordercloud-promotions.createpromotion
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,254 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Sitecore CDP REST API — Guests
+  description: 'Sitecore CDP REST API — Guests. 6 operations. Lead operation: List guests. Self-contained Naftiko capability
+    covering one Sitecore business surface.'
+  tags:
+  - Sitecore
+  - Guests
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SITECORE_API_KEY: SITECORE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: cdp-rest-guests
+    baseUri: https://api-engage-eu.sitecorecloud.io
+    description: Sitecore CDP REST API — Guests business capability. Self-contained, no shared references.
+    resources:
+    - name: v2.1-guests
+      path: /v2.1/guests
+      operations:
+      - name: listguests
+        method: GET
+        description: List guests
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: email
+          in: query
+          type: string
+          description: Filter guests by email address
+        - name: limit
+          in: query
+          type: integer
+          description: Maximum number of guests to return (max 100)
+        - name: offset
+          in: query
+          type: integer
+          description: Number of records to skip for pagination
+      - name: createguest
+        method: POST
+        description: Create a guest
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: v2.1-guests-guestRef
+      path: /v2.1/guests/{guestRef}
+      operations:
+      - name: getguest
+        method: GET
+        description: Get a guest
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: updateguest
+        method: PUT
+        description: Update a guest (full)
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: patchguest
+        method: PATCH
+        description: Update a guest (partial)
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deleteguest
+        method: DELETE
+        description: Delete a guest
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: basic
+      username: '{{env.SITECORE_USER}}'
+      password: '{{env.SITECORE_PASS}}'
+  exposes:
+  - type: rest
+    namespace: cdp-rest-guests-rest
+    port: 8080
+    description: REST adapter for Sitecore CDP REST API — Guests. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/v2-1/guests
+      name: v2-1-guests
+      description: REST surface for v2.1-guests.
+      operations:
+      - method: GET
+        name: listguests
+        description: List guests
+        call: cdp-rest-guests.listguests
+        with:
+          email: rest.email
+          limit: rest.limit
+          offset: rest.offset
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createguest
+        description: Create a guest
+        call: cdp-rest-guests.createguest
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v2-1/guests/{guestref}
+      name: v2-1-guests-guestref
+      description: REST surface for v2.1-guests-guestRef.
+      operations:
+      - method: GET
+        name: getguest
+        description: Get a guest
+        call: cdp-rest-guests.getguest
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updateguest
+        description: Update a guest (full)
+        call: cdp-rest-guests.updateguest
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PATCH
+        name: patchguest
+        description: Update a guest (partial)
+        call: cdp-rest-guests.patchguest
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deleteguest
+        description: Delete a guest
+        call: cdp-rest-guests.deleteguest
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: cdp-rest-guests-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Sitecore CDP REST API — Guests. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: list-guests
+      description: List guests
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: cdp-rest-guests.listguests
+      with:
+        email: tools.email
+        limit: tools.limit
+        offset: tools.offset
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-guest
+      description: Create a guest
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: cdp-rest-guests.createguest
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-guest
+      description: Get a guest
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: cdp-rest-guests.getguest
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-guest-full
+      description: Update a guest (full)
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: cdp-rest-guests.updateguest
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-guest-partial
+      description: Update a guest (partial)
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: cdp-rest-guests.patchguest
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-guest
+      description: Delete a guest
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: cdp-rest-guests.deleteguest
+      outputParameters:
+      - type: object
+        mapping: $.

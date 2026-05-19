@@ -1,0 +1,80 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Sitecore Content Hub REST API — Download Orders
+  description: 'Sitecore Content Hub REST API — Download Orders. 1 operations. Lead operation: Create a download order. Self-contained
+    Naftiko capability covering one Sitecore business surface.'
+  tags:
+  - Sitecore
+  - Download Orders
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SITECORE_API_KEY: SITECORE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: content-hub-rest-download-orders
+    baseUri: https://{tenant}.stylelabs.io/api
+    description: Sitecore Content Hub REST API — Download Orders business capability. Self-contained, no shared references.
+    resources:
+    - name: downloadorders
+      path: /downloadorders
+      operations:
+      - name: createdownloadorder
+        method: POST
+        description: Create a download order
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SITECORE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: content-hub-rest-download-orders-rest
+    port: 8080
+    description: REST adapter for Sitecore Content Hub REST API — Download Orders. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/downloadorders
+      name: downloadorders
+      description: REST surface for downloadorders.
+      operations:
+      - method: POST
+        name: createdownloadorder
+        description: Create a download order
+        call: content-hub-rest-download-orders.createdownloadorder
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: content-hub-rest-download-orders-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Sitecore Content Hub REST API — Download Orders. One tool per consumed operation, routed
+      inline through this capability's consumes block.
+    tools:
+    - name: create-download-order
+      description: Create a download order
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: content-hub-rest-download-orders.createdownloadorder
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

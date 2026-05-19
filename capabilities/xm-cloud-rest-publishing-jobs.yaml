@@ -1,0 +1,216 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Sitecore XM Cloud REST API — Publishing Jobs
+  description: 'Sitecore XM Cloud REST API — Publishing Jobs. 5 operations. Lead operation: List publishing jobs. Self-contained
+    Naftiko capability covering one Sitecore business surface.'
+  tags:
+  - Sitecore
+  - Publishing Jobs
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SITECORE_API_KEY: SITECORE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: xm-cloud-rest-publishing-jobs
+    baseUri: https://xmapps-api.sitecorecloud.io
+    description: Sitecore XM Cloud REST API — Publishing Jobs business capability. Self-contained, no shared references.
+    resources:
+    - name: authoring-publishing-v1-jobs
+      path: /authoring/publishing/v1/jobs
+      operations:
+      - name: listpublishingjobs
+        method: GET
+        description: List publishing jobs
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: status
+          in: query
+          type: string
+          description: Filter jobs by status
+        - name: pageSize
+          in: query
+          type: integer
+          description: Number of jobs to return per page
+      - name: createpublishingjob
+        method: POST
+        description: Create a publishing job
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: authoring-publishing-v1-jobs-summary
+      path: /authoring/publishing/v1/jobs/summary
+      operations:
+      - name: getpublishingjobsummary
+        method: GET
+        description: Get publishing job summary
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: authoring-publishing-v1-jobs-id
+      path: /authoring/publishing/v1/jobs/{id}
+      operations:
+      - name: getpublishingjob
+        method: GET
+        description: Get a publishing job
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: authoring-publishing-v1-jobs-jobId-cancel
+      path: /authoring/publishing/v1/jobs/{jobId}/cancel
+      operations:
+      - name: cancelpublishingjob
+        method: POST
+        description: Cancel a publishing job
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.SITECORE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: xm-cloud-rest-publishing-jobs-rest
+    port: 8080
+    description: REST adapter for Sitecore XM Cloud REST API — Publishing Jobs. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/authoring/publishing/v1/jobs
+      name: authoring-publishing-v1-jobs
+      description: REST surface for authoring-publishing-v1-jobs.
+      operations:
+      - method: GET
+        name: listpublishingjobs
+        description: List publishing jobs
+        call: xm-cloud-rest-publishing-jobs.listpublishingjobs
+        with:
+          status: rest.status
+          pageSize: rest.pageSize
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createpublishingjob
+        description: Create a publishing job
+        call: xm-cloud-rest-publishing-jobs.createpublishingjob
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/authoring/publishing/v1/jobs/summary
+      name: authoring-publishing-v1-jobs-summary
+      description: REST surface for authoring-publishing-v1-jobs-summary.
+      operations:
+      - method: GET
+        name: getpublishingjobsummary
+        description: Get publishing job summary
+        call: xm-cloud-rest-publishing-jobs.getpublishingjobsummary
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/authoring/publishing/v1/jobs/{id}
+      name: authoring-publishing-v1-jobs-id
+      description: REST surface for authoring-publishing-v1-jobs-id.
+      operations:
+      - method: GET
+        name: getpublishingjob
+        description: Get a publishing job
+        call: xm-cloud-rest-publishing-jobs.getpublishingjob
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/authoring/publishing/v1/jobs/{jobid}/cancel
+      name: authoring-publishing-v1-jobs-jobid-cancel
+      description: REST surface for authoring-publishing-v1-jobs-jobId-cancel.
+      operations:
+      - method: POST
+        name: cancelpublishingjob
+        description: Cancel a publishing job
+        call: xm-cloud-rest-publishing-jobs.cancelpublishingjob
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: xm-cloud-rest-publishing-jobs-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Sitecore XM Cloud REST API — Publishing Jobs. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: list-publishing-jobs
+      description: List publishing jobs
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: xm-cloud-rest-publishing-jobs.listpublishingjobs
+      with:
+        status: tools.status
+        pageSize: tools.pageSize
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-publishing-job
+      description: Create a publishing job
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: xm-cloud-rest-publishing-jobs.createpublishingjob
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-publishing-job-summary
+      description: Get publishing job summary
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: xm-cloud-rest-publishing-jobs.getpublishingjobsummary
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-publishing-job
+      description: Get a publishing job
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: xm-cloud-rest-publishing-jobs.getpublishingjob
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: cancel-publishing-job
+      description: Cancel a publishing job
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: xm-cloud-rest-publishing-jobs.cancelpublishingjob
+      outputParameters:
+      - type: object
+        mapping: $.

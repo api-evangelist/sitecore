@@ -1,0 +1,105 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Sitecore Content Hub REST API — Selections
+  description: 'Sitecore Content Hub REST API — Selections. 2 operations. Lead operation: List selections. Self-contained
+    Naftiko capability covering one Sitecore business surface.'
+  tags:
+  - Sitecore
+  - Selections
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SITECORE_API_KEY: SITECORE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: content-hub-rest-selections
+    baseUri: https://{tenant}.stylelabs.io/api
+    description: Sitecore Content Hub REST API — Selections business capability. Self-contained, no shared references.
+    resources:
+    - name: selections
+      path: /selections
+      operations:
+      - name: listselections
+        method: GET
+        description: List selections
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createselection
+        method: POST
+        description: Create a selection
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.SITECORE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: content-hub-rest-selections-rest
+    port: 8080
+    description: REST adapter for Sitecore Content Hub REST API — Selections. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/selections
+      name: selections
+      description: REST surface for selections.
+      operations:
+      - method: GET
+        name: listselections
+        description: List selections
+        call: content-hub-rest-selections.listselections
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createselection
+        description: Create a selection
+        call: content-hub-rest-selections.createselection
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: content-hub-rest-selections-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Sitecore Content Hub REST API — Selections. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: list-selections
+      description: List selections
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: content-hub-rest-selections.listselections
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-selection
+      description: Create a selection
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: content-hub-rest-selections.createselection
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

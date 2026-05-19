@@ -1,0 +1,85 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Sitecore Content Hub REST API — Jobs
+  description: 'Sitecore Content Hub REST API — Jobs. 1 operations. Lead operation: List jobs. Self-contained Naftiko capability
+    covering one Sitecore business surface.'
+  tags:
+  - Sitecore
+  - Jobs
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SITECORE_API_KEY: SITECORE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: content-hub-rest-jobs
+    baseUri: https://{tenant}.stylelabs.io/api
+    description: Sitecore Content Hub REST API — Jobs business capability. Self-contained, no shared references.
+    resources:
+    - name: jobs
+      path: /jobs
+      operations:
+      - name: listjobs
+        method: GET
+        description: List jobs
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: skip
+          in: query
+          type: integer
+          description: Number of jobs to skip for pagination
+        - name: take
+          in: query
+          type: integer
+          description: Maximum number of jobs to return
+    authentication:
+      type: bearer
+      token: '{{env.SITECORE_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: content-hub-rest-jobs-rest
+    port: 8080
+    description: REST adapter for Sitecore Content Hub REST API — Jobs. One Spectral-compliant resource per consumed operation,
+      prefixed with /v1.
+    resources:
+    - path: /v1/jobs
+      name: jobs
+      description: REST surface for jobs.
+      operations:
+      - method: GET
+        name: listjobs
+        description: List jobs
+        call: content-hub-rest-jobs.listjobs
+        with:
+          skip: rest.skip
+          take: rest.take
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: content-hub-rest-jobs-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Sitecore Content Hub REST API — Jobs. One tool per consumed operation, routed inline through
+      this capability's consumes block.
+    tools:
+    - name: list-jobs
+      description: List jobs
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: content-hub-rest-jobs.listjobs
+      with:
+        skip: tools.skip
+        take: tools.take
+      outputParameters:
+      - type: object
+        mapping: $.

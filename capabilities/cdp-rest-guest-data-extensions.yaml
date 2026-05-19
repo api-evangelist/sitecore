@@ -1,0 +1,233 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Sitecore CDP REST API — Guest Data Extensions
+  description: 'Sitecore CDP REST API — Guest Data Extensions. 6 operations. Lead operation: List guest data extensions. Self-contained
+    Naftiko capability covering one Sitecore business surface.'
+  tags:
+  - Sitecore
+  - Guest Data Extensions
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    SITECORE_API_KEY: SITECORE_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: cdp-rest-guest-data-extensions
+    baseUri: https://api-engage-eu.sitecorecloud.io
+    description: Sitecore CDP REST API — Guest Data Extensions business capability. Self-contained, no shared references.
+    resources:
+    - name: v2.1-guests-guestRef-extensions
+      path: /v2.1/guests/{guestRef}/extensions
+      operations:
+      - name: listguestdataextensions
+        method: GET
+        description: List guest data extensions
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: createguestdataextension
+        method: POST
+        description: Create a guest data extension
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: v2.1-guests-guestRef-extensions-dataExtensionName
+      path: /v2.1/guests/{guestRef}/extensions/{dataExtensionName}
+      operations:
+      - name: getguestdataextension
+        method: GET
+        description: Get a guest data extension
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+      - name: updateguestdataextension
+        method: PUT
+        description: Update a guest data extension (full)
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: patchguestdataextension
+        method: PATCH
+        description: Update a guest data extension (partial)
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+      - name: deleteguestdataextension
+        method: DELETE
+        description: Delete a guest data extension
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: basic
+      username: '{{env.SITECORE_USER}}'
+      password: '{{env.SITECORE_PASS}}'
+  exposes:
+  - type: rest
+    namespace: cdp-rest-guest-data-extensions-rest
+    port: 8080
+    description: REST adapter for Sitecore CDP REST API — Guest Data Extensions. One Spectral-compliant resource per consumed
+      operation, prefixed with /v1.
+    resources:
+    - path: /v1/v2-1/guests/{guestref}/extensions
+      name: v2-1-guests-guestref-extensions
+      description: REST surface for v2.1-guests-guestRef-extensions.
+      operations:
+      - method: GET
+        name: listguestdataextensions
+        description: List guest data extensions
+        call: cdp-rest-guest-data-extensions.listguestdataextensions
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: POST
+        name: createguestdataextension
+        description: Create a guest data extension
+        call: cdp-rest-guest-data-extensions.createguestdataextension
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/v2-1/guests/{guestref}/extensions/{dataextensionname}
+      name: v2-1-guests-guestref-extensions-dataextensionname
+      description: REST surface for v2.1-guests-guestRef-extensions-dataExtensionName.
+      operations:
+      - method: GET
+        name: getguestdataextension
+        description: Get a guest data extension
+        call: cdp-rest-guest-data-extensions.getguestdataextension
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PUT
+        name: updateguestdataextension
+        description: Update a guest data extension (full)
+        call: cdp-rest-guest-data-extensions.updateguestdataextension
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: PATCH
+        name: patchguestdataextension
+        description: Update a guest data extension (partial)
+        call: cdp-rest-guest-data-extensions.patchguestdataextension
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+      - method: DELETE
+        name: deleteguestdataextension
+        description: Delete a guest data extension
+        call: cdp-rest-guest-data-extensions.deleteguestdataextension
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: cdp-rest-guest-data-extensions-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Sitecore CDP REST API — Guest Data Extensions. One tool per consumed operation, routed inline
+      through this capability's consumes block.
+    tools:
+    - name: list-guest-data-extensions
+      description: List guest data extensions
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: cdp-rest-guest-data-extensions.listguestdataextensions
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-guest-data-extension
+      description: Create a guest data extension
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: cdp-rest-guest-data-extensions.createguestdataextension
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: get-guest-data-extension
+      description: Get a guest data extension
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: cdp-rest-guest-data-extensions.getguestdataextension
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-guest-data-extension-full
+      description: Update a guest data extension (full)
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: cdp-rest-guest-data-extensions.updateguestdataextension
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-guest-data-extension-partial
+      description: Update a guest data extension (partial)
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: cdp-rest-guest-data-extensions.patchguestdataextension
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-guest-data-extension
+      description: Delete a guest data extension
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: cdp-rest-guest-data-extensions.deleteguestdataextension
+      outputParameters:
+      - type: object
+        mapping: $.
