@@ -1,0 +1,197 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Sitecore Discover API",
+    "version": "v3"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Authentication",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create an access token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{subdomain}.rfksrv.com/account/1/access-token",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new access token for authenticating requests to the Sitecore Discover API using the provided API credentials."
+        },
+        {
+          "info": {
+            "name": "Renew an access token",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://{subdomain}.rfksrv.com/account/1/access-token",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Renews the access token used to authenticate requests to the Sitecore Discover API. Tokens must be refreshed periodically to maintain API access."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Search and Recommendations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search and recommend products",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.rfksrv.com/api/search-rec/3",
+            "params": [
+              {
+                "name": "customerKey",
+                "value": "",
+                "type": "query",
+                "description": "The customer key identifying the Sitecore Discover account. Found in the Customer Engagement Console under Developer Resources > API Access."
+              },
+              {
+                "name": "key",
+                "value": "",
+                "type": "query",
+                "description": "URL-encoded JSON object containing the search query parameters including keyword, widget ID, page context, and filter facets"
+              }
+            ]
+          },
+          "docs": "Performs a product or content search and retrieves ranked results with optional faceted filtering and personalized recommendations. Supports keyword search, category browsing, and recommendation widget contexts. The key parameter contains a JSON string with all query parameters."
+        },
+        {
+          "info": {
+            "name": "Search and recommend products (POST)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{subdomain}.rfksrv.com/api/search-rec/3",
+            "params": [
+              {
+                "name": "customerKey",
+                "value": "",
+                "type": "query",
+                "description": "The customer key identifying the Sitecore Discover account. Found in the Customer Engagement Console under Developer Resources > API Access."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Performs a product or content search using a POST request body instead of query parameters. Supports the same functionality as the GET endpoint with the query parameters provided as a JSON request body."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Events",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Track a behavioral event (GET)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.rfksrv.com/api/event/1",
+            "params": [
+              {
+                "name": "customerKey",
+                "value": "",
+                "type": "query",
+                "description": "The customer key identifying the Sitecore Discover account. Found in the Customer Engagement Console under Developer Resources > API Access."
+              },
+              {
+                "name": "key",
+                "value": "",
+                "type": "query",
+                "description": "URL-encoded JSON object containing event details"
+              }
+            ]
+          },
+          "docs": "Sends a behavioral event from a storefront visitor session to Sitecore Discover. Events are used to improve the relevance of search results and product recommendations. The key parameter contains a URL-encoded JSON object with the event details."
+        },
+        {
+          "info": {
+            "name": "Track a behavioral event (POST)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{subdomain}.rfksrv.com/api/event/1",
+            "params": [
+              {
+                "name": "customerKey",
+                "value": "",
+                "type": "query",
+                "description": "The customer key identifying the Sitecore Discover account. Found in the Customer Engagement Console under Developer Resources > API Access."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Sends one or more behavioral events from a storefront visitor session using a POST request body. Events are used to improve search and recommendation relevance over time."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Incremental Feed",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Incrementally update products",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{subdomain}.rfksrv.com/api/feed/v1/products/incremental/update",
+            "params": [
+              {
+                "name": "customerKey",
+                "value": "",
+                "type": "query",
+                "description": "The customer key identifying the Sitecore Discover account. Found in the Customer Engagement Console under Developer Resources > API Access."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Pushes real-time product catalog updates to the Sitecore Discover index without requiring a full feed re-process. Supports adding new products, updating existing product attributes, and removing products from the Discover catalog."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

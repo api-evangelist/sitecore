@@ -1,0 +1,427 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Sitecore Personalize REST API",
+    "version": "v1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Connections",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List connections",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.boxever.com/v1/connections",
+            "params": [
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to return per page"
+              },
+              {
+                "name": "pageOffset",
+                "value": "",
+                "type": "query",
+                "description": "Number of records to skip for pagination"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field name and direction to sort results by (e.g., name:asc)"
+              }
+            ]
+          },
+          "docs": "Retrieves a paginated collection of all connections configured in the Sitecore Personalize instance. Connections represent integrations with external systems used within decision models and personalization flows. Supports search, sorting, and pagination via query parameters."
+        },
+        {
+          "info": {
+            "name": "Create a connection",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.boxever.com/v1/connections",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new connection to an external system. Connections define the authentication type, endpoint URL, request configuration, and field mappings used when calling the external service from within a personalization flow or decision model."
+        },
+        {
+          "info": {
+            "name": "Get a connection",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.boxever.com/v1/connections/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the resource"
+              }
+            ]
+          },
+          "docs": "Retrieves a specific connection by its unique identifier. Returns the full connection configuration including authentication settings, URL, and field mappings."
+        },
+        {
+          "info": {
+            "name": "Update a connection",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.boxever.com/v1/connections/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the resource"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Performs a full replacement update of a connection. All fields are replaced with the values provided in the request body."
+        },
+        {
+          "info": {
+            "name": "Test a connection",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.boxever.com/v1/connections/:id/test",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the resource"
+              }
+            ]
+          },
+          "docs": "Performs a test call to the external system using the connection configuration to verify that the credentials and endpoint URL are correct and the service is reachable."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Decision Models",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List decision models",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.boxever.com/v1/decision-models",
+            "params": [
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to return per page"
+              },
+              {
+                "name": "pageOffset",
+                "value": "",
+                "type": "query",
+                "description": "Number of records to skip for pagination"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field name and direction to sort results by (e.g., name:asc)"
+              }
+            ]
+          },
+          "docs": "Retrieves a paginated collection of all decision models configured in the Sitecore Personalize instance. Decision models drive offer selection and targeting logic. Supports search, sorting, and pagination."
+        },
+        {
+          "info": {
+            "name": "Create a decision model",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.boxever.com/v1/decision-models",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new decision model in Sitecore Personalize. Decision models contain items, variant configurations, and deployment settings that control how offers or content are selected for a given audience."
+        },
+        {
+          "info": {
+            "name": "Get a decision model",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.boxever.com/v1/decision-models/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the resource"
+              }
+            ]
+          },
+          "docs": "Retrieves a specific decision model by its unique identifier. Returns the full model including its items, variant configuration, and current deployment status."
+        },
+        {
+          "info": {
+            "name": "Update a decision model",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.boxever.com/v1/decision-models/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the resource"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Performs a full replacement update of a decision model. All fields are replaced with the values in the request body. This creates a new revision of the model."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Flow Definitions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List flow definitions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.boxever.com/v1/flow-definitions",
+            "params": [
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to return per page"
+              },
+              {
+                "name": "pageOffset",
+                "value": "",
+                "type": "query",
+                "description": "Number of records to skip for pagination"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field name and direction to sort results by (e.g., name:asc)"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "Filter flow definitions by type"
+              }
+            ]
+          },
+          "docs": "Retrieves a paginated collection of all flow definitions configured in the Sitecore Personalize instance. Flow definitions represent experiments, full-stack experiences, and API-triggered personalization flows."
+        },
+        {
+          "info": {
+            "name": "Create a flow definition",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.boxever.com/v1/flow-definitions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new flow definition representing a personalization experiment or experience. Flow definitions contain variant configurations, targeting rules, and scheduling settings."
+        },
+        {
+          "info": {
+            "name": "Get a flow definition",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.boxever.com/v1/flow-definitions/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the resource"
+              }
+            ]
+          },
+          "docs": "Retrieves a specific flow definition by its unique identifier. Returns the full definition including type, variant configuration, status, and scheduling."
+        },
+        {
+          "info": {
+            "name": "Update a flow definition",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.boxever.com/v1/flow-definitions/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the resource"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Performs a full replacement update of a flow definition. All fields are replaced with the values in the request body."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Templates",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List templates",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.boxever.com/v1/templates",
+            "params": [
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to return per page"
+              },
+              {
+                "name": "pageOffset",
+                "value": "",
+                "type": "query",
+                "description": "Number of records to skip for pagination"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field name and direction to sort results by (e.g., name:asc)"
+              }
+            ]
+          },
+          "docs": "Retrieves a paginated collection of all templates configured in the Sitecore Personalize instance. Templates define the visual or logic components used within personalization flows."
+        },
+        {
+          "info": {
+            "name": "Create a template",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.boxever.com/v1/templates",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new template in Sitecore Personalize. Templates contain HTML, CSS, and JavaScript that define the visual presentation or decision logic of a personalization experience."
+        },
+        {
+          "info": {
+            "name": "Get a template",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.boxever.com/v1/templates/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the resource"
+              }
+            ]
+          },
+          "docs": "Retrieves a specific template by its unique identifier. Returns the full template including its code, revision history, and status."
+        },
+        {
+          "info": {
+            "name": "Update a template",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.boxever.com/v1/templates/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the resource"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Performs a full replacement update of a template. A new revision is created upon each update."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

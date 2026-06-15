@@ -1,0 +1,608 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Sitecore OrderCloud API",
+    "version": "v1"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Authentication",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get an access token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ordercloud.io/v1/oauth/token",
+            "body": {
+              "type": "form-urlencoded",
+              "data": []
+            }
+          },
+          "docs": "Obtains an OAuth 2.0 access token using the specified grant type. Supports password, client_credentials, and refresh_token grant types. The roles scope determines which resources and operations the token permits access to."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Buyers",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List buyers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ordercloud.io/v1/buyers",
+            "params": [
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Full-text search term to filter results"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to return per page (max 100)"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number to retrieve (1-indexed)"
+              },
+              {
+                "name": "sortBy",
+                "value": "",
+                "type": "query",
+                "description": "Field name to sort results by; prefix with ! to sort descending"
+              }
+            ]
+          },
+          "docs": "Retrieves a paginated list of buyer organizations. Buyers represent customer-facing organizations with their own users, catalogs, and purchasing contexts. Supports filtering, sorting, and pagination."
+        },
+        {
+          "info": {
+            "name": "Create a buyer",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ordercloud.io/v1/buyers",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new buyer organization. Buyers represent storefront customer organizations and can be associated with catalogs, user groups, and approval workflows."
+        },
+        {
+          "info": {
+            "name": "Get a buyer",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ordercloud.io/v1/buyers/:buyerID",
+            "params": [
+              {
+                "name": "buyerID",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the buyer organization"
+              }
+            ]
+          },
+          "docs": "Retrieves a specific buyer organization by its identifier. Returns full buyer configuration including active status, default catalog, and extended properties."
+        },
+        {
+          "info": {
+            "name": "Update a buyer",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.ordercloud.io/v1/buyers/:buyerID",
+            "params": [
+              {
+                "name": "buyerID",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the buyer organization"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Performs a full replacement update of a buyer organization. All fields are replaced with the values in the request body."
+        },
+        {
+          "info": {
+            "name": "Delete a buyer",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.ordercloud.io/v1/buyers/:buyerID",
+            "params": [
+              {
+                "name": "buyerID",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the buyer organization"
+              }
+            ]
+          },
+          "docs": "Permanently deletes a buyer organization and all associated resources including users, user groups, and addresses."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Products",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List products",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ordercloud.io/v1/products",
+            "params": [
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Full-text search term to filter results"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to return per page (max 100)"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number to retrieve (1-indexed)"
+              },
+              {
+                "name": "sortBy",
+                "value": "",
+                "type": "query",
+                "description": "Field name to sort results by; prefix with ! to sort descending"
+              },
+              {
+                "name": "catalogID",
+                "value": "",
+                "type": "query",
+                "description": "Filter products by catalog identifier"
+              },
+              {
+                "name": "categoryID",
+                "value": "",
+                "type": "query",
+                "description": "Filter products by category identifier"
+              }
+            ]
+          },
+          "docs": "Retrieves a paginated list of products from the OrderCloud catalog. Supports full-text search, filtering by any product field, sorting, and pagination. Results include product metadata, pricing references, and extended properties."
+        },
+        {
+          "info": {
+            "name": "Create a product",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ordercloud.io/v1/products",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new product in the OrderCloud catalog. Products support flexible extended properties (xp), variant generation via specs, and inventory tracking. Products must be assigned to a catalog before buyers can see or purchase them."
+        },
+        {
+          "info": {
+            "name": "Get a product",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ordercloud.io/v1/products/:productID",
+            "params": [
+              {
+                "name": "productID",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the product"
+              }
+            ]
+          },
+          "docs": "Retrieves a specific product by its identifier. Returns full product details including description, price schedule assignment, inventory configuration, and extended properties."
+        },
+        {
+          "info": {
+            "name": "Update a product",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.ordercloud.io/v1/products/:productID",
+            "params": [
+              {
+                "name": "productID",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the product"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Performs a full replacement update of a product. All fields are replaced with the values in the request body. Use PATCH for partial updates."
+        },
+        {
+          "info": {
+            "name": "Partially update a product",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.ordercloud.io/v1/products/:productID",
+            "params": [
+              {
+                "name": "productID",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the product"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Performs a partial update of a product. Only the fields provided in the request body are updated; all other fields retain their current values."
+        },
+        {
+          "info": {
+            "name": "Delete a product",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.ordercloud.io/v1/products/:productID",
+            "params": [
+              {
+                "name": "productID",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the product"
+              }
+            ]
+          },
+          "docs": "Permanently deletes a product from the catalog. All catalog assignments and buyer visibility are also removed."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Orders",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List orders",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ordercloud.io/v1/orders/:direction",
+            "params": [
+              {
+                "name": "direction",
+                "value": "",
+                "type": "path",
+                "description": "The order direction context - Incoming (seller view) or Outgoing (buyer view)"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Full-text search term to filter results"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to return per page (max 100)"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number to retrieve (1-indexed)"
+              },
+              {
+                "name": "buyerID",
+                "value": "",
+                "type": "query",
+                "description": "Filter orders by buyer identifier"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter orders by status"
+              }
+            ]
+          },
+          "docs": "Retrieves a paginated list of orders in the specified direction context. Use 'Incoming' for orders received by the seller and 'Outgoing' for orders placed by a buyer. Supports filtering, sorting, and pagination."
+        },
+        {
+          "info": {
+            "name": "Create an order",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ordercloud.io/v1/orders/:direction",
+            "params": [
+              {
+                "name": "direction",
+                "value": "",
+                "type": "path",
+                "description": "The order direction context - Incoming (seller view) or Outgoing (buyer view)"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new order in the specified direction context. New orders begin in the Unsubmitted status. Line items, promotions, and payments can be added before the order is submitted."
+        },
+        {
+          "info": {
+            "name": "Get an order",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ordercloud.io/v1/orders/:direction/:orderID",
+            "params": [
+              {
+                "name": "direction",
+                "value": "",
+                "type": "path",
+                "description": "The order direction context - Incoming (seller view) or Outgoing (buyer view)"
+              },
+              {
+                "name": "orderID",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the order"
+              }
+            ]
+          },
+          "docs": "Retrieves a specific order by its identifier and direction. Returns the full order object including status, totals, shipping address, and billing address."
+        },
+        {
+          "info": {
+            "name": "Update an order",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.ordercloud.io/v1/orders/:direction/:orderID",
+            "params": [
+              {
+                "name": "direction",
+                "value": "",
+                "type": "path",
+                "description": "The order direction context - Incoming (seller view) or Outgoing (buyer view)"
+              },
+              {
+                "name": "orderID",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the order"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Performs a full replacement update of an order. Only orders in Unsubmitted status can be updated. Submitted orders cannot be modified."
+        },
+        {
+          "info": {
+            "name": "Delete an order",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.ordercloud.io/v1/orders/:direction/:orderID",
+            "params": [
+              {
+                "name": "direction",
+                "value": "",
+                "type": "path",
+                "description": "The order direction context - Incoming (seller view) or Outgoing (buyer view)"
+              },
+              {
+                "name": "orderID",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the order"
+              }
+            ]
+          },
+          "docs": "Permanently deletes an order. Only unsubmitted orders can be deleted."
+        },
+        {
+          "info": {
+            "name": "Submit an order",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ordercloud.io/v1/orders/:direction/:orderID/submit",
+            "params": [
+              {
+                "name": "direction",
+                "value": "",
+                "type": "path",
+                "description": "The order direction context - Incoming (seller view) or Outgoing (buyer view)"
+              },
+              {
+                "name": "orderID",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the order"
+              }
+            ]
+          },
+          "docs": "Submits an order for fulfillment. The order must be in Unsubmitted status and have all required line items, payment methods, and addresses set before submission. Submitted orders transition to Open or AwaitingApproval status."
+        },
+        {
+          "info": {
+            "name": "List order line items",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ordercloud.io/v1/orders/:direction/:orderID/lineitems",
+            "params": [
+              {
+                "name": "direction",
+                "value": "",
+                "type": "path",
+                "description": "The order direction context - Incoming (seller view) or Outgoing (buyer view)"
+              },
+              {
+                "name": "orderID",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the order"
+              }
+            ]
+          },
+          "docs": "Retrieves all line items within a specific order. Each line item represents a product or variant being purchased with a specified quantity and pricing."
+        },
+        {
+          "info": {
+            "name": "Create a line item",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ordercloud.io/v1/orders/:direction/:orderID/lineitems",
+            "params": [
+              {
+                "name": "direction",
+                "value": "",
+                "type": "path",
+                "description": "The order direction context - Incoming (seller view) or Outgoing (buyer view)"
+              },
+              {
+                "name": "orderID",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the order"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Adds a line item to an order specifying a product and quantity. Specs and spec option values can be provided to select a specific product variant."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Promotions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List promotions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.ordercloud.io/v1/promotions",
+            "params": [
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Full-text search term to filter results"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to return per page (max 100)"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number to retrieve (1-indexed)"
+              }
+            ]
+          },
+          "docs": "Retrieves a paginated list of promotions. Promotions define discount rules, coupon codes, eligibility requirements, and usage limits."
+        },
+        {
+          "info": {
+            "name": "Create a promotion",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.ordercloud.io/v1/promotions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new promotion with discount rules, an optional coupon code, eligibility criteria, and usage limits. Promotions can be applied to orders at checkout."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
