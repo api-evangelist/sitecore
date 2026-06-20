@@ -8,7 +8,7 @@ apis:
   - Digital Experience Platform
   - GraphQL
   - Headless CMS
-  image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   baseURL: https://edge.sitecorecloud.io/api/graphql
   humanURL: https://doc.sitecore.com/xmc/en/developers/xm-cloud/delivery-api.html
   properties:
@@ -29,7 +29,7 @@ apis:
   - Digital Experience Platform
   - GraphQL
   - Headless CMS
-  image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   baseURL: https://edge.sitecorecloud.io/api/graphql
   humanURL: https://doc.sitecore.com/xmc/en/developers/xm-cloud/sitecore-authoring-and-management-graphql-api.html
   properties:
@@ -48,7 +48,7 @@ apis:
   - Digital Experience Platform
   - REST
   - Sites
-  image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   baseURL: https://xmapps-api.sitecorecloud.io
   humanURL: https://doc.sitecore.com/xmc/en/developers/xm-cloud/sitecore-xm-cloud.html
   properties:
@@ -69,7 +69,7 @@ apis:
   - Guest Data
   - Personalization
   - REST
-  image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   baseURL: https://api-engage-us.sitecorecloud.io
   humanURL: https://doc.sitecore.com/cdp/en/developers/api/rest-apis.html
   properties:
@@ -89,7 +89,7 @@ apis:
   - Customer Data Platform
   - Event Tracking
   - Real-Time
-  image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   baseURL: https://api-engage-us.sitecorecloud.io
   humanURL: https://doc.sitecore.com/cdp/en/developers/api/stream-api.html
   properties:
@@ -110,7 +110,7 @@ apis:
   - Customer Data Platform
   - Data Import
   - Guest Data
-  image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   baseURL: https://api-engage-us.sitecorecloud.io
   humanURL: https://doc.sitecore.com/cdp/en/developers/api/index-en.html
   properties:
@@ -128,7 +128,7 @@ apis:
   - Experiments
   - Personalization
   - REST
-  image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   baseURL: https://api.boxever.com
   humanURL: https://doc.sitecore.com/personalize/en/developers/api/index-en.html
   properties:
@@ -149,7 +149,7 @@ apis:
   - Digital Asset Management
   - Media Management
   - REST
-  image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   baseURL: https://your-tenant.stylelabs.io/api
   humanURL: https://doc.sitecore.com/ch/en/developers/cloud-dev/rest-apis.html
   properties:
@@ -170,7 +170,7 @@ apis:
   - Content Hub
   - Digital Asset Management
   - GraphQL
-  image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   baseURL: https://your-tenant.stylelabs.io/api/graphql/admin/v1
   humanURL: https://doc.sitecore.com/ch/en/developers/cloud-dev/content-hub-admin-api.html
   properties:
@@ -189,7 +189,7 @@ apis:
   - Commerce
   - Order Management
   - REST
-  image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   baseURL: https://api.ordercloud.io/v1
   humanURL: https://api-docs.sitecore.com/ordercloud
   properties:
@@ -211,7 +211,7 @@ apis:
   - Product Discovery
   - Recommendations
   - Search
-  image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   baseURL: https://api.rfksrv.com
   humanURL: https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html
   properties:
