@@ -1,0 +1,32 @@
+generated: '2026-07-11'
+method: probed
+source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
+hosts:
+- host: doc.sitecore.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Aug 15 08:11:35 2026 GMT
+  hsts: null
+- host: edge.sitecorecloud.io
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Aug 26 20:04:59 2026 GMT
+  hsts: null
+- host: xmapps-api.sitecorecloud.io
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Aug 26 20:04:59 2026 GMT
+  hsts: null
+domains:
+- domain: sitecore.com
+  dnssec: false
+  caa: []
+  spf: true
+  dmarc: true
+  dmarc_policy: quarantine
+- domain: sitecorecloud.io
+  dnssec: false
+  caa: []
+  spf: true
+  dmarc: true
+  dmarc_policy: reject

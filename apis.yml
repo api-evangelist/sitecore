@@ -225,6 +225,10 @@ apis:
     for full-text search, faceted filtering, product recommendations, and behavioral event tracking that feeds back
     into the discovery algorithms.
 common:
+- type: DomainSecurity
+  url: security/sitecore-domain-security.yml
+- type: Authentication
+  url: authentication/sitecore-authentication.yml
 - type: GitHubOrganization
   url: https://github.com/Sitecore
 - type: LinkedIn
