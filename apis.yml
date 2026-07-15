@@ -225,6 +225,8 @@ apis:
     for full-text search, faceted filtering, product recommendations, and behavioral event tracking that feeds back
     into the discovery algorithms.
 common:
+- type: AgenticAccess
+  url: agentic-access/sitecore-agentic-access.yml
 - type: DomainSecurity
   url: security/sitecore-domain-security.yml
 - type: Authentication
