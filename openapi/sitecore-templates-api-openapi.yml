@@ -1,0 +1,265 @@
+openapi: 3.1.0
+info:
+  title: Sitecore CDP REST Audit Templates API
+  description: The Sitecore CDP REST API provides synchronous access to retrieve, create, update, and delete data stored in Sitecore Customer Data Platform. It exposes guest profiles, orders, order items, order contacts, order consumers, and data extensions through standard HTTP methods. Developers use this API to build integrations that read or write customer data programmatically, enabling use cases such as audience segmentation, data enrichment, and reporting. Authentication uses HTTP Basic Auth with a client key and API token obtained from the CDP instance settings. Regional server endpoints must be used based on the CDP instance's geographic deployment.
+  version: v2.1
+  contact:
+    name: Sitecore Support
+    url: https://www.sitecore.com/support
+  termsOfService: https://www.sitecore.com/legal/terms-of-service
+servers:
+- url: https://api-engage-eu.sitecorecloud.io
+  description: EU Production Server
+- url: https://api-engage-us.sitecorecloud.io
+  description: US Production Server
+- url: https://api-engage-ap.sitecorecloud.io
+  description: Asia-Pacific Production Server
+- url: https://api-engage-jpe.sitecorecloud.io
+  description: Japan Production Server
+security:
+- basicAuth: []
+tags:
+- name: Templates
+  description: Endpoints for managing web and decision templates used to define the visual and logic components of personalization experiences within flows.
+paths:
+  /v1/templates:
+    get:
+      operationId: listTemplates
+      summary: List templates
+      description: Retrieves a paginated collection of all templates configured in the Sitecore Personalize instance. Templates define the visual or logic components used within personalization flows.
+      tags:
+      - Templates
+      parameters:
+      - $ref: '#/components/parameters/pageSize'
+      - $ref: '#/components/parameters/pageOffset'
+      - $ref: '#/components/parameters/sortBy'
+      responses:
+        '200':
+          description: A paginated list of templates
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateListResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createTemplate
+      summary: Create a template
+      description: Creates a new template in Sitecore Personalize. Templates contain HTML, CSS, and JavaScript that define the visual presentation or decision logic of a personalization experience.
+      tags:
+      - Templates
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTemplateRequest'
+      responses:
+        '201':
+          description: Template created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Template'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /v1/templates/{id}:
+    get:
+      operationId: getTemplate
+      summary: Get a template
+      description: Retrieves a specific template by its unique identifier. Returns the full template including its code, revision history, and status.
+      tags:
+      - Templates
+      parameters:
+      - $ref: '#/components/parameters/resourceId'
+      responses:
+        '200':
+          description: Template details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Template'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      operationId: updateTemplate
+      summary: Update a template
+      description: Performs a full replacement update of a template. A new revision is created upon each update.
+      tags:
+      - Templates
+      parameters:
+      - $ref: '#/components/parameters/resourceId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTemplateRequest'
+      responses:
+        '200':
+          description: Template updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Template'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  responses:
+    Unauthorized:
+      description: Authentication credentials are missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: The request body or parameters are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  parameters:
+    resourceId:
+      name: id
+      in: path
+      description: The unique identifier of the resource
+      required: true
+      schema:
+        type: string
+    sortBy:
+      name: sort
+      in: query
+      description: Field name and direction to sort results by (e.g., name:asc)
+      required: false
+      schema:
+        type: string
+    pageOffset:
+      name: pageOffset
+      in: query
+      description: Number of records to skip for pagination
+      required: false
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+    pageSize:
+      name: pageSize
+      in: query
+      description: Number of items to return per page
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+  schemas:
+    TemplateListResponse:
+      type: object
+      description: A paginated list of templates
+      properties:
+        items:
+          type: array
+          description: The templates for the current page
+          items:
+            $ref: '#/components/schemas/Template'
+        total:
+          type: integer
+          description: Total number of templates
+    CreateTemplateRequest:
+      type: object
+      description: Request body for creating or updating a template
+      required:
+      - name
+      - type
+      properties:
+        name:
+          type: string
+          description: The display name of the template
+        type:
+          type: string
+          description: The type of template
+          enum:
+          - WEB
+          - DECISION
+        html:
+          type: string
+          description: The HTML markup of the template
+        css:
+          type: string
+          description: The CSS styles for the template
+        javascript:
+          type: string
+          description: The JavaScript code for the template
+    ErrorResponse:
+      type: object
+      description: An error response body
+      properties:
+        message:
+          type: string
+          description: A human-readable error message
+        statusCode:
+          type: integer
+          description: The HTTP status code
+        errors:
+          type: array
+          description: List of detailed error messages
+          items:
+            type: string
+    Template:
+      type: object
+      description: A template defining visual or logic components of a personalization experience
+      properties:
+        ref:
+          type: string
+          description: The unique identifier of the template
+        name:
+          type: string
+          description: The display name of the template
+        type:
+          type: string
+          description: The template type
+          enum:
+          - WEB
+          - DECISION
+        revision:
+          type: integer
+          description: The current revision number of the template
+        html:
+          type: string
+          description: The HTML markup of the template
+        css:
+          type: string
+          description: The CSS styles for the template
+        javascript:
+          type: string
+          description: The JavaScript code for the template
+        createdAt:
+          type: string
+          description: The ISO 8601 timestamp when the template was created
+          format: date-time
+        modifiedAt:
+          type: string
+          description: The ISO 8601 timestamp when the template was last modified
+          format: date-time
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic authentication using a client key as the username and an API token as the password. Credentials are obtained from Sitecore CDP Settings > API access.
+externalDocs:
+  description: Sitecore CDP REST API Documentation
+  url: https://doc.sitecore.com/cdp/en/developers/api/rest-apis.html

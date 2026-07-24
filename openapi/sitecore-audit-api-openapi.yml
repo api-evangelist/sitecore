@@ -1,0 +1,153 @@
+openapi: 3.1.0
+info:
+  title: Sitecore CDP REST Audit API
+  description: The Sitecore CDP REST API provides synchronous access to retrieve, create, update, and delete data stored in Sitecore Customer Data Platform. It exposes guest profiles, orders, order items, order contacts, order consumers, and data extensions through standard HTTP methods. Developers use this API to build integrations that read or write customer data programmatically, enabling use cases such as audience segmentation, data enrichment, and reporting. Authentication uses HTTP Basic Auth with a client key and API token obtained from the CDP instance settings. Regional server endpoints must be used based on the CDP instance's geographic deployment.
+  version: v2.1
+  contact:
+    name: Sitecore Support
+    url: https://www.sitecore.com/support
+  termsOfService: https://www.sitecore.com/legal/terms-of-service
+servers:
+- url: https://api-engage-eu.sitecorecloud.io
+  description: EU Production Server
+- url: https://api-engage-us.sitecorecloud.io
+  description: US Production Server
+- url: https://api-engage-ap.sitecorecloud.io
+  description: Asia-Pacific Production Server
+- url: https://api-engage-jpe.sitecorecloud.io
+  description: Japan Production Server
+security:
+- basicAuth: []
+tags:
+- name: Audit
+  description: Endpoints for retrieving and querying audit log entries that track changes to entities and configuration within the Content Hub instance.
+paths:
+  /audit:
+    get:
+      operationId: listAuditEntries
+      summary: List audit log entries
+      description: Retrieves and queries audit log entries that record all changes made to entities and configuration within the Content Hub instance. Supports filtering by entity, user, date range, and operation type.
+      tags:
+      - Audit
+      parameters:
+      - name: entityId
+        in: query
+        description: Filter audit entries by entity identifier
+        required: false
+        schema:
+          type: integer
+      - name: userId
+        in: query
+        description: Filter audit entries by the user who made the change
+        required: false
+        schema:
+          type: string
+      - name: from
+        in: query
+        description: Start date for audit entry filtering (ISO 8601)
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: to
+        in: query
+        description: End date for audit entry filtering (ISO 8601)
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: skip
+        in: query
+        description: Number of entries to skip for pagination
+        required: false
+        schema:
+          type: integer
+      - name: take
+        in: query
+        description: Maximum number of entries to return
+        required: false
+        schema:
+          type: integer
+          maximum: 100
+      responses:
+        '200':
+          description: List of audit log entries
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuditListResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      description: An error response body
+      properties:
+        message:
+          type: string
+          description: A human-readable error message
+        statusCode:
+          type: integer
+          description: The HTTP status code
+        errors:
+          type: array
+          description: List of detailed error messages
+          items:
+            type: string
+    AuditEntry:
+      type: object
+      description: An audit log entry recording a change within Content Hub
+      properties:
+        id:
+          type: integer
+          description: The unique identifier of the audit entry
+        entityId:
+          type: integer
+          description: The identifier of the entity that was changed
+        userId:
+          type: string
+          description: The username of the user who made the change
+        operation:
+          type: string
+          description: The type of operation performed
+          enum:
+          - Create
+          - Update
+          - Delete
+          - LifecycleChange
+        timestamp:
+          type: string
+          description: The ISO 8601 timestamp of the change
+          format: date-time
+        changes:
+          type: object
+          description: The property changes made during this operation
+          additionalProperties: true
+    AuditListResponse:
+      type: object
+      description: A paginated list of audit log entries
+      properties:
+        items:
+          type: array
+          description: The audit entries for the current page
+          items:
+            $ref: '#/components/schemas/AuditEntry'
+        totalCount:
+          type: integer
+          description: Total number of matching audit entries
+  responses:
+    Unauthorized:
+      description: Authentication token is missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic authentication using a client key as the username and an API token as the password. Credentials are obtained from Sitecore CDP Settings > API access.
+externalDocs:
+  description: Sitecore CDP REST API Documentation
+  url: https://doc.sitecore.com/cdp/en/developers/api/rest-apis.html

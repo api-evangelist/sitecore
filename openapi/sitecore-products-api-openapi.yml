@@ -1,0 +1,385 @@
+openapi: 3.1.0
+info:
+  title: Sitecore CDP REST Audit Products API
+  description: The Sitecore CDP REST API provides synchronous access to retrieve, create, update, and delete data stored in Sitecore Customer Data Platform. It exposes guest profiles, orders, order items, order contacts, order consumers, and data extensions through standard HTTP methods. Developers use this API to build integrations that read or write customer data programmatically, enabling use cases such as audience segmentation, data enrichment, and reporting. Authentication uses HTTP Basic Auth with a client key and API token obtained from the CDP instance settings. Regional server endpoints must be used based on the CDP instance's geographic deployment.
+  version: v2.1
+  contact:
+    name: Sitecore Support
+    url: https://www.sitecore.com/support
+  termsOfService: https://www.sitecore.com/legal/terms-of-service
+servers:
+- url: https://api-engage-eu.sitecorecloud.io
+  description: EU Production Server
+- url: https://api-engage-us.sitecorecloud.io
+  description: US Production Server
+- url: https://api-engage-ap.sitecorecloud.io
+  description: Asia-Pacific Production Server
+- url: https://api-engage-jpe.sitecorecloud.io
+  description: Japan Production Server
+security:
+- basicAuth: []
+tags:
+- name: Products
+  description: Endpoints for creating, retrieving, updating, and deleting products within the OrderCloud catalog. Products support extended properties, variants, specs, and inventory tracking.
+paths:
+  /products:
+    get:
+      operationId: listProducts
+      summary: List products
+      description: Retrieves a paginated list of products from the OrderCloud catalog. Supports full-text search, filtering by any product field, sorting, and pagination. Results include product metadata, pricing references, and extended properties.
+      tags:
+      - Products
+      parameters:
+      - $ref: '#/components/parameters/search'
+      - $ref: '#/components/parameters/pageSize'
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/sortBy'
+      - name: catalogID
+        in: query
+        description: Filter products by catalog identifier
+        required: false
+        schema:
+          type: string
+      - name: categoryID
+        in: query
+        description: Filter products by category identifier
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A paginated list of products
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductListResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createProduct
+      summary: Create a product
+      description: Creates a new product in the OrderCloud catalog. Products support flexible extended properties (xp), variant generation via specs, and inventory tracking. Products must be assigned to a catalog before buyers can see or purchase them.
+      tags:
+      - Products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateProductRequest'
+      responses:
+        '201':
+          description: Product created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /products/{productID}:
+    get:
+      operationId: getProduct
+      summary: Get a product
+      description: Retrieves a specific product by its identifier. Returns full product details including description, price schedule assignment, inventory configuration, and extended properties.
+      tags:
+      - Products
+      parameters:
+      - $ref: '#/components/parameters/productID'
+      responses:
+        '200':
+          description: Product details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      operationId: updateProduct
+      summary: Update a product
+      description: Performs a full replacement update of a product. All fields are replaced with the values in the request body. Use PATCH for partial updates.
+      tags:
+      - Products
+      parameters:
+      - $ref: '#/components/parameters/productID'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateProductRequest'
+      responses:
+        '200':
+          description: Product updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      operationId: patchProduct
+      summary: Partially update a product
+      description: Performs a partial update of a product. Only the fields provided in the request body are updated; all other fields retain their current values.
+      tags:
+      - Products
+      parameters:
+      - $ref: '#/components/parameters/productID'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateProductRequest'
+      responses:
+        '200':
+          description: Product partially updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteProduct
+      summary: Delete a product
+      description: Permanently deletes a product from the catalog. All catalog assignments and buyer visibility are also removed.
+      tags:
+      - Products
+      parameters:
+      - $ref: '#/components/parameters/productID'
+      responses:
+        '204':
+          description: Product deleted successfully
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  parameters:
+    productID:
+      name: productID
+      in: path
+      description: The unique identifier of the product
+      required: true
+      schema:
+        type: string
+    sortBy:
+      name: sortBy
+      in: query
+      description: Field name to sort results by; prefix with ! to sort descending
+      required: false
+      schema:
+        type: string
+    pageSize:
+      name: pageSize
+      in: query
+      description: Number of items to return per page (max 100)
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+    page:
+      name: page
+      in: query
+      description: Page number to retrieve (1-indexed)
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+    search:
+      name: search
+      in: query
+      description: Full-text search term to filter results
+      required: false
+      schema:
+        type: string
+  responses:
+    Unauthorized:
+      description: Authentication token is missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: The request body or parameters are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  schemas:
+    CreateProductRequest:
+      type: object
+      description: Request body for creating or updating a product
+      required:
+      - Name
+      properties:
+        ID:
+          type: string
+          description: Optional custom identifier for the product
+        Name:
+          type: string
+          description: The display name of the product
+        Description:
+          type: string
+          description: The detailed description of the product
+        Active:
+          type: boolean
+          description: Whether the product should be active
+          default: false
+        DefaultPriceScheduleID:
+          type: string
+          description: The identifier of the default price schedule
+        xp:
+          type: object
+          description: Extended properties for custom product attributes
+          additionalProperties: true
+    ProductListResponse:
+      type: object
+      description: A paginated list of products
+      properties:
+        Meta:
+          $ref: '#/components/schemas/ListMetadata'
+        Items:
+          type: array
+          description: The products for the current page
+          items:
+            $ref: '#/components/schemas/Product'
+    ListMetadata:
+      type: object
+      description: Pagination metadata for list responses
+      properties:
+        Page:
+          type: integer
+          description: The current page number (1-indexed)
+        PageSize:
+          type: integer
+          description: The number of items per page
+        TotalCount:
+          type: integer
+          description: The total number of items matching the query
+        TotalPages:
+          type: integer
+          description: The total number of pages
+        ItemRange:
+          type: array
+          description: The inclusive range [start, end] of item indexes for this page
+          items:
+            type: integer
+    Inventory:
+      type: object
+      description: Inventory tracking configuration for a product
+      properties:
+        Enabled:
+          type: boolean
+          description: Whether inventory tracking is enabled for this product
+        VariantLevelTracking:
+          type: boolean
+          description: Whether inventory is tracked at the variant level
+        OrderCanExceed:
+          type: boolean
+          description: Whether orders can be placed when inventory is insufficient
+        QuantityAvailable:
+          type: integer
+          description: The current available inventory quantity
+        LastUpdated:
+          type: string
+          description: The ISO 8601 timestamp of the last inventory update
+          format: date-time
+    ErrorResponse:
+      type: object
+      description: An error response body
+      properties:
+        Errors:
+          type: array
+          description: List of error details
+          items:
+            $ref: '#/components/schemas/ErrorDetail'
+    ErrorDetail:
+      type: object
+      description: A single error detail
+      properties:
+        ErrorCode:
+          type: string
+          description: The machine-readable error code
+        Message:
+          type: string
+          description: A human-readable description of the error
+        Data:
+          type: object
+          description: Additional data about the error context
+          additionalProperties: true
+    Product:
+      type: object
+      description: A product available for purchase within the OrderCloud catalog
+      properties:
+        ID:
+          type: string
+          description: The unique identifier of the product
+        Name:
+          type: string
+          description: The display name of the product
+        Description:
+          type: string
+          description: The detailed description of the product
+        QuantityMultiplier:
+          type: integer
+          description: The minimum purchase quantity increment for this product
+          default: 1
+        ShipWeight:
+          type: number
+          description: The shipping weight of the product in pounds
+          format: float
+        ShipHeight:
+          type: number
+          description: The shipping height of the product in inches
+          format: float
+        ShipWidth:
+          type: number
+          description: The shipping width of the product in inches
+          format: float
+        ShipLength:
+          type: number
+          description: The shipping length of the product in inches
+          format: float
+        Active:
+          type: boolean
+          description: Whether the product is active and visible to buyers
+        DefaultPriceScheduleID:
+          type: string
+          description: The identifier of the default price schedule for this product
+        Inventory:
+          $ref: '#/components/schemas/Inventory'
+        xp:
+          type: object
+          description: Extended properties for custom product attributes
+          additionalProperties: true
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic authentication using a client key as the username and an API token as the password. Credentials are obtained from Sitecore CDP Settings > API access.
+externalDocs:
+  description: Sitecore CDP REST API Documentation
+  url: https://doc.sitecore.com/cdp/en/developers/api/rest-apis.html

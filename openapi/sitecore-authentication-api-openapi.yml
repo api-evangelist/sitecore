@@ -1,0 +1,215 @@
+openapi: 3.1.0
+info:
+  title: Sitecore CDP REST Audit Authentication API
+  description: The Sitecore CDP REST API provides synchronous access to retrieve, create, update, and delete data stored in Sitecore Customer Data Platform. It exposes guest profiles, orders, order items, order contacts, order consumers, and data extensions through standard HTTP methods. Developers use this API to build integrations that read or write customer data programmatically, enabling use cases such as audience segmentation, data enrichment, and reporting. Authentication uses HTTP Basic Auth with a client key and API token obtained from the CDP instance settings. Regional server endpoints must be used based on the CDP instance's geographic deployment.
+  version: v2.1
+  contact:
+    name: Sitecore Support
+    url: https://www.sitecore.com/support
+  termsOfService: https://www.sitecore.com/legal/terms-of-service
+servers:
+- url: https://api-engage-eu.sitecorecloud.io
+  description: EU Production Server
+- url: https://api-engage-us.sitecorecloud.io
+  description: US Production Server
+- url: https://api-engage-ap.sitecorecloud.io
+  description: Asia-Pacific Production Server
+- url: https://api-engage-jpe.sitecorecloud.io
+  description: Japan Production Server
+security:
+- basicAuth: []
+tags:
+- name: Authentication
+  description: Endpoints for obtaining access tokens used to authenticate API requests to Sitecore Discover.
+paths:
+  /account/1/access-token:
+    put:
+      operationId: renewAccessToken
+      summary: Renew an access token
+      description: Renews the access token used to authenticate requests to the Sitecore Discover API. Tokens must be refreshed periodically to maintain API access.
+      tags:
+      - Authentication
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRenewRequest'
+      responses:
+        '200':
+          description: Access token renewed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createAccessToken
+      summary: Create an access token
+      description: Creates a new access token for authenticating requests to the Sitecore Discover API using the provided API credentials.
+      tags:
+      - Authentication
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenCreateRequest'
+      responses:
+        '200':
+          description: Access token created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /oauth/token:
+    post:
+      operationId: getAccessToken
+      summary: Get an access token
+      description: Obtains an OAuth 2.0 access token using the specified grant type. Supports password, client_credentials, and refresh_token grant types. The roles scope determines which resources and operations the token permits access to.
+      tags:
+      - Authentication
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenRequest'
+      responses:
+        '200':
+          description: Access token response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenResponse_2'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+components:
+  schemas:
+    TokenResponse_2:
+      type: object
+      description: OAuth 2.0 token response
+      properties:
+        access_token:
+          type: string
+          description: The bearer access token to include in API requests
+        token_type:
+          type: string
+          description: The token type, always Bearer
+          example: Bearer
+        expires_in:
+          type: integer
+          description: Time in seconds until the token expires
+        refresh_token:
+          type: string
+          description: Refresh token for obtaining a new access token
+    TokenResponse:
+      type: object
+      description: Authentication token response
+      properties:
+        accessToken:
+          type: string
+          description: The bearer access token for API authentication
+        expiresIn:
+          type: integer
+          description: Token validity duration in seconds
+        refreshToken:
+          type: string
+          description: Refresh token for renewing access
+    TokenCreateRequest:
+      type: object
+      description: Request body for creating a Discover access token
+      required:
+      - apiKey
+      - customerId
+      properties:
+        apiKey:
+          type: string
+          description: The API key for the Sitecore Discover account
+        customerId:
+          type: string
+          description: The customer identifier for the Discover account
+    TokenRequest:
+      type: object
+      description: OAuth 2.0 token request parameters
+      required:
+      - grant_type
+      - client_id
+      properties:
+        grant_type:
+          type: string
+          description: The OAuth grant type
+          enum:
+          - password
+          - client_credentials
+          - refresh_token
+        client_id:
+          type: string
+          description: The OrderCloud API client identifier
+        username:
+          type: string
+          description: The user's username (required for password grant)
+        password:
+          type: string
+          description: The user's password (required for password grant)
+        scope:
+          type: string
+          description: Space-separated list of OrderCloud role scopes
+        refresh_token:
+          type: string
+          description: The refresh token (required for refresh_token grant)
+    TokenRenewRequest:
+      type: object
+      description: Request body for renewing an access token
+      required:
+      - refreshToken
+      properties:
+        refreshToken:
+          type: string
+          description: The refresh token from a previous authentication response
+    ErrorResponse:
+      type: object
+      description: An error response body
+      properties:
+        message:
+          type: string
+          description: A human-readable error message
+        statusCode:
+          type: integer
+          description: The HTTP status code
+        errors:
+          type: array
+          description: List of detailed error messages
+          items:
+            type: string
+  responses:
+    Unauthorized:
+      description: Authentication token is missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: The request body or parameters are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic authentication using a client key as the username and an API token as the password. Credentials are obtained from Sitecore CDP Settings > API access.
+externalDocs:
+  description: Sitecore CDP REST API Documentation
+  url: https://doc.sitecore.com/cdp/en/developers/api/rest-apis.html

@@ -1,0 +1,360 @@
+openapi: 3.1.0
+info:
+  title: Sitecore CDP REST Audit Sites API
+  description: The Sitecore CDP REST API provides synchronous access to retrieve, create, update, and delete data stored in Sitecore Customer Data Platform. It exposes guest profiles, orders, order items, order contacts, order consumers, and data extensions through standard HTTP methods. Developers use this API to build integrations that read or write customer data programmatically, enabling use cases such as audience segmentation, data enrichment, and reporting. Authentication uses HTTP Basic Auth with a client key and API token obtained from the CDP instance settings. Regional server endpoints must be used based on the CDP instance's geographic deployment.
+  version: v2.1
+  contact:
+    name: Sitecore Support
+    url: https://www.sitecore.com/support
+  termsOfService: https://www.sitecore.com/legal/terms-of-service
+servers:
+- url: https://api-engage-eu.sitecorecloud.io
+  description: EU Production Server
+- url: https://api-engage-us.sitecorecloud.io
+  description: US Production Server
+- url: https://api-engage-ap.sitecorecloud.io
+  description: Asia-Pacific Production Server
+- url: https://api-engage-jpe.sitecorecloud.io
+  description: Japan Production Server
+security:
+- basicAuth: []
+tags:
+- name: Sites
+  description: Endpoints for managing sites within site collections, including creation, duplication, renaming, deletion, sorting, and retrieving site hierarchies and rendering hosts.
+paths:
+  /api/v1/sites:
+    get:
+      operationId: listSites
+      summary: List sites
+      description: Retrieves a list of all sites within the authenticated XM Cloud tenant, optionally filtered by collection. Returns site metadata including names, identifiers, languages, and associated collection references.
+      tags:
+      - Sites
+      parameters:
+      - $ref: '#/components/parameters/environmentId'
+      - name: collectionId
+        in: query
+        description: Filter sites by parent collection identifier
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A list of sites
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Site'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createSite
+      summary: Create a site
+      description: Creates a new site within an XM Cloud site collection. The site can be created from a template or as a blank site, and the request must specify the parent collection, name, and language configuration.
+      tags:
+      - Sites
+      parameters:
+      - $ref: '#/components/parameters/environmentId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSiteRequest'
+      responses:
+        '201':
+          description: Site created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Site'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /api/v1/sites/{siteId}:
+    get:
+      operationId: getSite
+      summary: Get a site
+      description: Retrieves a specific site by its unique identifier, including its full configuration, language settings, and collection membership.
+      tags:
+      - Sites
+      parameters:
+      - $ref: '#/components/parameters/siteId'
+      - $ref: '#/components/parameters/environmentId'
+      responses:
+        '200':
+          description: Site details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Site'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteSite
+      summary: Delete a site
+      description: Permanently deletes a site and all of its associated pages and content. This operation is irreversible and cannot be undone after execution.
+      tags:
+      - Sites
+      parameters:
+      - $ref: '#/components/parameters/siteId'
+      - $ref: '#/components/parameters/environmentId'
+      responses:
+        '204':
+          description: Site deleted successfully
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /api/v1/sites/name/validate:
+    post:
+      operationId: validateSiteName
+      summary: Validate a site name
+      description: Validates whether a proposed site name is available and meets naming requirements prior to site creation. Returns validation status and error details if the name is unavailable or invalid.
+      tags:
+      - Sites
+      parameters:
+      - $ref: '#/components/parameters/environmentId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ValidateNameRequest'
+      responses:
+        '200':
+          description: Validation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidateNameResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /api/v1/sites/sort:
+    post:
+      operationId: sortSites
+      summary: Sort sites
+      description: Updates the sort order of sites as they appear in the Content Editor, Pages, and API responses. Accepts an ordered list of site identifiers.
+      tags:
+      - Sites
+      parameters:
+      - $ref: '#/components/parameters/environmentId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SortRequest'
+      responses:
+        '200':
+          description: Sort order updated successfully
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /api/v1/sites/{siteId}/renderinghosts:
+    get:
+      operationId: listSiteRenderingHosts
+      summary: List rendering hosts for a site
+      description: Returns a list of editing hosts that can be assigned to the specified site. Rendering hosts define the front-end application endpoints used for Experience Editor and Pages rendering.
+      tags:
+      - Sites
+      parameters:
+      - $ref: '#/components/parameters/siteId'
+      - $ref: '#/components/parameters/environmentId'
+      responses:
+        '200':
+          description: List of available rendering hosts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RenderingHost'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  schemas:
+    Site:
+      type: object
+      description: A website managed within an XM Cloud site collection
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the site
+        name:
+          type: string
+          description: The name of the site
+        displayName:
+          type: string
+          description: The human-readable display name for the site
+        collectionId:
+          type: string
+          description: The identifier of the parent site collection
+        languages:
+          type: array
+          description: Languages enabled for this site
+          items:
+            $ref: '#/components/schemas/Language'
+        sortOrder:
+          type: integer
+          description: The sort position of this site within its collection
+        renderingHost:
+          type: string
+          description: The URL of the rendering host assigned to this site
+    RenderingHost:
+      type: object
+      description: A rendering host endpoint that can be assigned to a site
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the rendering host
+        name:
+          type: string
+          description: The display name of the rendering host
+        url:
+          type: string
+          description: The URL of the rendering host endpoint
+          format: uri
+    ValidateNameRequest:
+      type: object
+      description: Request body for validating a name
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          description: The name to validate
+    ProblemDetails:
+      type: object
+      description: RFC 7807 problem details response for errors
+      properties:
+        type:
+          type: string
+          description: A URI reference identifying the problem type
+        title:
+          type: string
+          description: A short human-readable summary of the problem
+        status:
+          type: integer
+          description: The HTTP status code for this occurrence of the problem
+        detail:
+          type: string
+          description: A human-readable explanation of the problem
+        instance:
+          type: string
+          description: A URI reference identifying the specific occurrence of the problem
+    CreateSiteRequest:
+      type: object
+      description: Request body for creating a new site
+      required:
+      - name
+      - collectionId
+      - language
+      properties:
+        name:
+          type: string
+          description: The name of the new site
+          maxLength: 100
+        displayName:
+          type: string
+          description: The human-readable display name for the site
+        collectionId:
+          type: string
+          description: The identifier of the parent site collection
+        language:
+          type: string
+          description: The default language ISO code for the site
+          example: en
+        templateId:
+          type: string
+          description: The identifier of the site template to use for creation
+    ValidateNameResponse:
+      type: object
+      description: Result of a name validation check
+      properties:
+        isValid:
+          type: boolean
+          description: Whether the name is valid and available
+        errors:
+          type: array
+          description: List of validation error messages if the name is invalid
+          items:
+            type: string
+    SortRequest:
+      type: object
+      description: Request body for updating the sort order of items
+      required:
+      - ids
+      properties:
+        ids:
+          type: array
+          description: Ordered list of item identifiers representing the new sort order
+          items:
+            type: string
+    Language:
+      type: object
+      description: A language configuration for a tenant or site
+      properties:
+        isoCode:
+          type: string
+          description: The ISO language code (e.g., en, fr-FR, de-DE)
+          example: en
+        name:
+          type: string
+          description: The display name of the language
+          example: English
+        nativeName:
+          type: string
+          description: The language name in its native script
+          example: English
+  responses:
+    Unauthorized:
+      description: Authentication token is missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+    BadRequest:
+      description: The request body or parameters are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+  parameters:
+    siteId:
+      name: siteId
+      in: path
+      description: The unique identifier of the site
+      required: true
+      schema:
+        type: string
+    environmentId:
+      name: sc_env
+      in: query
+      description: The XM Cloud environment identifier
+      required: false
+      schema:
+        type: string
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic authentication using a client key as the username and an API token as the password. Credentials are obtained from Sitecore CDP Settings > API access.
+externalDocs:
+  description: Sitecore CDP REST API Documentation
+  url: https://doc.sitecore.com/cdp/en/developers/api/rest-apis.html

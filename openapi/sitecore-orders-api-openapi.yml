@@ -1,0 +1,804 @@
+openapi: 3.1.0
+info:
+  title: Sitecore CDP REST Audit Orders API
+  description: The Sitecore CDP REST API provides synchronous access to retrieve, create, update, and delete data stored in Sitecore Customer Data Platform. It exposes guest profiles, orders, order items, order contacts, order consumers, and data extensions through standard HTTP methods. Developers use this API to build integrations that read or write customer data programmatically, enabling use cases such as audience segmentation, data enrichment, and reporting. Authentication uses HTTP Basic Auth with a client key and API token obtained from the CDP instance settings. Regional server endpoints must be used based on the CDP instance's geographic deployment.
+  version: v2.1
+  contact:
+    name: Sitecore Support
+    url: https://www.sitecore.com/support
+  termsOfService: https://www.sitecore.com/legal/terms-of-service
+servers:
+- url: https://api-engage-eu.sitecorecloud.io
+  description: EU Production Server
+- url: https://api-engage-us.sitecorecloud.io
+  description: US Production Server
+- url: https://api-engage-ap.sitecorecloud.io
+  description: Asia-Pacific Production Server
+- url: https://api-engage-jpe.sitecorecloud.io
+  description: Japan Production Server
+security:
+- basicAuth: []
+tags:
+- name: Orders
+  description: Endpoints for creating, retrieving, updating, and deleting order records associated with guests. Orders capture purchase transactions including line items, payments, and fulfillment data.
+paths:
+  /v2.1/guests/{guestRef}/orders:
+    get:
+      operationId: listGuestOrders
+      summary: List guest orders
+      description: Retrieves all orders associated with a guest profile. Returns order summaries including order references, totals, status, and creation dates.
+      tags:
+      - Orders
+      parameters:
+      - $ref: '#/components/parameters/guestRef'
+      responses:
+        '200':
+          description: List of orders for the guest
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Order'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    post:
+      operationId: createOrder
+      summary: Create an order
+      description: Creates a new order record associated with a guest profile. Orders capture purchase transactions and support segmentation and personalization based on purchasing behavior. The referenceId and orderedAt fields are immutable after creation.
+      tags:
+      - Orders
+      parameters:
+      - $ref: '#/components/parameters/guestRef'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrderRequest'
+      responses:
+        '201':
+          description: Order created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /v2.1/guests/{guestRef}/orders/{orderRef}:
+    get:
+      operationId: getOrder
+      summary: Get an order
+      description: Retrieves a specific order by its reference identifier. Returns the full order object including all line items, contacts, and data extensions.
+      tags:
+      - Orders
+      parameters:
+      - $ref: '#/components/parameters/guestRef'
+      - $ref: '#/components/parameters/orderRef'
+      responses:
+        '200':
+          description: Order details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      operationId: updateOrder
+      summary: Update an order
+      description: Performs a full replacement update of an order record. Note that the referenceId and orderedAt fields cannot be changed after the order has been created.
+      tags:
+      - Orders
+      parameters:
+      - $ref: '#/components/parameters/guestRef'
+      - $ref: '#/components/parameters/orderRef'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrderRequest'
+      responses:
+        '200':
+          description: Order updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteOrder
+      summary: Delete an order
+      description: Permanently deletes an order record and all associated items, contacts, consumers, and data extensions. This operation is irreversible.
+      tags:
+      - Orders
+      parameters:
+      - $ref: '#/components/parameters/guestRef'
+      - $ref: '#/components/parameters/orderRef'
+      responses:
+        '204':
+          description: Order deleted successfully
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /orders/{direction}:
+    get:
+      operationId: listOrders
+      summary: List orders
+      description: Retrieves a paginated list of orders in the specified direction context. Use 'Incoming' for orders received by the seller and 'Outgoing' for orders placed by a buyer. Supports filtering, sorting, and pagination.
+      tags:
+      - Orders
+      parameters:
+      - $ref: '#/components/parameters/direction'
+      - $ref: '#/components/parameters/search'
+      - $ref: '#/components/parameters/pageSize'
+      - $ref: '#/components/parameters/page'
+      - name: buyerID
+        in: query
+        description: Filter orders by buyer identifier
+        required: false
+        schema:
+          type: string
+      - name: status
+        in: query
+        description: Filter orders by status
+        required: false
+        schema:
+          type: string
+          enum:
+          - Unsubmitted
+          - Open
+          - AwaitingApproval
+          - Declined
+          - Completed
+          - Canceled
+      responses:
+        '200':
+          description: A paginated list of orders
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderListResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized_2'
+    post:
+      operationId: createOrder
+      summary: Create an order
+      description: Creates a new order in the specified direction context. New orders begin in the Unsubmitted status. Line items, promotions, and payments can be added before the order is submitted.
+      tags:
+      - Orders
+      parameters:
+      - $ref: '#/components/parameters/direction'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrderRequest_2'
+      responses:
+        '201':
+          description: Order created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order_2'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized_2'
+  /orders/{direction}/{orderID}:
+    get:
+      operationId: getOrder
+      summary: Get an order
+      description: Retrieves a specific order by its identifier and direction. Returns the full order object including status, totals, shipping address, and billing address.
+      tags:
+      - Orders
+      parameters:
+      - $ref: '#/components/parameters/direction'
+      - $ref: '#/components/parameters/orderID'
+      responses:
+        '200':
+          description: Order details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order_2'
+        '401':
+          $ref: '#/components/responses/Unauthorized_2'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      operationId: updateOrder
+      summary: Update an order
+      description: Performs a full replacement update of an order. Only orders in Unsubmitted status can be updated. Submitted orders cannot be modified.
+      tags:
+      - Orders
+      parameters:
+      - $ref: '#/components/parameters/direction'
+      - $ref: '#/components/parameters/orderID'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrderRequest_2'
+      responses:
+        '200':
+          description: Order updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order_2'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized_2'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteOrder
+      summary: Delete an order
+      description: Permanently deletes an order. Only unsubmitted orders can be deleted.
+      tags:
+      - Orders
+      parameters:
+      - $ref: '#/components/parameters/direction'
+      - $ref: '#/components/parameters/orderID'
+      responses:
+        '204':
+          description: Order deleted successfully
+        '401':
+          $ref: '#/components/responses/Unauthorized_2'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /orders/{direction}/{orderID}/submit:
+    post:
+      operationId: submitOrder
+      summary: Submit an order
+      description: Submits an order for fulfillment. The order must be in Unsubmitted status and have all required line items, payment methods, and addresses set before submission. Submitted orders transition to Open or AwaitingApproval status.
+      tags:
+      - Orders
+      parameters:
+      - $ref: '#/components/parameters/direction'
+      - $ref: '#/components/parameters/orderID'
+      responses:
+        '200':
+          description: Order submitted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order_2'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized_2'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /orders/{direction}/{orderID}/lineitems:
+    get:
+      operationId: listLineItems
+      summary: List order line items
+      description: Retrieves all line items within a specific order. Each line item represents a product or variant being purchased with a specified quantity and pricing.
+      tags:
+      - Orders
+      parameters:
+      - $ref: '#/components/parameters/direction'
+      - $ref: '#/components/parameters/orderID'
+      responses:
+        '200':
+          description: List of order line items
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LineItemListResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized_2'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    post:
+      operationId: createLineItem
+      summary: Create a line item
+      description: Adds a line item to an order specifying a product and quantity. Specs and spec option values can be provided to select a specific product variant.
+      tags:
+      - Orders
+      parameters:
+      - $ref: '#/components/parameters/direction'
+      - $ref: '#/components/parameters/orderID'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateLineItemRequest'
+      responses:
+        '201':
+          description: Line item added to order
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LineItem'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized_2'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  parameters:
+    orderID:
+      name: orderID
+      in: path
+      description: The unique identifier of the order
+      required: true
+      schema:
+        type: string
+    pageSize:
+      name: pageSize
+      in: query
+      description: Number of items to return per page (max 100)
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+    orderRef:
+      name: orderRef
+      in: path
+      description: The unique reference identifier for the order
+      required: true
+      schema:
+        type: string
+    search:
+      name: search
+      in: query
+      description: Full-text search term to filter results
+      required: false
+      schema:
+        type: string
+    direction:
+      name: direction
+      in: path
+      description: The order direction context - Incoming (seller view) or Outgoing (buyer view)
+      required: true
+      schema:
+        type: string
+        enum:
+        - Incoming
+        - Outgoing
+    page:
+      name: page
+      in: query
+      description: Page number to retrieve (1-indexed)
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+    guestRef:
+      name: guestRef
+      in: path
+      description: The unique reference identifier for the guest profile
+      required: true
+      schema:
+        type: string
+  schemas:
+    Address:
+      type: object
+      description: A shipping or billing address
+      properties:
+        ID:
+          type: string
+          description: The unique identifier of the address
+        FirstName:
+          type: string
+          description: The recipient's first name
+        LastName:
+          type: string
+          description: The recipient's last name
+        Company:
+          type: string
+          description: The company name at this address
+        Street1:
+          type: string
+          description: The primary street address line
+        Street2:
+          type: string
+          description: The secondary street address line
+        City:
+          type: string
+          description: The city name
+        State:
+          type: string
+          description: The state or province code
+        Zip:
+          type: string
+          description: The postal or ZIP code
+        Country:
+          type: string
+          description: The ISO 3166-1 alpha-2 country code
+          example: US
+        Phone:
+          type: string
+          description: The phone number associated with this address
+    OrderItem:
+      type: object
+      description: A line item within an order representing a purchased product
+      properties:
+        itemRef:
+          type: string
+          description: The unique reference identifier for the order item
+        sku:
+          type: string
+          description: The product SKU or identifier
+        name:
+          type: string
+          description: The product name
+        quantity:
+          type: integer
+          description: The quantity of this product purchased
+          minimum: 1
+        price:
+          type: number
+          description: The unit price of the product
+          format: float
+        totalPrice:
+          type: number
+          description: The total price for this line item (quantity * price)
+          format: float
+    ErrorResponse_2:
+      type: object
+      description: An error response body
+      properties:
+        Errors:
+          type: array
+          description: List of error details
+          items:
+            $ref: '#/components/schemas/ErrorDetail'
+    UserReference:
+      type: object
+      description: A reference to a user who placed or owns an order
+      properties:
+        ID:
+          type: string
+          description: The unique identifier of the user
+        FirstName:
+          type: string
+          description: The user's first name
+        LastName:
+          type: string
+          description: The user's last name
+        Username:
+          type: string
+          description: The user's login username
+        Email:
+          type: string
+          description: The user's email address
+          format: email
+    CreateOrderRequest_2:
+      type: object
+      description: Request body for creating or updating an order
+      properties:
+        BillingAddressID:
+          type: string
+          description: The identifier of the billing address
+        ShippingAddressID:
+          type: string
+          description: The identifier of the shipping address
+        Comments:
+          type: string
+          description: Free-form comments for the order
+        xp:
+          type: object
+          description: Extended properties for custom order attributes
+          additionalProperties: true
+    ErrorDetail:
+      type: object
+      description: A single error detail
+      properties:
+        ErrorCode:
+          type: string
+          description: The machine-readable error code
+        Message:
+          type: string
+          description: A human-readable description of the error
+        Data:
+          type: object
+          description: Additional data about the error context
+          additionalProperties: true
+    Order_2:
+      type: object
+      description: An order in the OrderCloud marketplace
+      properties:
+        ID:
+          type: string
+          description: The unique identifier of the order
+        FromUser:
+          $ref: '#/components/schemas/UserReference'
+        BillingAddress:
+          $ref: '#/components/schemas/Address'
+        ShippingAddressID:
+          type: string
+          description: The identifier of the shipping address for the order
+        Comments:
+          type: string
+          description: Free-form comments attached to the order
+        LineItemCount:
+          type: integer
+          description: The total number of line items in the order
+        Status:
+          type: string
+          description: The current status of the order
+          enum:
+          - Unsubmitted
+          - Open
+          - AwaitingApproval
+          - Declined
+          - Completed
+          - Canceled
+        DateCreated:
+          type: string
+          description: The ISO 8601 timestamp when the order was created
+          format: date-time
+        DateSubmitted:
+          type: string
+          description: The ISO 8601 timestamp when the order was submitted
+          format: date-time
+        DateApproved:
+          type: string
+          description: The ISO 8601 timestamp when the order was approved
+          format: date-time
+        DateCompleted:
+          type: string
+          description: The ISO 8601 timestamp when the order was completed
+          format: date-time
+        Subtotal:
+          type: number
+          description: The order subtotal before promotions and shipping
+          format: float
+        ShippingCost:
+          type: number
+          description: The shipping cost for the order
+          format: float
+        TaxCost:
+          type: number
+          description: The tax amount for the order
+          format: float
+        PromotionDiscount:
+          type: number
+          description: The total discount amount from applied promotions
+          format: float
+        Total:
+          type: number
+          description: The total order amount after all adjustments
+          format: float
+        xp:
+          type: object
+          description: Extended properties for custom order attributes
+          additionalProperties: true
+    OrderListResponse:
+      type: object
+      description: A paginated list of orders
+      properties:
+        Meta:
+          $ref: '#/components/schemas/ListMetadata'
+        Items:
+          type: array
+          description: The orders for the current page
+          items:
+            $ref: '#/components/schemas/Order_2'
+    CreateOrderRequest:
+      type: object
+      description: Request body for creating or updating an order record
+      required:
+      - referenceId
+      - orderedAt
+      properties:
+        referenceId:
+          type: string
+          description: An external reference identifier for the order. Cannot be changed after creation.
+        status:
+          type: string
+          description: The current status of the order
+          enum:
+          - PENDING
+          - CONFIRMED
+          - SHIPPED
+          - DELIVERED
+          - CANCELED
+        currencyCode:
+          type: string
+          description: The ISO 4217 currency code for the order
+        totalPrice:
+          type: number
+          description: The total price of the order
+          format: float
+        orderedAt:
+          type: string
+          description: The ISO 8601 timestamp when the order was placed. Cannot be changed after creation.
+          format: date-time
+    CreateLineItemRequest:
+      type: object
+      description: Request body for creating a line item
+      required:
+      - ProductID
+      - Quantity
+      properties:
+        ProductID:
+          type: string
+          description: The identifier of the product to add
+        Quantity:
+          type: integer
+          description: The quantity to purchase
+          minimum: 1
+        ShippingAddressID:
+          type: string
+          description: The identifier of the shipping address for this item
+        xp:
+          type: object
+          description: Extended properties for custom line item attributes
+          additionalProperties: true
+    LineItemListResponse:
+      type: object
+      description: A paginated list of order line items
+      properties:
+        Meta:
+          $ref: '#/components/schemas/ListMetadata'
+        Items:
+          type: array
+          description: The line items for the current page
+          items:
+            $ref: '#/components/schemas/LineItem'
+    ListMetadata:
+      type: object
+      description: Pagination metadata for list responses
+      properties:
+        Page:
+          type: integer
+          description: The current page number (1-indexed)
+        PageSize:
+          type: integer
+          description: The number of items per page
+        TotalCount:
+          type: integer
+          description: The total number of items matching the query
+        TotalPages:
+          type: integer
+          description: The total number of pages
+        ItemRange:
+          type: array
+          description: The inclusive range [start, end] of item indexes for this page
+          items:
+            type: integer
+    ErrorResponse:
+      type: object
+      description: An error response body
+      properties:
+        message:
+          type: string
+          description: A human-readable error message
+        statusCode:
+          type: integer
+          description: The HTTP status code
+        errors:
+          type: array
+          description: List of detailed error messages
+          items:
+            type: string
+    LineItem:
+      type: object
+      description: A line item within an OrderCloud order
+      properties:
+        ID:
+          type: string
+          description: The unique identifier of the line item
+        ProductID:
+          type: string
+          description: The identifier of the product for this line item
+        Quantity:
+          type: integer
+          description: The quantity of the product ordered
+          minimum: 1
+        UnitPrice:
+          type: number
+          description: The unit price of the product
+          format: float
+        LineTotal:
+          type: number
+          description: The total price for this line item
+          format: float
+        ShippingAddressID:
+          type: string
+          description: The identifier of the shipping address for this line item
+        xp:
+          type: object
+          description: Extended properties for custom line item attributes
+          additionalProperties: true
+    Order:
+      type: object
+      description: A purchase transaction record associated with a guest profile
+      properties:
+        orderRef:
+          type: string
+          description: The unique reference identifier for the order
+        referenceId:
+          type: string
+          description: An external reference identifier for the order, immutable after creation. Orders with the same referenceId and orderedAt within two days are grouped.
+        status:
+          type: string
+          description: The current status of the order
+          enum:
+          - PENDING
+          - CONFIRMED
+          - SHIPPED
+          - DELIVERED
+          - CANCELED
+        currencyCode:
+          type: string
+          description: The ISO 4217 currency code for the order
+          example: USD
+        totalPrice:
+          type: number
+          description: The total price of the order
+          format: float
+        orderedAt:
+          type: string
+          description: The ISO 8601 timestamp when the order was placed. Immutable after creation.
+          format: date-time
+        createdAt:
+          type: string
+          description: The ISO 8601 timestamp when the order record was created in CDP
+          format: date-time
+        items:
+          type: array
+          description: Line items included in the order
+          items:
+            $ref: '#/components/schemas/OrderItem'
+  responses:
+    Unauthorized_2:
+      description: Authentication token is missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse_2'
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Authentication credentials are missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: The request body or parameters are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic authentication using a client key as the username and an API token as the password. Credentials are obtained from Sitecore CDP Settings > API access.
+externalDocs:
+  description: Sitecore CDP REST API Documentation
+  url: https://doc.sitecore.com/cdp/en/developers/api/rest-apis.html

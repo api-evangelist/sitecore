@@ -1,0 +1,165 @@
+openapi: 3.1.0
+info:
+  title: Sitecore CDP REST Audit Events API
+  description: The Sitecore CDP REST API provides synchronous access to retrieve, create, update, and delete data stored in Sitecore Customer Data Platform. It exposes guest profiles, orders, order items, order contacts, order consumers, and data extensions through standard HTTP methods. Developers use this API to build integrations that read or write customer data programmatically, enabling use cases such as audience segmentation, data enrichment, and reporting. Authentication uses HTTP Basic Auth with a client key and API token obtained from the CDP instance settings. Regional server endpoints must be used based on the CDP instance's geographic deployment.
+  version: v2.1
+  contact:
+    name: Sitecore Support
+    url: https://www.sitecore.com/support
+  termsOfService: https://www.sitecore.com/legal/terms-of-service
+servers:
+- url: https://api-engage-eu.sitecorecloud.io
+  description: EU Production Server
+- url: https://api-engage-us.sitecorecloud.io
+  description: US Production Server
+- url: https://api-engage-ap.sitecorecloud.io
+  description: Asia-Pacific Production Server
+- url: https://api-engage-jpe.sitecorecloud.io
+  description: Japan Production Server
+security:
+- basicAuth: []
+tags:
+- name: Events
+  description: Endpoints for sending behavioral and interaction events from storefronts to Sitecore Discover. Events include clicks, purchases, and page views that improve recommendation relevance over time.
+paths:
+  /api/event/1:
+    get:
+      operationId: trackEventGet
+      summary: Track a behavioral event (GET)
+      description: Sends a behavioral event from a storefront visitor session to Sitecore Discover. Events are used to improve the relevance of search results and product recommendations. The key parameter contains a URL-encoded JSON object with the event details.
+      tags:
+      - Events
+      parameters:
+      - $ref: '#/components/parameters/customerKey'
+      - name: key
+        in: query
+        description: URL-encoded JSON object containing event details
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Event tracked successfully
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: trackEventPost
+      summary: Track a behavioral event (POST)
+      description: Sends one or more behavioral events from a storefront visitor session using a POST request body. Events are used to improve search and recommendation relevance over time.
+      tags:
+      - Events
+      parameters:
+      - $ref: '#/components/parameters/customerKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EventRequest'
+      responses:
+        '200':
+          description: Event tracked successfully
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  schemas:
+    EventRequest:
+      type: object
+      description: Behavioral event tracking request
+      required:
+      - data
+      properties:
+        data:
+          type: array
+          description: List of behavioral events to track
+          items:
+            $ref: '#/components/schemas/BehavioralEvent'
+    BehavioralEvent:
+      type: object
+      description: A single behavioral event from a storefront visitor
+      required:
+      - type
+      properties:
+        type:
+          type: string
+          description: The type of behavioral event
+          enum:
+          - click
+          - purchase
+          - view
+          - search
+          - addToCart
+          - removeFromCart
+          - impression
+        sku:
+          type: string
+          description: The product SKU involved in the event
+        price:
+          type: number
+          description: The price of the product at time of the event
+          format: float
+        quantity:
+          type: integer
+          description: The quantity involved in the event
+        orderId:
+          type: string
+          description: The order identifier for purchase events
+        pageType:
+          type: string
+          description: The type of page where the event occurred
+          enum:
+          - home
+          - search
+          - plp
+          - pdp
+          - cart
+          - order-confirm
+          - other
+    ErrorResponse:
+      type: object
+      description: An error response body
+      properties:
+        message:
+          type: string
+          description: A human-readable error message
+        statusCode:
+          type: integer
+          description: The HTTP status code
+        errors:
+          type: array
+          description: List of detailed error messages
+          items:
+            type: string
+  responses:
+    Unauthorized:
+      description: Authentication token is missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: The request body or parameters are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  parameters:
+    customerKey:
+      name: customerKey
+      in: query
+      description: The customer key identifying the Sitecore Discover account. Found in the Customer Engagement Console under Developer Resources > API Access.
+      required: false
+      schema:
+        type: string
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic authentication using a client key as the username and an API token as the password. Credentials are obtained from Sitecore CDP Settings > API access.
+externalDocs:
+  description: Sitecore CDP REST API Documentation
+  url: https://doc.sitecore.com/cdp/en/developers/api/rest-apis.html

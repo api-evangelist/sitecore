@@ -1,0 +1,238 @@
+openapi: 3.1.0
+info:
+  title: Sitecore CDP REST Audit Guest Data Extensions API
+  description: The Sitecore CDP REST API provides synchronous access to retrieve, create, update, and delete data stored in Sitecore Customer Data Platform. It exposes guest profiles, orders, order items, order contacts, order consumers, and data extensions through standard HTTP methods. Developers use this API to build integrations that read or write customer data programmatically, enabling use cases such as audience segmentation, data enrichment, and reporting. Authentication uses HTTP Basic Auth with a client key and API token obtained from the CDP instance settings. Regional server endpoints must be used based on the CDP instance's geographic deployment.
+  version: v2.1
+  contact:
+    name: Sitecore Support
+    url: https://www.sitecore.com/support
+  termsOfService: https://www.sitecore.com/legal/terms-of-service
+servers:
+- url: https://api-engage-eu.sitecorecloud.io
+  description: EU Production Server
+- url: https://api-engage-us.sitecorecloud.io
+  description: US Production Server
+- url: https://api-engage-ap.sitecorecloud.io
+  description: Asia-Pacific Production Server
+- url: https://api-engage-jpe.sitecorecloud.io
+  description: Japan Production Server
+security:
+- basicAuth: []
+tags:
+- name: Guest Data Extensions
+  description: Endpoints for managing custom key-value data extensions attached to guest profiles. Data extensions allow organizations to store additional structured information beyond the standard guest fields.
+paths:
+  /v2.1/guests/{guestRef}/extensions:
+    get:
+      operationId: listGuestDataExtensions
+      summary: List guest data extensions
+      description: Retrieves all custom data extensions associated with a guest profile. Data extensions are named sets of key-value pairs that store additional structured information beyond the standard guest attributes.
+      tags:
+      - Guest Data Extensions
+      parameters:
+      - $ref: '#/components/parameters/guestRef'
+      responses:
+        '200':
+          description: List of data extensions for the guest
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DataExtension'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    post:
+      operationId: createGuestDataExtension
+      summary: Create a guest data extension
+      description: Creates a new named data extension on a guest profile. Each extension is identified by a unique name and contains a set of key-value pairs. Only one data extension of each name is supported per guest.
+      tags:
+      - Guest Data Extensions
+      parameters:
+      - $ref: '#/components/parameters/guestRef'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DataExtension'
+      responses:
+        '201':
+          description: Data extension created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataExtension'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /v2.1/guests/{guestRef}/extensions/{dataExtensionName}:
+    get:
+      operationId: getGuestDataExtension
+      summary: Get a guest data extension
+      description: Retrieves a specific named data extension for a guest profile. Returns all key-value pairs stored within the extension.
+      tags:
+      - Guest Data Extensions
+      parameters:
+      - $ref: '#/components/parameters/guestRef'
+      - $ref: '#/components/parameters/dataExtensionName'
+      responses:
+        '200':
+          description: Data extension details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataExtension'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      operationId: updateGuestDataExtension
+      summary: Update a guest data extension (full)
+      description: Performs a full replacement of a guest data extension. All existing key-value pairs are replaced with those provided in the request body.
+      tags:
+      - Guest Data Extensions
+      parameters:
+      - $ref: '#/components/parameters/guestRef'
+      - $ref: '#/components/parameters/dataExtensionName'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DataExtension'
+      responses:
+        '200':
+          description: Data extension updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataExtension'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      operationId: patchGuestDataExtension
+      summary: Update a guest data extension (partial)
+      description: Performs a partial update of a guest data extension. Only the key-value pairs included in the request are updated; existing pairs not mentioned are retained.
+      tags:
+      - Guest Data Extensions
+      parameters:
+      - $ref: '#/components/parameters/guestRef'
+      - $ref: '#/components/parameters/dataExtensionName'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DataExtension'
+      responses:
+        '200':
+          description: Data extension partially updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataExtension'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteGuestDataExtension
+      summary: Delete a guest data extension
+      description: Permanently deletes a named data extension from a guest profile. All key-value pairs within the extension are removed.
+      tags:
+      - Guest Data Extensions
+      parameters:
+      - $ref: '#/components/parameters/guestRef'
+      - $ref: '#/components/parameters/dataExtensionName'
+      responses:
+        '204':
+          description: Data extension deleted successfully
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  responses:
+    Unauthorized:
+      description: Authentication credentials are missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: The request body or parameters are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  parameters:
+    dataExtensionName:
+      name: dataExtensionName
+      in: path
+      description: The name of the data extension
+      required: true
+      schema:
+        type: string
+    guestRef:
+      name: guestRef
+      in: path
+      description: The unique reference identifier for the guest profile
+      required: true
+      schema:
+        type: string
+  schemas:
+    ErrorResponse:
+      type: object
+      description: An error response body
+      properties:
+        message:
+          type: string
+          description: A human-readable error message
+        statusCode:
+          type: integer
+          description: The HTTP status code
+        errors:
+          type: array
+          description: List of detailed error messages
+          items:
+            type: string
+    DataExtension:
+      type: object
+      description: A named set of custom key-value pairs attached to a guest or order
+      properties:
+        name:
+          type: string
+          description: The unique name identifying this data extension
+        key:
+          type: string
+          description: The key within the data extension (for single-pair extensions)
+        value:
+          type: string
+          description: The value for the specified key
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic authentication using a client key as the username and an API token as the password. Credentials are obtained from Sitecore CDP Settings > API access.
+externalDocs:
+  description: Sitecore CDP REST API Documentation
+  url: https://doc.sitecore.com/cdp/en/developers/api/rest-apis.html

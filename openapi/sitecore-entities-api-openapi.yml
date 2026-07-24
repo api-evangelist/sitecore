@@ -1,0 +1,353 @@
+openapi: 3.1.0
+info:
+  title: Sitecore CDP REST Audit Entities API
+  description: The Sitecore CDP REST API provides synchronous access to retrieve, create, update, and delete data stored in Sitecore Customer Data Platform. It exposes guest profiles, orders, order items, order contacts, order consumers, and data extensions through standard HTTP methods. Developers use this API to build integrations that read or write customer data programmatically, enabling use cases such as audience segmentation, data enrichment, and reporting. Authentication uses HTTP Basic Auth with a client key and API token obtained from the CDP instance settings. Regional server endpoints must be used based on the CDP instance's geographic deployment.
+  version: v2.1
+  contact:
+    name: Sitecore Support
+    url: https://www.sitecore.com/support
+  termsOfService: https://www.sitecore.com/legal/terms-of-service
+servers:
+- url: https://api-engage-eu.sitecorecloud.io
+  description: EU Production Server
+- url: https://api-engage-us.sitecorecloud.io
+  description: US Production Server
+- url: https://api-engage-ap.sitecorecloud.io
+  description: Asia-Pacific Production Server
+- url: https://api-engage-jpe.sitecorecloud.io
+  description: Japan Production Server
+security:
+- basicAuth: []
+tags:
+- name: Entities
+  description: Endpoints for performing CRUD operations on Content Hub entities including assets, taxonomy nodes, content items, and all other entity types managed within the platform.
+paths:
+  /entities:
+    get:
+      operationId: listEntities
+      summary: List entities
+      description: Retrieves a paginated list of entities from the Content Hub. Supports filtering by entity definition, property values, and relations. The response includes hyperlinks for navigating to related resources.
+      tags:
+      - Entities
+      parameters:
+      - name: definition
+        in: query
+        description: Filter entities by their entity definition identifier
+        required: false
+        schema:
+          type: string
+      - name: skip
+        in: query
+        description: Number of entities to skip for pagination
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+      - name: take
+        in: query
+        description: Maximum number of entities to return
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 25
+      - name: culture
+        in: query
+        description: Culture code for multi-lingual property values (e.g., en-US)
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: A paginated list of entities
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityListResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createEntity
+      summary: Create an entity
+      description: Creates a new entity in Content Hub according to the specified entity definition. The entity type is determined by the definition identifier provided in the request body. Properties and relations are set according to the definition schema.
+      tags:
+      - Entities
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateEntityRequest'
+      responses:
+        '201':
+          description: Entity created successfully
+          headers:
+            Location:
+              description: The URL of the newly created entity
+              schema:
+                type: string
+                format: uri
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Entity'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /entities/{id}:
+    get:
+      operationId: getEntity
+      summary: Get an entity
+      description: Retrieves a specific entity by its numeric identifier. Returns the entity with all its properties, relations, and hypermedia links. Use the culture parameter to retrieve localized property values.
+      tags:
+      - Entities
+      parameters:
+      - $ref: '#/components/parameters/entityId'
+      - name: culture
+        in: query
+        description: Culture code for localized properties (e.g., en-US)
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Entity details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Entity'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    put:
+      operationId: updateEntity
+      summary: Update an entity
+      description: Performs a full replacement update of an entity. All properties and relations are replaced with the values in the request body. Missing optional properties will be cleared.
+      tags:
+      - Entities
+      parameters:
+      - $ref: '#/components/parameters/entityId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateEntityRequest'
+      responses:
+        '200':
+          description: Entity updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Entity'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteEntity
+      summary: Delete an entity
+      description: Permanently deletes an entity from Content Hub. This operation is irreversible. Assets that are in use or have active relations may require the relations to be removed first.
+      tags:
+      - Entities
+      parameters:
+      - $ref: '#/components/parameters/entityId'
+      responses:
+        '204':
+          description: Entity deleted successfully
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /entities/{id}/lifecycle:
+    put:
+      operationId: updateEntityLifecycle
+      summary: Update entity lifecycle state
+      description: Updates the lifecycle state of an entity such as an asset. Lifecycle state transitions control the publishing workflow of assets within Content Hub (e.g., Draft, Approved, Published).
+      tags:
+      - Entities
+      parameters:
+      - $ref: '#/components/parameters/entityId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LifecycleRequest'
+      responses:
+        '200':
+          description: Lifecycle state updated
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  schemas:
+    Entity:
+      type: object
+      description: A Content Hub entity representing any resource such as an asset or taxonomy node
+      properties:
+        id:
+          type: integer
+          description: The numeric identifier of the entity
+        identifier:
+          type: string
+          description: The human-readable string identifier of the entity
+        definitionName:
+          type: string
+          description: The name of the entity definition this entity conforms to
+        cultures:
+          type: array
+          description: Culture codes for which the entity has localized data
+          items:
+            type: string
+        properties:
+          type: object
+          description: Key-value map of entity property names to their values
+          additionalProperties: true
+        relations:
+          type: object
+          description: Key-value map of relation names to related entity references
+          additionalProperties: true
+        systemProperties:
+          $ref: '#/components/schemas/SystemProperties'
+        links:
+          type: object
+          description: Hypermedia links for navigating to related resources
+          additionalProperties:
+            type: string
+            format: uri
+    LifecycleRequest:
+      type: object
+      description: Request body for updating an entity's lifecycle state
+      required:
+      - state
+      properties:
+        state:
+          type: string
+          description: The target lifecycle state for the entity
+          enum:
+          - Draft
+          - InProgress
+          - Approved
+          - Published
+          - Archived
+    CreateEntityRequest:
+      type: object
+      description: Request body for creating or updating an entity
+      required:
+      - definitionName
+      properties:
+        definitionName:
+          type: string
+          description: The name of the entity definition for the new entity
+        identifier:
+          type: string
+          description: Optional custom string identifier for the entity
+        cultures:
+          type: array
+          description: Culture codes for which to set localized properties
+          items:
+            type: string
+        properties:
+          type: object
+          description: Property name to value mappings for the entity
+          additionalProperties: true
+        relations:
+          type: object
+          description: Relation name to entity reference mappings
+          additionalProperties: true
+    EntityListResponse:
+      type: object
+      description: A paginated list of entities
+      properties:
+        items:
+          type: array
+          description: The entities for the current page
+          items:
+            $ref: '#/components/schemas/Entity'
+        totalCount:
+          type: integer
+          description: The total number of entities matching the query
+        skip:
+          type: integer
+          description: The number of entities skipped
+        take:
+          type: integer
+          description: The maximum number of entities returned
+    ErrorResponse:
+      type: object
+      description: An error response body
+      properties:
+        message:
+          type: string
+          description: A human-readable error message
+        statusCode:
+          type: integer
+          description: The HTTP status code
+        errors:
+          type: array
+          description: List of detailed error messages
+          items:
+            type: string
+    SystemProperties:
+      type: object
+      description: System-managed metadata properties on a Content Hub entity
+      properties:
+        createdOn:
+          type: string
+          description: The ISO 8601 timestamp when the entity was created
+          format: date-time
+        createdBy:
+          type: string
+          description: The username of the user who created the entity
+        modifiedOn:
+          type: string
+          description: The ISO 8601 timestamp when the entity was last modified
+          format: date-time
+        modifiedBy:
+          type: string
+          description: The username of the user who last modified the entity
+  responses:
+    Unauthorized:
+      description: Authentication token is missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: The request body or parameters are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  parameters:
+    entityId:
+      name: id
+      in: path
+      description: The numeric identifier of the entity
+      required: true
+      schema:
+        type: integer
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic authentication using a client key as the username and an API token as the password. Credentials are obtained from Sitecore CDP Settings > API access.
+externalDocs:
+  description: Sitecore CDP REST API Documentation
+  url: https://doc.sitecore.com/cdp/en/developers/api/rest-apis.html

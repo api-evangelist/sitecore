@@ -1,0 +1,177 @@
+openapi: 3.1.0
+info:
+  title: Sitecore CDP REST Audit Querying API
+  description: The Sitecore CDP REST API provides synchronous access to retrieve, create, update, and delete data stored in Sitecore Customer Data Platform. It exposes guest profiles, orders, order items, order contacts, order consumers, and data extensions through standard HTTP methods. Developers use this API to build integrations that read or write customer data programmatically, enabling use cases such as audience segmentation, data enrichment, and reporting. Authentication uses HTTP Basic Auth with a client key and API token obtained from the CDP instance settings. Regional server endpoints must be used based on the CDP instance's geographic deployment.
+  version: v2.1
+  contact:
+    name: Sitecore Support
+    url: https://www.sitecore.com/support
+  termsOfService: https://www.sitecore.com/legal/terms-of-service
+servers:
+- url: https://api-engage-eu.sitecorecloud.io
+  description: EU Production Server
+- url: https://api-engage-us.sitecorecloud.io
+  description: US Production Server
+- url: https://api-engage-ap.sitecorecloud.io
+  description: Asia-Pacific Production Server
+- url: https://api-engage-jpe.sitecorecloud.io
+  description: Japan Production Server
+security:
+- basicAuth: []
+tags:
+- name: Querying
+  description: Endpoints for fetching entities that match specific criteria using structured query expressions against entity properties and relations.
+paths:
+  /entities/query:
+    post:
+      operationId: queryEntities
+      summary: Query entities
+      description: Executes a structured query against the Content Hub entity index. Supports filtering by property values, relations, and entity definition using a query expression language. Returns matching entities with pagination.
+      tags:
+      - Querying
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EntityQuery'
+      responses:
+        '200':
+          description: Query results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EntityListResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  schemas:
+    Entity:
+      type: object
+      description: A Content Hub entity representing any resource such as an asset or taxonomy node
+      properties:
+        id:
+          type: integer
+          description: The numeric identifier of the entity
+        identifier:
+          type: string
+          description: The human-readable string identifier of the entity
+        definitionName:
+          type: string
+          description: The name of the entity definition this entity conforms to
+        cultures:
+          type: array
+          description: Culture codes for which the entity has localized data
+          items:
+            type: string
+        properties:
+          type: object
+          description: Key-value map of entity property names to their values
+          additionalProperties: true
+        relations:
+          type: object
+          description: Key-value map of relation names to related entity references
+          additionalProperties: true
+        systemProperties:
+          $ref: '#/components/schemas/SystemProperties'
+        links:
+          type: object
+          description: Hypermedia links for navigating to related resources
+          additionalProperties:
+            type: string
+            format: uri
+    EntityQuery:
+      type: object
+      description: A structured query for filtering entities
+      properties:
+        query:
+          type: object
+          description: The query expression object for filtering entities
+          additionalProperties: true
+        skip:
+          type: integer
+          description: Number of entities to skip
+          default: 0
+        take:
+          type: integer
+          description: Maximum number of entities to return
+          default: 25
+        cultures:
+          type: array
+          description: Culture codes for localized property values
+          items:
+            type: string
+    EntityListResponse:
+      type: object
+      description: A paginated list of entities
+      properties:
+        items:
+          type: array
+          description: The entities for the current page
+          items:
+            $ref: '#/components/schemas/Entity'
+        totalCount:
+          type: integer
+          description: The total number of entities matching the query
+        skip:
+          type: integer
+          description: The number of entities skipped
+        take:
+          type: integer
+          description: The maximum number of entities returned
+    ErrorResponse:
+      type: object
+      description: An error response body
+      properties:
+        message:
+          type: string
+          description: A human-readable error message
+        statusCode:
+          type: integer
+          description: The HTTP status code
+        errors:
+          type: array
+          description: List of detailed error messages
+          items:
+            type: string
+    SystemProperties:
+      type: object
+      description: System-managed metadata properties on a Content Hub entity
+      properties:
+        createdOn:
+          type: string
+          description: The ISO 8601 timestamp when the entity was created
+          format: date-time
+        createdBy:
+          type: string
+          description: The username of the user who created the entity
+        modifiedOn:
+          type: string
+          description: The ISO 8601 timestamp when the entity was last modified
+          format: date-time
+        modifiedBy:
+          type: string
+          description: The username of the user who last modified the entity
+  responses:
+    Unauthorized:
+      description: Authentication token is missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: The request body or parameters are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic authentication using a client key as the username and an API token as the password. Credentials are obtained from Sitecore CDP Settings > API access.
+externalDocs:
+  description: Sitecore CDP REST API Documentation
+  url: https://doc.sitecore.com/cdp/en/developers/api/rest-apis.html

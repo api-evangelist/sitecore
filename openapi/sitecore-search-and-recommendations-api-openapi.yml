@@ -1,0 +1,287 @@
+openapi: 3.1.0
+info:
+  title: Sitecore CDP REST Audit Search and Recommendations API
+  description: The Sitecore CDP REST API provides synchronous access to retrieve, create, update, and delete data stored in Sitecore Customer Data Platform. It exposes guest profiles, orders, order items, order contacts, order consumers, and data extensions through standard HTTP methods. Developers use this API to build integrations that read or write customer data programmatically, enabling use cases such as audience segmentation, data enrichment, and reporting. Authentication uses HTTP Basic Auth with a client key and API token obtained from the CDP instance settings. Regional server endpoints must be used based on the CDP instance's geographic deployment.
+  version: v2.1
+  contact:
+    name: Sitecore Support
+    url: https://www.sitecore.com/support
+  termsOfService: https://www.sitecore.com/legal/terms-of-service
+servers:
+- url: https://api-engage-eu.sitecorecloud.io
+  description: EU Production Server
+- url: https://api-engage-us.sitecorecloud.io
+  description: US Production Server
+- url: https://api-engage-ap.sitecorecloud.io
+  description: Asia-Pacific Production Server
+- url: https://api-engage-jpe.sitecorecloud.io
+  description: Japan Production Server
+security:
+- basicAuth: []
+tags:
+- name: Search and Recommendations
+  description: Endpoints for performing product and content search queries, retrieving ranked results, applying faceted filters, and fetching personalized product recommendations based on behavioral data.
+paths:
+  /api/search-rec/3:
+    get:
+      operationId: searchAndRecommend
+      summary: Search and recommend products
+      description: Performs a product or content search and retrieves ranked results with optional faceted filtering and personalized recommendations. Supports keyword search, category browsing, and recommendation widget contexts. The key parameter contains a JSON string with all query parameters.
+      tags:
+      - Search and Recommendations
+      parameters:
+      - $ref: '#/components/parameters/customerKey'
+      - name: key
+        in: query
+        description: URL-encoded JSON object containing the search query parameters including keyword, widget ID, page context, and filter facets
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Search and recommendation results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: searchAndRecommendPost
+      summary: Search and recommend products (POST)
+      description: Performs a product or content search using a POST request body instead of query parameters. Supports the same functionality as the GET endpoint with the query parameters provided as a JSON request body.
+      tags:
+      - Search and Recommendations
+      parameters:
+      - $ref: '#/components/parameters/customerKey'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchRequest'
+      responses:
+        '200':
+          description: Search and recommendation results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  responses:
+    Unauthorized:
+      description: Authentication token is missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: The request body or parameters are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  schemas:
+    Facet:
+      type: object
+      description: A search facet with available filter values
+      properties:
+        name:
+          type: string
+          description: The facet field name
+        label:
+          type: string
+          description: The display label for the facet
+        value:
+          type: array
+          description: Available values for this facet
+          items:
+            $ref: '#/components/schemas/FacetValue'
+    FacetValue:
+      type: object
+      description: A single facet value with its count
+      properties:
+        id:
+          type: string
+          description: The facet value identifier
+        text:
+          type: string
+          description: The display text for the facet value
+        count:
+          type: integer
+          description: The number of matching products with this value
+    DiscoverProduct:
+      type: object
+      description: A product result from Sitecore Discover search or recommendations
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the product
+        name:
+          type: string
+          description: The display name of the product
+        sku:
+          type: string
+          description: The product SKU or variant identifier
+        description:
+          type: string
+          description: The product description
+        url:
+          type: string
+          description: The URL of the product detail page
+          format: uri
+        image_url:
+          type: string
+          description: The URL of the product image
+          format: uri
+        price:
+          type: number
+          description: The base price of the product
+          format: float
+        final_price:
+          type: number
+          description: The final selling price after any discounts
+          format: float
+        brand:
+          type: string
+          description: The brand name of the product
+        category:
+          type: string
+          description: The primary category of the product
+        ccurrencyCode:
+          type: string
+          description: The ISO 4217 currency code for prices
+          example: USD
+    SearchRequest:
+      type: object
+      description: Search and recommendation request parameters
+      properties:
+        widget:
+          type: object
+          description: Widget configuration identifying the search or recommendation context
+          properties:
+            rfkid:
+              type: string
+              description: The Reflektion widget ID identifying the search or recommendation placement
+        search:
+          type: object
+          description: Search configuration including keyword and pagination
+          properties:
+            content:
+              type: object
+              description: Content filters for the search request
+              additionalProperties: true
+            query:
+              type: object
+              description: Query configuration
+              properties:
+                keyphrase:
+                  type: string
+                  description: The search keyword entered by the user
+            limit:
+              type: integer
+              description: Maximum number of results to return
+              default: 12
+            offset:
+              type: integer
+              description: Number of results to skip for pagination
+              default: 0
+            facet:
+              type: object
+              description: Facet filter configuration
+              additionalProperties: true
+        context:
+          type: object
+          description: User context including locale and device information
+          properties:
+            locale:
+              type: object
+              description: Locale settings
+              properties:
+                country:
+                  type: string
+                  description: ISO 3166-1 alpha-2 country code
+                  example: US
+                language:
+                  type: string
+                  description: ISO 639-1 language code
+                  example: en
+    SearchResponse:
+      type: object
+      description: Search and recommendation results
+      properties:
+        widgets:
+          type: array
+          description: Widget-level results containing search hits and facets
+          items:
+            $ref: '#/components/schemas/WidgetResult'
+    ProductResults:
+      type: object
+      description: Product-level search results
+      properties:
+        value:
+          type: array
+          description: The list of matching product results
+          items:
+            $ref: '#/components/schemas/DiscoverProduct'
+        total_item:
+          type: integer
+          description: Total number of matching products
+    WidgetResult:
+      type: object
+      description: Results for a specific search or recommendation widget
+      properties:
+        rfkid:
+          type: string
+          description: The widget identifier
+        total_item:
+          type: integer
+          description: Total number of matching items
+        content:
+          type: object
+          description: Content result metadata
+          properties:
+            product:
+              $ref: '#/components/schemas/ProductResults'
+        facet:
+          type: array
+          description: Available facets for filtering results
+          items:
+            $ref: '#/components/schemas/Facet'
+    ErrorResponse:
+      type: object
+      description: An error response body
+      properties:
+        message:
+          type: string
+          description: A human-readable error message
+        statusCode:
+          type: integer
+          description: The HTTP status code
+        errors:
+          type: array
+          description: List of detailed error messages
+          items:
+            type: string
+  parameters:
+    customerKey:
+      name: customerKey
+      in: query
+      description: The customer key identifying the Sitecore Discover account. Found in the Customer Engagement Console under Developer Resources > API Access.
+      required: false
+      schema:
+        type: string
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic authentication using a client key as the username and an API token as the password. Credentials are obtained from Sitecore CDP Settings > API access.
+externalDocs:
+  description: Sitecore CDP REST API Documentation
+  url: https://doc.sitecore.com/cdp/en/developers/api/rest-apis.html

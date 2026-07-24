@@ -1,0 +1,131 @@
+openapi: 3.1.0
+info:
+  title: Sitecore CDP REST Audit Download Orders API
+  description: The Sitecore CDP REST API provides synchronous access to retrieve, create, update, and delete data stored in Sitecore Customer Data Platform. It exposes guest profiles, orders, order items, order contacts, order consumers, and data extensions through standard HTTP methods. Developers use this API to build integrations that read or write customer data programmatically, enabling use cases such as audience segmentation, data enrichment, and reporting. Authentication uses HTTP Basic Auth with a client key and API token obtained from the CDP instance settings. Regional server endpoints must be used based on the CDP instance's geographic deployment.
+  version: v2.1
+  contact:
+    name: Sitecore Support
+    url: https://www.sitecore.com/support
+  termsOfService: https://www.sitecore.com/legal/terms-of-service
+servers:
+- url: https://api-engage-eu.sitecorecloud.io
+  description: EU Production Server
+- url: https://api-engage-us.sitecorecloud.io
+  description: US Production Server
+- url: https://api-engage-ap.sitecorecloud.io
+  description: Asia-Pacific Production Server
+- url: https://api-engage-jpe.sitecorecloud.io
+  description: Japan Production Server
+security:
+- basicAuth: []
+tags:
+- name: Download Orders
+  description: Endpoints for creating and managing download orders that package assets for delivery, supporting both single and batch asset downloads.
+paths:
+  /downloadorders:
+    post:
+      operationId: createDownloadOrder
+      summary: Create a download order
+      description: Creates a download order that packages one or more assets for delivery. Download orders can specify renditions, file formats, and delivery options. The order is processed asynchronously and the download URL is provided upon completion.
+      tags:
+      - Download Orders
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateDownloadOrderRequest'
+      responses:
+        '202':
+          description: Download order accepted for processing
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DownloadOrder'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  schemas:
+    CreateDownloadOrderRequest:
+      type: object
+      description: Request body for creating a download order
+      required:
+      - entityIds
+      properties:
+        entityIds:
+          type: array
+          description: Entity identifiers of assets to include in the download
+          items:
+            type: integer
+        renditionName:
+          type: string
+          description: The name of the asset rendition to download (e.g., Original, Preview)
+        includeMetadata:
+          type: boolean
+          description: Whether to include metadata alongside the asset files
+          default: false
+    DownloadOrder:
+      type: object
+      description: A download order packaging assets for delivery
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the download order
+        status:
+          type: string
+          description: The current processing status of the download order
+          enum:
+          - Queued
+          - Processing
+          - Completed
+          - Failed
+        downloadUrl:
+          type: string
+          description: The URL from which the packaged assets can be downloaded
+          format: uri
+        createdOn:
+          type: string
+          description: The ISO 8601 timestamp when the download order was created
+          format: date-time
+        completedOn:
+          type: string
+          description: The ISO 8601 timestamp when the download order was completed
+          format: date-time
+    ErrorResponse:
+      type: object
+      description: An error response body
+      properties:
+        message:
+          type: string
+          description: A human-readable error message
+        statusCode:
+          type: integer
+          description: The HTTP status code
+        errors:
+          type: array
+          description: List of detailed error messages
+          items:
+            type: string
+  responses:
+    Unauthorized:
+      description: Authentication token is missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: The request body or parameters are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic authentication using a client key as the username and an API token as the password. Credentials are obtained from Sitecore CDP Settings > API access.
+externalDocs:
+  description: Sitecore CDP REST API Documentation
+  url: https://doc.sitecore.com/cdp/en/developers/api/rest-apis.html

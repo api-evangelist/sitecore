@@ -1,0 +1,258 @@
+openapi: 3.1.0
+info:
+  title: Sitecore CDP REST Audit Pages API
+  description: The Sitecore CDP REST API provides synchronous access to retrieve, create, update, and delete data stored in Sitecore Customer Data Platform. It exposes guest profiles, orders, order items, order contacts, order consumers, and data extensions through standard HTTP methods. Developers use this API to build integrations that read or write customer data programmatically, enabling use cases such as audience segmentation, data enrichment, and reporting. Authentication uses HTTP Basic Auth with a client key and API token obtained from the CDP instance settings. Regional server endpoints must be used based on the CDP instance's geographic deployment.
+  version: v2.1
+  contact:
+    name: Sitecore Support
+    url: https://www.sitecore.com/support
+  termsOfService: https://www.sitecore.com/legal/terms-of-service
+servers:
+- url: https://api-engage-eu.sitecorecloud.io
+  description: EU Production Server
+- url: https://api-engage-us.sitecorecloud.io
+  description: US Production Server
+- url: https://api-engage-ap.sitecorecloud.io
+  description: Asia-Pacific Production Server
+- url: https://api-engage-jpe.sitecorecloud.io
+  description: Japan Production Server
+security:
+- basicAuth: []
+tags:
+- name: Pages
+  description: Endpoints for managing site pages including full CRUD operations, versioning, variant management, layout editing, field value updates, and publishing state verification.
+paths:
+  /api/v1/pages:
+    get:
+      operationId: listPages
+      summary: List pages
+      description: Retrieves a list of pages for the specified site and environment. Supports filtering by language, version, and other attributes. Results are paginated and include basic page metadata.
+      tags:
+      - Pages
+      parameters:
+      - $ref: '#/components/parameters/environmentId'
+      - $ref: '#/components/parameters/siteQueryParam'
+      - $ref: '#/components/parameters/language'
+      responses:
+        '200':
+          description: A list of pages
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Page'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createPage
+      summary: Create a page
+      description: Creates a new page within a site. Pages can be created from blueprints or as blank pages. The request must specify the parent item, page name, template, and optionally an insert options configuration.
+      tags:
+      - Pages
+      parameters:
+      - $ref: '#/components/parameters/environmentId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePageRequest'
+      responses:
+        '201':
+          description: Page created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Page'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /api/v1/pages/{pageId}:
+    get:
+      operationId: getPage
+      summary: Get a page
+      description: Retrieves a specific page by its identifier. Returns full page metadata including layout information, version history, field values, and publishing state for the specified language and version.
+      tags:
+      - Pages
+      parameters:
+      - $ref: '#/components/parameters/pageId'
+      - $ref: '#/components/parameters/environmentId'
+      - $ref: '#/components/parameters/language'
+      - $ref: '#/components/parameters/version'
+      responses:
+        '200':
+          description: Page details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Page'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deletePage
+      summary: Delete a page
+      description: Permanently deletes a page and all its versions and language variants. This operation is irreversible. Child pages are also deleted unless they are moved prior to deletion.
+      tags:
+      - Pages
+      parameters:
+      - $ref: '#/components/parameters/pageId'
+      - $ref: '#/components/parameters/environmentId'
+      responses:
+        '204':
+          description: Page deleted successfully
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  responses:
+    Unauthorized:
+      description: Authentication token is missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+    BadRequest:
+      description: The request body or parameters are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+  parameters:
+    pageId:
+      name: pageId
+      in: path
+      description: The unique identifier of the page item
+      required: true
+      schema:
+        type: string
+    siteQueryParam:
+      name: siteId
+      in: query
+      description: Filter results by site identifier
+      required: false
+      schema:
+        type: string
+    version:
+      name: version
+      in: query
+      description: Content version number to retrieve
+      required: false
+      schema:
+        type: integer
+    environmentId:
+      name: sc_env
+      in: query
+      description: The XM Cloud environment identifier
+      required: false
+      schema:
+        type: string
+    language:
+      name: language
+      in: query
+      description: Language code for the content (e.g., en, fr-FR)
+      required: false
+      schema:
+        type: string
+  schemas:
+    ProblemDetails:
+      type: object
+      description: RFC 7807 problem details response for errors
+      properties:
+        type:
+          type: string
+          description: A URI reference identifying the problem type
+        title:
+          type: string
+          description: A short human-readable summary of the problem
+        status:
+          type: integer
+          description: The HTTP status code for this occurrence of the problem
+        detail:
+          type: string
+          description: A human-readable explanation of the problem
+        instance:
+          type: string
+          description: A URI reference identifying the specific occurrence of the problem
+    Page:
+      type: object
+      description: A page item within an XM Cloud site
+      properties:
+        id:
+          type: string
+          description: The unique Sitecore item identifier for the page
+        name:
+          type: string
+          description: The item name of the page
+        displayName:
+          type: string
+          description: The display name of the page shown in navigation
+        path:
+          type: string
+          description: The Sitecore item path of the page
+        language:
+          type: string
+          description: The language of the page content
+        version:
+          type: integer
+          description: The version number of the page content
+        templateId:
+          type: string
+          description: The identifier of the template used by this page
+        publishingState:
+          type: string
+          description: The current publishing state of the page
+          enum:
+          - Draft
+          - Published
+          - NeedsPublishing
+        url:
+          type: string
+          description: The relative URL of the page within the site
+          format: uri
+    CreatePageRequest:
+      type: object
+      description: Request body for creating a new page
+      required:
+      - name
+      - parentId
+      - templateId
+      - siteId
+      - language
+      properties:
+        name:
+          type: string
+          description: The item name for the new page
+        displayName:
+          type: string
+          description: The display name for the new page
+        parentId:
+          type: string
+          description: The identifier of the parent item under which the page is created
+        templateId:
+          type: string
+          description: The identifier of the template to use for the page
+        siteId:
+          type: string
+          description: The identifier of the site to create the page in
+        language:
+          type: string
+          description: The language of the initial page version
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic authentication using a client key as the username and an API token as the password. Credentials are obtained from Sitecore CDP Settings > API access.
+externalDocs:
+  description: Sitecore CDP REST API Documentation
+  url: https://doc.sitecore.com/cdp/en/developers/api/rest-apis.html
