@@ -893,12 +893,6 @@ common:
   url: rules/sitecore-rules.yml
 - type: Vocabulary
   url: vocabulary/sitecore-vocabulary.yml
-- type: Capabilities
-  url: capabilities/content-management.yaml
-- type: Capabilities
-  url: capabilities/customer-data-personalization.yaml
-- type: Capabilities
-  url: capabilities/commerce-discovery.yaml
 modified: '2026-05-19'
 description: >-
   Sitecore is a global digital experience platform that combines content management, marketing automation, e-commerce,
