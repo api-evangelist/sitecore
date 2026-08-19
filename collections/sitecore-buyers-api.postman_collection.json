@@ -1,0 +1,1119 @@
+{
+  "item": [
+    {
+      "id": "910897d8-ec03-4802-a771-99c2a7dabb1a",
+      "name": "Buyers",
+      "description": {
+        "content": "Endpoints for managing buyer organizations and their associated users, user groups, addresses, credit cards, spending accounts, cost centers, and approval rules.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "6c39870f-fd5a-4d2a-baef-7e187180380a",
+          "name": "List buyers",
+          "request": {
+            "name": "List buyers",
+            "description": {
+              "content": "Retrieves a paginated list of buyer organizations. Buyers represent customer-facing organizations with their own users, catalogs, and purchasing contexts. Supports filtering, sorting, and pagination.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "buyers"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "search",
+                  "value": "<string>",
+                  "description": "Full-text search term to filter results"
+                },
+                {
+                  "disabled": false,
+                  "key": "pageSize",
+                  "value": "20",
+                  "description": "Number of items to return per page (max 100)"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number to retrieve (1-indexed)"
+                },
+                {
+                  "disabled": false,
+                  "key": "sortBy",
+                  "value": "<string>",
+                  "description": "Field name to sort results by; prefix with ! to sort descending"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "7bddbddb-beff-4708-9b12-405d832f1ea2",
+              "name": "A paginated list of buyers",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "buyers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "search",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "20"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "sortBy",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Meta\": {\n    \"Page\": 8842,\n    \"PageSize\": 920,\n    \"TotalCount\": 2165,\n    \"TotalPages\": 975,\n    \"ItemRange\": [\n      7160,\n      6308\n    ]\n  },\n  \"Items\": [\n    {\n      \"ID\": \"string\",\n      \"Name\": \"string\",\n      \"DefaultCatalogID\": \"string\",\n      \"Active\": true,\n      \"xp\": {\n        \"key_0\": 6478\n      }\n    },\n    {\n      \"ID\": \"string\",\n      \"Name\": \"string\",\n      \"DefaultCatalogID\": \"string\",\n      \"Active\": false,\n      \"xp\": {\n        \"key_0\": \"string\",\n        \"key_1\": 6138,\n        \"key_2\": true\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9a4ecbc1-0686-4477-8e0f-bf46b4b8b08f",
+              "name": "Authentication token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "buyers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "search",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "20"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "sortBy",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Errors\": [\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": \"string\",\n        \"key_1\": 9543.820469304623\n      }\n    },\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": 3852.3689212895783,\n        \"key_1\": 2838,\n        \"key_2\": 4625\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "bd136078-16a4-4de5-a5a6-21a06d7961d0",
+          "name": "Create a buyer",
+          "request": {
+            "name": "Create a buyer",
+            "description": {
+              "content": "Creates a new buyer organization. Buyers represent storefront customer organizations and can be associated with catalogs, user groups, and approval workflows.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "buyers"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"Name\": \"<string>\",\n  \"ID\": \"<string>\",\n  \"DefaultCatalogID\": \"<string>\",\n  \"Active\": true,\n  \"xp\": {\n    \"key_0\": 3575.1974075890803,\n    \"key_1\": 8690.80800770756\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "88d2c125-6327-451a-894f-b1667595dc21",
+              "name": "Buyer created successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "buyers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Name\": \"<string>\",\n  \"ID\": \"<string>\",\n  \"DefaultCatalogID\": \"<string>\",\n  \"Active\": true,\n  \"xp\": {\n    \"key_0\": 7621.780355517734\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ID\": \"string\",\n  \"Name\": \"string\",\n  \"DefaultCatalogID\": \"string\",\n  \"Active\": true,\n  \"xp\": {\n    \"key_0\": 9682.80327640953\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "190bc616-d573-49be-8080-ddccbafe9268",
+              "name": "The request body or parameters are invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "buyers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Name\": \"<string>\",\n  \"ID\": \"<string>\",\n  \"DefaultCatalogID\": \"<string>\",\n  \"Active\": true,\n  \"xp\": {\n    \"key_0\": 7621.780355517734\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Errors\": [\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": \"string\",\n        \"key_1\": 9543.820469304623\n      }\n    },\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": 3852.3689212895783,\n        \"key_1\": 2838,\n        \"key_2\": 4625\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bcbdca0e-089c-4555-9104-948576935cfe",
+              "name": "Authentication token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "buyers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Name\": \"<string>\",\n  \"ID\": \"<string>\",\n  \"DefaultCatalogID\": \"<string>\",\n  \"Active\": true,\n  \"xp\": {\n    \"key_0\": 7621.780355517734\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Errors\": [\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": 603.344279044753,\n        \"key_1\": 1602\n      }\n    },\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": \"string\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "052e66c2-d257-43dc-af6b-e7eed88b561d",
+          "name": "Get a buyer",
+          "request": {
+            "name": "Get a buyer",
+            "description": {
+              "content": "Retrieves a specific buyer organization by its identifier. Returns full buyer configuration including active status, default catalog, and extended properties.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "buyers",
+                ":buyerID"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "buyerID",
+                  "description": "(Required) The unique identifier of the buyer organization"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "0fc7e04d-f640-4ef8-84b8-542368f1e241",
+              "name": "Buyer details",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "buyers",
+                    ":buyerID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "buyerID",
+                      "description": "(Required) The unique identifier of the buyer organization"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ID\": \"string\",\n  \"Name\": \"string\",\n  \"DefaultCatalogID\": \"string\",\n  \"Active\": true,\n  \"xp\": {\n    \"key_0\": 9682.80327640953\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "94c2ff5b-fc9c-4f58-9a06-dfcfe7806e18",
+              "name": "Authentication token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "buyers",
+                    ":buyerID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "buyerID",
+                      "description": "(Required) The unique identifier of the buyer organization"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Errors\": [\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": 603.344279044753,\n        \"key_1\": 1602\n      }\n    },\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": \"string\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4e09b029-0f2e-4c39-879f-51dbc41a74de",
+              "name": "The requested resource was not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "buyers",
+                    ":buyerID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "buyerID",
+                      "description": "(Required) The unique identifier of the buyer organization"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Errors\": [\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": \"string\",\n        \"key_1\": 9543.820469304623\n      }\n    },\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": 3852.3689212895783,\n        \"key_1\": 2838,\n        \"key_2\": 4625\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "04121603-cf5c-4300-b459-d1c9150a7edd",
+          "name": "Update a buyer",
+          "request": {
+            "name": "Update a buyer",
+            "description": {
+              "content": "Performs a full replacement update of a buyer organization. All fields are replaced with the values in the request body.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "buyers",
+                ":buyerID"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "buyerID",
+                  "description": "(Required) The unique identifier of the buyer organization"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"Name\": \"<string>\",\n  \"ID\": \"<string>\",\n  \"DefaultCatalogID\": \"<string>\",\n  \"Active\": true,\n  \"xp\": {\n    \"key_0\": 3575.1974075890803,\n    \"key_1\": 8690.80800770756\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "6a6033aa-f454-4cc6-bd3e-d670f09a996c",
+              "name": "Buyer updated successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "buyers",
+                    ":buyerID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "buyerID",
+                      "description": "(Required) The unique identifier of the buyer organization"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Name\": \"<string>\",\n  \"ID\": \"<string>\",\n  \"DefaultCatalogID\": \"<string>\",\n  \"Active\": true,\n  \"xp\": {\n    \"key_0\": 7621.780355517734\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ID\": \"string\",\n  \"Name\": \"string\",\n  \"DefaultCatalogID\": \"string\",\n  \"Active\": true,\n  \"xp\": {\n    \"key_0\": 9682.80327640953\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d792cf97-37d1-4e31-a52e-ee4bd0309729",
+              "name": "The request body or parameters are invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "buyers",
+                    ":buyerID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "buyerID",
+                      "description": "(Required) The unique identifier of the buyer organization"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Name\": \"<string>\",\n  \"ID\": \"<string>\",\n  \"DefaultCatalogID\": \"<string>\",\n  \"Active\": true,\n  \"xp\": {\n    \"key_0\": 7621.780355517734\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Errors\": [\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": 603.344279044753,\n        \"key_1\": 1602\n      }\n    },\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": \"string\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "24255d88-c4d4-400c-9085-2c7549a0033a",
+              "name": "Authentication token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "buyers",
+                    ":buyerID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "buyerID",
+                      "description": "(Required) The unique identifier of the buyer organization"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Name\": \"<string>\",\n  \"ID\": \"<string>\",\n  \"DefaultCatalogID\": \"<string>\",\n  \"Active\": true,\n  \"xp\": {\n    \"key_0\": 7621.780355517734\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Errors\": [\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": 603.344279044753,\n        \"key_1\": 1602\n      }\n    },\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": \"string\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fb408e3f-1845-480d-826a-8c56eaaf8053",
+              "name": "The requested resource was not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "buyers",
+                    ":buyerID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "buyerID",
+                      "description": "(Required) The unique identifier of the buyer organization"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Name\": \"<string>\",\n  \"ID\": \"<string>\",\n  \"DefaultCatalogID\": \"<string>\",\n  \"Active\": true,\n  \"xp\": {\n    \"key_0\": 7621.780355517734\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Errors\": [\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": 603.344279044753,\n        \"key_1\": 1602\n      }\n    },\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": \"string\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f0593baa-fce0-42a2-80a5-5712cb345c0e",
+          "name": "Delete a buyer",
+          "request": {
+            "name": "Delete a buyer",
+            "description": {
+              "content": "Permanently deletes a buyer organization and all associated resources including users, user groups, and addresses.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "buyers",
+                ":buyerID"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "buyerID",
+                  "description": "(Required) The unique identifier of the buyer organization"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "0a666a33-b109-44d3-b8be-481f03af138c",
+              "name": "Buyer deleted successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "buyers",
+                    ":buyerID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "buyerID",
+                      "description": "(Required) The unique identifier of the buyer organization"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "6cf39914-36fd-45be-bfcd-0ca392741600",
+              "name": "Authentication token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "buyers",
+                    ":buyerID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "buyerID",
+                      "description": "(Required) The unique identifier of the buyer organization"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Errors\": [\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": 603.344279044753,\n        \"key_1\": 1602\n      }\n    },\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": \"string\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "eda0580d-d1c7-4a8e-a82f-c63b52380960",
+              "name": "The requested resource was not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "buyers",
+                    ":buyerID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "buyerID",
+                      "description": "(Required) The unique identifier of the buyer organization"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Errors\": [\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": 603.344279044753,\n        \"key_1\": 1602\n      }\n    },\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": \"string\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api-engage-eu.sitecorecloud.io",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "b217d29b-5ee9-4765-870c-3bf15d6969c7",
+    "name": "Sitecore CDP REST Audit Buyers API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Sitecore CDP REST API provides synchronous access to retrieve, create, update, and delete data stored in Sitecore Customer Data Platform. It exposes guest profiles, orders, order items, order contacts, order consumers, and data extensions through standard HTTP methods. Developers use this API to build integrations that read or write customer data programmatically, enabling use cases such as audience segmentation, data enrichment, and reporting. Authentication uses HTTP Basic Auth with a client key and API token obtained from the CDP instance settings. Regional server endpoints must be used based on the CDP instance's geographic deployment.\n\nContact Support:\n Name: Sitecore Support",
+      "type": "text/plain"
+    }
+  }
+}

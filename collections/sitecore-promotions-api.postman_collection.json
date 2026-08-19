@@ -1,0 +1,412 @@
+{
+  "item": [
+    {
+      "id": "07fa2fcf-a637-45fb-903a-f1b06f0853db",
+      "name": "Promotions",
+      "description": {
+        "content": "Endpoints for creating and managing discount promotions and coupon codes that can be applied to orders at checkout.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "7a1795e7-52ae-48d6-bb45-895ccdfe7612",
+          "name": "List promotions",
+          "request": {
+            "name": "List promotions",
+            "description": {
+              "content": "Retrieves a paginated list of promotions. Promotions define discount rules, coupon codes, eligibility requirements, and usage limits.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "promotions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "search",
+                  "value": "<string>",
+                  "description": "Full-text search term to filter results"
+                },
+                {
+                  "disabled": false,
+                  "key": "pageSize",
+                  "value": "20",
+                  "description": "Number of items to return per page (max 100)"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number to retrieve (1-indexed)"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "99b3e311-ddfb-42cd-aacb-e668c534a0dd",
+              "name": "A paginated list of promotions",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "promotions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "search",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "20"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Meta\": {\n    \"Page\": 4977,\n    \"PageSize\": 9503,\n    \"TotalCount\": 2190,\n    \"TotalPages\": 2646,\n    \"ItemRange\": [\n      2388,\n      8753\n    ]\n  },\n  \"Items\": [\n    {\n      \"ID\": \"string\",\n      \"Code\": \"string\",\n      \"Name\": \"string\",\n      \"Description\": \"string\",\n      \"Active\": false,\n      \"StartDate\": \"2011-02-07T12:17:17.403Z\",\n      \"ExpirationDate\": \"1987-10-09T09:50:34.185Z\",\n      \"Value\": 9096.522277740141,\n      \"xp\": {\n        \"key_0\": \"string\",\n        \"key_1\": 7544\n      }\n    },\n    {\n      \"ID\": \"string\",\n      \"Code\": \"string\",\n      \"Name\": \"string\",\n      \"Description\": \"string\",\n      \"Active\": false,\n      \"StartDate\": \"1962-09-12T14:24:03.717Z\",\n      \"ExpirationDate\": \"1966-12-22T23:07:02.931Z\",\n      \"Value\": 6406.482245940357,\n      \"xp\": {\n        \"key_0\": 8565.816029090693\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6e0dd52e-2095-4ee0-ae72-5b6d6f26662b",
+              "name": "Authentication token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "promotions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "search",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "20"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Errors\": [\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": \"string\",\n        \"key_1\": 7852.693299020657,\n        \"key_2\": 6902.398870509834\n      }\n    },\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": 8246,\n        \"key_1\": \"string\",\n        \"key_2\": true,\n        \"key_3\": 2534.5162744278036\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ee442c5f-d3f3-4072-8d8f-d05acdb5dfc1",
+          "name": "Create a promotion",
+          "request": {
+            "name": "Create a promotion",
+            "description": {
+              "content": "Creates a new promotion with discount rules, an optional coupon code, eligibility criteria, and usage limits. Promotions can be applied to orders at checkout.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "promotions"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"Code\": \"<string>\",\n  \"Value\": \"<float>\",\n  \"ID\": \"<string>\",\n  \"Name\": \"<string>\",\n  \"Description\": \"<string>\",\n  \"Active\": true,\n  \"StartDate\": \"<dateTime>\",\n  \"ExpirationDate\": \"<dateTime>\",\n  \"xp\": {\n    \"key_0\": 2579.1787352490537,\n    \"key_1\": 1188\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f6ed3066-c420-464d-9bbe-60a930d3b39f",
+              "name": "Promotion created successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "promotions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Code\": \"<string>\",\n  \"Value\": \"<float>\",\n  \"ID\": \"<string>\",\n  \"Name\": \"<string>\",\n  \"Description\": \"<string>\",\n  \"Active\": true,\n  \"StartDate\": \"<dateTime>\",\n  \"ExpirationDate\": \"<dateTime>\",\n  \"xp\": {\n    \"key_0\": 6149.006358788251,\n    \"key_1\": true\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ID\": \"string\",\n  \"Code\": \"string\",\n  \"Name\": \"string\",\n  \"Description\": \"string\",\n  \"Active\": false,\n  \"StartDate\": \"2017-06-11T06:03:59.982Z\",\n  \"ExpirationDate\": \"1974-11-16T03:41:18.512Z\",\n  \"Value\": 9393.324021242961,\n  \"xp\": {\n    \"key_0\": \"string\",\n    \"key_1\": false\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "01d89833-8d80-437c-970b-183b919c0e68",
+              "name": "The request body or parameters are invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "promotions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Code\": \"<string>\",\n  \"Value\": \"<float>\",\n  \"ID\": \"<string>\",\n  \"Name\": \"<string>\",\n  \"Description\": \"<string>\",\n  \"Active\": true,\n  \"StartDate\": \"<dateTime>\",\n  \"ExpirationDate\": \"<dateTime>\",\n  \"xp\": {\n    \"key_0\": 6149.006358788251,\n    \"key_1\": true\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Errors\": [\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": \"string\",\n        \"key_1\": 7852.693299020657,\n        \"key_2\": 6902.398870509834\n      }\n    },\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": 8246,\n        \"key_1\": \"string\",\n        \"key_2\": true,\n        \"key_3\": 2534.5162744278036\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f88d67b5-255b-448d-876f-9539b4740c7f",
+              "name": "Authentication token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "promotions"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Code\": \"<string>\",\n  \"Value\": \"<float>\",\n  \"ID\": \"<string>\",\n  \"Name\": \"<string>\",\n  \"Description\": \"<string>\",\n  \"Active\": true,\n  \"StartDate\": \"<dateTime>\",\n  \"ExpirationDate\": \"<dateTime>\",\n  \"xp\": {\n    \"key_0\": 6149.006358788251,\n    \"key_1\": true\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Errors\": [\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": 408.38652089047577\n      }\n    },\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": 161.81427219658318\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api-engage-eu.sitecorecloud.io",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "42e4f2ee-ea29-400a-a29e-d0c2c277f61d",
+    "name": "Sitecore CDP REST Audit Promotions API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Sitecore CDP REST API provides synchronous access to retrieve, create, update, and delete data stored in Sitecore Customer Data Platform. It exposes guest profiles, orders, order items, order contacts, order consumers, and data extensions through standard HTTP methods. Developers use this API to build integrations that read or write customer data programmatically, enabling use cases such as audience segmentation, data enrichment, and reporting. Authentication uses HTTP Basic Auth with a client key and API token obtained from the CDP instance settings. Regional server endpoints must be used based on the CDP instance's geographic deployment.\n\nContact Support:\n Name: Sitecore Support",
+      "type": "text/plain"
+    }
+  }
+}

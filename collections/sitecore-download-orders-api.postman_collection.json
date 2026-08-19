@@ -1,0 +1,246 @@
+{
+  "item": [
+    {
+      "id": "981ad72f-09d2-417c-9ddd-34b03602b2a9",
+      "name": "Download Orders",
+      "description": {
+        "content": "Endpoints for creating and managing download orders that package assets for delivery, supporting both single and batch asset downloads.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "15bcbd01-b59b-4a3e-949d-b67c10804fbd",
+          "name": "Create a download order",
+          "request": {
+            "name": "Create a download order",
+            "description": {
+              "content": "Creates a download order that packages one or more assets for delivery. Download orders can specify renditions, file formats, and delivery options. The order is processed asynchronously and the download URL is provided upon completion.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "downloadorders"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"entityIds\": [\n    \"<integer>\",\n    \"<integer>\"\n  ],\n  \"renditionName\": \"<string>\",\n  \"includeMetadata\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "2f2d7605-b75a-46c0-93d1-8f02ca975e4f",
+              "name": "Download order accepted for processing",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "downloadorders"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"entityIds\": [\n    \"<integer>\",\n    \"<integer>\"\n  ],\n  \"renditionName\": \"<string>\",\n  \"includeMetadata\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Accepted",
+              "code": 202,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"status\": \"Queued\",\n  \"downloadUrl\": \"https://Ufuah.ochseXh5e7ybGG\",\n  \"createdOn\": \"2007-03-31T15:42:08.342Z\",\n  \"completedOn\": \"1970-09-11T13:18:24.183Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5229e466-fde8-4e40-9575-447cdfa51bc0",
+              "name": "The request body or parameters are invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "downloadorders"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"entityIds\": [\n    \"<integer>\",\n    \"<integer>\"\n  ],\n  \"renditionName\": \"<string>\",\n  \"includeMetadata\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"statusCode\": 7292,\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9ebb3569-8ef0-4820-824a-7bc4b0f1abca",
+              "name": "Authentication token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "downloadorders"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"entityIds\": [\n    \"<integer>\",\n    \"<integer>\"\n  ],\n  \"renditionName\": \"<string>\",\n  \"includeMetadata\": false\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"statusCode\": 7292,\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api-engage-eu.sitecorecloud.io",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "0b611bff-e646-4633-a902-a410b60351c6",
+    "name": "Sitecore CDP REST Audit Download Orders API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Sitecore CDP REST API provides synchronous access to retrieve, create, update, and delete data stored in Sitecore Customer Data Platform. It exposes guest profiles, orders, order items, order contacts, order consumers, and data extensions through standard HTTP methods. Developers use this API to build integrations that read or write customer data programmatically, enabling use cases such as audience segmentation, data enrichment, and reporting. Authentication uses HTTP Basic Auth with a client key and API token obtained from the CDP instance settings. Regional server endpoints must be used based on the CDP instance's geographic deployment.\n\nContact Support:\n Name: Sitecore Support",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,250 @@
+{
+  "item": [
+    {
+      "id": "7d8136e3-a0c5-4b78-af4a-d9d40433f460",
+      "name": "Querying",
+      "description": {
+        "content": "Endpoints for fetching entities that match specific criteria using structured query expressions against entity properties and relations.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "92c879b9-b3c4-46f1-8f2d-eb6252ccd339",
+          "name": "Query entities",
+          "request": {
+            "name": "Query entities",
+            "description": {
+              "content": "Executes a structured query against the Content Hub entity index. Supports filtering by property values, relations, and entity definition using a query expression language. Returns matching entities with pagination.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "entities",
+                "query"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": {\n    \"key_0\": 7107\n  },\n  \"skip\": 0,\n  \"take\": 25,\n  \"cultures\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "ae62caa5-d9fe-4d82-aaa7-a139f6abfcd5",
+              "name": "Query results",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "entities",
+                    "query"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"query\": {\n    \"key_0\": 2790.2321028632628,\n    \"key_1\": false\n  },\n  \"skip\": 0,\n  \"take\": 25,\n  \"cultures\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"items\": [\n    {\n      \"id\": 7699,\n      \"identifier\": \"string\",\n      \"definitionName\": \"string\",\n      \"cultures\": [\n        \"string\",\n        \"string\"\n      ],\n      \"properties\": {\n        \"key_0\": 2479.1437290811914,\n        \"key_1\": 841,\n        \"key_2\": \"string\"\n      },\n      \"relations\": {\n        \"key_0\": true,\n        \"key_1\": true\n      },\n      \"systemProperties\": {\n        \"createdOn\": \"2005-02-07T14:44:18.422Z\",\n        \"createdBy\": \"string\",\n        \"modifiedOn\": \"2021-02-26T11:46:05.761Z\",\n        \"modifiedBy\": \"string\"\n      },\n      \"links\": {\n        \"key_0\": \"https://wGMsQvaxfXIORM.cmadb-OorwGIwK0IiXsiBMzp6rsFCv5lPS9q03zvJQEGM\",\n        \"key_1\": \"http://KCMZf.kmDdEE2tXUkZ,pwbGO7XZCNclsnLgeHaifIbVcBPJOPO7AWN+bkaEHaUVFddzuTJW+fI4nUf7OVgH\"\n      }\n    },\n    {\n      \"id\": 9655,\n      \"identifier\": \"string\",\n      \"definitionName\": \"string\",\n      \"cultures\": [\n        \"string\",\n        \"string\"\n      ],\n      \"properties\": {\n        \"key_0\": \"string\"\n      },\n      \"relations\": {\n        \"key_0\": 8525.48013846388\n      },\n      \"systemProperties\": {\n        \"createdOn\": \"2025-10-24T18:37:05.955Z\",\n        \"createdBy\": \"string\",\n        \"modifiedOn\": \"2011-10-12T02:45:06.523Z\",\n        \"modifiedBy\": \"string\"\n      },\n      \"links\": {\n        \"key_0\": \"http://dZkLKEL.rwaypuPuL8zLvyNjbcwiXEGjG-8d.QDg8sZCs1dSVMXCrDApsgqpjlCmQPW\"\n      }\n    }\n  ],\n  \"totalCount\": 3267,\n  \"skip\": 665,\n  \"take\": 2006\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b7891bb0-18e7-4aa1-86bc-977597568e45",
+              "name": "The request body or parameters are invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "entities",
+                    "query"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"query\": {\n    \"key_0\": 2790.2321028632628,\n    \"key_1\": false\n  },\n  \"skip\": 0,\n  \"take\": 25,\n  \"cultures\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"statusCode\": 1385,\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0221613a-b96b-42bd-a988-a841bdb900c8",
+              "name": "Authentication token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "entities",
+                    "query"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"query\": {\n    \"key_0\": 2790.2321028632628,\n    \"key_1\": false\n  },\n  \"skip\": 0,\n  \"take\": 25,\n  \"cultures\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"statusCode\": 1385,\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api-engage-eu.sitecorecloud.io",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "cb946fc6-406d-4a7d-bf57-759213f47aee",
+    "name": "Sitecore CDP REST Audit Querying API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Sitecore CDP REST API provides synchronous access to retrieve, create, update, and delete data stored in Sitecore Customer Data Platform. It exposes guest profiles, orders, order items, order contacts, order consumers, and data extensions through standard HTTP methods. Developers use this API to build integrations that read or write customer data programmatically, enabling use cases such as audience segmentation, data enrichment, and reporting. Authentication uses HTTP Basic Auth with a client key and API token obtained from the CDP instance settings. Regional server endpoints must be used based on the CDP instance's geographic deployment.\n\nContact Support:\n Name: Sitecore Support",
+      "type": "text/plain"
+    }
+  }
+}

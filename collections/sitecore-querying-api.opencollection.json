@@ -1,0 +1,40 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Sitecore CDP REST Audit Querying API",
+    "version": "v2.1"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Querying",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Query entities",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-engage-eu.sitecorecloud.io/entities/query",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Executes a structured query against the Content Hub entity index. Supports filtering by property values, relations, and entity definition using a query expression language. Returns matching entities with pagination."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

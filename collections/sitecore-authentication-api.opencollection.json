@@ -1,0 +1,70 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Sitecore CDP REST Audit Authentication API",
+    "version": "v2.1"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Authentication",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create an access token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-engage-eu.sitecorecloud.io/account/1/access-token",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new access token for authenticating requests to the Sitecore Discover API using the provided API credentials."
+        },
+        {
+          "info": {
+            "name": "Renew an access token",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api-engage-eu.sitecorecloud.io/account/1/access-token",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Renews the access token used to authenticate requests to the Sitecore Discover API. Tokens must be refreshed periodically to maintain API access."
+        },
+        {
+          "info": {
+            "name": "Get an access token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-engage-eu.sitecorecloud.io/oauth/token",
+            "body": {
+              "type": "form-urlencoded",
+              "data": []
+            }
+          },
+          "docs": "Obtains an OAuth 2.0 access token using the specified grant type. Supports password, client_credentials, and refresh_token grant types. The roles scope determines which resources and operations the token permits access to."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

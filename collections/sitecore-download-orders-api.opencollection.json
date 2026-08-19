@@ -1,0 +1,40 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Sitecore CDP REST Audit Download Orders API",
+    "version": "v2.1"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Download Orders",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a download order",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-engage-eu.sitecorecloud.io/downloadorders",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a download order that packages one or more assets for delivery. Download orders can specify renditions, file formats, and delivery options. The order is processed asynchronously and the download URL is provided upon completion."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

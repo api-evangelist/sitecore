@@ -1,0 +1,51 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Sitecore CDP REST Audit Selections API",
+    "version": "v2.1"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Selections",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List selections",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-engage-eu.sitecorecloud.io/selections"
+          },
+          "docs": "Retrieves all entity selections across selection pools. Selections group entities for bulk operations such as download, export, or editorial actions."
+        },
+        {
+          "info": {
+            "name": "Create a selection",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-engage-eu.sitecorecloud.io/selections",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new entity selection in a specified selection pool. Selections hold a list of entity identifiers for subsequent bulk operations."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

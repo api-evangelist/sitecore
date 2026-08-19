@@ -1,0 +1,119 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Sitecore CDP REST Audit Flow Definitions API",
+    "version": "v2.1"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Flow Definitions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List flow definitions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-engage-eu.sitecorecloud.io/v1/flow-definitions",
+            "params": [
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to return per page"
+              },
+              {
+                "name": "pageOffset",
+                "value": "",
+                "type": "query",
+                "description": "Number of records to skip for pagination"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field name and direction to sort results by (e.g., name:asc)"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "Filter flow definitions by type"
+              }
+            ]
+          },
+          "docs": "Retrieves a paginated collection of all flow definitions configured in the Sitecore Personalize instance. Flow definitions represent experiments, full-stack experiences, and API-triggered personalization flows."
+        },
+        {
+          "info": {
+            "name": "Create a flow definition",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-engage-eu.sitecorecloud.io/v1/flow-definitions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new flow definition representing a personalization experiment or experience. Flow definitions contain variant configurations, targeting rules, and scheduling settings."
+        },
+        {
+          "info": {
+            "name": "Get a flow definition",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-engage-eu.sitecorecloud.io/v1/flow-definitions/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the resource"
+              }
+            ]
+          },
+          "docs": "Retrieves a specific flow definition by its unique identifier. Returns the full definition including type, variant configuration, status, and scheduling."
+        },
+        {
+          "info": {
+            "name": "Update a flow definition",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api-engage-eu.sitecorecloud.io/v1/flow-definitions/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the resource"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Performs a full replacement update of a flow definition. All fields are replaced with the values in the request body."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

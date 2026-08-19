@@ -1,0 +1,141 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Sitecore CDP REST Audit Pages API",
+    "version": "v2.1"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Pages",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List pages",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-engage-eu.sitecorecloud.io/api/v1/pages",
+            "params": [
+              {
+                "name": "sc_env",
+                "value": "",
+                "type": "query",
+                "description": "The XM Cloud environment identifier"
+              },
+              {
+                "name": "siteId",
+                "value": "",
+                "type": "query",
+                "description": "Filter results by site identifier"
+              },
+              {
+                "name": "language",
+                "value": "",
+                "type": "query",
+                "description": "Language code for the content (e.g., en, fr-FR)"
+              }
+            ]
+          },
+          "docs": "Retrieves a list of pages for the specified site and environment. Supports filtering by language, version, and other attributes. Results are paginated and include basic page metadata."
+        },
+        {
+          "info": {
+            "name": "Create a page",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-engage-eu.sitecorecloud.io/api/v1/pages",
+            "params": [
+              {
+                "name": "sc_env",
+                "value": "",
+                "type": "query",
+                "description": "The XM Cloud environment identifier"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new page within a site. Pages can be created from blueprints or as blank pages. The request must specify the parent item, page name, template, and optionally an insert options configuration."
+        },
+        {
+          "info": {
+            "name": "Get a page",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-engage-eu.sitecorecloud.io/api/v1/pages/:pageId",
+            "params": [
+              {
+                "name": "pageId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the page item"
+              },
+              {
+                "name": "sc_env",
+                "value": "",
+                "type": "query",
+                "description": "The XM Cloud environment identifier"
+              },
+              {
+                "name": "language",
+                "value": "",
+                "type": "query",
+                "description": "Language code for the content (e.g., en, fr-FR)"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "query",
+                "description": "Content version number to retrieve"
+              }
+            ]
+          },
+          "docs": "Retrieves a specific page by its identifier. Returns full page metadata including layout information, version history, field values, and publishing state for the specified language and version."
+        },
+        {
+          "info": {
+            "name": "Delete a page",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api-engage-eu.sitecorecloud.io/api/v1/pages/:pageId",
+            "params": [
+              {
+                "name": "pageId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the page item"
+              },
+              {
+                "name": "sc_env",
+                "value": "",
+                "type": "query",
+                "description": "The XM Cloud environment identifier"
+              }
+            ]
+          },
+          "docs": "Permanently deletes a page and all its versions and language variants. This operation is irreversible. Child pages are also deleted unless they are moved prior to deletion."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

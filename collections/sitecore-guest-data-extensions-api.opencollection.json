@@ -1,0 +1,175 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Sitecore CDP REST Audit Guest Data Extensions API",
+    "version": "v2.1"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Guest Data Extensions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List guest data extensions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-engage-eu.sitecorecloud.io/v2.1/guests/:guestRef/extensions",
+            "params": [
+              {
+                "name": "guestRef",
+                "value": "",
+                "type": "path",
+                "description": "The unique reference identifier for the guest profile"
+              }
+            ]
+          },
+          "docs": "Retrieves all custom data extensions associated with a guest profile. Data extensions are named sets of key-value pairs that store additional structured information beyond the standard guest attributes."
+        },
+        {
+          "info": {
+            "name": "Create a guest data extension",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-engage-eu.sitecorecloud.io/v2.1/guests/:guestRef/extensions",
+            "params": [
+              {
+                "name": "guestRef",
+                "value": "",
+                "type": "path",
+                "description": "The unique reference identifier for the guest profile"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new named data extension on a guest profile. Each extension is identified by a unique name and contains a set of key-value pairs. Only one data extension of each name is supported per guest."
+        },
+        {
+          "info": {
+            "name": "Get a guest data extension",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-engage-eu.sitecorecloud.io/v2.1/guests/:guestRef/extensions/:dataExtensionName",
+            "params": [
+              {
+                "name": "guestRef",
+                "value": "",
+                "type": "path",
+                "description": "The unique reference identifier for the guest profile"
+              },
+              {
+                "name": "dataExtensionName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the data extension"
+              }
+            ]
+          },
+          "docs": "Retrieves a specific named data extension for a guest profile. Returns all key-value pairs stored within the extension."
+        },
+        {
+          "info": {
+            "name": "Update a guest data extension (full)",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api-engage-eu.sitecorecloud.io/v2.1/guests/:guestRef/extensions/:dataExtensionName",
+            "params": [
+              {
+                "name": "guestRef",
+                "value": "",
+                "type": "path",
+                "description": "The unique reference identifier for the guest profile"
+              },
+              {
+                "name": "dataExtensionName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the data extension"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Performs a full replacement of a guest data extension. All existing key-value pairs are replaced with those provided in the request body."
+        },
+        {
+          "info": {
+            "name": "Update a guest data extension (partial)",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api-engage-eu.sitecorecloud.io/v2.1/guests/:guestRef/extensions/:dataExtensionName",
+            "params": [
+              {
+                "name": "guestRef",
+                "value": "",
+                "type": "path",
+                "description": "The unique reference identifier for the guest profile"
+              },
+              {
+                "name": "dataExtensionName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the data extension"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Performs a partial update of a guest data extension. Only the key-value pairs included in the request are updated; existing pairs not mentioned are retained."
+        },
+        {
+          "info": {
+            "name": "Delete a guest data extension",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api-engage-eu.sitecorecloud.io/v2.1/guests/:guestRef/extensions/:dataExtensionName",
+            "params": [
+              {
+                "name": "guestRef",
+                "value": "",
+                "type": "path",
+                "description": "The unique reference identifier for the guest profile"
+              },
+              {
+                "name": "dataExtensionName",
+                "value": "",
+                "type": "path",
+                "description": "The name of the data extension"
+              }
+            ]
+          },
+          "docs": "Permanently deletes a named data extension from a guest profile. All key-value pairs within the extension are removed."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,1444 @@
+{
+  "item": [
+    {
+      "id": "4f0c594b-81e1-4b52-a34f-c8107281486e",
+      "name": "Products",
+      "description": {
+        "content": "Endpoints for creating, retrieving, updating, and deleting products within the OrderCloud catalog. Products support extended properties, variants, specs, and inventory tracking.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "eeef51b5-5fcb-4c3a-9dae-0225939fdc1b",
+          "name": "List products",
+          "request": {
+            "name": "List products",
+            "description": {
+              "content": "Retrieves a paginated list of products from the OrderCloud catalog. Supports full-text search, filtering by any product field, sorting, and pagination. Results include product metadata, pricing references, and extended properties.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "products"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "search",
+                  "value": "<string>",
+                  "description": "Full-text search term to filter results"
+                },
+                {
+                  "disabled": false,
+                  "key": "pageSize",
+                  "value": "20",
+                  "description": "Number of items to return per page (max 100)"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number to retrieve (1-indexed)"
+                },
+                {
+                  "disabled": false,
+                  "key": "sortBy",
+                  "value": "<string>",
+                  "description": "Field name to sort results by; prefix with ! to sort descending"
+                },
+                {
+                  "disabled": false,
+                  "key": "catalogID",
+                  "value": "<string>",
+                  "description": "Filter products by catalog identifier"
+                },
+                {
+                  "disabled": false,
+                  "key": "categoryID",
+                  "value": "<string>",
+                  "description": "Filter products by category identifier"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "dc8db60a-7ba0-467b-9a8d-9d38676d23f0",
+              "name": "A paginated list of products",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "products"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "search",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "20"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "sortBy",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "catalogID",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "categoryID",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Meta\": {\n    \"Page\": 472,\n    \"PageSize\": 717,\n    \"TotalCount\": 4285,\n    \"TotalPages\": 8394,\n    \"ItemRange\": [\n      8381,\n      8818\n    ]\n  },\n  \"Items\": [\n    {\n      \"ID\": \"string\",\n      \"Name\": \"string\",\n      \"Description\": \"string\",\n      \"QuantityMultiplier\": 1,\n      \"ShipWeight\": 9521.981634206943,\n      \"ShipHeight\": 9761.625394807292,\n      \"ShipWidth\": 2483.5342613981093,\n      \"ShipLength\": 9329.715946755854,\n      \"Active\": false,\n      \"DefaultPriceScheduleID\": \"string\",\n      \"Inventory\": {\n        \"Enabled\": true,\n        \"VariantLevelTracking\": false,\n        \"OrderCanExceed\": false,\n        \"QuantityAvailable\": 4292,\n        \"LastUpdated\": \"2014-08-28T08:33:30.419Z\"\n      },\n      \"xp\": {\n        \"key_0\": \"string\",\n        \"key_1\": 8162\n      }\n    },\n    {\n      \"ID\": \"string\",\n      \"Name\": \"string\",\n      \"Description\": \"string\",\n      \"QuantityMultiplier\": 1,\n      \"ShipWeight\": 7118.134355891106,\n      \"ShipHeight\": 482.99925886938433,\n      \"ShipWidth\": 2587.2602311152837,\n      \"ShipLength\": 3171.5266684367016,\n      \"Active\": true,\n      \"DefaultPriceScheduleID\": \"string\",\n      \"Inventory\": {\n        \"Enabled\": false,\n        \"VariantLevelTracking\": true,\n        \"OrderCanExceed\": true,\n        \"QuantityAvailable\": 7607,\n        \"LastUpdated\": \"2009-01-01T07:18:29.659Z\"\n      },\n      \"xp\": {\n        \"key_0\": false\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6da1a2d2-8afb-447b-b926-34fd81acabcf",
+              "name": "Authentication token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "products"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "search",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "20"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "sortBy",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "catalogID",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "categoryID",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Errors\": [\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": \"string\"\n      }\n    },\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": true\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d84fdbff-4877-428b-9930-c4b702f07d38",
+          "name": "Create a product",
+          "request": {
+            "name": "Create a product",
+            "description": {
+              "content": "Creates a new product in the OrderCloud catalog. Products support flexible extended properties (xp), variant generation via specs, and inventory tracking. Products must be assigned to a catalog before buyers can see or purchase them.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "products"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"Name\": \"<string>\",\n  \"ID\": \"<string>\",\n  \"Description\": \"<string>\",\n  \"Active\": false,\n  \"DefaultPriceScheduleID\": \"<string>\",\n  \"xp\": {\n    \"key_0\": \"string\",\n    \"key_1\": 9882,\n    \"key_2\": 1470\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "9499aa97-c681-4782-b882-512b251d2b81",
+              "name": "Product created successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "products"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Name\": \"<string>\",\n  \"ID\": \"<string>\",\n  \"Description\": \"<string>\",\n  \"Active\": false,\n  \"DefaultPriceScheduleID\": \"<string>\",\n  \"xp\": {\n    \"key_0\": 1929,\n    \"key_1\": true,\n    \"key_2\": 7515.746473284388\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ID\": \"string\",\n  \"Name\": \"string\",\n  \"Description\": \"string\",\n  \"QuantityMultiplier\": 1,\n  \"ShipWeight\": 5643.748024434973,\n  \"ShipHeight\": 4812.7863625336395,\n  \"ShipWidth\": 3099.268132115004,\n  \"ShipLength\": 7618.569141635655,\n  \"Active\": true,\n  \"DefaultPriceScheduleID\": \"string\",\n  \"Inventory\": {\n    \"Enabled\": false,\n    \"VariantLevelTracking\": false,\n    \"OrderCanExceed\": true,\n    \"QuantityAvailable\": 9167,\n    \"LastUpdated\": \"2005-10-26T21:01:38.795Z\"\n  },\n  \"xp\": {\n    \"key_0\": 4827,\n    \"key_1\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3cef9ece-2416-4b78-94cc-7a3e72297afd",
+              "name": "The request body or parameters are invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "products"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Name\": \"<string>\",\n  \"ID\": \"<string>\",\n  \"Description\": \"<string>\",\n  \"Active\": false,\n  \"DefaultPriceScheduleID\": \"<string>\",\n  \"xp\": {\n    \"key_0\": 1929,\n    \"key_1\": true,\n    \"key_2\": 7515.746473284388\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Errors\": [\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": \"string\"\n      }\n    },\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": true\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "256e4523-1338-4d4b-a55a-564e2490d7c7",
+              "name": "Authentication token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "products"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Name\": \"<string>\",\n  \"ID\": \"<string>\",\n  \"Description\": \"<string>\",\n  \"Active\": false,\n  \"DefaultPriceScheduleID\": \"<string>\",\n  \"xp\": {\n    \"key_0\": 1929,\n    \"key_1\": true,\n    \"key_2\": 7515.746473284388\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Errors\": [\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": 859.769659733931,\n        \"key_1\": 406\n      }\n    },\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": 2089,\n        \"key_1\": \"string\",\n        \"key_2\": 9772.157638283945\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "95dcea0b-92cb-4188-96e4-7a087732f061",
+          "name": "Get a product",
+          "request": {
+            "name": "Get a product",
+            "description": {
+              "content": "Retrieves a specific product by its identifier. Returns full product details including description, price schedule assignment, inventory configuration, and extended properties.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "products",
+                ":productID"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "productID",
+                  "description": "(Required) The unique identifier of the product"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "dd2a7db0-7591-4890-8398-55451ea2f779",
+              "name": "Product details",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "products",
+                    ":productID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "productID",
+                      "description": "(Required) The unique identifier of the product"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ID\": \"string\",\n  \"Name\": \"string\",\n  \"Description\": \"string\",\n  \"QuantityMultiplier\": 1,\n  \"ShipWeight\": 5643.748024434973,\n  \"ShipHeight\": 4812.7863625336395,\n  \"ShipWidth\": 3099.268132115004,\n  \"ShipLength\": 7618.569141635655,\n  \"Active\": true,\n  \"DefaultPriceScheduleID\": \"string\",\n  \"Inventory\": {\n    \"Enabled\": false,\n    \"VariantLevelTracking\": false,\n    \"OrderCanExceed\": true,\n    \"QuantityAvailable\": 9167,\n    \"LastUpdated\": \"2005-10-26T21:01:38.795Z\"\n  },\n  \"xp\": {\n    \"key_0\": 4827,\n    \"key_1\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "371d8606-abf4-4555-986e-7348ce1212ce",
+              "name": "Authentication token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "products",
+                    ":productID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "productID",
+                      "description": "(Required) The unique identifier of the product"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Errors\": [\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": 859.769659733931,\n        \"key_1\": 406\n      }\n    },\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": 2089,\n        \"key_1\": \"string\",\n        \"key_2\": 9772.157638283945\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "43bcd9d4-33e0-401b-803a-63853d5f987a",
+              "name": "The requested resource was not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "products",
+                    ":productID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "productID",
+                      "description": "(Required) The unique identifier of the product"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Errors\": [\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": \"string\"\n      }\n    },\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": true\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ded8e926-a73a-4371-9953-e482bca32943",
+          "name": "Update a product",
+          "request": {
+            "name": "Update a product",
+            "description": {
+              "content": "Performs a full replacement update of a product. All fields are replaced with the values in the request body. Use PATCH for partial updates.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "products",
+                ":productID"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "productID",
+                  "description": "(Required) The unique identifier of the product"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"Name\": \"<string>\",\n  \"ID\": \"<string>\",\n  \"Description\": \"<string>\",\n  \"Active\": false,\n  \"DefaultPriceScheduleID\": \"<string>\",\n  \"xp\": {\n    \"key_0\": \"string\",\n    \"key_1\": 9882,\n    \"key_2\": 1470\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "632bb80e-204b-477d-8637-845e76f7e98d",
+              "name": "Product updated successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "products",
+                    ":productID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "productID",
+                      "description": "(Required) The unique identifier of the product"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Name\": \"<string>\",\n  \"ID\": \"<string>\",\n  \"Description\": \"<string>\",\n  \"Active\": false,\n  \"DefaultPriceScheduleID\": \"<string>\",\n  \"xp\": {\n    \"key_0\": 1929,\n    \"key_1\": true,\n    \"key_2\": 7515.746473284388\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ID\": \"string\",\n  \"Name\": \"string\",\n  \"Description\": \"string\",\n  \"QuantityMultiplier\": 1,\n  \"ShipWeight\": 5643.748024434973,\n  \"ShipHeight\": 4812.7863625336395,\n  \"ShipWidth\": 3099.268132115004,\n  \"ShipLength\": 7618.569141635655,\n  \"Active\": true,\n  \"DefaultPriceScheduleID\": \"string\",\n  \"Inventory\": {\n    \"Enabled\": false,\n    \"VariantLevelTracking\": false,\n    \"OrderCanExceed\": true,\n    \"QuantityAvailable\": 9167,\n    \"LastUpdated\": \"2005-10-26T21:01:38.795Z\"\n  },\n  \"xp\": {\n    \"key_0\": 4827,\n    \"key_1\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4e405dff-8a0c-4d44-bce1-9a6eecd9519b",
+              "name": "The request body or parameters are invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "products",
+                    ":productID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "productID",
+                      "description": "(Required) The unique identifier of the product"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Name\": \"<string>\",\n  \"ID\": \"<string>\",\n  \"Description\": \"<string>\",\n  \"Active\": false,\n  \"DefaultPriceScheduleID\": \"<string>\",\n  \"xp\": {\n    \"key_0\": 1929,\n    \"key_1\": true,\n    \"key_2\": 7515.746473284388\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Errors\": [\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": 859.769659733931,\n        \"key_1\": 406\n      }\n    },\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": 2089,\n        \"key_1\": \"string\",\n        \"key_2\": 9772.157638283945\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "70934de1-a87d-44aa-a9f4-079fb90fe7c2",
+              "name": "Authentication token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "products",
+                    ":productID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "productID",
+                      "description": "(Required) The unique identifier of the product"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Name\": \"<string>\",\n  \"ID\": \"<string>\",\n  \"Description\": \"<string>\",\n  \"Active\": false,\n  \"DefaultPriceScheduleID\": \"<string>\",\n  \"xp\": {\n    \"key_0\": 1929,\n    \"key_1\": true,\n    \"key_2\": 7515.746473284388\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Errors\": [\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": 859.769659733931,\n        \"key_1\": 406\n      }\n    },\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": 2089,\n        \"key_1\": \"string\",\n        \"key_2\": 9772.157638283945\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bfe7a324-b683-4d9b-ac4f-9bce5bb97de7",
+              "name": "The requested resource was not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "products",
+                    ":productID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "productID",
+                      "description": "(Required) The unique identifier of the product"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Name\": \"<string>\",\n  \"ID\": \"<string>\",\n  \"Description\": \"<string>\",\n  \"Active\": false,\n  \"DefaultPriceScheduleID\": \"<string>\",\n  \"xp\": {\n    \"key_0\": 1929,\n    \"key_1\": true,\n    \"key_2\": 7515.746473284388\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Errors\": [\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": 859.769659733931,\n        \"key_1\": 406\n      }\n    },\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": 2089,\n        \"key_1\": \"string\",\n        \"key_2\": 9772.157638283945\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7dce3c8a-9ef4-4e66-a8b6-b1f1d4e769ea",
+          "name": "Partially update a product",
+          "request": {
+            "name": "Partially update a product",
+            "description": {
+              "content": "Performs a partial update of a product. Only the fields provided in the request body are updated; all other fields retain their current values.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "products",
+                ":productID"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "productID",
+                  "description": "(Required) The unique identifier of the product"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"Name\": \"<string>\",\n  \"ID\": \"<string>\",\n  \"Description\": \"<string>\",\n  \"Active\": false,\n  \"DefaultPriceScheduleID\": \"<string>\",\n  \"xp\": {\n    \"key_0\": \"string\",\n    \"key_1\": 9882,\n    \"key_2\": 1470\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "6992cf49-d26e-4a46-b43c-3286614110aa",
+              "name": "Product partially updated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "products",
+                    ":productID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "productID",
+                      "description": "(Required) The unique identifier of the product"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Name\": \"<string>\",\n  \"ID\": \"<string>\",\n  \"Description\": \"<string>\",\n  \"Active\": false,\n  \"DefaultPriceScheduleID\": \"<string>\",\n  \"xp\": {\n    \"key_0\": 1929,\n    \"key_1\": true,\n    \"key_2\": 7515.746473284388\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ID\": \"string\",\n  \"Name\": \"string\",\n  \"Description\": \"string\",\n  \"QuantityMultiplier\": 1,\n  \"ShipWeight\": 5643.748024434973,\n  \"ShipHeight\": 4812.7863625336395,\n  \"ShipWidth\": 3099.268132115004,\n  \"ShipLength\": 7618.569141635655,\n  \"Active\": true,\n  \"DefaultPriceScheduleID\": \"string\",\n  \"Inventory\": {\n    \"Enabled\": false,\n    \"VariantLevelTracking\": false,\n    \"OrderCanExceed\": true,\n    \"QuantityAvailable\": 9167,\n    \"LastUpdated\": \"2005-10-26T21:01:38.795Z\"\n  },\n  \"xp\": {\n    \"key_0\": 4827,\n    \"key_1\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1058a831-809f-4a24-940d-cd3d284acaf3",
+              "name": "The request body or parameters are invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "products",
+                    ":productID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "productID",
+                      "description": "(Required) The unique identifier of the product"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Name\": \"<string>\",\n  \"ID\": \"<string>\",\n  \"Description\": \"<string>\",\n  \"Active\": false,\n  \"DefaultPriceScheduleID\": \"<string>\",\n  \"xp\": {\n    \"key_0\": 1929,\n    \"key_1\": true,\n    \"key_2\": 7515.746473284388\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Errors\": [\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": 859.769659733931,\n        \"key_1\": 406\n      }\n    },\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": 2089,\n        \"key_1\": \"string\",\n        \"key_2\": 9772.157638283945\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7faa35bb-dbab-4828-a3d1-817f51a5f237",
+              "name": "Authentication token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "products",
+                    ":productID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "productID",
+                      "description": "(Required) The unique identifier of the product"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Name\": \"<string>\",\n  \"ID\": \"<string>\",\n  \"Description\": \"<string>\",\n  \"Active\": false,\n  \"DefaultPriceScheduleID\": \"<string>\",\n  \"xp\": {\n    \"key_0\": 1929,\n    \"key_1\": true,\n    \"key_2\": 7515.746473284388\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Errors\": [\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": 859.769659733931,\n        \"key_1\": 406\n      }\n    },\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": 2089,\n        \"key_1\": \"string\",\n        \"key_2\": 9772.157638283945\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7ad0db3a-4bf3-4c40-8e8b-20b797c2569c",
+              "name": "The requested resource was not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "products",
+                    ":productID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "productID",
+                      "description": "(Required) The unique identifier of the product"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Name\": \"<string>\",\n  \"ID\": \"<string>\",\n  \"Description\": \"<string>\",\n  \"Active\": false,\n  \"DefaultPriceScheduleID\": \"<string>\",\n  \"xp\": {\n    \"key_0\": 1929,\n    \"key_1\": true,\n    \"key_2\": 7515.746473284388\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Errors\": [\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": 859.769659733931,\n        \"key_1\": 406\n      }\n    },\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": 2089,\n        \"key_1\": \"string\",\n        \"key_2\": 9772.157638283945\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c5603d9d-cc21-4474-b82d-d3b6d4a45ac8",
+          "name": "Delete a product",
+          "request": {
+            "name": "Delete a product",
+            "description": {
+              "content": "Permanently deletes a product from the catalog. All catalog assignments and buyer visibility are also removed.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "products",
+                ":productID"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "productID",
+                  "description": "(Required) The unique identifier of the product"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a1ec9c2c-7553-414c-8f5c-e34145ea8a01",
+              "name": "Product deleted successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "products",
+                    ":productID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "productID",
+                      "description": "(Required) The unique identifier of the product"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "86584be8-246b-4bab-bbd9-b61cd2e3bca9",
+              "name": "Authentication token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "products",
+                    ":productID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "productID",
+                      "description": "(Required) The unique identifier of the product"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Errors\": [\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": 859.769659733931,\n        \"key_1\": 406\n      }\n    },\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": 2089,\n        \"key_1\": \"string\",\n        \"key_2\": 9772.157638283945\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7ebf9438-896a-4ebe-bd2d-d36191fc2882",
+              "name": "The requested resource was not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "products",
+                    ":productID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "productID",
+                      "description": "(Required) The unique identifier of the product"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Errors\": [\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": 859.769659733931,\n        \"key_1\": 406\n      }\n    },\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": 2089,\n        \"key_1\": \"string\",\n        \"key_2\": 9772.157638283945\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api-engage-eu.sitecorecloud.io",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "f13da11f-3668-4d5d-910f-174b05512a4e",
+    "name": "Sitecore CDP REST Audit Products API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Sitecore CDP REST API provides synchronous access to retrieve, create, update, and delete data stored in Sitecore Customer Data Platform. It exposes guest profiles, orders, order items, order contacts, order consumers, and data extensions through standard HTTP methods. Developers use this API to build integrations that read or write customer data programmatically, enabling use cases such as audience segmentation, data enrichment, and reporting. Authentication uses HTTP Basic Auth with a client key and API token obtained from the CDP instance settings. Regional server endpoints must be used based on the CDP instance's geographic deployment.\n\nContact Support:\n Name: Sitecore Support",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,148 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Sitecore CDP REST Audit Languages API",
+    "version": "v2.1"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Languages",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List tenant languages",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-engage-eu.sitecorecloud.io/api/v1/languages",
+            "params": [
+              {
+                "name": "sc_env",
+                "value": "",
+                "type": "query",
+                "description": "The XM Cloud environment identifier"
+              }
+            ]
+          },
+          "docs": "Retrieves all languages configured at the tenant level. Languages listed here are available for assignment to individual sites within the tenant."
+        },
+        {
+          "info": {
+            "name": "List supported languages",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-engage-eu.sitecorecloud.io/api/v1/languages/supported",
+            "params": [
+              {
+                "name": "sc_env",
+                "value": "",
+                "type": "query",
+                "description": "The XM Cloud environment identifier"
+              }
+            ]
+          },
+          "docs": "Returns all languages supported by the XM Cloud platform that can be added to a tenant or site configuration."
+        },
+        {
+          "info": {
+            "name": "List site languages",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-engage-eu.sitecorecloud.io/api/v1/sites/:siteId/languages",
+            "params": [
+              {
+                "name": "siteId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the site"
+              },
+              {
+                "name": "sc_env",
+                "value": "",
+                "type": "query",
+                "description": "The XM Cloud environment identifier"
+              }
+            ]
+          },
+          "docs": "Retrieves all languages enabled for a specific site. These languages determine the locales in which content can be authored and delivered."
+        },
+        {
+          "info": {
+            "name": "Add a language to a site",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-engage-eu.sitecorecloud.io/api/v1/sites/:siteId/languages",
+            "params": [
+              {
+                "name": "siteId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the site"
+              },
+              {
+                "name": "sc_env",
+                "value": "",
+                "type": "query",
+                "description": "The XM Cloud environment identifier"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Adds a language to a site, enabling content authoring and delivery in that locale. The language must be present in the list of supported languages before it can be added to a site."
+        },
+        {
+          "info": {
+            "name": "Remove a language from a site",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api-engage-eu.sitecorecloud.io/api/v1/sites/:siteId/languages/:languageId",
+            "params": [
+              {
+                "name": "siteId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the site"
+              },
+              {
+                "name": "languageId",
+                "value": "",
+                "type": "path",
+                "description": "The language identifier (e.g., en, fr-FR)"
+              },
+              {
+                "name": "sc_env",
+                "value": "",
+                "type": "query",
+                "description": "The XM Cloud environment identifier"
+              }
+            ]
+          },
+          "docs": "Removes a language from a site, preventing further content authoring in that locale. Existing content in the language is not deleted but becomes inaccessible through the site."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

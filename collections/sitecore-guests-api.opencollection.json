@@ -1,0 +1,155 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Sitecore CDP REST Audit Guests API",
+    "version": "v2.1"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Guests",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List guests",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-engage-eu.sitecorecloud.io/v2.1/guests",
+            "params": [
+              {
+                "name": "email",
+                "value": "",
+                "type": "query",
+                "description": "Filter guests by email address"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of guests to return (max 100)"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of records to skip for pagination"
+              }
+            ]
+          },
+          "docs": "Retrieves a paginated list of guest profiles from Sitecore CDP. Returns up to 100 guests per request. Use the offset and limit parameters to paginate through results. Supports filtering by email or other identifiers using query parameters."
+        },
+        {
+          "info": {
+            "name": "Create a guest",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-engage-eu.sitecorecloud.io/v2.1/guests",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new guest profile in Sitecore CDP. The guest record stores identity and behavioral data used for personalization and segmentation. An email address or other identifying attributes should be provided to enable identity resolution."
+        },
+        {
+          "info": {
+            "name": "Get a guest",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-engage-eu.sitecorecloud.io/v2.1/guests/:guestRef",
+            "params": [
+              {
+                "name": "guestRef",
+                "value": "",
+                "type": "path",
+                "description": "The unique reference identifier for the guest profile"
+              }
+            ]
+          },
+          "docs": "Retrieves a specific guest profile by its unique reference identifier. Returns the full guest object including all stored personal and behavioral attributes."
+        },
+        {
+          "info": {
+            "name": "Update a guest (full)",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api-engage-eu.sitecorecloud.io/v2.1/guests/:guestRef",
+            "params": [
+              {
+                "name": "guestRef",
+                "value": "",
+                "type": "path",
+                "description": "The unique reference identifier for the guest profile"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Performs a full replacement update of a guest profile. All fields in the guest object are replaced with the values provided in the request body. Fields not included in the request will be cleared."
+        },
+        {
+          "info": {
+            "name": "Update a guest (partial)",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api-engage-eu.sitecorecloud.io/v2.1/guests/:guestRef",
+            "params": [
+              {
+                "name": "guestRef",
+                "value": "",
+                "type": "path",
+                "description": "The unique reference identifier for the guest profile"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Performs a partial update of a guest profile. Only the fields provided in the request body are updated; all other fields retain their current values. Use this operation when updating a subset of guest attributes."
+        },
+        {
+          "info": {
+            "name": "Delete a guest",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api-engage-eu.sitecorecloud.io/v2.1/guests/:guestRef",
+            "params": [
+              {
+                "name": "guestRef",
+                "value": "",
+                "type": "path",
+                "description": "The unique reference identifier for the guest profile"
+              }
+            ]
+          },
+          "docs": "Permanently and irreversibly deletes a guest profile and all associated data from Sitecore CDP. This operation cannot be undone. All orders, sessions, and data extensions linked to the guest are also removed."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

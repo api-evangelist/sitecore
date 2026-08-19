@@ -1,0 +1,246 @@
+{
+  "item": [
+    {
+      "id": "f0a00131-2183-418f-9333-d247cb55b615",
+      "name": "Search",
+      "description": {
+        "content": "Endpoints for executing search queries against the Content Hub entity index, retrieving facet values, and managing search filters.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "0ed5500b-57d5-4529-ae00-3ad5ba6917c5",
+          "name": "Search entities",
+          "request": {
+            "name": "Search entities",
+            "description": {
+              "content": "Executes a full-text and structured search query across the Content Hub entity index. Returns matching entities with facet aggregations for interactive filtering. Supports relevance ranking and pagination.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "search"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"<string>\",\n  \"filters\": [\n    {\n      \"key_0\": 4738.850909086949,\n      \"key_1\": false\n    },\n    {\n      \"key_0\": 8337\n    }\n  ],\n  \"skip\": 0,\n  \"take\": 25,\n  \"facets\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f22f7877-845b-4019-8170-57193290e017",
+              "name": "Search results with facets",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"query\": \"<string>\",\n  \"filters\": [\n    {\n      \"key_0\": false,\n      \"key_1\": 5329.255250251836\n    },\n    {\n      \"key_0\": false\n    }\n  ],\n  \"skip\": 0,\n  \"take\": 25,\n  \"facets\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"items\": [\n    {\n      \"id\": 6443,\n      \"identifier\": \"string\",\n      \"definitionName\": \"string\",\n      \"cultures\": [\n        \"string\",\n        \"string\"\n      ],\n      \"properties\": {\n        \"key_0\": \"string\",\n        \"key_1\": 2046\n      },\n      \"relations\": {\n        \"key_0\": false,\n        \"key_1\": 1930.7893770066498\n      },\n      \"systemProperties\": {\n        \"createdOn\": \"1986-10-31T03:27:07.688Z\",\n        \"createdBy\": \"string\",\n        \"modifiedOn\": \"2014-03-26T07:25:32.295Z\",\n        \"modifiedBy\": \"string\"\n      },\n      \"links\": {\n        \"key_0\": \"https://EFVYiJWdoZhLTTkSfftrGdJwMjzfkKnV.zwX+HfbRq5LDUN,nPQG3+o2UH7KWevbP7z7uKDUa.qyQfjF.RvDKh8m.luZMFDB8R--125\"\n      }\n    },\n    {\n      \"id\": 8682,\n      \"identifier\": \"string\",\n      \"definitionName\": \"string\",\n      \"cultures\": [\n        \"string\",\n        \"string\"\n      ],\n      \"properties\": {\n        \"key_0\": 5046.363286241167,\n        \"key_1\": 9500.070720527718\n      },\n      \"relations\": {\n        \"key_0\": true\n      },\n      \"systemProperties\": {\n        \"createdOn\": \"1949-11-23T00:20:44.208Z\",\n        \"createdBy\": \"string\",\n        \"modifiedOn\": \"1997-05-14T17:10:40.844Z\",\n        \"modifiedBy\": \"string\"\n      },\n      \"links\": {\n        \"key_0\": \"http://puCzWSlMFHaVDstnbroeC.upkhZCwhCvQHaaZ.Tpvx+\",\n        \"key_1\": \"https://wNHgfkKtZAnRincyHE.xwdnM2HNc+qdFnW8w\",\n        \"key_2\": \"https://QFiOgkoAzKXAqkAWGySgwmdYXfLSdObZq.pztbRZo+sQZnPp+3lejfk9WLU9a7-WPE5terNgrnPLZN,fzk2P8vKl2aGdUgnaftEqFhgLf\",\n        \"key_3\": \"http://T.edmgLQBc1Q.VqlnGKOIQoKmSqoiP18Eq+rVkURhJsS70VaoOf8oif+DQ1i-bR4zlzpu5A4\"\n      }\n    }\n  ],\n  \"totalCount\": 751,\n  \"facets\": {\n    \"key_0\": [\n      {\n        \"value\": \"string\",\n        \"count\": 2277\n      },\n      {\n        \"value\": \"string\",\n        \"count\": 6133\n      }\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f498e3a0-3eb5-409a-aecf-10cd1b7f1e60",
+              "name": "The request body or parameters are invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"query\": \"<string>\",\n  \"filters\": [\n    {\n      \"key_0\": false,\n      \"key_1\": 5329.255250251836\n    },\n    {\n      \"key_0\": false\n    }\n  ],\n  \"skip\": 0,\n  \"take\": 25,\n  \"facets\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"statusCode\": 3378,\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b82b8d78-e58d-45ff-9d13-130c92863776",
+              "name": "Authentication token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "search"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"query\": \"<string>\",\n  \"filters\": [\n    {\n      \"key_0\": false,\n      \"key_1\": 5329.255250251836\n    },\n    {\n      \"key_0\": false\n    }\n  ],\n  \"skip\": 0,\n  \"take\": 25,\n  \"facets\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"statusCode\": 3378,\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api-engage-eu.sitecorecloud.io",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "5bf8aa24-650a-4fc6-b5f6-0b75c84cde31",
+    "name": "Sitecore CDP REST Audit Search API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Sitecore CDP REST API provides synchronous access to retrieve, create, update, and delete data stored in Sitecore Customer Data Platform. It exposes guest profiles, orders, order items, order contacts, order consumers, and data extensions through standard HTTP methods. Developers use this API to build integrations that read or write customer data programmatically, enabling use cases such as audience segmentation, data enrichment, and reporting. Authentication uses HTTP Basic Auth with a client key and API token obtained from the CDP instance settings. Regional server endpoints must be used based on the CDP instance's geographic deployment.\n\nContact Support:\n Name: Sitecore Support",
+      "type": "text/plain"
+    }
+  }
+}

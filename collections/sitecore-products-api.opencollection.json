@@ -1,0 +1,173 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Sitecore CDP REST Audit Products API",
+    "version": "v2.1"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Products",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List products",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-engage-eu.sitecorecloud.io/products",
+            "params": [
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Full-text search term to filter results"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to return per page (max 100)"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number to retrieve (1-indexed)"
+              },
+              {
+                "name": "sortBy",
+                "value": "",
+                "type": "query",
+                "description": "Field name to sort results by; prefix with ! to sort descending"
+              },
+              {
+                "name": "catalogID",
+                "value": "",
+                "type": "query",
+                "description": "Filter products by catalog identifier"
+              },
+              {
+                "name": "categoryID",
+                "value": "",
+                "type": "query",
+                "description": "Filter products by category identifier"
+              }
+            ]
+          },
+          "docs": "Retrieves a paginated list of products from the OrderCloud catalog. Supports full-text search, filtering by any product field, sorting, and pagination. Results include product metadata, pricing references, and extended properties."
+        },
+        {
+          "info": {
+            "name": "Create a product",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-engage-eu.sitecorecloud.io/products",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new product in the OrderCloud catalog. Products support flexible extended properties (xp), variant generation via specs, and inventory tracking. Products must be assigned to a catalog before buyers can see or purchase them."
+        },
+        {
+          "info": {
+            "name": "Get a product",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-engage-eu.sitecorecloud.io/products/:productID",
+            "params": [
+              {
+                "name": "productID",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the product"
+              }
+            ]
+          },
+          "docs": "Retrieves a specific product by its identifier. Returns full product details including description, price schedule assignment, inventory configuration, and extended properties."
+        },
+        {
+          "info": {
+            "name": "Update a product",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api-engage-eu.sitecorecloud.io/products/:productID",
+            "params": [
+              {
+                "name": "productID",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the product"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Performs a full replacement update of a product. All fields are replaced with the values in the request body. Use PATCH for partial updates."
+        },
+        {
+          "info": {
+            "name": "Partially update a product",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api-engage-eu.sitecorecloud.io/products/:productID",
+            "params": [
+              {
+                "name": "productID",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the product"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Performs a partial update of a product. Only the fields provided in the request body are updated; all other fields retain their current values."
+        },
+        {
+          "info": {
+            "name": "Delete a product",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api-engage-eu.sitecorecloud.io/products/:productID",
+            "params": [
+              {
+                "name": "productID",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the product"
+              }
+            ]
+          },
+          "docs": "Permanently deletes a product from the catalog. All catalog assignments and buyer visibility are also removed."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

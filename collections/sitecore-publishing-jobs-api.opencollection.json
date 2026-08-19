@@ -1,0 +1,148 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Sitecore CDP REST Audit Publishing Jobs API",
+    "version": "v2.1"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Publishing Jobs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List publishing jobs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-engage-eu.sitecorecloud.io/authoring/publishing/v1/jobs",
+            "params": [
+              {
+                "name": "sc_env",
+                "value": "",
+                "type": "query",
+                "description": "The XM Cloud environment identifier"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter jobs by status"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Number of jobs to return per page"
+              }
+            ]
+          },
+          "docs": "Retrieves a paginated list of publishing jobs for the authenticated tenant and environment. Jobs can be filtered by status, date range, and other criteria. Returns job metadata including status, creation time, and item processing metrics."
+        },
+        {
+          "info": {
+            "name": "Create a publishing job",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-engage-eu.sitecorecloud.io/authoring/publishing/v1/jobs",
+            "params": [
+              {
+                "name": "sc_env",
+                "value": "",
+                "type": "query",
+                "description": "The XM Cloud environment identifier"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates and queues a new publishing job to push content from XM Cloud authoring to the Experience Edge delivery layer. The job can target specific items, languages, or be configured as a full site publish."
+        },
+        {
+          "info": {
+            "name": "Get a publishing job",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-engage-eu.sitecorecloud.io/authoring/publishing/v1/jobs/:id",
+            "params": [
+              {
+                "name": "jobId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the publishing job"
+              },
+              {
+                "name": "sc_env",
+                "value": "",
+                "type": "query",
+                "description": "The XM Cloud environment identifier"
+              }
+            ]
+          },
+          "docs": "Retrieves a specific publishing job by its identifier. Returns the current status, progress metrics, and any error information for the job."
+        },
+        {
+          "info": {
+            "name": "Cancel a publishing job",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-engage-eu.sitecorecloud.io/authoring/publishing/v1/jobs/:jobId/cancel",
+            "params": [
+              {
+                "name": "jobId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the publishing job"
+              },
+              {
+                "name": "sc_env",
+                "value": "",
+                "type": "query",
+                "description": "The XM Cloud environment identifier"
+              }
+            ]
+          },
+          "docs": "Cancels an active publishing job that is currently queued or running. Jobs in a terminal state (Completed, Failed, Canceled) cannot be cancelled. Returns the updated job with a Canceling or Canceled status."
+        },
+        {
+          "info": {
+            "name": "Get publishing job summary",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-engage-eu.sitecorecloud.io/authoring/publishing/v1/jobs/summary",
+            "params": [
+              {
+                "name": "sc_env",
+                "value": "",
+                "type": "query",
+                "description": "The XM Cloud environment identifier"
+              }
+            ]
+          },
+          "docs": "Retrieves statistical summary information about publishing jobs within the tenant, including counts by status, recent activity metrics, and item processing totals."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

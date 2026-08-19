@@ -1,0 +1,194 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Sitecore CDP REST Audit Sites API",
+    "version": "v2.1"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Sites",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List sites",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-engage-eu.sitecorecloud.io/api/v1/sites",
+            "params": [
+              {
+                "name": "sc_env",
+                "value": "",
+                "type": "query",
+                "description": "The XM Cloud environment identifier"
+              },
+              {
+                "name": "collectionId",
+                "value": "",
+                "type": "query",
+                "description": "Filter sites by parent collection identifier"
+              }
+            ]
+          },
+          "docs": "Retrieves a list of all sites within the authenticated XM Cloud tenant, optionally filtered by collection. Returns site metadata including names, identifiers, languages, and associated collection references."
+        },
+        {
+          "info": {
+            "name": "Create a site",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-engage-eu.sitecorecloud.io/api/v1/sites",
+            "params": [
+              {
+                "name": "sc_env",
+                "value": "",
+                "type": "query",
+                "description": "The XM Cloud environment identifier"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new site within an XM Cloud site collection. The site can be created from a template or as a blank site, and the request must specify the parent collection, name, and language configuration."
+        },
+        {
+          "info": {
+            "name": "Get a site",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-engage-eu.sitecorecloud.io/api/v1/sites/:siteId",
+            "params": [
+              {
+                "name": "siteId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the site"
+              },
+              {
+                "name": "sc_env",
+                "value": "",
+                "type": "query",
+                "description": "The XM Cloud environment identifier"
+              }
+            ]
+          },
+          "docs": "Retrieves a specific site by its unique identifier, including its full configuration, language settings, and collection membership."
+        },
+        {
+          "info": {
+            "name": "Delete a site",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api-engage-eu.sitecorecloud.io/api/v1/sites/:siteId",
+            "params": [
+              {
+                "name": "siteId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the site"
+              },
+              {
+                "name": "sc_env",
+                "value": "",
+                "type": "query",
+                "description": "The XM Cloud environment identifier"
+              }
+            ]
+          },
+          "docs": "Permanently deletes a site and all of its associated pages and content. This operation is irreversible and cannot be undone after execution."
+        },
+        {
+          "info": {
+            "name": "Validate a site name",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-engage-eu.sitecorecloud.io/api/v1/sites/name/validate",
+            "params": [
+              {
+                "name": "sc_env",
+                "value": "",
+                "type": "query",
+                "description": "The XM Cloud environment identifier"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Validates whether a proposed site name is available and meets naming requirements prior to site creation. Returns validation status and error details if the name is unavailable or invalid."
+        },
+        {
+          "info": {
+            "name": "Sort sites",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-engage-eu.sitecorecloud.io/api/v1/sites/sort",
+            "params": [
+              {
+                "name": "sc_env",
+                "value": "",
+                "type": "query",
+                "description": "The XM Cloud environment identifier"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the sort order of sites as they appear in the Content Editor, Pages, and API responses. Accepts an ordered list of site identifiers."
+        },
+        {
+          "info": {
+            "name": "List rendering hosts for a site",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-engage-eu.sitecorecloud.io/api/v1/sites/:siteId/renderinghosts",
+            "params": [
+              {
+                "name": "siteId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the site"
+              },
+              {
+                "name": "sc_env",
+                "value": "",
+                "type": "query",
+                "description": "The XM Cloud environment identifier"
+              }
+            ]
+          },
+          "docs": "Returns a list of editing hosts that can be assigned to the specified site. Rendering hosts define the front-end application endpoints used for Experience Editor and Pages rendering."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

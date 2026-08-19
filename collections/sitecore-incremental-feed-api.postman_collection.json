@@ -1,0 +1,288 @@
+{
+  "item": [
+    {
+      "id": "2b614834-cc4f-4735-8239-8bd68579c9c2",
+      "name": "Incremental Feed",
+      "description": {
+        "content": "Endpoints for pushing real-time product catalog updates to Sitecore Discover without requiring a full feed re-index. Supports adding, updating, and removing products incrementally.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "e0d25e84-3ac4-456f-8a58-5734c8e6582f",
+          "name": "Incrementally update products",
+          "request": {
+            "name": "Incrementally update products",
+            "description": {
+              "content": "Pushes real-time product catalog updates to the Sitecore Discover index without requiring a full feed re-process. Supports adding new products, updating existing product attributes, and removing products from the Discover catalog.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "feed",
+                "v1",
+                "products",
+                "incremental",
+                "update"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "customerKey",
+                  "value": "<string>",
+                  "description": "The customer key identifying the Sitecore Discover account. Found in the Customer Engagement Console under Developer Resources > API Access."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"operation\": \"<string>\",\n  \"products\": [\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"sku\": \"<string>\",\n      \"description\": \"<string>\",\n      \"url\": \"<uri>\",\n      \"image_url\": \"<uri>\",\n      \"price\": \"<float>\",\n      \"final_price\": \"<float>\",\n      \"brand\": \"<string>\",\n      \"category\": \"<string>\",\n      \"in_stock\": \"<boolean>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"sku\": \"<string>\",\n      \"description\": \"<string>\",\n      \"url\": \"<uri>\",\n      \"image_url\": \"<uri>\",\n      \"price\": \"<float>\",\n      \"final_price\": \"<float>\",\n      \"brand\": \"<string>\",\n      \"category\": \"<string>\",\n      \"in_stock\": \"<boolean>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "96ac8115-a1ac-4b9a-afe2-16143678070c",
+              "name": "Incremental product update accepted",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "feed",
+                    "v1",
+                    "products",
+                    "incremental",
+                    "update"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "customerKey",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"operation\": \"<string>\",\n  \"products\": [\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"sku\": \"string\",\n      \"description\": \"string\",\n      \"url\": \"https://URIxJ.qvnhu,s+VuRH8U\",\n      \"image_url\": \"http://GPLDzJIfDKDFmHzUmyhivBXhQveFy.xeptpo7ZOz-iJKgb81Bck+XNW\",\n      \"price\": 1682.6691017887185,\n      \"final_price\": 864.7276881600685,\n      \"brand\": \"string\",\n      \"category\": \"string\",\n      \"in_stock\": false\n    },\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"sku\": \"string\",\n      \"description\": \"string\",\n      \"url\": \"https://McfmXk.igqHet5nRFeTA7q2y+DSnox50zYXEp4\",\n      \"image_url\": \"http://EAGuxhMokfxpdlTqQVXEBj.lmBOrpnwy.vAjyd5.oDFmiHhOgK3gBPF0YVJyiEMb3OK\",\n      \"price\": 6255.707574811538,\n      \"final_price\": 5416.094058402803,\n      \"brand\": \"string\",\n      \"category\": \"string\",\n      \"in_stock\": false\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"failed\",\n  \"processed\": 6433,\n  \"failed\": 6636,\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "30b6a73a-fb1d-4bb2-964d-fed2e7e095f2",
+              "name": "The request body or parameters are invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "feed",
+                    "v1",
+                    "products",
+                    "incremental",
+                    "update"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "customerKey",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"operation\": \"<string>\",\n  \"products\": [\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"sku\": \"string\",\n      \"description\": \"string\",\n      \"url\": \"https://URIxJ.qvnhu,s+VuRH8U\",\n      \"image_url\": \"http://GPLDzJIfDKDFmHzUmyhivBXhQveFy.xeptpo7ZOz-iJKgb81Bck+XNW\",\n      \"price\": 1682.6691017887185,\n      \"final_price\": 864.7276881600685,\n      \"brand\": \"string\",\n      \"category\": \"string\",\n      \"in_stock\": false\n    },\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"sku\": \"string\",\n      \"description\": \"string\",\n      \"url\": \"https://McfmXk.igqHet5nRFeTA7q2y+DSnox50zYXEp4\",\n      \"image_url\": \"http://EAGuxhMokfxpdlTqQVXEBj.lmBOrpnwy.vAjyd5.oDFmiHhOgK3gBPF0YVJyiEMb3OK\",\n      \"price\": 6255.707574811538,\n      \"final_price\": 5416.094058402803,\n      \"brand\": \"string\",\n      \"category\": \"string\",\n      \"in_stock\": false\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"statusCode\": 5210,\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "580ecf5e-1c37-420d-ac60-3fbf1cd7b105",
+              "name": "Authentication token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "feed",
+                    "v1",
+                    "products",
+                    "incremental",
+                    "update"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "customerKey",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"operation\": \"<string>\",\n  \"products\": [\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"sku\": \"string\",\n      \"description\": \"string\",\n      \"url\": \"https://URIxJ.qvnhu,s+VuRH8U\",\n      \"image_url\": \"http://GPLDzJIfDKDFmHzUmyhivBXhQveFy.xeptpo7ZOz-iJKgb81Bck+XNW\",\n      \"price\": 1682.6691017887185,\n      \"final_price\": 864.7276881600685,\n      \"brand\": \"string\",\n      \"category\": \"string\",\n      \"in_stock\": false\n    },\n    {\n      \"id\": \"string\",\n      \"name\": \"string\",\n      \"sku\": \"string\",\n      \"description\": \"string\",\n      \"url\": \"https://McfmXk.igqHet5nRFeTA7q2y+DSnox50zYXEp4\",\n      \"image_url\": \"http://EAGuxhMokfxpdlTqQVXEBj.lmBOrpnwy.vAjyd5.oDFmiHhOgK3gBPF0YVJyiEMb3OK\",\n      \"price\": 6255.707574811538,\n      \"final_price\": 5416.094058402803,\n      \"brand\": \"string\",\n      \"category\": \"string\",\n      \"in_stock\": false\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"statusCode\": 5210,\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api-engage-eu.sitecorecloud.io",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "1831a897-4d94-4562-9138-11cd4e048f3e",
+    "name": "Sitecore CDP REST Audit Incremental Feed API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Sitecore CDP REST API provides synchronous access to retrieve, create, update, and delete data stored in Sitecore Customer Data Platform. It exposes guest profiles, orders, order items, order contacts, order consumers, and data extensions through standard HTTP methods. Developers use this API to build integrations that read or write customer data programmatically, enabling use cases such as audience segmentation, data enrichment, and reporting. Authentication uses HTTP Basic Auth with a client key and API token obtained from the CDP instance settings. Regional server endpoints must be used based on the CDP instance's geographic deployment.\n\nContact Support:\n Name: Sitecore Support",
+      "type": "text/plain"
+    }
+  }
+}

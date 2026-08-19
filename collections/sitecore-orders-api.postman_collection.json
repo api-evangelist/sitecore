@@ -1,0 +1,3513 @@
+{
+  "item": [
+    {
+      "id": "24d3de5c-73cd-4e69-bf7f-dee61feced8c",
+      "name": "Orders",
+      "description": {
+        "content": "Endpoints for creating, retrieving, updating, and deleting order records associated with guests. Orders capture purchase transactions including line items, payments, and fulfillment data.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "6f6591fb-43a5-49d9-a95d-36fe6fe9b1a1",
+          "name": "List guest orders",
+          "request": {
+            "name": "List guest orders",
+            "description": {
+              "content": "Retrieves all orders associated with a guest profile. Returns order summaries including order references, totals, status, and creation dates.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2.1",
+                "guests",
+                ":guestRef",
+                "orders"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "guestRef",
+                  "description": "(Required) The unique reference identifier for the guest profile"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "7a219aca-6b61-4eeb-8991-3935812b5772",
+              "name": "List of orders for the guest",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2.1",
+                    "guests",
+                    ":guestRef",
+                    "orders"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "guestRef",
+                      "description": "(Required) The unique reference identifier for the guest profile"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"orderRef\": \"string\",\n    \"referenceId\": \"string\",\n    \"status\": \"CANCELED\",\n    \"currencyCode\": \"USD\",\n    \"totalPrice\": 1705.5852285215367,\n    \"orderedAt\": \"2017-11-18T07:02:13.924Z\",\n    \"createdAt\": \"1962-08-11T08:49:18.641Z\",\n    \"items\": [\n      {\n        \"itemRef\": \"string\",\n        \"sku\": \"string\",\n        \"name\": \"string\",\n        \"quantity\": 107,\n        \"price\": 4395.908819297206,\n        \"totalPrice\": 2977.7822304066613\n      },\n      {\n        \"itemRef\": \"string\",\n        \"sku\": \"string\",\n        \"name\": \"string\",\n        \"quantity\": 3457,\n        \"price\": 8705.160402857935,\n        \"totalPrice\": 9997.401764769587\n      }\n    ]\n  },\n  {\n    \"orderRef\": \"string\",\n    \"referenceId\": \"string\",\n    \"status\": \"CANCELED\",\n    \"currencyCode\": \"USD\",\n    \"totalPrice\": 4446.029779978018,\n    \"orderedAt\": \"1960-12-09T09:06:21.140Z\",\n    \"createdAt\": \"1983-06-11T22:16:12.033Z\",\n    \"items\": [\n      {\n        \"itemRef\": \"string\",\n        \"sku\": \"string\",\n        \"name\": \"string\",\n        \"quantity\": 7121,\n        \"price\": 1287.0586507854841,\n        \"totalPrice\": 6872.00984467019\n      },\n      {\n        \"itemRef\": \"string\",\n        \"sku\": \"string\",\n        \"name\": \"string\",\n        \"quantity\": 1804,\n        \"price\": 5951.559109231766,\n        \"totalPrice\": 9339.785715476683\n      }\n    ]\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e57a0494-a7e8-4428-b8ae-dad797922cd6",
+              "name": "Authentication credentials are missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2.1",
+                    "guests",
+                    ":guestRef",
+                    "orders"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "guestRef",
+                      "description": "(Required) The unique reference identifier for the guest profile"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"statusCode\": 1005,\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "86748b3b-cb76-409d-b86e-a3a32b423c27",
+              "name": "The requested resource was not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2.1",
+                    "guests",
+                    ":guestRef",
+                    "orders"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "guestRef",
+                      "description": "(Required) The unique reference identifier for the guest profile"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"statusCode\": 1005,\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "88b46cd8-92b1-4e81-af4f-236fadf32e81",
+          "name": "Create an order",
+          "request": {
+            "name": "Create an order",
+            "description": {
+              "content": "Creates a new order record associated with a guest profile. Orders capture purchase transactions and support segmentation and personalization based on purchasing behavior. The referenceId and orderedAt fields are immutable after creation.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2.1",
+                "guests",
+                ":guestRef",
+                "orders"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "guestRef",
+                  "description": "(Required) The unique reference identifier for the guest profile"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"referenceId\": \"<string>\",\n  \"orderedAt\": \"<dateTime>\",\n  \"status\": \"<string>\",\n  \"currencyCode\": \"<string>\",\n  \"totalPrice\": \"<float>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "ac65c77e-aab0-48de-9cfc-04921a686811",
+              "name": "Order created successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2.1",
+                    "guests",
+                    ":guestRef",
+                    "orders"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "guestRef",
+                      "description": "(Required) The unique reference identifier for the guest profile"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"referenceId\": \"<string>\",\n  \"orderedAt\": \"<dateTime>\",\n  \"status\": \"<string>\",\n  \"currencyCode\": \"<string>\",\n  \"totalPrice\": \"<float>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"orderRef\": \"string\",\n  \"referenceId\": \"string\",\n  \"status\": \"CANCELED\",\n  \"currencyCode\": \"USD\",\n  \"totalPrice\": 2034.2921429596995,\n  \"orderedAt\": \"1987-11-22T03:50:29.217Z\",\n  \"createdAt\": \"1955-05-20T15:38:27.666Z\",\n  \"items\": [\n    {\n      \"itemRef\": \"string\",\n      \"sku\": \"string\",\n      \"name\": \"string\",\n      \"quantity\": 7867,\n      \"price\": 1054.0773819536441,\n      \"totalPrice\": 6255.278656081325\n    },\n    {\n      \"itemRef\": \"string\",\n      \"sku\": \"string\",\n      \"name\": \"string\",\n      \"quantity\": 2117,\n      \"price\": 4778.565992513445,\n      \"totalPrice\": 7195.020490386768\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "df0a7d37-19f0-4987-a13f-9a43b131efc3",
+              "name": "The request body or parameters are invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2.1",
+                    "guests",
+                    ":guestRef",
+                    "orders"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "guestRef",
+                      "description": "(Required) The unique reference identifier for the guest profile"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"referenceId\": \"<string>\",\n  \"orderedAt\": \"<dateTime>\",\n  \"status\": \"<string>\",\n  \"currencyCode\": \"<string>\",\n  \"totalPrice\": \"<float>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"statusCode\": 1005,\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2489ad6f-518d-4e56-b5c3-93e437eec8b2",
+              "name": "Authentication credentials are missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2.1",
+                    "guests",
+                    ":guestRef",
+                    "orders"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "guestRef",
+                      "description": "(Required) The unique reference identifier for the guest profile"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"referenceId\": \"<string>\",\n  \"orderedAt\": \"<dateTime>\",\n  \"status\": \"<string>\",\n  \"currencyCode\": \"<string>\",\n  \"totalPrice\": \"<float>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"statusCode\": 6425,\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "afdacc68-163b-4ce0-91a9-1810f0818f7c",
+              "name": "The requested resource was not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2.1",
+                    "guests",
+                    ":guestRef",
+                    "orders"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "guestRef",
+                      "description": "(Required) The unique reference identifier for the guest profile"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"referenceId\": \"<string>\",\n  \"orderedAt\": \"<dateTime>\",\n  \"status\": \"<string>\",\n  \"currencyCode\": \"<string>\",\n  \"totalPrice\": \"<float>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"statusCode\": 6425,\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "29263968-32fc-4e4f-a186-c1fb06c1ef5c",
+          "name": "Get an order",
+          "request": {
+            "name": "Get an order",
+            "description": {
+              "content": "Retrieves a specific order by its reference identifier. Returns the full order object including all line items, contacts, and data extensions.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2.1",
+                "guests",
+                ":guestRef",
+                "orders",
+                ":orderRef"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "guestRef",
+                  "description": "(Required) The unique reference identifier for the guest profile"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "orderRef",
+                  "description": "(Required) The unique reference identifier for the order"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "cb2d950c-e65f-4343-8698-e16cf370c9c6",
+              "name": "Order details",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2.1",
+                    "guests",
+                    ":guestRef",
+                    "orders",
+                    ":orderRef"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "guestRef",
+                      "description": "(Required) The unique reference identifier for the guest profile"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orderRef",
+                      "description": "(Required) The unique reference identifier for the order"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"orderRef\": \"string\",\n  \"referenceId\": \"string\",\n  \"status\": \"CANCELED\",\n  \"currencyCode\": \"USD\",\n  \"totalPrice\": 2034.2921429596995,\n  \"orderedAt\": \"1987-11-22T03:50:29.217Z\",\n  \"createdAt\": \"1955-05-20T15:38:27.666Z\",\n  \"items\": [\n    {\n      \"itemRef\": \"string\",\n      \"sku\": \"string\",\n      \"name\": \"string\",\n      \"quantity\": 7867,\n      \"price\": 1054.0773819536441,\n      \"totalPrice\": 6255.278656081325\n    },\n    {\n      \"itemRef\": \"string\",\n      \"sku\": \"string\",\n      \"name\": \"string\",\n      \"quantity\": 2117,\n      \"price\": 4778.565992513445,\n      \"totalPrice\": 7195.020490386768\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "49a99a2d-63da-4674-a193-e9d8bfae2677",
+              "name": "Authentication credentials are missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2.1",
+                    "guests",
+                    ":guestRef",
+                    "orders",
+                    ":orderRef"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "guestRef",
+                      "description": "(Required) The unique reference identifier for the guest profile"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orderRef",
+                      "description": "(Required) The unique reference identifier for the order"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"statusCode\": 6425,\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ba64be9c-257e-4453-986c-b792bd3c3169",
+              "name": "The requested resource was not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2.1",
+                    "guests",
+                    ":guestRef",
+                    "orders",
+                    ":orderRef"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "guestRef",
+                      "description": "(Required) The unique reference identifier for the guest profile"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orderRef",
+                      "description": "(Required) The unique reference identifier for the order"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"statusCode\": 6425,\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "462b6330-0046-4b3a-904c-20136df3c7f9",
+          "name": "Update an order",
+          "request": {
+            "name": "Update an order",
+            "description": {
+              "content": "Performs a full replacement update of an order record. Note that the referenceId and orderedAt fields cannot be changed after the order has been created.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2.1",
+                "guests",
+                ":guestRef",
+                "orders",
+                ":orderRef"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "guestRef",
+                  "description": "(Required) The unique reference identifier for the guest profile"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "orderRef",
+                  "description": "(Required) The unique reference identifier for the order"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"referenceId\": \"<string>\",\n  \"orderedAt\": \"<dateTime>\",\n  \"status\": \"<string>\",\n  \"currencyCode\": \"<string>\",\n  \"totalPrice\": \"<float>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "611c126f-d85e-490b-8d28-c00eab1a1fee",
+              "name": "Order updated successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2.1",
+                    "guests",
+                    ":guestRef",
+                    "orders",
+                    ":orderRef"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "guestRef",
+                      "description": "(Required) The unique reference identifier for the guest profile"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orderRef",
+                      "description": "(Required) The unique reference identifier for the order"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"referenceId\": \"<string>\",\n  \"orderedAt\": \"<dateTime>\",\n  \"status\": \"<string>\",\n  \"currencyCode\": \"<string>\",\n  \"totalPrice\": \"<float>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"orderRef\": \"string\",\n  \"referenceId\": \"string\",\n  \"status\": \"CANCELED\",\n  \"currencyCode\": \"USD\",\n  \"totalPrice\": 2034.2921429596995,\n  \"orderedAt\": \"1987-11-22T03:50:29.217Z\",\n  \"createdAt\": \"1955-05-20T15:38:27.666Z\",\n  \"items\": [\n    {\n      \"itemRef\": \"string\",\n      \"sku\": \"string\",\n      \"name\": \"string\",\n      \"quantity\": 7867,\n      \"price\": 1054.0773819536441,\n      \"totalPrice\": 6255.278656081325\n    },\n    {\n      \"itemRef\": \"string\",\n      \"sku\": \"string\",\n      \"name\": \"string\",\n      \"quantity\": 2117,\n      \"price\": 4778.565992513445,\n      \"totalPrice\": 7195.020490386768\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e826f8d2-dd69-439b-ae6a-37d5ce5ae9a6",
+              "name": "The request body or parameters are invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2.1",
+                    "guests",
+                    ":guestRef",
+                    "orders",
+                    ":orderRef"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "guestRef",
+                      "description": "(Required) The unique reference identifier for the guest profile"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orderRef",
+                      "description": "(Required) The unique reference identifier for the order"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"referenceId\": \"<string>\",\n  \"orderedAt\": \"<dateTime>\",\n  \"status\": \"<string>\",\n  \"currencyCode\": \"<string>\",\n  \"totalPrice\": \"<float>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"statusCode\": 6425,\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "770312a6-015b-45b6-ab4b-d3ed4fec028e",
+              "name": "Authentication credentials are missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2.1",
+                    "guests",
+                    ":guestRef",
+                    "orders",
+                    ":orderRef"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "guestRef",
+                      "description": "(Required) The unique reference identifier for the guest profile"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orderRef",
+                      "description": "(Required) The unique reference identifier for the order"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"referenceId\": \"<string>\",\n  \"orderedAt\": \"<dateTime>\",\n  \"status\": \"<string>\",\n  \"currencyCode\": \"<string>\",\n  \"totalPrice\": \"<float>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"statusCode\": 6425,\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8aa1fed7-8af3-43b9-b277-eebfa4944eb9",
+              "name": "The requested resource was not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2.1",
+                    "guests",
+                    ":guestRef",
+                    "orders",
+                    ":orderRef"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "guestRef",
+                      "description": "(Required) The unique reference identifier for the guest profile"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orderRef",
+                      "description": "(Required) The unique reference identifier for the order"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"referenceId\": \"<string>\",\n  \"orderedAt\": \"<dateTime>\",\n  \"status\": \"<string>\",\n  \"currencyCode\": \"<string>\",\n  \"totalPrice\": \"<float>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"statusCode\": 6425,\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "19be4f7e-d8d2-4d75-9a99-b09fef926193",
+          "name": "Delete an order",
+          "request": {
+            "name": "Delete an order",
+            "description": {
+              "content": "Permanently deletes an order record and all associated items, contacts, consumers, and data extensions. This operation is irreversible.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2.1",
+                "guests",
+                ":guestRef",
+                "orders",
+                ":orderRef"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "guestRef",
+                  "description": "(Required) The unique reference identifier for the guest profile"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "orderRef",
+                  "description": "(Required) The unique reference identifier for the order"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "307df1a4-6154-4500-b564-6c47546010a4",
+              "name": "Order deleted successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2.1",
+                    "guests",
+                    ":guestRef",
+                    "orders",
+                    ":orderRef"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "guestRef",
+                      "description": "(Required) The unique reference identifier for the guest profile"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orderRef",
+                      "description": "(Required) The unique reference identifier for the order"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "21bec8d0-3289-4572-b49b-789df1f2623f",
+              "name": "Authentication credentials are missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2.1",
+                    "guests",
+                    ":guestRef",
+                    "orders",
+                    ":orderRef"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "guestRef",
+                      "description": "(Required) The unique reference identifier for the guest profile"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orderRef",
+                      "description": "(Required) The unique reference identifier for the order"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"statusCode\": 6425,\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "64f8f4e3-b8cc-4b23-b589-44550c5866fa",
+              "name": "The requested resource was not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2.1",
+                    "guests",
+                    ":guestRef",
+                    "orders",
+                    ":orderRef"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "guestRef",
+                      "description": "(Required) The unique reference identifier for the guest profile"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orderRef",
+                      "description": "(Required) The unique reference identifier for the order"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"statusCode\": 6425,\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "bfee610a-45d9-41dc-8f34-e9727b44f487",
+          "name": "List orders",
+          "request": {
+            "name": "List orders",
+            "description": {
+              "content": "Retrieves a paginated list of orders in the specified direction context. Use 'Incoming' for orders received by the seller and 'Outgoing' for orders placed by a buyer. Supports filtering, sorting, and pagination.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "orders",
+                ":direction"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "search",
+                  "value": "<string>",
+                  "description": "Full-text search term to filter results"
+                },
+                {
+                  "disabled": false,
+                  "key": "pageSize",
+                  "value": "20",
+                  "description": "Number of items to return per page (max 100)"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number to retrieve (1-indexed)"
+                },
+                {
+                  "disabled": false,
+                  "key": "buyerID",
+                  "value": "<string>",
+                  "description": "Filter orders by buyer identifier"
+                },
+                {
+                  "disabled": false,
+                  "key": "status",
+                  "value": "<string>",
+                  "description": "Filter orders by status"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "direction",
+                  "description": "(Required) The order direction context - Incoming (seller view) or Outgoing (buyer view)"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a85542f2-d672-484b-acea-5bcc78224ffd",
+              "name": "A paginated list of orders",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orders",
+                    ":direction"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "search",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "20"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "buyerID",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "status",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "direction",
+                      "description": "(Required) The order direction context - Incoming (seller view) or Outgoing (buyer view)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Meta\": {\n    \"Page\": 2200,\n    \"PageSize\": 3967,\n    \"TotalCount\": 6930,\n    \"TotalPages\": 6263,\n    \"ItemRange\": [\n      1971,\n      7377\n    ]\n  },\n  \"Items\": [\n    {\n      \"ID\": \"string\",\n      \"FromUser\": {\n        \"ID\": \"string\",\n        \"FirstName\": \"string\",\n        \"LastName\": \"string\",\n        \"Username\": \"string\",\n        \"Email\": \"Go8v2Tz7xM4O@eyyMQWf.nl\"\n      },\n      \"BillingAddress\": {\n        \"ID\": \"string\",\n        \"FirstName\": \"string\",\n        \"LastName\": \"string\",\n        \"Company\": \"string\",\n        \"Street1\": \"string\",\n        \"Street2\": \"string\",\n        \"City\": \"string\",\n        \"State\": \"string\",\n        \"Zip\": \"string\",\n        \"Country\": \"US\",\n        \"Phone\": \"string\"\n      },\n      \"ShippingAddressID\": \"string\",\n      \"Comments\": \"string\",\n      \"LineItemCount\": 3326,\n      \"Status\": \"AwaitingApproval\",\n      \"DateCreated\": \"1948-06-17T23:30:36.123Z\",\n      \"DateSubmitted\": \"1983-11-30T03:22:03.665Z\",\n      \"DateApproved\": \"2005-10-29T21:33:12.700Z\",\n      \"DateCompleted\": \"1961-10-14T06:33:47.716Z\",\n      \"Subtotal\": 27.08366585985278,\n      \"ShippingCost\": 8038.808390313416,\n      \"TaxCost\": 8774.077383460892,\n      \"PromotionDiscount\": 1256.6995277049598,\n      \"Total\": 9057.370913781499,\n      \"xp\": {\n        \"key_0\": \"string\"\n      }\n    },\n    {\n      \"ID\": \"string\",\n      \"FromUser\": {\n        \"ID\": \"string\",\n        \"FirstName\": \"string\",\n        \"LastName\": \"string\",\n        \"Username\": \"string\",\n        \"Email\": \"t8yukT@gEIPoIefmHeXgtnNeze.hb\"\n      },\n      \"BillingAddress\": {\n        \"ID\": \"string\",\n        \"FirstName\": \"string\",\n        \"LastName\": \"string\",\n        \"Company\": \"string\",\n        \"Street1\": \"string\",\n        \"Street2\": \"string\",\n        \"City\": \"string\",\n        \"State\": \"string\",\n        \"Zip\": \"string\",\n        \"Country\": \"US\",\n        \"Phone\": \"string\"\n      },\n      \"ShippingAddressID\": \"string\",\n      \"Comments\": \"string\",\n      \"LineItemCount\": 4967,\n      \"Status\": \"Open\",\n      \"DateCreated\": \"2001-12-31T04:53:56.008Z\",\n      \"DateSubmitted\": \"1976-08-28T17:20:43.496Z\",\n      \"DateApproved\": \"1950-01-31T20:00:10.175Z\",\n      \"DateCompleted\": \"1946-10-31T10:57:56.831Z\",\n      \"Subtotal\": 1684.526677389565,\n      \"ShippingCost\": 1107.1620444483299,\n      \"TaxCost\": 415.6561857182417,\n      \"PromotionDiscount\": 7719.826639771469,\n      \"Total\": 3559.3012208191553,\n      \"xp\": {\n        \"key_0\": 2288.943383534078,\n        \"key_1\": false\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f1befb19-af42-4aed-90ed-b81f0cbaea3f",
+              "name": "Authentication token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orders",
+                    ":direction"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "search",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "20"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "buyerID",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "status",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "direction",
+                      "description": "(Required) The order direction context - Incoming (seller view) or Outgoing (buyer view)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Errors\": [\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": 7044\n      }\n    },\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": \"string\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "08edea23-035f-4604-a4b5-38c523d7399f",
+          "name": "Create an order",
+          "request": {
+            "name": "Create an order",
+            "description": {
+              "content": "Creates a new order in the specified direction context. New orders begin in the Unsubmitted status. Line items, promotions, and payments can be added before the order is submitted.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "orders",
+                ":direction"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "direction",
+                  "description": "(Required) The order direction context - Incoming (seller view) or Outgoing (buyer view)"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"BillingAddressID\": \"<string>\",\n  \"ShippingAddressID\": \"<string>\",\n  \"Comments\": \"<string>\",\n  \"xp\": {\n    \"key_0\": 6279.682124160593,\n    \"key_1\": \"string\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "3ff88fff-5b63-4dd2-848a-4048783c6ac3",
+              "name": "Order created successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orders",
+                    ":direction"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "direction",
+                      "description": "(Required) The order direction context - Incoming (seller view) or Outgoing (buyer view)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"BillingAddressID\": \"<string>\",\n  \"ShippingAddressID\": \"<string>\",\n  \"Comments\": \"<string>\",\n  \"xp\": {\n    \"key_0\": true,\n    \"key_1\": \"string\",\n    \"key_2\": 4863\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ID\": \"string\",\n  \"FromUser\": {\n    \"ID\": \"string\",\n    \"FirstName\": \"string\",\n    \"LastName\": \"string\",\n    \"Username\": \"string\",\n    \"Email\": \"Pt1mbh-6yaV3a@mzpBruq.yfeh\"\n  },\n  \"BillingAddress\": {\n    \"ID\": \"string\",\n    \"FirstName\": \"string\",\n    \"LastName\": \"string\",\n    \"Company\": \"string\",\n    \"Street1\": \"string\",\n    \"Street2\": \"string\",\n    \"City\": \"string\",\n    \"State\": \"string\",\n    \"Zip\": \"string\",\n    \"Country\": \"US\",\n    \"Phone\": \"string\"\n  },\n  \"ShippingAddressID\": \"string\",\n  \"Comments\": \"string\",\n  \"LineItemCount\": 5928,\n  \"Status\": \"Canceled\",\n  \"DateCreated\": \"1975-12-25T18:16:13.471Z\",\n  \"DateSubmitted\": \"1985-05-13T22:59:47.174Z\",\n  \"DateApproved\": \"1980-04-23T14:59:43.549Z\",\n  \"DateCompleted\": \"2012-02-22T12:01:39.194Z\",\n  \"Subtotal\": 5233.939771932027,\n  \"ShippingCost\": 3538.9955636052828,\n  \"TaxCost\": 1267.3745107511559,\n  \"PromotionDiscount\": 179.77906236305907,\n  \"Total\": 8508.497984779216,\n  \"xp\": {\n    \"key_0\": 9836.91757755127\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "08926ded-46e3-4afd-8926-7f0b54c3ad48",
+              "name": "The request body or parameters are invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orders",
+                    ":direction"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "direction",
+                      "description": "(Required) The order direction context - Incoming (seller view) or Outgoing (buyer view)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"BillingAddressID\": \"<string>\",\n  \"ShippingAddressID\": \"<string>\",\n  \"Comments\": \"<string>\",\n  \"xp\": {\n    \"key_0\": true,\n    \"key_1\": \"string\",\n    \"key_2\": 4863\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"statusCode\": 6425,\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0c4ff9a6-868c-44eb-8882-2ba801c09abc",
+              "name": "Authentication token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orders",
+                    ":direction"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "direction",
+                      "description": "(Required) The order direction context - Incoming (seller view) or Outgoing (buyer view)"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"BillingAddressID\": \"<string>\",\n  \"ShippingAddressID\": \"<string>\",\n  \"Comments\": \"<string>\",\n  \"xp\": {\n    \"key_0\": true,\n    \"key_1\": \"string\",\n    \"key_2\": 4863\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Errors\": [\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": 5508.797028315068,\n        \"key_1\": 9398.17072435743\n      }\n    },\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": \"string\",\n        \"key_1\": true\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9e0facff-05bc-4c51-ab9d-3f40d934cbf4",
+          "name": "Get an order",
+          "request": {
+            "name": "Get an order",
+            "description": {
+              "content": "Retrieves a specific order by its identifier and direction. Returns the full order object including status, totals, shipping address, and billing address.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "orders",
+                ":direction",
+                ":orderID"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "direction",
+                  "description": "(Required) The order direction context - Incoming (seller view) or Outgoing (buyer view)"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "orderID",
+                  "description": "(Required) The unique identifier of the order"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "cbe3d087-f877-4985-b06d-5c561e32fb4f",
+              "name": "Order details",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orders",
+                    ":direction",
+                    ":orderID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "direction",
+                      "description": "(Required) The order direction context - Incoming (seller view) or Outgoing (buyer view)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orderID",
+                      "description": "(Required) The unique identifier of the order"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ID\": \"string\",\n  \"FromUser\": {\n    \"ID\": \"string\",\n    \"FirstName\": \"string\",\n    \"LastName\": \"string\",\n    \"Username\": \"string\",\n    \"Email\": \"Pt1mbh-6yaV3a@mzpBruq.yfeh\"\n  },\n  \"BillingAddress\": {\n    \"ID\": \"string\",\n    \"FirstName\": \"string\",\n    \"LastName\": \"string\",\n    \"Company\": \"string\",\n    \"Street1\": \"string\",\n    \"Street2\": \"string\",\n    \"City\": \"string\",\n    \"State\": \"string\",\n    \"Zip\": \"string\",\n    \"Country\": \"US\",\n    \"Phone\": \"string\"\n  },\n  \"ShippingAddressID\": \"string\",\n  \"Comments\": \"string\",\n  \"LineItemCount\": 5928,\n  \"Status\": \"Canceled\",\n  \"DateCreated\": \"1975-12-25T18:16:13.471Z\",\n  \"DateSubmitted\": \"1985-05-13T22:59:47.174Z\",\n  \"DateApproved\": \"1980-04-23T14:59:43.549Z\",\n  \"DateCompleted\": \"2012-02-22T12:01:39.194Z\",\n  \"Subtotal\": 5233.939771932027,\n  \"ShippingCost\": 3538.9955636052828,\n  \"TaxCost\": 1267.3745107511559,\n  \"PromotionDiscount\": 179.77906236305907,\n  \"Total\": 8508.497984779216,\n  \"xp\": {\n    \"key_0\": 9836.91757755127\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fed03277-8709-4bf8-8718-d6768ca7e71e",
+              "name": "Authentication token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orders",
+                    ":direction",
+                    ":orderID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "direction",
+                      "description": "(Required) The order direction context - Incoming (seller view) or Outgoing (buyer view)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orderID",
+                      "description": "(Required) The unique identifier of the order"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Errors\": [\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": 5508.797028315068,\n        \"key_1\": 9398.17072435743\n      }\n    },\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": \"string\",\n        \"key_1\": true\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "25a8bb71-47fb-481b-998e-d7244c3c8663",
+              "name": "The requested resource was not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orders",
+                    ":direction",
+                    ":orderID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "direction",
+                      "description": "(Required) The order direction context - Incoming (seller view) or Outgoing (buyer view)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orderID",
+                      "description": "(Required) The unique identifier of the order"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"statusCode\": 6425,\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d589acb4-80d6-4d93-898c-a03b2d990fbc",
+          "name": "Update an order",
+          "request": {
+            "name": "Update an order",
+            "description": {
+              "content": "Performs a full replacement update of an order. Only orders in Unsubmitted status can be updated. Submitted orders cannot be modified.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "orders",
+                ":direction",
+                ":orderID"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "direction",
+                  "description": "(Required) The order direction context - Incoming (seller view) or Outgoing (buyer view)"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "orderID",
+                  "description": "(Required) The unique identifier of the order"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"BillingAddressID\": \"<string>\",\n  \"ShippingAddressID\": \"<string>\",\n  \"Comments\": \"<string>\",\n  \"xp\": {\n    \"key_0\": 6279.682124160593,\n    \"key_1\": \"string\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "68bd1603-7a6a-46c3-a671-923336c832f3",
+              "name": "Order updated successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orders",
+                    ":direction",
+                    ":orderID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "direction",
+                      "description": "(Required) The order direction context - Incoming (seller view) or Outgoing (buyer view)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orderID",
+                      "description": "(Required) The unique identifier of the order"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"BillingAddressID\": \"<string>\",\n  \"ShippingAddressID\": \"<string>\",\n  \"Comments\": \"<string>\",\n  \"xp\": {\n    \"key_0\": true,\n    \"key_1\": \"string\",\n    \"key_2\": 4863\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ID\": \"string\",\n  \"FromUser\": {\n    \"ID\": \"string\",\n    \"FirstName\": \"string\",\n    \"LastName\": \"string\",\n    \"Username\": \"string\",\n    \"Email\": \"Pt1mbh-6yaV3a@mzpBruq.yfeh\"\n  },\n  \"BillingAddress\": {\n    \"ID\": \"string\",\n    \"FirstName\": \"string\",\n    \"LastName\": \"string\",\n    \"Company\": \"string\",\n    \"Street1\": \"string\",\n    \"Street2\": \"string\",\n    \"City\": \"string\",\n    \"State\": \"string\",\n    \"Zip\": \"string\",\n    \"Country\": \"US\",\n    \"Phone\": \"string\"\n  },\n  \"ShippingAddressID\": \"string\",\n  \"Comments\": \"string\",\n  \"LineItemCount\": 5928,\n  \"Status\": \"Canceled\",\n  \"DateCreated\": \"1975-12-25T18:16:13.471Z\",\n  \"DateSubmitted\": \"1985-05-13T22:59:47.174Z\",\n  \"DateApproved\": \"1980-04-23T14:59:43.549Z\",\n  \"DateCompleted\": \"2012-02-22T12:01:39.194Z\",\n  \"Subtotal\": 5233.939771932027,\n  \"ShippingCost\": 3538.9955636052828,\n  \"TaxCost\": 1267.3745107511559,\n  \"PromotionDiscount\": 179.77906236305907,\n  \"Total\": 8508.497984779216,\n  \"xp\": {\n    \"key_0\": 9836.91757755127\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c3cf4ea8-2063-4bfb-8b3f-11ca65cdf592",
+              "name": "The request body or parameters are invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orders",
+                    ":direction",
+                    ":orderID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "direction",
+                      "description": "(Required) The order direction context - Incoming (seller view) or Outgoing (buyer view)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orderID",
+                      "description": "(Required) The unique identifier of the order"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"BillingAddressID\": \"<string>\",\n  \"ShippingAddressID\": \"<string>\",\n  \"Comments\": \"<string>\",\n  \"xp\": {\n    \"key_0\": true,\n    \"key_1\": \"string\",\n    \"key_2\": 4863\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"statusCode\": 6425,\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "aca4caaa-4e31-4976-a216-cfcaaced65e7",
+              "name": "Authentication token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orders",
+                    ":direction",
+                    ":orderID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "direction",
+                      "description": "(Required) The order direction context - Incoming (seller view) or Outgoing (buyer view)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orderID",
+                      "description": "(Required) The unique identifier of the order"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"BillingAddressID\": \"<string>\",\n  \"ShippingAddressID\": \"<string>\",\n  \"Comments\": \"<string>\",\n  \"xp\": {\n    \"key_0\": true,\n    \"key_1\": \"string\",\n    \"key_2\": 4863\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Errors\": [\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": 5508.797028315068,\n        \"key_1\": 9398.17072435743\n      }\n    },\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": \"string\",\n        \"key_1\": true\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "17528569-fcd8-45c7-a3ea-d86d680c81b3",
+              "name": "The requested resource was not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orders",
+                    ":direction",
+                    ":orderID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "direction",
+                      "description": "(Required) The order direction context - Incoming (seller view) or Outgoing (buyer view)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orderID",
+                      "description": "(Required) The unique identifier of the order"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"BillingAddressID\": \"<string>\",\n  \"ShippingAddressID\": \"<string>\",\n  \"Comments\": \"<string>\",\n  \"xp\": {\n    \"key_0\": true,\n    \"key_1\": \"string\",\n    \"key_2\": 4863\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"statusCode\": 6425,\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "24263cbf-2355-4994-81af-f21a979e0a6c",
+          "name": "Delete an order",
+          "request": {
+            "name": "Delete an order",
+            "description": {
+              "content": "Permanently deletes an order. Only unsubmitted orders can be deleted.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "orders",
+                ":direction",
+                ":orderID"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "direction",
+                  "description": "(Required) The order direction context - Incoming (seller view) or Outgoing (buyer view)"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "orderID",
+                  "description": "(Required) The unique identifier of the order"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "45bf962f-f96b-44e5-860d-d2538904eec0",
+              "name": "Order deleted successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orders",
+                    ":direction",
+                    ":orderID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "direction",
+                      "description": "(Required) The order direction context - Incoming (seller view) or Outgoing (buyer view)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orderID",
+                      "description": "(Required) The unique identifier of the order"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "d150762a-11d2-4a59-9e53-498fe38014be",
+              "name": "Authentication token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orders",
+                    ":direction",
+                    ":orderID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "direction",
+                      "description": "(Required) The order direction context - Incoming (seller view) or Outgoing (buyer view)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orderID",
+                      "description": "(Required) The unique identifier of the order"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Errors\": [\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": 5508.797028315068,\n        \"key_1\": 9398.17072435743\n      }\n    },\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": \"string\",\n        \"key_1\": true\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1956dbb3-3b9c-4317-b822-af20c7dd7061",
+              "name": "The requested resource was not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orders",
+                    ":direction",
+                    ":orderID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "direction",
+                      "description": "(Required) The order direction context - Incoming (seller view) or Outgoing (buyer view)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orderID",
+                      "description": "(Required) The unique identifier of the order"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"statusCode\": 6425,\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "07127efa-47a0-46a8-9877-c818adb20a0a",
+          "name": "Submit an order",
+          "request": {
+            "name": "Submit an order",
+            "description": {
+              "content": "Submits an order for fulfillment. The order must be in Unsubmitted status and have all required line items, payment methods, and addresses set before submission. Submitted orders transition to Open or AwaitingApproval status.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "orders",
+                ":direction",
+                ":orderID",
+                "submit"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "direction",
+                  "description": "(Required) The order direction context - Incoming (seller view) or Outgoing (buyer view)"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "orderID",
+                  "description": "(Required) The unique identifier of the order"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "54d3984b-64f3-4f0b-acc0-89f307fc7673",
+              "name": "Order submitted successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orders",
+                    ":direction",
+                    ":orderID",
+                    "submit"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "direction",
+                      "description": "(Required) The order direction context - Incoming (seller view) or Outgoing (buyer view)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orderID",
+                      "description": "(Required) The unique identifier of the order"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ID\": \"string\",\n  \"FromUser\": {\n    \"ID\": \"string\",\n    \"FirstName\": \"string\",\n    \"LastName\": \"string\",\n    \"Username\": \"string\",\n    \"Email\": \"Pt1mbh-6yaV3a@mzpBruq.yfeh\"\n  },\n  \"BillingAddress\": {\n    \"ID\": \"string\",\n    \"FirstName\": \"string\",\n    \"LastName\": \"string\",\n    \"Company\": \"string\",\n    \"Street1\": \"string\",\n    \"Street2\": \"string\",\n    \"City\": \"string\",\n    \"State\": \"string\",\n    \"Zip\": \"string\",\n    \"Country\": \"US\",\n    \"Phone\": \"string\"\n  },\n  \"ShippingAddressID\": \"string\",\n  \"Comments\": \"string\",\n  \"LineItemCount\": 5928,\n  \"Status\": \"Canceled\",\n  \"DateCreated\": \"1975-12-25T18:16:13.471Z\",\n  \"DateSubmitted\": \"1985-05-13T22:59:47.174Z\",\n  \"DateApproved\": \"1980-04-23T14:59:43.549Z\",\n  \"DateCompleted\": \"2012-02-22T12:01:39.194Z\",\n  \"Subtotal\": 5233.939771932027,\n  \"ShippingCost\": 3538.9955636052828,\n  \"TaxCost\": 1267.3745107511559,\n  \"PromotionDiscount\": 179.77906236305907,\n  \"Total\": 8508.497984779216,\n  \"xp\": {\n    \"key_0\": 9836.91757755127\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0423f0d9-7bb5-4753-9263-986222da4edc",
+              "name": "The request body or parameters are invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orders",
+                    ":direction",
+                    ":orderID",
+                    "submit"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "direction",
+                      "description": "(Required) The order direction context - Incoming (seller view) or Outgoing (buyer view)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orderID",
+                      "description": "(Required) The unique identifier of the order"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"statusCode\": 6425,\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "110be2b3-adac-4c0e-a070-e2f6e3210d45",
+              "name": "Authentication token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orders",
+                    ":direction",
+                    ":orderID",
+                    "submit"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "direction",
+                      "description": "(Required) The order direction context - Incoming (seller view) or Outgoing (buyer view)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orderID",
+                      "description": "(Required) The unique identifier of the order"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Errors\": [\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": 5508.797028315068,\n        \"key_1\": 9398.17072435743\n      }\n    },\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": \"string\",\n        \"key_1\": true\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "67756997-daa6-45bb-9150-ca35bba2bbfc",
+              "name": "The requested resource was not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orders",
+                    ":direction",
+                    ":orderID",
+                    "submit"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "direction",
+                      "description": "(Required) The order direction context - Incoming (seller view) or Outgoing (buyer view)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orderID",
+                      "description": "(Required) The unique identifier of the order"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"statusCode\": 6425,\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b8cd3115-f83d-4626-873d-451c45d8d10d",
+          "name": "List order line items",
+          "request": {
+            "name": "List order line items",
+            "description": {
+              "content": "Retrieves all line items within a specific order. Each line item represents a product or variant being purchased with a specified quantity and pricing.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "orders",
+                ":direction",
+                ":orderID",
+                "lineitems"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "direction",
+                  "description": "(Required) The order direction context - Incoming (seller view) or Outgoing (buyer view)"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "orderID",
+                  "description": "(Required) The unique identifier of the order"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ea3be922-27ea-4ebb-aad1-9ef89721000f",
+              "name": "List of order line items",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orders",
+                    ":direction",
+                    ":orderID",
+                    "lineitems"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "direction",
+                      "description": "(Required) The order direction context - Incoming (seller view) or Outgoing (buyer view)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orderID",
+                      "description": "(Required) The unique identifier of the order"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Meta\": {\n    \"Page\": 8986,\n    \"PageSize\": 2216,\n    \"TotalCount\": 1144,\n    \"TotalPages\": 2937,\n    \"ItemRange\": [\n      7338,\n      5500\n    ]\n  },\n  \"Items\": [\n    {\n      \"ID\": \"string\",\n      \"ProductID\": \"string\",\n      \"Quantity\": 3084,\n      \"UnitPrice\": 3240.069416071741,\n      \"LineTotal\": 306.68435633613655,\n      \"ShippingAddressID\": \"string\",\n      \"xp\": {\n        \"key_0\": 5499.924578857014,\n        \"key_1\": 5146,\n        \"key_2\": 9274.437046515184,\n        \"key_3\": 6090.146272934392\n      }\n    },\n    {\n      \"ID\": \"string\",\n      \"ProductID\": \"string\",\n      \"Quantity\": 4077,\n      \"UnitPrice\": 6760.881379889688,\n      \"LineTotal\": 6845.086275239904,\n      \"ShippingAddressID\": \"string\",\n      \"xp\": {\n        \"key_0\": \"string\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dd6444ed-df90-4cb5-b174-64218f8d51cb",
+              "name": "Authentication token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orders",
+                    ":direction",
+                    ":orderID",
+                    "lineitems"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "direction",
+                      "description": "(Required) The order direction context - Incoming (seller view) or Outgoing (buyer view)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orderID",
+                      "description": "(Required) The unique identifier of the order"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Errors\": [\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": 5508.797028315068,\n        \"key_1\": 9398.17072435743\n      }\n    },\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": \"string\",\n        \"key_1\": true\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "36a0763c-df00-4623-aee9-fe72a22a7847",
+              "name": "The requested resource was not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orders",
+                    ":direction",
+                    ":orderID",
+                    "lineitems"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "direction",
+                      "description": "(Required) The order direction context - Incoming (seller view) or Outgoing (buyer view)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orderID",
+                      "description": "(Required) The unique identifier of the order"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"statusCode\": 6425,\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ab3d191c-6ad4-42dd-9909-e23f1728c950",
+          "name": "Create a line item",
+          "request": {
+            "name": "Create a line item",
+            "description": {
+              "content": "Adds a line item to an order specifying a product and quantity. Specs and spec option values can be provided to select a specific product variant.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "orders",
+                ":direction",
+                ":orderID",
+                "lineitems"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "direction",
+                  "description": "(Required) The order direction context - Incoming (seller view) or Outgoing (buyer view)"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "orderID",
+                  "description": "(Required) The unique identifier of the order"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ProductID\": \"<string>\",\n  \"Quantity\": \"<integer>\",\n  \"ShippingAddressID\": \"<string>\",\n  \"xp\": {\n    \"key_0\": 7318.596608018636\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "bffb1451-ea5e-49fc-9b9a-2ee88310591f",
+              "name": "Line item added to order",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orders",
+                    ":direction",
+                    ":orderID",
+                    "lineitems"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "direction",
+                      "description": "(Required) The order direction context - Incoming (seller view) or Outgoing (buyer view)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orderID",
+                      "description": "(Required) The unique identifier of the order"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ProductID\": \"<string>\",\n  \"Quantity\": \"<integer>\",\n  \"ShippingAddressID\": \"<string>\",\n  \"xp\": {\n    \"key_0\": 5455\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ID\": \"string\",\n  \"ProductID\": \"string\",\n  \"Quantity\": 1703,\n  \"UnitPrice\": 7483.227358157382,\n  \"LineTotal\": 2894.0294332716476,\n  \"ShippingAddressID\": \"string\",\n  \"xp\": {\n    \"key_0\": \"string\",\n    \"key_1\": true\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "54728b0d-e6bb-49b9-8986-6fabf259d9c1",
+              "name": "The request body or parameters are invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orders",
+                    ":direction",
+                    ":orderID",
+                    "lineitems"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "direction",
+                      "description": "(Required) The order direction context - Incoming (seller view) or Outgoing (buyer view)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orderID",
+                      "description": "(Required) The unique identifier of the order"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ProductID\": \"<string>\",\n  \"Quantity\": \"<integer>\",\n  \"ShippingAddressID\": \"<string>\",\n  \"xp\": {\n    \"key_0\": 5455\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"statusCode\": 6425,\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e7b916ca-eaff-48af-b53f-fd7986209310",
+              "name": "Authentication token is missing or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orders",
+                    ":direction",
+                    ":orderID",
+                    "lineitems"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "direction",
+                      "description": "(Required) The order direction context - Incoming (seller view) or Outgoing (buyer view)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orderID",
+                      "description": "(Required) The unique identifier of the order"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ProductID\": \"<string>\",\n  \"Quantity\": \"<integer>\",\n  \"ShippingAddressID\": \"<string>\",\n  \"xp\": {\n    \"key_0\": 5455\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Errors\": [\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": 5508.797028315068,\n        \"key_1\": 9398.17072435743\n      }\n    },\n    {\n      \"ErrorCode\": \"string\",\n      \"Message\": \"string\",\n      \"Data\": {\n        \"key_0\": \"string\",\n        \"key_1\": true\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9fc7cf06-c737-4d8e-b794-37d2a79eec09",
+              "name": "The requested resource was not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "orders",
+                    ":direction",
+                    ":orderID",
+                    "lineitems"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "direction",
+                      "description": "(Required) The order direction context - Incoming (seller view) or Outgoing (buyer view)"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "orderID",
+                      "description": "(Required) The unique identifier of the order"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"ProductID\": \"<string>\",\n  \"Quantity\": \"<integer>\",\n  \"ShippingAddressID\": \"<string>\",\n  \"xp\": {\n    \"key_0\": 5455\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\",\n  \"statusCode\": 6425,\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api-engage-eu.sitecorecloud.io",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "37d469e1-8e12-4035-9cab-7c4f8775ca12",
+    "name": "Sitecore CDP REST Audit Orders API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Sitecore CDP REST API provides synchronous access to retrieve, create, update, and delete data stored in Sitecore Customer Data Platform. It exposes guest profiles, orders, order items, order contacts, order consumers, and data extensions through standard HTTP methods. Developers use this API to build integrations that read or write customer data programmatically, enabling use cases such as audience segmentation, data enrichment, and reporting. Authentication uses HTTP Basic Auth with a client key and API token obtained from the CDP instance settings. Regional server endpoints must be used based on the CDP instance's geographic deployment.\n\nContact Support:\n Name: Sitecore Support",
+      "type": "text/plain"
+    }
+  }
+}

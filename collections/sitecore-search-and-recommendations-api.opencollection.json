@@ -1,0 +1,73 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Sitecore CDP REST Audit Search and Recommendations API",
+    "version": "v2.1"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Search and Recommendations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search and recommend products",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-engage-eu.sitecorecloud.io/api/search-rec/3",
+            "params": [
+              {
+                "name": "customerKey",
+                "value": "",
+                "type": "query",
+                "description": "The customer key identifying the Sitecore Discover account. Found in the Customer Engagement Console under Developer Resources > API Access."
+              },
+              {
+                "name": "key",
+                "value": "",
+                "type": "query",
+                "description": "URL-encoded JSON object containing the search query parameters including keyword, widget ID, page context, and filter facets"
+              }
+            ]
+          },
+          "docs": "Performs a product or content search and retrieves ranked results with optional faceted filtering and personalized recommendations. Supports keyword search, category browsing, and recommendation widget contexts. The key parameter contains a JSON string with all query parameters."
+        },
+        {
+          "info": {
+            "name": "Search and recommend products (POST)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-engage-eu.sitecorecloud.io/api/search-rec/3",
+            "params": [
+              {
+                "name": "customerKey",
+                "value": "",
+                "type": "query",
+                "description": "The customer key identifying the Sitecore Discover account. Found in the Customer Engagement Console under Developer Resources > API Access."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Performs a product or content search using a POST request body instead of query parameters. Supports the same functionality as the GET endpoint with the query parameters provided as a JSON request body."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

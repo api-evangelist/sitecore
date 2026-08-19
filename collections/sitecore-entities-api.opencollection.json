@@ -1,0 +1,167 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Sitecore CDP REST Audit Entities API",
+    "version": "v2.1"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Entities",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List entities",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-engage-eu.sitecorecloud.io/entities",
+            "params": [
+              {
+                "name": "definition",
+                "value": "",
+                "type": "query",
+                "description": "Filter entities by their entity definition identifier"
+              },
+              {
+                "name": "skip",
+                "value": "",
+                "type": "query",
+                "description": "Number of entities to skip for pagination"
+              },
+              {
+                "name": "take",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of entities to return"
+              },
+              {
+                "name": "culture",
+                "value": "",
+                "type": "query",
+                "description": "Culture code for multi-lingual property values (e.g., en-US)"
+              }
+            ]
+          },
+          "docs": "Retrieves a paginated list of entities from the Content Hub. Supports filtering by entity definition, property values, and relations. The response includes hyperlinks for navigating to related resources."
+        },
+        {
+          "info": {
+            "name": "Create an entity",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-engage-eu.sitecorecloud.io/entities",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new entity in Content Hub according to the specified entity definition. The entity type is determined by the definition identifier provided in the request body. Properties and relations are set according to the definition schema."
+        },
+        {
+          "info": {
+            "name": "Get an entity",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-engage-eu.sitecorecloud.io/entities/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The numeric identifier of the entity"
+              },
+              {
+                "name": "culture",
+                "value": "",
+                "type": "query",
+                "description": "Culture code for localized properties (e.g., en-US)"
+              }
+            ]
+          },
+          "docs": "Retrieves a specific entity by its numeric identifier. Returns the entity with all its properties, relations, and hypermedia links. Use the culture parameter to retrieve localized property values."
+        },
+        {
+          "info": {
+            "name": "Update an entity",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api-engage-eu.sitecorecloud.io/entities/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The numeric identifier of the entity"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Performs a full replacement update of an entity. All properties and relations are replaced with the values in the request body. Missing optional properties will be cleared."
+        },
+        {
+          "info": {
+            "name": "Delete an entity",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api-engage-eu.sitecorecloud.io/entities/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The numeric identifier of the entity"
+              }
+            ]
+          },
+          "docs": "Permanently deletes an entity from Content Hub. This operation is irreversible. Assets that are in use or have active relations may require the relations to be removed first."
+        },
+        {
+          "info": {
+            "name": "Update entity lifecycle state",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api-engage-eu.sitecorecloud.io/entities/:id/lifecycle",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The numeric identifier of the entity"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the lifecycle state of an entity such as an asset. Lifecycle state transitions control the publishing workflow of assets within Content Hub (e.g., Draft, Approved, Published)."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

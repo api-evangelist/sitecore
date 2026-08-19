@@ -1,0 +1,376 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Sitecore CDP REST Audit Orders API",
+    "version": "v2.1"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Orders",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List guest orders",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-engage-eu.sitecorecloud.io/v2.1/guests/:guestRef/orders",
+            "params": [
+              {
+                "name": "guestRef",
+                "value": "",
+                "type": "path",
+                "description": "The unique reference identifier for the guest profile"
+              }
+            ]
+          },
+          "docs": "Retrieves all orders associated with a guest profile. Returns order summaries including order references, totals, status, and creation dates."
+        },
+        {
+          "info": {
+            "name": "Create an order",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-engage-eu.sitecorecloud.io/v2.1/guests/:guestRef/orders",
+            "params": [
+              {
+                "name": "guestRef",
+                "value": "",
+                "type": "path",
+                "description": "The unique reference identifier for the guest profile"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new order record associated with a guest profile. Orders capture purchase transactions and support segmentation and personalization based on purchasing behavior. The referenceId and orderedAt fields are immutable after creation."
+        },
+        {
+          "info": {
+            "name": "Get an order",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-engage-eu.sitecorecloud.io/v2.1/guests/:guestRef/orders/:orderRef",
+            "params": [
+              {
+                "name": "guestRef",
+                "value": "",
+                "type": "path",
+                "description": "The unique reference identifier for the guest profile"
+              },
+              {
+                "name": "orderRef",
+                "value": "",
+                "type": "path",
+                "description": "The unique reference identifier for the order"
+              }
+            ]
+          },
+          "docs": "Retrieves a specific order by its reference identifier. Returns the full order object including all line items, contacts, and data extensions."
+        },
+        {
+          "info": {
+            "name": "Update an order",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api-engage-eu.sitecorecloud.io/v2.1/guests/:guestRef/orders/:orderRef",
+            "params": [
+              {
+                "name": "guestRef",
+                "value": "",
+                "type": "path",
+                "description": "The unique reference identifier for the guest profile"
+              },
+              {
+                "name": "orderRef",
+                "value": "",
+                "type": "path",
+                "description": "The unique reference identifier for the order"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Performs a full replacement update of an order record. Note that the referenceId and orderedAt fields cannot be changed after the order has been created."
+        },
+        {
+          "info": {
+            "name": "Delete an order",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api-engage-eu.sitecorecloud.io/v2.1/guests/:guestRef/orders/:orderRef",
+            "params": [
+              {
+                "name": "guestRef",
+                "value": "",
+                "type": "path",
+                "description": "The unique reference identifier for the guest profile"
+              },
+              {
+                "name": "orderRef",
+                "value": "",
+                "type": "path",
+                "description": "The unique reference identifier for the order"
+              }
+            ]
+          },
+          "docs": "Permanently deletes an order record and all associated items, contacts, consumers, and data extensions. This operation is irreversible."
+        },
+        {
+          "info": {
+            "name": "List orders",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-engage-eu.sitecorecloud.io/orders/:direction",
+            "params": [
+              {
+                "name": "direction",
+                "value": "",
+                "type": "path",
+                "description": "The order direction context - Incoming (seller view) or Outgoing (buyer view)"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Full-text search term to filter results"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to return per page (max 100)"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number to retrieve (1-indexed)"
+              },
+              {
+                "name": "buyerID",
+                "value": "",
+                "type": "query",
+                "description": "Filter orders by buyer identifier"
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter orders by status"
+              }
+            ]
+          },
+          "docs": "Retrieves a paginated list of orders in the specified direction context. Use 'Incoming' for orders received by the seller and 'Outgoing' for orders placed by a buyer. Supports filtering, sorting, and pagination."
+        },
+        {
+          "info": {
+            "name": "Create an order",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-engage-eu.sitecorecloud.io/orders/:direction",
+            "params": [
+              {
+                "name": "direction",
+                "value": "",
+                "type": "path",
+                "description": "The order direction context - Incoming (seller view) or Outgoing (buyer view)"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new order in the specified direction context. New orders begin in the Unsubmitted status. Line items, promotions, and payments can be added before the order is submitted."
+        },
+        {
+          "info": {
+            "name": "Get an order",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-engage-eu.sitecorecloud.io/orders/:direction/:orderID",
+            "params": [
+              {
+                "name": "direction",
+                "value": "",
+                "type": "path",
+                "description": "The order direction context - Incoming (seller view) or Outgoing (buyer view)"
+              },
+              {
+                "name": "orderID",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the order"
+              }
+            ]
+          },
+          "docs": "Retrieves a specific order by its identifier and direction. Returns the full order object including status, totals, shipping address, and billing address."
+        },
+        {
+          "info": {
+            "name": "Update an order",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api-engage-eu.sitecorecloud.io/orders/:direction/:orderID",
+            "params": [
+              {
+                "name": "direction",
+                "value": "",
+                "type": "path",
+                "description": "The order direction context - Incoming (seller view) or Outgoing (buyer view)"
+              },
+              {
+                "name": "orderID",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the order"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Performs a full replacement update of an order. Only orders in Unsubmitted status can be updated. Submitted orders cannot be modified."
+        },
+        {
+          "info": {
+            "name": "Delete an order",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api-engage-eu.sitecorecloud.io/orders/:direction/:orderID",
+            "params": [
+              {
+                "name": "direction",
+                "value": "",
+                "type": "path",
+                "description": "The order direction context - Incoming (seller view) or Outgoing (buyer view)"
+              },
+              {
+                "name": "orderID",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the order"
+              }
+            ]
+          },
+          "docs": "Permanently deletes an order. Only unsubmitted orders can be deleted."
+        },
+        {
+          "info": {
+            "name": "Submit an order",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-engage-eu.sitecorecloud.io/orders/:direction/:orderID/submit",
+            "params": [
+              {
+                "name": "direction",
+                "value": "",
+                "type": "path",
+                "description": "The order direction context - Incoming (seller view) or Outgoing (buyer view)"
+              },
+              {
+                "name": "orderID",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the order"
+              }
+            ]
+          },
+          "docs": "Submits an order for fulfillment. The order must be in Unsubmitted status and have all required line items, payment methods, and addresses set before submission. Submitted orders transition to Open or AwaitingApproval status."
+        },
+        {
+          "info": {
+            "name": "List order line items",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-engage-eu.sitecorecloud.io/orders/:direction/:orderID/lineitems",
+            "params": [
+              {
+                "name": "direction",
+                "value": "",
+                "type": "path",
+                "description": "The order direction context - Incoming (seller view) or Outgoing (buyer view)"
+              },
+              {
+                "name": "orderID",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the order"
+              }
+            ]
+          },
+          "docs": "Retrieves all line items within a specific order. Each line item represents a product or variant being purchased with a specified quantity and pricing."
+        },
+        {
+          "info": {
+            "name": "Create a line item",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-engage-eu.sitecorecloud.io/orders/:direction/:orderID/lineitems",
+            "params": [
+              {
+                "name": "direction",
+                "value": "",
+                "type": "path",
+                "description": "The order direction context - Incoming (seller view) or Outgoing (buyer view)"
+              },
+              {
+                "name": "orderID",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the order"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Adds a line item to an order specifying a product and quantity. Specs and spec option values can be provided to select a specific product variant."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

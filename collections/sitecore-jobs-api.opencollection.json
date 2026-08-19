@@ -1,0 +1,50 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Sitecore CDP REST Audit Jobs API",
+    "version": "v2.1"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Jobs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List jobs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-engage-eu.sitecorecloud.io/jobs",
+            "params": [
+              {
+                "name": "skip",
+                "value": "",
+                "type": "query",
+                "description": "Number of jobs to skip for pagination"
+              },
+              {
+                "name": "take",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of jobs to return"
+              }
+            ]
+          },
+          "docs": "Retrieves a list of background job targets configured in the Content Hub instance. Jobs handle long-running operations such as asset processing, reporting, and data exports."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,192 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Sitecore CDP REST Audit Collections API",
+    "version": "v2.1"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Collections",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List site collections",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-engage-eu.sitecorecloud.io/api/v1/collections",
+            "params": [
+              {
+                "name": "sc_env",
+                "value": "",
+                "type": "query",
+                "description": "The XM Cloud environment identifier"
+              }
+            ]
+          },
+          "docs": "Retrieves a list of all site collections within the authenticated XM Cloud tenant. Returns collection metadata including names, identifiers, and associated site counts."
+        },
+        {
+          "info": {
+            "name": "Create a site collection",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-engage-eu.sitecorecloud.io/api/v1/collections",
+            "params": [
+              {
+                "name": "sc_env",
+                "value": "",
+                "type": "query",
+                "description": "The XM Cloud environment identifier"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new site collection within the XM Cloud tenant. Site collections group related sites together and allow shared resource management. The collection name must be unique within the tenant."
+        },
+        {
+          "info": {
+            "name": "Get a site collection",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-engage-eu.sitecorecloud.io/api/v1/collections/:collectionId",
+            "params": [
+              {
+                "name": "collectionId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the site collection"
+              },
+              {
+                "name": "sc_env",
+                "value": "",
+                "type": "query",
+                "description": "The XM Cloud environment identifier"
+              }
+            ]
+          },
+          "docs": "Retrieves a specific site collection by its unique identifier. Returns full collection metadata including associated sites and configuration."
+        },
+        {
+          "info": {
+            "name": "Update a site collection",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api-engage-eu.sitecorecloud.io/api/v1/collections/:collectionId",
+            "params": [
+              {
+                "name": "collectionId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the site collection"
+              },
+              {
+                "name": "sc_env",
+                "value": "",
+                "type": "query",
+                "description": "The XM Cloud environment identifier"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the properties of an existing site collection, such as its name or description. All updateable fields must be provided in the request body."
+        },
+        {
+          "info": {
+            "name": "Delete a site collection",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api-engage-eu.sitecorecloud.io/api/v1/collections/:collectionId",
+            "params": [
+              {
+                "name": "collectionId",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier of the site collection"
+              },
+              {
+                "name": "sc_env",
+                "value": "",
+                "type": "query",
+                "description": "The XM Cloud environment identifier"
+              }
+            ]
+          },
+          "docs": "Permanently deletes a site collection and all of its associated sites. This operation is irreversible. All sites within the collection must be removed or the operation will return an error."
+        },
+        {
+          "info": {
+            "name": "Validate a site collection name",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-engage-eu.sitecorecloud.io/api/v1/collections/name/validate",
+            "params": [
+              {
+                "name": "sc_env",
+                "value": "",
+                "type": "query",
+                "description": "The XM Cloud environment identifier"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Validates whether a proposed site collection name is available and meets naming requirements before creating a collection. Returns validation status and any error messages."
+        },
+        {
+          "info": {
+            "name": "Sort site collections",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api-engage-eu.sitecorecloud.io/api/v1/collections/sort",
+            "params": [
+              {
+                "name": "sc_env",
+                "value": "",
+                "type": "query",
+                "description": "The XM Cloud environment identifier"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the sort order of site collections as they appear in the Content Editor, Pages, and API responses. Accepts an ordered list of collection identifiers."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
