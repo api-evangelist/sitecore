@@ -204,6 +204,8 @@ apis:
   humanURL: https://doc.sitecore.com/xmc/en/developers/xm-cloud/delivery-api.html
   baseURL: https://edge.sitecorecloud.io/api/graphql
   tags:
+  - Collection
+  tags_raw:
   - Collections
   properties:
   - type: OpenAPI
@@ -340,6 +342,8 @@ apis:
   humanURL: https://doc.sitecore.com/xmc/en/developers/xm-cloud/delivery-api.html
   baseURL: https://edge.sitecorecloud.io/api/graphql
   tags:
+  - Event
+  tags_raw:
   - Events
   properties:
   - type: OpenAPI
@@ -476,6 +480,8 @@ apis:
   humanURL: https://doc.sitecore.com/xmc/en/developers/xm-cloud/delivery-api.html
   baseURL: https://edge.sitecorecloud.io/api/graphql
   tags:
+  - Job
+  tags_raw:
   - Jobs
   properties:
   - type: OpenAPI
@@ -503,6 +509,8 @@ apis:
   humanURL: https://doc.sitecore.com/xmc/en/developers/xm-cloud/delivery-api.html
   baseURL: https://edge.sitecorecloud.io/api/graphql
   tags:
+  - Language
+  tags_raw:
   - Languages
   properties:
   - type: OpenAPI
@@ -557,6 +565,8 @@ apis:
   humanURL: https://doc.sitecore.com/xmc/en/developers/xm-cloud/delivery-api.html
   baseURL: https://edge.sitecorecloud.io/api/graphql
   tags:
+  - Order
+  tags_raw:
   - Orders
   properties:
   - type: OpenAPI
@@ -611,6 +621,8 @@ apis:
   humanURL: https://doc.sitecore.com/xmc/en/developers/xm-cloud/delivery-api.html
   baseURL: https://edge.sitecorecloud.io/api/graphql
   tags:
+  - Product
+  tags_raw:
   - Products
   properties:
   - type: OpenAPI
