@@ -1,23 +1,17 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Sitecore CDP REST Audit Flow Definitions API
-  description: The Sitecore CDP REST API provides synchronous access to retrieve, create, update, and delete data stored in Sitecore Customer Data Platform. It exposes guest profiles, orders, order items, order contacts, order consumers, and data extensions through standard HTTP methods. Developers use this API to build integrations that read or write customer data programmatically, enabling use cases such as audience segmentation, data enrichment, and reporting. Authentication uses HTTP Basic Auth with a client key and API token obtained from the CDP instance settings. Regional server endpoints must be used based on the CDP instance's geographic deployment.
-  version: v2.1
+  title: Sitecore Personalize REST Flow Definitions API
+  description: The Sitecore Personalize REST API allows developers to programmatically interact with Sitecore Personalize experiments, decisioning flows, connection configurations, and template assets. It supports retrieving, creating, updating, and deleting personalization resources through standard HTTP methods. Developers use this API to integrate decisioning logic into server-side applications, trigger personalization flows programmatically, manage personalization assets as part of automated deployment pipelines, and connect to external systems via configurable connection objects. The API base URL is environment-specific and is determined by the region of the Sitecore Personalize instance.
+  version: v1
   contact:
     name: Sitecore Support
     url: https://www.sitecore.com/support
   termsOfService: https://www.sitecore.com/legal/terms-of-service
 servers:
-- url: https://api-engage-eu.sitecorecloud.io
-  description: EU Production Server
-- url: https://api-engage-us.sitecorecloud.io
-  description: US Production Server
-- url: https://api-engage-ap.sitecorecloud.io
-  description: Asia-Pacific Production Server
-- url: https://api-engage-jpe.sitecorecloud.io
-  description: Japan Production Server
+- url: https://api.boxever.com
+  description: Sitecore Personalize Production Server
 security:
-- basicAuth: []
+- apiKeyAuth: []
 tags:
 - name: Flow Definitions
   description: Endpoints for creating, retrieving, and updating flow definitions that represent experiments, experiences, and personalization flows in Sitecore Personalize. Flows can be web-based, full-stack, or triggered by API calls.
@@ -123,53 +117,7 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  responses:
-    Unauthorized:
-      description: Authentication credentials are missing or invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    BadRequest:
-      description: The request body or parameters are invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    NotFound:
-      description: The requested resource was not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
   schemas:
-    ErrorResponse:
-      type: object
-      description: An error response body
-      properties:
-        message:
-          type: string
-          description: A human-readable error message
-        statusCode:
-          type: integer
-          description: The HTTP status code
-        errors:
-          type: array
-          description: List of detailed error messages
-          items:
-            type: string
-    VariantConfig:
-      type: object
-      description: Configuration for a variant within a decision model or flow
-      properties:
-        variantRef:
-          type: string
-          description: The identifier of the variant
-        split:
-          type: integer
-          description: The percentage of traffic allocated to this variant
-          minimum: 0
-          maximum: 100
     CreateFlowDefinitionRequest:
       type: object
       description: Request body for creating or updating a flow definition
@@ -194,6 +142,18 @@ components:
           - DRAFT
           - ACTIVE
           - PAUSED
+    FlowDefinitionListResponse:
+      type: object
+      description: A paginated list of flow definitions
+      properties:
+        items:
+          type: array
+          description: The flow definitions for the current page
+          items:
+            $ref: '#/components/schemas/FlowDefinition'
+        total:
+          type: integer
+          description: Total number of flow definitions
     FlowDefinition:
       type: object
       description: A flow definition representing a personalization experiment or experience in Sitecore Personalize
@@ -233,31 +193,39 @@ components:
           type: string
           description: The ISO 8601 timestamp when the flow was last modified
           format: date-time
-    FlowDefinitionListResponse:
+    ErrorResponse:
       type: object
-      description: A paginated list of flow definitions
+      description: An error response body
       properties:
-        items:
-          type: array
-          description: The flow definitions for the current page
-          items:
-            $ref: '#/components/schemas/FlowDefinition'
-        total:
+        message:
+          type: string
+          description: A human-readable error message
+        statusCode:
           type: integer
-          description: Total number of flow definitions
+          description: The HTTP status code
+        errors:
+          type: array
+          description: List of detailed error messages
+          items:
+            type: string
+    VariantConfig:
+      type: object
+      description: Configuration for a variant within a decision model or flow
+      properties:
+        variantRef:
+          type: string
+          description: The identifier of the variant
+        split:
+          type: integer
+          description: The percentage of traffic allocated to this variant
+          minimum: 0
+          maximum: 100
   parameters:
     resourceId:
       name: id
       in: path
       description: The unique identifier of the resource
       required: true
-      schema:
-        type: string
-    sortBy:
-      name: sort
-      in: query
-      description: Field name and direction to sort results by (e.g., name:asc)
-      required: false
       schema:
         type: string
     pageOffset:
@@ -269,6 +237,13 @@ components:
         type: integer
         minimum: 0
         default: 0
+    sortBy:
+      name: sort
+      in: query
+      description: Field name and direction to sort results by (e.g., name:asc)
+      required: false
+      schema:
+        type: string
     pageSize:
       name: pageSize
       in: query
@@ -279,11 +254,31 @@ components:
         minimum: 1
         maximum: 100
         default: 20
+  responses:
+    Unauthorized:
+      description: Authentication credentials are missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: The request body or parameters are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   securitySchemes:
-    basicAuth:
-      type: http
-      scheme: basic
-      description: HTTP Basic authentication using a client key as the username and an API token as the password. Credentials are obtained from Sitecore CDP Settings > API access.
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: API key authentication. Provide the API key in the Authorization header obtained from the Sitecore Personalize instance configuration.
 externalDocs:
-  description: Sitecore CDP REST API Documentation
-  url: https://doc.sitecore.com/cdp/en/developers/api/rest-apis.html
+  description: Sitecore Personalize Developer Documentation
+  url: https://doc.sitecore.com/personalize/en/developers/api/index-en.html

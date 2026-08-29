@@ -1,12 +1,8 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Sitecore CDP REST Audit Orders API
-  description: The Sitecore CDP REST API provides synchronous access to retrieve, create, update, and delete data stored in Sitecore Customer Data Platform. It exposes guest profiles, orders, order items, order contacts, order consumers, and data extensions through standard HTTP methods. Developers use this API to build integrations that read or write customer data programmatically, enabling use cases such as audience segmentation, data enrichment, and reporting. Authentication uses HTTP Basic Auth with a client key and API token obtained from the CDP instance settings. Regional server endpoints must be used based on the CDP instance's geographic deployment.
-  version: v2.1
-  contact:
-    name: Sitecore Support
-    url: https://www.sitecore.com/support
-  termsOfService: https://www.sitecore.com/legal/terms-of-service
+  title: Sitecore Orders API
+  version: '1.0'
+  description: 'Operations tagged Orders across 2 of this provider''s published API definitions: sitecore-cdp-rest-api-openapi.yml, sitecore-ordercloud-api-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api-engage-eu.sitecorecloud.io
   description: EU Production Server
@@ -16,8 +12,8 @@ servers:
   description: Asia-Pacific Production Server
 - url: https://api-engage-jpe.sitecorecloud.io
   description: Japan Production Server
-security:
-- basicAuth: []
+- url: https://api.ordercloud.io/v1
+  description: OrderCloud Production Server
 tags:
 - name: Orders
   description: Endpoints for creating, retrieving, updating, and deleting order records associated with guests. Orders capture purchase transactions including line items, payments, and fulfillment data.
@@ -44,6 +40,8 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFound'
+      security:
+      - basicAuth: []
     post:
       operationId: createOrder
       summary: Create an order
@@ -71,6 +69,17 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFound'
+      security:
+      - basicAuth: []
+    servers:
+    - url: https://api-engage-eu.sitecorecloud.io
+      description: EU Production Server
+    - url: https://api-engage-us.sitecorecloud.io
+      description: US Production Server
+    - url: https://api-engage-ap.sitecorecloud.io
+      description: Asia-Pacific Production Server
+    - url: https://api-engage-jpe.sitecorecloud.io
+      description: Japan Production Server
   /v2.1/guests/{guestRef}/orders/{orderRef}:
     get:
       operationId: getOrder
@@ -92,6 +101,8 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFound'
+      security:
+      - basicAuth: []
     put:
       operationId: updateOrder
       summary: Update an order
@@ -120,6 +131,8 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFound'
+      security:
+      - basicAuth: []
     delete:
       operationId: deleteOrder
       summary: Delete an order
@@ -136,6 +149,17 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFound'
+      security:
+      - basicAuth: []
+    servers:
+    - url: https://api-engage-eu.sitecorecloud.io
+      description: EU Production Server
+    - url: https://api-engage-us.sitecorecloud.io
+      description: US Production Server
+    - url: https://api-engage-ap.sitecorecloud.io
+      description: Asia-Pacific Production Server
+    - url: https://api-engage-jpe.sitecorecloud.io
+      description: Japan Production Server
   /orders/{direction}:
     get:
       operationId: listOrders
@@ -176,6 +200,8 @@ paths:
                 $ref: '#/components/schemas/OrderListResponse'
         '401':
           $ref: '#/components/responses/Unauthorized_2'
+      security:
+      - bearerAuth: []
     post:
       operationId: createOrder
       summary: Create an order
@@ -201,6 +227,11 @@ paths:
           $ref: '#/components/responses/BadRequest'
         '401':
           $ref: '#/components/responses/Unauthorized_2'
+      security:
+      - bearerAuth: []
+    servers:
+    - url: https://api.ordercloud.io/v1
+      description: OrderCloud Production Server
   /orders/{direction}/{orderID}:
     get:
       operationId: getOrder
@@ -222,6 +253,8 @@ paths:
           $ref: '#/components/responses/Unauthorized_2'
         '404':
           $ref: '#/components/responses/NotFound'
+      security:
+      - bearerAuth: []
     put:
       operationId: updateOrder
       summary: Update an order
@@ -250,6 +283,8 @@ paths:
           $ref: '#/components/responses/Unauthorized_2'
         '404':
           $ref: '#/components/responses/NotFound'
+      security:
+      - bearerAuth: []
     delete:
       operationId: deleteOrder
       summary: Delete an order
@@ -266,6 +301,11 @@ paths:
           $ref: '#/components/responses/Unauthorized_2'
         '404':
           $ref: '#/components/responses/NotFound'
+      security:
+      - bearerAuth: []
+    servers:
+    - url: https://api.ordercloud.io/v1
+      description: OrderCloud Production Server
   /orders/{direction}/{orderID}/submit:
     post:
       operationId: submitOrder
@@ -289,6 +329,11 @@ paths:
           $ref: '#/components/responses/Unauthorized_2'
         '404':
           $ref: '#/components/responses/NotFound'
+      security:
+      - bearerAuth: []
+    servers:
+    - url: https://api.ordercloud.io/v1
+      description: OrderCloud Production Server
   /orders/{direction}/{orderID}/lineitems:
     get:
       operationId: listLineItems
@@ -310,6 +355,8 @@ paths:
           $ref: '#/components/responses/Unauthorized_2'
         '404':
           $ref: '#/components/responses/NotFound'
+      security:
+      - bearerAuth: []
     post:
       operationId: createLineItem
       summary: Create a line item
@@ -338,15 +385,36 @@ paths:
           $ref: '#/components/responses/Unauthorized_2'
         '404':
           $ref: '#/components/responses/NotFound'
+      security:
+      - bearerAuth: []
+    servers:
+    - url: https://api.ordercloud.io/v1
+      description: OrderCloud Production Server
 components:
   parameters:
-    orderID:
-      name: orderID
+    guestRef:
+      name: guestRef
       in: path
-      description: The unique identifier of the order
+      description: The unique reference identifier for the guest profile
       required: true
       schema:
         type: string
+    orderRef:
+      name: orderRef
+      in: path
+      description: The unique reference identifier for the order
+      required: true
+      schema:
+        type: string
+    page:
+      name: page
+      in: query
+      description: Page number to retrieve (1-indexed)
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
     pageSize:
       name: pageSize
       in: query
@@ -357,20 +425,6 @@ components:
         minimum: 1
         maximum: 100
         default: 20
-    orderRef:
-      name: orderRef
-      in: path
-      description: The unique reference identifier for the order
-      required: true
-      schema:
-        type: string
-    search:
-      name: search
-      in: query
-      description: Full-text search term to filter results
-      required: false
-      schema:
-        type: string
     direction:
       name: direction
       in: path
@@ -381,23 +435,180 @@ components:
         enum:
         - Incoming
         - Outgoing
-    page:
-      name: page
-      in: query
-      description: Page number to retrieve (1-indexed)
-      required: false
-      schema:
-        type: integer
-        minimum: 1
-        default: 1
-    guestRef:
-      name: guestRef
+    orderID:
+      name: orderID
       in: path
-      description: The unique reference identifier for the guest profile
+      description: The unique identifier of the order
       required: true
       schema:
         type: string
+    search:
+      name: search
+      in: query
+      description: Full-text search term to filter results
+      required: false
+      schema:
+        type: string
   schemas:
+    CreateOrderRequest:
+      type: object
+      description: Request body for creating or updating an order record
+      required:
+      - referenceId
+      - orderedAt
+      properties:
+        referenceId:
+          type: string
+          description: An external reference identifier for the order. Cannot be changed after creation.
+        status:
+          type: string
+          description: The current status of the order
+          enum:
+          - PENDING
+          - CONFIRMED
+          - SHIPPED
+          - DELIVERED
+          - CANCELED
+        currencyCode:
+          type: string
+          description: The ISO 4217 currency code for the order
+        totalPrice:
+          type: number
+          description: The total price of the order
+          format: float
+        orderedAt:
+          type: string
+          description: The ISO 8601 timestamp when the order was placed. Cannot be changed after creation.
+          format: date-time
+    ErrorResponse:
+      type: object
+      description: An error response body
+      properties:
+        message:
+          type: string
+          description: A human-readable error message
+        statusCode:
+          type: integer
+          description: The HTTP status code
+        errors:
+          type: array
+          description: List of detailed error messages
+          items:
+            type: string
+    OrderItem:
+      type: object
+      description: A line item within an order representing a purchased product
+      properties:
+        itemRef:
+          type: string
+          description: The unique reference identifier for the order item
+        sku:
+          type: string
+          description: The product SKU or identifier
+        name:
+          type: string
+          description: The product name
+        quantity:
+          type: integer
+          description: The quantity of this product purchased
+          minimum: 1
+        price:
+          type: number
+          description: The unit price of the product
+          format: float
+        totalPrice:
+          type: number
+          description: The total price for this line item (quantity * price)
+          format: float
+    Order:
+      type: object
+      description: A purchase transaction record associated with a guest profile
+      properties:
+        orderRef:
+          type: string
+          description: The unique reference identifier for the order
+        referenceId:
+          type: string
+          description: An external reference identifier for the order, immutable after creation. Orders with the same referenceId and orderedAt within two days are grouped.
+        status:
+          type: string
+          description: The current status of the order
+          enum:
+          - PENDING
+          - CONFIRMED
+          - SHIPPED
+          - DELIVERED
+          - CANCELED
+        currencyCode:
+          type: string
+          description: The ISO 4217 currency code for the order
+          example: USD
+        totalPrice:
+          type: number
+          description: The total price of the order
+          format: float
+        orderedAt:
+          type: string
+          description: The ISO 8601 timestamp when the order was placed. Immutable after creation.
+          format: date-time
+        createdAt:
+          type: string
+          description: The ISO 8601 timestamp when the order record was created in CDP
+          format: date-time
+        items:
+          type: array
+          description: Line items included in the order
+          items:
+            $ref: '#/components/schemas/OrderItem'
+    CreateOrderRequest_2:
+      type: object
+      description: Request body for creating or updating an order
+      properties:
+        BillingAddressID:
+          type: string
+          description: The identifier of the billing address
+        ShippingAddressID:
+          type: string
+          description: The identifier of the shipping address
+        Comments:
+          type: string
+          description: Free-form comments for the order
+        xp:
+          type: object
+          description: Extended properties for custom order attributes
+          additionalProperties: true
+    LineItemListResponse:
+      type: object
+      description: A paginated list of order line items
+      properties:
+        Meta:
+          $ref: '#/components/schemas/ListMetadata'
+        Items:
+          type: array
+          description: The line items for the current page
+          items:
+            $ref: '#/components/schemas/LineItem'
+    CreateLineItemRequest:
+      type: object
+      description: Request body for creating a line item
+      required:
+      - ProductID
+      - Quantity
+      properties:
+        ProductID:
+          type: string
+          description: The identifier of the product to add
+        Quantity:
+          type: integer
+          description: The quantity to purchase
+          minimum: 1
+        ShippingAddressID:
+          type: string
+          description: The identifier of the shipping address for this item
+        xp:
+          type: object
+          description: Extended properties for custom line item attributes
+          additionalProperties: true
     Address:
       type: object
       description: A shipping or billing address
@@ -436,91 +647,6 @@ components:
         Phone:
           type: string
           description: The phone number associated with this address
-    OrderItem:
-      type: object
-      description: A line item within an order representing a purchased product
-      properties:
-        itemRef:
-          type: string
-          description: The unique reference identifier for the order item
-        sku:
-          type: string
-          description: The product SKU or identifier
-        name:
-          type: string
-          description: The product name
-        quantity:
-          type: integer
-          description: The quantity of this product purchased
-          minimum: 1
-        price:
-          type: number
-          description: The unit price of the product
-          format: float
-        totalPrice:
-          type: number
-          description: The total price for this line item (quantity * price)
-          format: float
-    ErrorResponse_2:
-      type: object
-      description: An error response body
-      properties:
-        Errors:
-          type: array
-          description: List of error details
-          items:
-            $ref: '#/components/schemas/ErrorDetail'
-    UserReference:
-      type: object
-      description: A reference to a user who placed or owns an order
-      properties:
-        ID:
-          type: string
-          description: The unique identifier of the user
-        FirstName:
-          type: string
-          description: The user's first name
-        LastName:
-          type: string
-          description: The user's last name
-        Username:
-          type: string
-          description: The user's login username
-        Email:
-          type: string
-          description: The user's email address
-          format: email
-    CreateOrderRequest_2:
-      type: object
-      description: Request body for creating or updating an order
-      properties:
-        BillingAddressID:
-          type: string
-          description: The identifier of the billing address
-        ShippingAddressID:
-          type: string
-          description: The identifier of the shipping address
-        Comments:
-          type: string
-          description: Free-form comments for the order
-        xp:
-          type: object
-          description: Extended properties for custom order attributes
-          additionalProperties: true
-    ErrorDetail:
-      type: object
-      description: A single error detail
-      properties:
-        ErrorCode:
-          type: string
-          description: The machine-readable error code
-        Message:
-          type: string
-          description: A human-readable description of the error
-        Data:
-          type: object
-          description: Additional data about the error context
-          additionalProperties: true
     Order_2:
       type: object
       description: An order in the OrderCloud marketplace
@@ -591,6 +717,20 @@ components:
           type: object
           description: Extended properties for custom order attributes
           additionalProperties: true
+    ErrorDetail:
+      type: object
+      description: A single error detail
+      properties:
+        ErrorCode:
+          type: string
+          description: The machine-readable error code
+        Message:
+          type: string
+          description: A human-readable description of the error
+        Data:
+          type: object
+          description: Additional data about the error context
+          additionalProperties: true
     OrderListResponse:
       type: object
       description: A paginated list of orders
@@ -602,104 +742,26 @@ components:
           description: The orders for the current page
           items:
             $ref: '#/components/schemas/Order_2'
-    CreateOrderRequest:
+    UserReference:
       type: object
-      description: Request body for creating or updating an order record
-      required:
-      - referenceId
-      - orderedAt
+      description: A reference to a user who placed or owns an order
       properties:
-        referenceId:
+        ID:
           type: string
-          description: An external reference identifier for the order. Cannot be changed after creation.
-        status:
+          description: The unique identifier of the user
+        FirstName:
           type: string
-          description: The current status of the order
-          enum:
-          - PENDING
-          - CONFIRMED
-          - SHIPPED
-          - DELIVERED
-          - CANCELED
-        currencyCode:
+          description: The user's first name
+        LastName:
           type: string
-          description: The ISO 4217 currency code for the order
-        totalPrice:
-          type: number
-          description: The total price of the order
-          format: float
-        orderedAt:
+          description: The user's last name
+        Username:
           type: string
-          description: The ISO 8601 timestamp when the order was placed. Cannot be changed after creation.
-          format: date-time
-    CreateLineItemRequest:
-      type: object
-      description: Request body for creating a line item
-      required:
-      - ProductID
-      - Quantity
-      properties:
-        ProductID:
+          description: The user's login username
+        Email:
           type: string
-          description: The identifier of the product to add
-        Quantity:
-          type: integer
-          description: The quantity to purchase
-          minimum: 1
-        ShippingAddressID:
-          type: string
-          description: The identifier of the shipping address for this item
-        xp:
-          type: object
-          description: Extended properties for custom line item attributes
-          additionalProperties: true
-    LineItemListResponse:
-      type: object
-      description: A paginated list of order line items
-      properties:
-        Meta:
-          $ref: '#/components/schemas/ListMetadata'
-        Items:
-          type: array
-          description: The line items for the current page
-          items:
-            $ref: '#/components/schemas/LineItem'
-    ListMetadata:
-      type: object
-      description: Pagination metadata for list responses
-      properties:
-        Page:
-          type: integer
-          description: The current page number (1-indexed)
-        PageSize:
-          type: integer
-          description: The number of items per page
-        TotalCount:
-          type: integer
-          description: The total number of items matching the query
-        TotalPages:
-          type: integer
-          description: The total number of pages
-        ItemRange:
-          type: array
-          description: The inclusive range [start, end] of item indexes for this page
-          items:
-            type: integer
-    ErrorResponse:
-      type: object
-      description: An error response body
-      properties:
-        message:
-          type: string
-          description: A human-readable error message
-        statusCode:
-          type: integer
-          description: The HTTP status code
-        errors:
-          type: array
-          description: List of detailed error messages
-          items:
-            type: string
+          description: The user's email address
+          format: email
     LineItem:
       type: object
       description: A line item within an OrderCloud order
@@ -729,61 +791,45 @@ components:
           type: object
           description: Extended properties for custom line item attributes
           additionalProperties: true
-    Order:
+    ErrorResponse_2:
       type: object
-      description: A purchase transaction record associated with a guest profile
+      description: An error response body
       properties:
-        orderRef:
-          type: string
-          description: The unique reference identifier for the order
-        referenceId:
-          type: string
-          description: An external reference identifier for the order, immutable after creation. Orders with the same referenceId and orderedAt within two days are grouped.
-        status:
-          type: string
-          description: The current status of the order
-          enum:
-          - PENDING
-          - CONFIRMED
-          - SHIPPED
-          - DELIVERED
-          - CANCELED
-        currencyCode:
-          type: string
-          description: The ISO 4217 currency code for the order
-          example: USD
-        totalPrice:
-          type: number
-          description: The total price of the order
-          format: float
-        orderedAt:
-          type: string
-          description: The ISO 8601 timestamp when the order was placed. Immutable after creation.
-          format: date-time
-        createdAt:
-          type: string
-          description: The ISO 8601 timestamp when the order record was created in CDP
-          format: date-time
-        items:
+        Errors:
           type: array
-          description: Line items included in the order
+          description: List of error details
           items:
-            $ref: '#/components/schemas/OrderItem'
+            $ref: '#/components/schemas/ErrorDetail'
+    ListMetadata:
+      type: object
+      description: Pagination metadata for list responses
+      properties:
+        Page:
+          type: integer
+          description: The current page number (1-indexed)
+        PageSize:
+          type: integer
+          description: The number of items per page
+        TotalCount:
+          type: integer
+          description: The total number of items matching the query
+        TotalPages:
+          type: integer
+          description: The total number of pages
+        ItemRange:
+          type: array
+          description: The inclusive range [start, end] of item indexes for this page
+          items:
+            type: integer
   responses:
-    Unauthorized_2:
-      description: Authentication token is missing or invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse_2'
-    NotFound:
-      description: The requested resource was not found
+    Unauthorized:
+      description: Authentication credentials are missing or invalid
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Authentication credentials are missing or invalid
+    NotFound:
+      description: The requested resource was not found
       content:
         application/json:
           schema:
@@ -794,11 +840,22 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized_2:
+      description: Authentication token is missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse_2'
   securitySchemes:
     basicAuth:
       type: http
       scheme: basic
       description: HTTP Basic authentication using a client key as the username and an API token as the password. Credentials are obtained from Sitecore CDP Settings > API access.
-externalDocs:
-  description: Sitecore CDP REST API Documentation
-  url: https://doc.sitecore.com/cdp/en/developers/api/rest-apis.html
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: OAuth 2.0 bearer token obtained from https://auth.ordercloud.io/oauth/token. The token scope determines accessible resources based on assigned roles.
+x-refined-from:
+- sitecore-cdp-rest-api-openapi.yml
+- sitecore-ordercloud-api-openapi.yml

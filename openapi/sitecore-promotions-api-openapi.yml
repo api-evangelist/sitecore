@@ -1,23 +1,17 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Sitecore CDP REST Audit Promotions API
-  description: The Sitecore CDP REST API provides synchronous access to retrieve, create, update, and delete data stored in Sitecore Customer Data Platform. It exposes guest profiles, orders, order items, order contacts, order consumers, and data extensions through standard HTTP methods. Developers use this API to build integrations that read or write customer data programmatically, enabling use cases such as audience segmentation, data enrichment, and reporting. Authentication uses HTTP Basic Auth with a client key and API token obtained from the CDP instance settings. Regional server endpoints must be used based on the CDP instance's geographic deployment.
-  version: v2.1
+  title: Sitecore OrderCloud Promotions API
+  description: The Sitecore OrderCloud API is a headless, API-first commerce platform providing RESTful endpoints for managing the full range of e-commerce operations including products, catalogs, orders, buyers, sellers, promotions, and fulfillment. It is designed to support B2C, B2B, and B2B2C commerce models with a highly flexible and extensible data model that allows custom extended properties (xp) on most resources. The API uses OAuth 2.0 for authentication and supports granular role-based access control for different buyer, seller, and supplier contexts. All responses are in JSON and the API supports filtering, sorting, searching, and pagination on list endpoints.
+  version: v1
   contact:
-    name: Sitecore Support
-    url: https://www.sitecore.com/support
-  termsOfService: https://www.sitecore.com/legal/terms-of-service
+    name: Sitecore OrderCloud Support
+    url: https://ordercloud.io/contact
+  termsOfService: https://ordercloud.io/terms-of-service
 servers:
-- url: https://api-engage-eu.sitecorecloud.io
-  description: EU Production Server
-- url: https://api-engage-us.sitecorecloud.io
-  description: US Production Server
-- url: https://api-engage-ap.sitecorecloud.io
-  description: Asia-Pacific Production Server
-- url: https://api-engage-jpe.sitecorecloud.io
-  description: Japan Production Server
+- url: https://api.ordercloud.io/v1
+  description: OrderCloud Production Server
 security:
-- basicAuth: []
+- bearerAuth: []
 tags:
 - name: Promotions
   description: Endpoints for creating and managing discount promotions and coupon codes that can be applied to orders at checkout.
@@ -66,54 +60,20 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
-  responses:
-    Unauthorized:
-      description: Authentication token is missing or invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    BadRequest:
-      description: The request body or parameters are invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
   schemas:
-    Promotion:
+    ErrorDetail:
       type: object
-      description: A discount promotion that can be applied to orders
+      description: A single error detail
       properties:
-        ID:
+        ErrorCode:
           type: string
-          description: The unique identifier of the promotion
-        Code:
+          description: The machine-readable error code
+        Message:
           type: string
-          description: The coupon code customers enter to apply the promotion
-        Name:
-          type: string
-          description: The display name of the promotion
-        Description:
-          type: string
-          description: A description of the promotion
-        Active:
-          type: boolean
-          description: Whether the promotion is currently active
-        StartDate:
-          type: string
-          description: The ISO 8601 start date for the promotion
-          format: date-time
-        ExpirationDate:
-          type: string
-          description: The ISO 8601 expiration date for the promotion
-          format: date-time
-        Value:
-          type: number
-          description: The discount value (amount or percentage based on type)
-          format: float
-        xp:
+          description: A human-readable description of the error
+        Data:
           type: object
-          description: Extended properties for custom promotion attributes
+          description: Additional data about the error context
           additionalProperties: true
     ErrorResponse:
       type: object
@@ -145,31 +105,6 @@ components:
           description: The inclusive range [start, end] of item indexes for this page
           items:
             type: integer
-    PromotionListResponse:
-      type: object
-      description: A paginated list of promotions
-      properties:
-        Meta:
-          $ref: '#/components/schemas/ListMetadata'
-        Items:
-          type: array
-          description: The promotions for the current page
-          items:
-            $ref: '#/components/schemas/Promotion'
-    ErrorDetail:
-      type: object
-      description: A single error detail
-      properties:
-        ErrorCode:
-          type: string
-          description: The machine-readable error code
-        Message:
-          type: string
-          description: A human-readable description of the error
-        Data:
-          type: object
-          description: Additional data about the error context
-          additionalProperties: true
     CreatePromotionRequest:
       type: object
       description: Request body for creating a promotion
@@ -209,7 +144,60 @@ components:
           type: object
           description: Extended properties for custom promotion attributes
           additionalProperties: true
+    Promotion:
+      type: object
+      description: A discount promotion that can be applied to orders
+      properties:
+        ID:
+          type: string
+          description: The unique identifier of the promotion
+        Code:
+          type: string
+          description: The coupon code customers enter to apply the promotion
+        Name:
+          type: string
+          description: The display name of the promotion
+        Description:
+          type: string
+          description: A description of the promotion
+        Active:
+          type: boolean
+          description: Whether the promotion is currently active
+        StartDate:
+          type: string
+          description: The ISO 8601 start date for the promotion
+          format: date-time
+        ExpirationDate:
+          type: string
+          description: The ISO 8601 expiration date for the promotion
+          format: date-time
+        Value:
+          type: number
+          description: The discount value (amount or percentage based on type)
+          format: float
+        xp:
+          type: object
+          description: Extended properties for custom promotion attributes
+          additionalProperties: true
+    PromotionListResponse:
+      type: object
+      description: A paginated list of promotions
+      properties:
+        Meta:
+          $ref: '#/components/schemas/ListMetadata'
+        Items:
+          type: array
+          description: The promotions for the current page
+          items:
+            $ref: '#/components/schemas/Promotion'
   parameters:
+    search:
+      name: search
+      in: query
+      description: Full-text search term to filter results
+      required: false
+      schema:
+        type: string
     pageSize:
       name: pageSize
       in: query
@@ -229,18 +217,25 @@ components:
         type: integer
         minimum: 1
         default: 1
-    search:
-      name: search
-      in: query
-      description: Full-text search term to filter results
-      required: false
-      schema:
-        type: string
+  responses:
+    Unauthorized:
+      description: Authentication token is missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: The request body or parameters are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   securitySchemes:
-    basicAuth:
+    bearerAuth:
       type: http
-      scheme: basic
-      description: HTTP Basic authentication using a client key as the username and an API token as the password. Credentials are obtained from Sitecore CDP Settings > API access.
+      scheme: bearer
+      bearerFormat: JWT
+      description: OAuth 2.0 bearer token obtained from https://auth.ordercloud.io/oauth/token. The token scope determines accessible resources based on assigned roles.
 externalDocs:
-  description: Sitecore CDP REST API Documentation
-  url: https://doc.sitecore.com/cdp/en/developers/api/rest-apis.html
+  description: Sitecore OrderCloud API Reference
+  url: https://api-docs.sitecore.com/ordercloud
