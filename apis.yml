@@ -1,3 +1,4 @@
+name: Sitecore
 aid: sitecore
 deliveryModel:
   model: unknown
@@ -13,16 +14,17 @@ deliveryModel:
 specificationVersion: '0.23'
 accessModel:
   pricing: enterprise
-  onboarding: self-serve
+  onboarding: unknown
   trial: false
   try_now: false
   public: false
-  label: Enterprise · Self-serve signup
-  confidence: high
+  label: Enterprise
+  confidence: medium
   source:
   - plans
   - authentication
-  generated: '2026-07-22'
+  - security
+  generated: '2026-09-03'
   method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/sitecore.png
 url: https://raw.githubusercontent.com/api-evangelist/sitecore/refs/heads/main/apis.yml
@@ -897,6 +899,9 @@ apis:
     url: >-
       https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html
 common:
+- type: CapabilityMap
+  url: capabilities/sitecore-capability-edges.yml
+  name: sitecore Business Capability Map
 - type: AgenticAccess
   url: agentic-access/sitecore-agentic-access.yml
 - type: DomainSecurity
