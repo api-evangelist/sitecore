@@ -44,12 +44,11 @@ apis:
     type: Documentation
   - url: graphql/sitecore-graphql.md
     type: GraphQL
-  description: >-
-    The Sitecore XM Cloud GraphQL Delivery API provides access to approved and published content from
-    Sitecore XM Cloud via a GraphQL endpoint optimized for production delivery. Developers use this API
-    to query content items, fields, and relationships with precise control over the data returned in each
-    request, reducing over-fetching in front-end applications. The API is authenticated via API keys and
-    is designed for high availability and performance at scale.
+  description: The Sitecore XM Cloud GraphQL Delivery API provides access to approved and published content
+    from Sitecore XM Cloud via a GraphQL endpoint optimized for production delivery. Developers use this
+    API to query content items, fields, and relationships with precise control over the data returned
+    in each request, reducing over-fetching in front-end applications. The API is authenticated via API
+    keys and is designed for high availability and performance at scale.
 - aid: sitecore:xm-cloud-authoring-management-graphql-api
   name: Sitecore XM Cloud Authoring and Management GraphQL API
   tags:
@@ -59,15 +58,12 @@ apis:
   - Headless CMS
   image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
   baseURL: https://edge.sitecorecloud.io/api/graphql
-  humanURL: >-
-    https://doc.sitecore.com/xmc/en/developers/xm-cloud/sitecore-authoring-and-management-graphql-api.html
+  humanURL: https://doc.sitecore.com/xmc/en/developers/xm-cloud/sitecore-authoring-and-management-graphql-api.html
   properties:
-  - url: >-
-      https://doc.sitecore.com/xmc/en/developers/xm-cloud/sitecore-authoring-and-management-graphql-api.html
+  - url: https://doc.sitecore.com/xmc/en/developers/xm-cloud/sitecore-authoring-and-management-graphql-api.html
     type: Documentation
-  description: >-
-    The Sitecore XM Cloud Authoring and Management GraphQL API provides a single GraphQL endpoint and
-    schema for managing Sitecore content programmatically. It supports creating, updating, and querying
+  description: The Sitecore XM Cloud Authoring and Management GraphQL API provides a single GraphQL endpoint
+    and schema for managing Sitecore content programmatically. It supports creating, updating, and querying
     content items, templates, and site structures within an XM Cloud environment. This API is intended
     for integration builders, content migration tools, and CI/CD pipelines that need to automate content
     operations against an XM Cloud instance.
@@ -86,11 +82,10 @@ apis:
     type: Documentation
   - type: AsyncAPI
     url: asyncapi/sitecore-cdp-stream-api-asyncapi.yml
-  description: >-
-    The Sitecore CDP Stream API enables applications to send real-time behavioral and transactional events
-    about users to the Sitecore Customer Data Platform. It is designed for high-throughput event ingestion
-    from web, mobile, and server-side applications, capturing interactions such as page views, product
-    views, and purchases. Events sent through the Stream API update guest profiles in near real-time,
+  description: The Sitecore CDP Stream API enables applications to send real-time behavioral and transactional
+    events about users to the Sitecore Customer Data Platform. It is designed for high-throughput event
+    ingestion from web, mobile, and server-side applications, capturing interactions such as page views,
+    product views, and purchases. Events sent through the Stream API update guest profiles in near real-time,
     powering personalization and segmentation use cases.
 - aid: sitecore:cdp-batch-api
   name: Sitecore CDP Batch API
@@ -105,12 +100,11 @@ apis:
   properties:
   - url: https://doc.sitecore.com/cdp/en/developers/api/index-en.html
     type: Documentation
-  description: >-
-    The Sitecore CDP Batch API supports uploading large volumes of guest data and offline order records
-    into Sitecore Customer Data Platform. It is intended for bulk data migration, historical data ingestion,
-    and scenarios where real-time streaming is not practical, such as nightly data syncs from CRM or ERP
-    systems. The API accepts structured data files and processes them asynchronously, updating guest profiles
-    and order histories in CDP.
+  description: The Sitecore CDP Batch API supports uploading large volumes of guest data and offline order
+    records into Sitecore Customer Data Platform. It is intended for bulk data migration, historical data
+    ingestion, and scenarios where real-time streaming is not practical, such as nightly data syncs from
+    CRM or ERP systems. The API accepts structured data files and processes them asynchronously, updating
+    guest profiles and order histories in CDP.
 - aid: sitecore:content-hub-admin-api
   name: Sitecore Content Hub Admin API
   tags:
@@ -124,16 +118,14 @@ apis:
   properties:
   - url: https://doc.sitecore.com/ch/en/developers/cloud-dev/content-hub-admin-api.html
     type: Documentation
-  description: >-
-    The Sitecore Content Hub Admin API is a GraphQL API that provides access to administrative functions
-    within a Content Hub tenant, accessible at the path /api/graphql/admin/v1 relative to the Content
-    Hub instance URL. It enables programmatic management of tenant-level configuration, schema definitions,
-    and other administrative resources that are not exposed through the standard REST API.
+  description: The Sitecore Content Hub Admin API is a GraphQL API that provides access to administrative
+    functions within a Content Hub tenant, accessible at the path /api/graphql/admin/v1 relative to the
+    Content Hub instance URL. It enables programmatic management of tenant-level configuration, schema
+    definitions, and other administrative resources that are not exposed through the standard REST API.
 - aid: sitecore:sitecore-audit-api
   name: sitecore Audit API
-  description: >-
-    Endpoints for retrieving and querying audit log entries that track changes to entities and configuration
-    within the Content Hub instance.
+  description: Endpoints for retrieving and querying audit log entries that track changes to entities
+    and configuration within the Content Hub instance.
   humanURL: https://doc.sitecore.com/xmc/en/developers/xm-cloud/delivery-api.html
   baseURL: https://edge.sitecorecloud.io/api/graphql
   tags:
@@ -154,12 +146,10 @@ apis:
   - type: JSONSchema
     url: json-schema/sitecore-ordercloud-order-schema.json
   - type: Documentation
-    url: >-
-      https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html
+    url: https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html
 - aid: sitecore:sitecore-authentication-api
   name: sitecore Authentication API
-  description: >-
-    Endpoints for obtaining access tokens used to authenticate API requests to Sitecore Discover.
+  description: Endpoints for obtaining access tokens used to authenticate API requests to Sitecore Discover.
   humanURL: https://doc.sitecore.com/xmc/en/developers/xm-cloud/delivery-api.html
   baseURL: https://edge.sitecorecloud.io/api/graphql
   tags:
@@ -180,13 +170,11 @@ apis:
   - type: JSONSchema
     url: json-schema/sitecore-ordercloud-order-schema.json
   - type: Documentation
-    url: >-
-      https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html
+    url: https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html
 - aid: sitecore:sitecore-buyers-api
   name: sitecore Buyers API
-  description: >-
-    Endpoints for managing buyer organizations and their associated users, user groups, addresses, credit
-    cards, spending accounts, cost centers, and approval rules.
+  description: Endpoints for managing buyer organizations and their associated users, user groups, addresses,
+    credit cards, spending accounts, cost centers, and approval rules.
   humanURL: https://doc.sitecore.com/xmc/en/developers/xm-cloud/delivery-api.html
   baseURL: https://edge.sitecorecloud.io/api/graphql
   tags:
@@ -207,13 +195,11 @@ apis:
   - type: JSONSchema
     url: json-schema/sitecore-ordercloud-order-schema.json
   - type: Documentation
-    url: >-
-      https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html
+    url: https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html
 - aid: sitecore:sitecore-collections-api
   name: sitecore Collections API
-  description: >-
-    Endpoints for creating, retrieving, updating, and deleting site collections within an XM Cloud tenant.
-    Collections group related sites that share resources and organizational context.
+  description: Endpoints for creating, retrieving, updating, and deleting site collections within an XM
+    Cloud tenant. Collections group related sites that share resources and organizational context.
   humanURL: https://doc.sitecore.com/xmc/en/developers/xm-cloud/delivery-api.html
   baseURL: https://edge.sitecorecloud.io/api/graphql
   tags:
@@ -236,14 +222,12 @@ apis:
   - type: JSONSchema
     url: json-schema/sitecore-ordercloud-order-schema.json
   - type: Documentation
-    url: >-
-      https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html
+    url: https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html
 - aid: sitecore:sitecore-connections-api
   name: sitecore Connections API
-  description: >-
-    Endpoints for creating, retrieving, updating, and testing connections to external systems used in
-    personalization flows and decision models. Connections define authentication credentials and URL configurations
-    for external services.
+  description: Endpoints for creating, retrieving, updating, and testing connections to external systems
+    used in personalization flows and decision models. Connections define authentication credentials and
+    URL configurations for external services.
   humanURL: https://doc.sitecore.com/xmc/en/developers/xm-cloud/delivery-api.html
   baseURL: https://edge.sitecorecloud.io/api/graphql
   tags:
@@ -264,13 +248,11 @@ apis:
   - type: JSONSchema
     url: json-schema/sitecore-ordercloud-order-schema.json
   - type: Documentation
-    url: >-
-      https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html
+    url: https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html
 - aid: sitecore:sitecore-decision-models-api
   name: sitecore Decision Models API
-  description: >-
-    Endpoints for managing decision models that power programmatic targeting and offer selection logic
-    within Sitecore Personalize. Decision models contain variant configurations and deployment settings.
+  description: Endpoints for managing decision models that power programmatic targeting and offer selection
+    logic within Sitecore Personalize. Decision models contain variant configurations and deployment settings.
   humanURL: https://doc.sitecore.com/xmc/en/developers/xm-cloud/delivery-api.html
   baseURL: https://edge.sitecorecloud.io/api/graphql
   tags:
@@ -291,13 +273,11 @@ apis:
   - type: JSONSchema
     url: json-schema/sitecore-ordercloud-order-schema.json
   - type: Documentation
-    url: >-
-      https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html
+    url: https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html
 - aid: sitecore:sitecore-download-orders-api
   name: sitecore Download Orders API
-  description: >-
-    Endpoints for creating and managing download orders that package assets for delivery, supporting both
-    single and batch asset downloads.
+  description: Endpoints for creating and managing download orders that package assets for delivery, supporting
+    both single and batch asset downloads.
   humanURL: https://doc.sitecore.com/xmc/en/developers/xm-cloud/delivery-api.html
   baseURL: https://edge.sitecorecloud.io/api/graphql
   tags:
@@ -318,13 +298,11 @@ apis:
   - type: JSONSchema
     url: json-schema/sitecore-ordercloud-order-schema.json
   - type: Documentation
-    url: >-
-      https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html
+    url: https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html
 - aid: sitecore:sitecore-entities-api
   name: sitecore Entities API
-  description: >-
-    Endpoints for performing CRUD operations on Content Hub entities including assets, taxonomy nodes,
-    content items, and all other entity types managed within the platform.
+  description: Endpoints for performing CRUD operations on Content Hub entities including assets, taxonomy
+    nodes, content items, and all other entity types managed within the platform.
   humanURL: https://doc.sitecore.com/xmc/en/developers/xm-cloud/delivery-api.html
   baseURL: https://edge.sitecorecloud.io/api/graphql
   tags:
@@ -345,13 +323,11 @@ apis:
   - type: JSONSchema
     url: json-schema/sitecore-ordercloud-order-schema.json
   - type: Documentation
-    url: >-
-      https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html
+    url: https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html
 - aid: sitecore:sitecore-events-api
   name: sitecore Events API
-  description: >-
-    Endpoints for sending behavioral and interaction events from storefronts to Sitecore Discover. Events
-    include clicks, purchases, and page views that improve recommendation relevance over time.
+  description: Endpoints for sending behavioral and interaction events from storefronts to Sitecore Discover.
+    Events include clicks, purchases, and page views that improve recommendation relevance over time.
   humanURL: https://doc.sitecore.com/xmc/en/developers/xm-cloud/delivery-api.html
   baseURL: https://edge.sitecorecloud.io/api/graphql
   tags:
@@ -374,14 +350,12 @@ apis:
   - type: JSONSchema
     url: json-schema/sitecore-ordercloud-order-schema.json
   - type: Documentation
-    url: >-
-      https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html
+    url: https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html
 - aid: sitecore:sitecore-flow-definitions-api
   name: sitecore Flow Definitions API
-  description: >-
-    Endpoints for creating, retrieving, and updating flow definitions that represent experiments, experiences,
-    and personalization flows in Sitecore Personalize. Flows can be web-based, full-stack, or triggered
-    by API calls.
+  description: Endpoints for creating, retrieving, and updating flow definitions that represent experiments,
+    experiences, and personalization flows in Sitecore Personalize. Flows can be web-based, full-stack,
+    or triggered by API calls.
   humanURL: https://doc.sitecore.com/xmc/en/developers/xm-cloud/delivery-api.html
   baseURL: https://edge.sitecorecloud.io/api/graphql
   tags:
@@ -402,13 +376,12 @@ apis:
   - type: JSONSchema
     url: json-schema/sitecore-ordercloud-order-schema.json
   - type: Documentation
-    url: >-
-      https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html
+    url: https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html
 - aid: sitecore:sitecore-guest-data-extensions-api
   name: sitecore Guest Data Extensions API
-  description: >-
-    Endpoints for managing custom key-value data extensions attached to guest profiles. Data extensions
-    allow organizations to store additional structured information beyond the standard guest fields.
+  description: Endpoints for managing custom key-value data extensions attached to guest profiles. Data
+    extensions allow organizations to store additional structured information beyond the standard guest
+    fields.
   humanURL: https://doc.sitecore.com/xmc/en/developers/xm-cloud/delivery-api.html
   baseURL: https://edge.sitecorecloud.io/api/graphql
   tags:
@@ -429,13 +402,11 @@ apis:
   - type: JSONSchema
     url: json-schema/sitecore-ordercloud-order-schema.json
   - type: Documentation
-    url: >-
-      https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html
+    url: https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html
 - aid: sitecore:sitecore-guests-api
   name: sitecore Guests API
-  description: >-
-    Endpoints for creating, retrieving, updating, and deleting guest profiles in Sitecore CDP. Guests
-    represent the core customer entity storing personal, behavioral, and transactional data.
+  description: Endpoints for creating, retrieving, updating, and deleting guest profiles in Sitecore CDP.
+    Guests represent the core customer entity storing personal, behavioral, and transactional data.
   humanURL: https://doc.sitecore.com/xmc/en/developers/xm-cloud/delivery-api.html
   baseURL: https://edge.sitecorecloud.io/api/graphql
   tags:
@@ -456,13 +427,11 @@ apis:
   - type: JSONSchema
     url: json-schema/sitecore-ordercloud-order-schema.json
   - type: Documentation
-    url: >-
-      https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html
+    url: https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html
 - aid: sitecore:sitecore-incremental-feed-api
   name: sitecore Incremental Feed API
-  description: >-
-    Endpoints for pushing real-time product catalog updates to Sitecore Discover without requiring a full
-    feed re-index. Supports adding, updating, and removing products incrementally.
+  description: Endpoints for pushing real-time product catalog updates to Sitecore Discover without requiring
+    a full feed re-index. Supports adding, updating, and removing products incrementally.
   humanURL: https://doc.sitecore.com/xmc/en/developers/xm-cloud/delivery-api.html
   baseURL: https://edge.sitecorecloud.io/api/graphql
   tags:
@@ -483,13 +452,11 @@ apis:
   - type: JSONSchema
     url: json-schema/sitecore-ordercloud-order-schema.json
   - type: Documentation
-    url: >-
-      https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html
+    url: https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html
 - aid: sitecore:sitecore-jobs-api
   name: sitecore Jobs API
-  description: >-
-    Endpoints for managing background job targets including retrieval, creation, update, and deletion
-    of job configurations.
+  description: Endpoints for managing background job targets including retrieval, creation, update, and
+    deletion of job configurations.
   humanURL: https://doc.sitecore.com/xmc/en/developers/xm-cloud/delivery-api.html
   baseURL: https://edge.sitecorecloud.io/api/graphql
   tags:
@@ -512,13 +479,11 @@ apis:
   - type: JSONSchema
     url: json-schema/sitecore-ordercloud-order-schema.json
   - type: Documentation
-    url: >-
-      https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html
+    url: https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html
 - aid: sitecore:sitecore-languages-api
   name: sitecore Languages API
-  description: >-
-    Endpoints for managing language availability at the tenant and site levels, including listing supported
-    languages and adding or removing language options.
+  description: Endpoints for managing language availability at the tenant and site levels, including listing
+    supported languages and adding or removing language options.
   humanURL: https://doc.sitecore.com/xmc/en/developers/xm-cloud/delivery-api.html
   baseURL: https://edge.sitecorecloud.io/api/graphql
   tags:
@@ -541,13 +506,11 @@ apis:
   - type: JSONSchema
     url: json-schema/sitecore-ordercloud-order-schema.json
   - type: Documentation
-    url: >-
-      https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html
+    url: https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html
 - aid: sitecore:sitecore-order-items-api
   name: sitecore Order Items API
-  description: >-
-    Endpoints for managing individual line items within guest orders, including product references, quantities,
-    and pricing information.
+  description: Endpoints for managing individual line items within guest orders, including product references,
+    quantities, and pricing information.
   humanURL: https://doc.sitecore.com/xmc/en/developers/xm-cloud/delivery-api.html
   baseURL: https://edge.sitecorecloud.io/api/graphql
   tags:
@@ -568,13 +531,11 @@ apis:
   - type: JSONSchema
     url: json-schema/sitecore-ordercloud-order-schema.json
   - type: Documentation
-    url: >-
-      https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html
+    url: https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html
 - aid: sitecore:sitecore-orders-api
   name: sitecore Orders API
-  description: >-
-    Endpoints for creating, retrieving, updating, and deleting order records associated with guests. Orders
-    capture purchase transactions including line items, payments, and fulfillment data.
+  description: Endpoints for creating, retrieving, updating, and deleting order records associated with
+    guests. Orders capture purchase transactions including line items, payments, and fulfillment data.
   humanURL: https://doc.sitecore.com/xmc/en/developers/xm-cloud/delivery-api.html
   baseURL: https://edge.sitecorecloud.io/api/graphql
   tags:
@@ -597,12 +558,10 @@ apis:
   - type: JSONSchema
     url: json-schema/sitecore-ordercloud-order-schema.json
   - type: Documentation
-    url: >-
-      https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html
+    url: https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html
 - aid: sitecore:sitecore-pages-api
   name: sitecore Pages API
-  description: >-
-    Endpoints for managing site pages including full CRUD operations, versioning, variant management,
+  description: Endpoints for managing site pages including full CRUD operations, versioning, variant management,
     layout editing, field value updates, and publishing state verification.
   humanURL: https://doc.sitecore.com/xmc/en/developers/xm-cloud/delivery-api.html
   baseURL: https://edge.sitecorecloud.io/api/graphql
@@ -624,13 +583,11 @@ apis:
   - type: JSONSchema
     url: json-schema/sitecore-ordercloud-order-schema.json
   - type: Documentation
-    url: >-
-      https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html
+    url: https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html
 - aid: sitecore:sitecore-products-api
   name: sitecore Products API
-  description: >-
-    Endpoints for creating, retrieving, updating, and deleting products within the OrderCloud catalog.
-    Products support extended properties, variants, specs, and inventory tracking.
+  description: Endpoints for creating, retrieving, updating, and deleting products within the OrderCloud
+    catalog. Products support extended properties, variants, specs, and inventory tracking.
   humanURL: https://doc.sitecore.com/xmc/en/developers/xm-cloud/delivery-api.html
   baseURL: https://edge.sitecorecloud.io/api/graphql
   tags:
@@ -653,13 +610,11 @@ apis:
   - type: JSONSchema
     url: json-schema/sitecore-ordercloud-order-schema.json
   - type: Documentation
-    url: >-
-      https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html
+    url: https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html
 - aid: sitecore:sitecore-promotions-api
   name: sitecore Promotions API
-  description: >-
-    Endpoints for creating and managing discount promotions and coupon codes that can be applied to orders
-    at checkout.
+  description: Endpoints for creating and managing discount promotions and coupon codes that can be applied
+    to orders at checkout.
   humanURL: https://doc.sitecore.com/xmc/en/developers/xm-cloud/delivery-api.html
   baseURL: https://edge.sitecorecloud.io/api/graphql
   tags:
@@ -680,13 +635,11 @@ apis:
   - type: JSONSchema
     url: json-schema/sitecore-ordercloud-order-schema.json
   - type: Documentation
-    url: >-
-      https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html
+    url: https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html
 - aid: sitecore:sitecore-publishing-jobs-api
   name: sitecore Publishing Jobs API
-  description: >-
-    Endpoints for creating, monitoring, and managing publishing jobs that push content from XM Cloud authoring
-    to the Experience Edge delivery layer.
+  description: Endpoints for creating, monitoring, and managing publishing jobs that push content from
+    XM Cloud authoring to the Experience Edge delivery layer.
   humanURL: https://doc.sitecore.com/xmc/en/developers/xm-cloud/delivery-api.html
   baseURL: https://edge.sitecorecloud.io/api/graphql
   tags:
@@ -707,13 +660,11 @@ apis:
   - type: JSONSchema
     url: json-schema/sitecore-ordercloud-order-schema.json
   - type: Documentation
-    url: >-
-      https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html
+    url: https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html
 - aid: sitecore:sitecore-querying-api
   name: sitecore Querying API
-  description: >-
-    Endpoints for fetching entities that match specific criteria using structured query expressions against
-    entity properties and relations.
+  description: Endpoints for fetching entities that match specific criteria using structured query expressions
+    against entity properties and relations.
   humanURL: https://doc.sitecore.com/xmc/en/developers/xm-cloud/delivery-api.html
   baseURL: https://edge.sitecorecloud.io/api/graphql
   tags:
@@ -734,13 +685,11 @@ apis:
   - type: JSONSchema
     url: json-schema/sitecore-ordercloud-order-schema.json
   - type: Documentation
-    url: >-
-      https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html
+    url: https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html
 - aid: sitecore:sitecore-search-and-recommendations-api
   name: sitecore Search and Recommendations API
-  description: >-
-    Endpoints for performing product and content search queries, retrieving ranked results, applying faceted
-    filters, and fetching personalized product recommendations based on behavioral data.
+  description: Endpoints for performing product and content search queries, retrieving ranked results,
+    applying faceted filters, and fetching personalized product recommendations based on behavioral data.
   humanURL: https://doc.sitecore.com/xmc/en/developers/xm-cloud/delivery-api.html
   baseURL: https://edge.sitecorecloud.io/api/graphql
   tags:
@@ -761,13 +710,11 @@ apis:
   - type: JSONSchema
     url: json-schema/sitecore-ordercloud-order-schema.json
   - type: Documentation
-    url: >-
-      https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html
+    url: https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html
 - aid: sitecore:sitecore-search-api
   name: sitecore Search API
-  description: >-
-    Endpoints for executing search queries against the Content Hub entity index, retrieving facet values,
-    and managing search filters.
+  description: Endpoints for executing search queries against the Content Hub entity index, retrieving
+    facet values, and managing search filters.
   humanURL: https://doc.sitecore.com/xmc/en/developers/xm-cloud/delivery-api.html
   baseURL: https://edge.sitecorecloud.io/api/graphql
   tags:
@@ -788,13 +735,11 @@ apis:
   - type: JSONSchema
     url: json-schema/sitecore-ordercloud-order-schema.json
   - type: Documentation
-    url: >-
-      https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html
+    url: https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html
 - aid: sitecore:sitecore-selections-api
   name: sitecore Selections API
-  description: >-
-    Endpoints for managing entity selections across selection pools, allowing grouping of entities for
-    bulk operations or editorial workflows.
+  description: Endpoints for managing entity selections across selection pools, allowing grouping of entities
+    for bulk operations or editorial workflows.
   humanURL: https://doc.sitecore.com/xmc/en/developers/xm-cloud/delivery-api.html
   baseURL: https://edge.sitecorecloud.io/api/graphql
   tags:
@@ -815,13 +760,11 @@ apis:
   - type: JSONSchema
     url: json-schema/sitecore-ordercloud-order-schema.json
   - type: Documentation
-    url: >-
-      https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html
+    url: https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html
 - aid: sitecore:sitecore-sites-api
   name: sitecore Sites API
-  description: >-
-    Endpoints for managing sites within site collections, including creation, duplication, renaming, deletion,
-    sorting, and retrieving site hierarchies and rendering hosts.
+  description: Endpoints for managing sites within site collections, including creation, duplication,
+    renaming, deletion, sorting, and retrieving site hierarchies and rendering hosts.
   humanURL: https://doc.sitecore.com/xmc/en/developers/xm-cloud/delivery-api.html
   baseURL: https://edge.sitecorecloud.io/api/graphql
   tags:
@@ -842,13 +785,11 @@ apis:
   - type: JSONSchema
     url: json-schema/sitecore-ordercloud-order-schema.json
   - type: Documentation
-    url: >-
-      https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html
+    url: https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html
 - aid: sitecore:sitecore-templates-api
   name: sitecore Templates API
-  description: >-
-    Endpoints for managing web and decision templates used to define the visual and logic components of
-    personalization experiences within flows.
+  description: Endpoints for managing web and decision templates used to define the visual and logic components
+    of personalization experiences within flows.
   humanURL: https://doc.sitecore.com/xmc/en/developers/xm-cloud/delivery-api.html
   baseURL: https://edge.sitecorecloud.io/api/graphql
   tags:
@@ -869,13 +810,11 @@ apis:
   - type: JSONSchema
     url: json-schema/sitecore-ordercloud-order-schema.json
   - type: Documentation
-    url: >-
-      https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html
+    url: https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html
 - aid: sitecore:sitecore-upload-api
   name: sitecore Upload API
-  description: >-
-    Endpoints for uploading digital assets into Content Hub, including creating upload requests, uploading
-    binary content, and completing asset ingest.
+  description: Endpoints for uploading digital assets into Content Hub, including creating upload requests,
+    uploading binary content, and completing asset ingest.
   humanURL: https://doc.sitecore.com/xmc/en/developers/xm-cloud/delivery-api.html
   baseURL: https://edge.sitecorecloud.io/api/graphql
   tags:
@@ -896,8 +835,7 @@ apis:
   - type: JSONSchema
     url: json-schema/sitecore-ordercloud-order-schema.json
   - type: Documentation
-    url: >-
-      https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html
+    url: https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html
 common:
 - type: CapabilityMap
   url: capabilities/sitecore-capability-edges.yml
@@ -922,9 +860,13 @@ common:
   url: rules/sitecore-rules.yml
 - type: Vocabulary
   url: vocabulary/sitecore-vocabulary.yml
-modified: '2026-05-19'
-description: >-
-  Sitecore is a global digital experience platform that combines content management, marketing automation, e-commerce,
-  customer insight, and personalization to help brands deliver personalized customer experiences. Through its developer
-  documentation at doc.sitecore.com and api-docs.sitecore.com, Sitecore provides REST, GraphQL, and event-streaming APIs
-  spanning XM Cloud, Customer Data Platform, Personalize, OrderCloud, Content Hub, and Discover.
+modified: '2026-09-16'
+description: Sitecore is a global digital experience platform that combines content management, marketing
+  automation, e-commerce, customer insight, and personalization to help brands deliver personalized customer
+  experiences. Through its developer documentation at doc.sitecore.com and api-docs.sitecore.com, Sitecore
+  provides REST, GraphQL, and event-streaming APIs spanning XM Cloud, Customer Data Platform, Personalize,
+  OrderCloud, Content Hub, and Discover.
+tags:
+- Headless CMS
+- Customer Data Platform
+- Content Management
