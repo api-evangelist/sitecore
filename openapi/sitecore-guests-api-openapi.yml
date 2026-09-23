@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: Sitecore CDP REST Guests API
-  description: The Sitecore CDP REST API provides synchronous access to retrieve, create, update, and delete data stored in Sitecore Customer Data Platform. It exposes guest profiles, orders, order items, order contacts, order consumers, and data extensions through standard HTTP methods. Developers use this API to build integrations that read or write customer data programmatically, enabling use cases such as audience segmentation, data enrichment, and reporting. Authentication uses HTTP Basic Auth with a client key and API token obtained from the CDP instance settings. Regional server endpoints must be used based on the CDP instance's geographic deployment.
+  description: The Sitecore CDP REST API provides synchronous access to retrieve, create, update, and delete data stored in Sitecore Customer Data Platform.
   version: v2.1
   contact:
     name: Sitecore Support
@@ -178,6 +178,25 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  responses:
+    BadRequest:
+      description: The request body or parameters are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Authentication credentials are missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   parameters:
     guestRef:
       name: guestRef
@@ -187,70 +206,20 @@ components:
       schema:
         type: string
   schemas:
-    CreateGuestRequest:
+    GuestIdentifier:
       type: object
-      description: Request body for creating or updating a guest profile
+      description: An external identifier that links a guest to an external system
       properties:
-        email:
+        provider:
           type: string
-          description: The email address of the guest
-          format: email
-        firstName:
+          description: The name of the identity provider or source system
+        id:
           type: string
-          description: The guest's first name
-        lastName:
+          description: The identifier value from the external system
+        expiryDate:
           type: string
-          description: The guest's last name
-        dateOfBirth:
-          type: string
-          description: The guest's date of birth in ISO 8601 format
-          format: date
-        gender:
-          type: string
-          description: The guest's gender
-          enum:
-          - Male
-          - Female
-          - Other
-          - Unknown
-        phoneNumbers:
-          type: array
-          description: Phone numbers associated with the guest
-          items:
-            type: string
-    GuestListResponse:
-      type: object
-      description: A paginated response containing a list of guest profiles
-      properties:
-        items:
-          type: array
-          description: The list of guests for the current page
-          items:
-            $ref: '#/components/schemas/Guest'
-        totalCount:
-          type: integer
-          description: The total number of guests matching the query
-        limit:
-          type: integer
-          description: The maximum number of items per page
-        offset:
-          type: integer
-          description: The offset used for this page of results
-    ErrorResponse:
-      type: object
-      description: An error response body
-      properties:
-        message:
-          type: string
-          description: A human-readable error message
-        statusCode:
-          type: integer
-          description: The HTTP status code
-        errors:
-          type: array
-          description: List of detailed error messages
-          items:
-            type: string
+          description: The expiry date of this identifier
+          format: date-time
     Guest:
       type: object
       description: The core entity of Sitecore CDP representing a customer with personal, behavioral, and transactional data used for personalization and segmentation
@@ -298,39 +267,70 @@ components:
           description: External identifiers linked to this guest for identity resolution
           items:
             $ref: '#/components/schemas/GuestIdentifier'
-    GuestIdentifier:
+    GuestListResponse:
       type: object
-      description: An external identifier that links a guest to an external system
+      description: A paginated response containing a list of guest profiles
       properties:
-        provider:
+        items:
+          type: array
+          description: The list of guests for the current page
+          items:
+            $ref: '#/components/schemas/Guest'
+        totalCount:
+          type: integer
+          description: The total number of guests matching the query
+        limit:
+          type: integer
+          description: The maximum number of items per page
+        offset:
+          type: integer
+          description: The offset used for this page of results
+    ErrorResponse:
+      type: object
+      description: An error response body
+      properties:
+        message:
           type: string
-          description: The name of the identity provider or source system
-        id:
+          description: A human-readable error message
+        statusCode:
+          type: integer
+          description: The HTTP status code
+        errors:
+          type: array
+          description: List of detailed error messages
+          items:
+            type: string
+    CreateGuestRequest:
+      type: object
+      description: Request body for creating or updating a guest profile
+      properties:
+        email:
           type: string
-          description: The identifier value from the external system
-        expiryDate:
+          description: The email address of the guest
+          format: email
+        firstName:
           type: string
-          description: The expiry date of this identifier
-          format: date-time
-  responses:
-    NotFound:
-      description: The requested resource was not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Authentication credentials are missing or invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    BadRequest:
-      description: The request body or parameters are invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
+          description: The guest's first name
+        lastName:
+          type: string
+          description: The guest's last name
+        dateOfBirth:
+          type: string
+          description: The guest's date of birth in ISO 8601 format
+          format: date
+        gender:
+          type: string
+          description: The guest's gender
+          enum:
+          - Male
+          - Female
+          - Other
+          - Unknown
+        phoneNumbers:
+          type: array
+          description: Phone numbers associated with the guest
+          items:
+            type: string
   securitySchemes:
     basicAuth:
       type: http

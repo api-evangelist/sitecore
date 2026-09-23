@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: Sitecore XM Cloud REST Collections API
-  description: 'The Sitecore XM Cloud REST API provides endpoints for creating and managing collections, sites, pages, languages, and publishing jobs within an XM Cloud tenant. It covers the full lifecycle of site and collection management through the XM Apps system, exposes page authoring operations, and enables programmatic control of publishing workflows. The API follows RESTful conventions and is authenticated via OAuth 2.0 tokens obtained from the Sitecore Cloud Portal automation client credentials. It is organized into several functional areas: the Sites API for managing sites, site collections, and languages; the Pages API for managing site pages; and the Publishing API for creating, monitoring, and managing publishing jobs.'
+  description: The Sitecore XM Cloud REST API provides endpoints for creating and managing collections, sites, pages, languages, and publishing jobs within an XM Cloud tenant.
   version: v1
   contact:
     name: Sitecore Support
@@ -178,6 +178,38 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
+    ValidateNameResponse:
+      type: object
+      description: Result of a name validation check
+      properties:
+        isValid:
+          type: boolean
+          description: Whether the name is valid and available
+        errors:
+          type: array
+          description: List of validation error messages if the name is invalid
+          items:
+            type: string
+    ValidateNameRequest:
+      type: object
+      description: Request body for validating a name
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          description: The name to validate
+    SortRequest:
+      type: object
+      description: Request body for updating the sort order of items
+      required:
+      - ids
+      properties:
+        ids:
+          type: array
+          description: Ordered list of item identifiers representing the new sort order
+          items:
+            type: string
     CreateCollectionRequest:
       type: object
       description: Request body for creating or updating a site collection
@@ -191,18 +223,25 @@ components:
         displayName:
           type: string
           description: The human-readable display name for the collection
-    ValidateNameResponse:
+    ProblemDetails:
       type: object
-      description: Result of a name validation check
+      description: RFC 7807 problem details response for errors
       properties:
-        isValid:
-          type: boolean
-          description: Whether the name is valid and available
-        errors:
-          type: array
-          description: List of validation error messages if the name is invalid
-          items:
-            type: string
+        type:
+          type: string
+          description: A URI reference identifying the problem type
+        title:
+          type: string
+          description: A short human-readable summary of the problem
+        status:
+          type: integer
+          description: The HTTP status code for this occurrence of the problem
+        detail:
+          type: string
+          description: A human-readable explanation of the problem
+        instance:
+          type: string
+          description: A URI reference identifying the specific occurrence of the problem
     SiteSummary:
       type: object
       description: A summary representation of a site within a collection
@@ -234,45 +273,25 @@ components:
           description: Sites contained within this collection
           items:
             $ref: '#/components/schemas/SiteSummary'
-    SortRequest:
-      type: object
-      description: Request body for updating the sort order of items
-      required:
-      - ids
-      properties:
-        ids:
-          type: array
-          description: Ordered list of item identifiers representing the new sort order
-          items:
-            type: string
-    ValidateNameRequest:
-      type: object
-      description: Request body for validating a name
-      required:
-      - name
-      properties:
-        name:
-          type: string
-          description: The name to validate
-    ProblemDetails:
-      type: object
-      description: RFC 7807 problem details response for errors
-      properties:
-        type:
-          type: string
-          description: A URI reference identifying the problem type
-        title:
-          type: string
-          description: A short human-readable summary of the problem
-        status:
-          type: integer
-          description: The HTTP status code for this occurrence of the problem
-        detail:
-          type: string
-          description: A human-readable explanation of the problem
-        instance:
-          type: string
-          description: A URI reference identifying the specific occurrence of the problem
+  responses:
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+    BadRequest:
+      description: The request body or parameters are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+    Unauthorized:
+      description: Authentication token is missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
   parameters:
     environmentId:
       name: sc_env
@@ -288,25 +307,6 @@ components:
       required: true
       schema:
         type: string
-  responses:
-    Unauthorized:
-      description: Authentication token is missing or invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ProblemDetails'
-    NotFound:
-      description: The requested resource was not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ProblemDetails'
-    BadRequest:
-      description: The request body or parameters are invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ProblemDetails'
   securitySchemes:
     bearerAuth:
       type: http

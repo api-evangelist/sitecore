@@ -50,7 +50,8 @@
     "sitecore-personalize-rest-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
     "sitecore-xm-cloud-rest-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
     "tag 'Orders' spans 2 source specs (sitecore-cdp-rest-api-openapi.yml, sitecore-ordercloud-api-openapi.yml): per-path servers applied",
-    "tag 'Authentication' spans 2 source specs (sitecore-discover-api-openapi.yml, sitecore-ordercloud-api-openapi.yml): per-path servers applied"
+    "tag 'Authentication' spans 2 source specs (sitecore-discover-api-openapi.yml, sitecore-ordercloud-api-openapi.yml): per-path servers applied",
+    "apis.yml register: already-registered"
   ],
   "skipped": [
     "sitecore-audit-api-openapi.yml: previously refined output, superseded by openapi/_original/",

@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: Sitecore Discover Search and Recommendations API
-  description: The Sitecore Discover API provides search and product discovery capabilities for commerce applications, enabling developers to build search experiences, product listing pages, and recommendation widgets. It exposes endpoints for full-text search, faceted filtering, product recommendations, behavioral event tracking, and incremental product feed updates. The Search and Recommendation API accepts requests as JSON and returns ranked results. Events sent through the Events API feed behavioral signals back into the discovery algorithms to improve recommendation relevance. The Incremental Feed API enables real-time product catalog updates. Endpoint URLs are customer-specific and contain either a subdomain URL or customer key retrieved from the Sitecore Discover Customer Engagement Console.
+  description: The Sitecore Discover API provides search and product discovery capabilities for commerce applications, enabling developers to build search experiences, product listing pages, and recommendation widgets.
   version: v3
   contact:
     name: Sitecore Support
@@ -74,28 +74,32 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
+  responses:
+    BadRequest:
+      description: The request body or parameters are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Authentication token is missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   schemas:
-    WidgetResult:
+    ProductResults:
       type: object
-      description: Results for a specific search or recommendation widget
+      description: Product-level search results
       properties:
-        rfkid:
-          type: string
-          description: The widget identifier
+        value:
+          type: array
+          description: The list of matching product results
+          items:
+            $ref: '#/components/schemas/DiscoverProduct'
         total_item:
           type: integer
-          description: Total number of matching items
-        content:
-          type: object
-          description: Content result metadata
-          properties:
-            product:
-              $ref: '#/components/schemas/ProductResults'
-        facet:
-          type: array
-          description: Available facets for filtering results
-          items:
-            $ref: '#/components/schemas/Facet'
+          description: Total number of matching products
     DiscoverProduct:
       type: object
       description: A product result from Sitecore Discover search or recommendations
@@ -138,6 +142,66 @@ components:
           type: string
           description: The ISO 4217 currency code for prices
           example: USD
+    Facet:
+      type: object
+      description: A search facet with available filter values
+      properties:
+        name:
+          type: string
+          description: The facet field name
+        label:
+          type: string
+          description: The display label for the facet
+        value:
+          type: array
+          description: Available values for this facet
+          items:
+            $ref: '#/components/schemas/FacetValue'
+    WidgetResult:
+      type: object
+      description: Results for a specific search or recommendation widget
+      properties:
+        rfkid:
+          type: string
+          description: The widget identifier
+        total_item:
+          type: integer
+          description: Total number of matching items
+        content:
+          type: object
+          description: Content result metadata
+          properties:
+            product:
+              $ref: '#/components/schemas/ProductResults'
+        facet:
+          type: array
+          description: Available facets for filtering results
+          items:
+            $ref: '#/components/schemas/Facet'
+    SearchResponse:
+      type: object
+      description: Search and recommendation results
+      properties:
+        widgets:
+          type: array
+          description: Widget-level results containing search hits and facets
+          items:
+            $ref: '#/components/schemas/WidgetResult'
+    ErrorResponse:
+      type: object
+      description: An error response body
+      properties:
+        message:
+          type: string
+          description: A human-readable error message
+        statusCode:
+          type: integer
+          description: The HTTP status code
+        errors:
+          type: array
+          description: List of detailed error messages
+          items:
+            type: string
     SearchRequest:
       type: object
       description: Search and recommendation request parameters
@@ -205,70 +269,6 @@ components:
         count:
           type: integer
           description: The number of matching products with this value
-    ProductResults:
-      type: object
-      description: Product-level search results
-      properties:
-        value:
-          type: array
-          description: The list of matching product results
-          items:
-            $ref: '#/components/schemas/DiscoverProduct'
-        total_item:
-          type: integer
-          description: Total number of matching products
-    ErrorResponse:
-      type: object
-      description: An error response body
-      properties:
-        message:
-          type: string
-          description: A human-readable error message
-        statusCode:
-          type: integer
-          description: The HTTP status code
-        errors:
-          type: array
-          description: List of detailed error messages
-          items:
-            type: string
-    Facet:
-      type: object
-      description: A search facet with available filter values
-      properties:
-        name:
-          type: string
-          description: The facet field name
-        label:
-          type: string
-          description: The display label for the facet
-        value:
-          type: array
-          description: Available values for this facet
-          items:
-            $ref: '#/components/schemas/FacetValue'
-    SearchResponse:
-      type: object
-      description: Search and recommendation results
-      properties:
-        widgets:
-          type: array
-          description: Widget-level results containing search hits and facets
-          items:
-            $ref: '#/components/schemas/WidgetResult'
-  responses:
-    Unauthorized:
-      description: Authentication token is missing or invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    BadRequest:
-      description: The request body or parameters are invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
   parameters:
     customerKey:
       name: customerKey

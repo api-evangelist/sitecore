@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: Sitecore Discover Events API
-  description: The Sitecore Discover API provides search and product discovery capabilities for commerce applications, enabling developers to build search experiences, product listing pages, and recommendation widgets. It exposes endpoints for full-text search, faceted filtering, product recommendations, behavioral event tracking, and incremental product feed updates. The Search and Recommendation API accepts requests as JSON and returns ranked results. Events sent through the Events API feed behavioral signals back into the discovery algorithms to improve recommendation relevance. The Incremental Feed API enables real-time product catalog updates. Endpoint URLs are customer-specific and contain either a subdomain URL or customer key retrieved from the Sitecore Discover Customer Engagement Console.
+  description: The Sitecore Discover API provides search and product discovery capabilities for commerce applications, enabling developers to build search experiences, product listing pages, and recommendation widgets.
   version: v3
   contact:
     name: Sitecore Support
@@ -66,30 +66,7 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
-  parameters:
-    customerKey:
-      name: customerKey
-      in: query
-      description: The customer key identifying the Sitecore Discover account. Found in the Customer Engagement Console under Developer Resources > API Access.
-      required: false
-      schema:
-        type: string
   schemas:
-    ErrorResponse:
-      type: object
-      description: An error response body
-      properties:
-        message:
-          type: string
-          description: A human-readable error message
-        statusCode:
-          type: integer
-          description: The HTTP status code
-        errors:
-          type: array
-          description: List of detailed error messages
-          items:
-            type: string
     EventRequest:
       type: object
       description: Behavioral event tracking request
@@ -142,19 +119,42 @@ components:
           - cart
           - order-confirm
           - other
+    ErrorResponse:
+      type: object
+      description: An error response body
+      properties:
+        message:
+          type: string
+          description: A human-readable error message
+        statusCode:
+          type: integer
+          description: The HTTP status code
+        errors:
+          type: array
+          description: List of detailed error messages
+          items:
+            type: string
   responses:
-    Unauthorized:
-      description: Authentication token is missing or invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
     BadRequest:
       description: The request body or parameters are invalid
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Authentication token is missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  parameters:
+    customerKey:
+      name: customerKey
+      in: query
+      description: The customer key identifying the Sitecore Discover account. Found in the Customer Engagement Console under Developer Resources > API Access.
+      required: false
+      schema:
+        type: string
   securitySchemes:
     bearerAuth:
       type: http

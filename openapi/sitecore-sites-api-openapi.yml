@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: Sitecore XM Cloud REST Sites API
-  description: 'The Sitecore XM Cloud REST API provides endpoints for creating and managing collections, sites, pages, languages, and publishing jobs within an XM Cloud tenant. It covers the full lifecycle of site and collection management through the XM Apps system, exposes page authoring operations, and enables programmatic control of publishing workflows. The API follows RESTful conventions and is authenticated via OAuth 2.0 tokens obtained from the Sitecore Cloud Portal automation client credentials. It is organized into several functional areas: the Sites API for managing sites, site collections, and languages; the Pages API for managing site pages; and the Publishing API for creating, monitoring, and managing publishing jobs.'
+  description: The Sitecore XM Cloud REST API provides endpoints for creating and managing collections, sites, pages, languages, and publishing jobs within an XM Cloud tenant.
   version: v1
   contact:
     name: Sitecore Support
@@ -191,45 +191,15 @@ components:
           description: List of validation error messages if the name is invalid
           items:
             type: string
-    CreateSiteRequest:
+    ValidateNameRequest:
       type: object
-      description: Request body for creating a new site
+      description: Request body for validating a name
       required:
       - name
-      - collectionId
-      - language
       properties:
         name:
           type: string
-          description: The name of the new site
-          maxLength: 100
-        displayName:
-          type: string
-          description: The human-readable display name for the site
-        collectionId:
-          type: string
-          description: The identifier of the parent site collection
-        language:
-          type: string
-          description: The default language ISO code for the site
-          example: en
-        templateId:
-          type: string
-          description: The identifier of the site template to use for creation
-    RenderingHost:
-      type: object
-      description: A rendering host endpoint that can be assigned to a site
-      properties:
-        id:
-          type: string
-          description: The unique identifier of the rendering host
-        name:
-          type: string
-          description: The display name of the rendering host
-        url:
-          type: string
-          description: The URL of the rendering host endpoint
-          format: uri
+          description: The name to validate
     Language:
       type: object
       description: A language configuration for a tenant or site
@@ -246,6 +216,50 @@ components:
           type: string
           description: The language name in its native script
           example: English
+    SortRequest:
+      type: object
+      description: Request body for updating the sort order of items
+      required:
+      - ids
+      properties:
+        ids:
+          type: array
+          description: Ordered list of item identifiers representing the new sort order
+          items:
+            type: string
+    RenderingHost:
+      type: object
+      description: A rendering host endpoint that can be assigned to a site
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the rendering host
+        name:
+          type: string
+          description: The display name of the rendering host
+        url:
+          type: string
+          description: The URL of the rendering host endpoint
+          format: uri
+    ProblemDetails:
+      type: object
+      description: RFC 7807 problem details response for errors
+      properties:
+        type:
+          type: string
+          description: A URI reference identifying the problem type
+        title:
+          type: string
+          description: A short human-readable summary of the problem
+        status:
+          type: integer
+          description: The HTTP status code for this occurrence of the problem
+        detail:
+          type: string
+          description: A human-readable explanation of the problem
+        instance:
+          type: string
+          description: A URI reference identifying the specific occurrence of the problem
     Site:
       type: object
       description: A website managed within an XM Cloud site collection
@@ -273,69 +287,40 @@ components:
         renderingHost:
           type: string
           description: The URL of the rendering host assigned to this site
-    SortRequest:
+    CreateSiteRequest:
       type: object
-      description: Request body for updating the sort order of items
-      required:
-      - ids
-      properties:
-        ids:
-          type: array
-          description: Ordered list of item identifiers representing the new sort order
-          items:
-            type: string
-    ValidateNameRequest:
-      type: object
-      description: Request body for validating a name
+      description: Request body for creating a new site
       required:
       - name
+      - collectionId
+      - language
       properties:
         name:
           type: string
-          description: The name to validate
-    ProblemDetails:
-      type: object
-      description: RFC 7807 problem details response for errors
-      properties:
-        type:
+          description: The name of the new site
+          maxLength: 100
+        displayName:
           type: string
-          description: A URI reference identifying the problem type
-        title:
+          description: The human-readable display name for the site
+        collectionId:
           type: string
-          description: A short human-readable summary of the problem
-        status:
-          type: integer
-          description: The HTTP status code for this occurrence of the problem
-        detail:
+          description: The identifier of the parent site collection
+        language:
           type: string
-          description: A human-readable explanation of the problem
-        instance:
+          description: The default language ISO code for the site
+          example: en
+        templateId:
           type: string
-          description: A URI reference identifying the specific occurrence of the problem
-  parameters:
-    environmentId:
-      name: sc_env
-      in: query
-      description: The XM Cloud environment identifier
-      required: false
-      schema:
-        type: string
-    siteId:
-      name: siteId
-      in: path
-      description: The unique identifier of the site
-      required: true
-      schema:
-        type: string
+          description: The identifier of the site template to use for creation
   responses:
-    Unauthorized:
-      description: Authentication token is missing or invalid
+    NotFound:
+      description: The requested resource was not found
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/ProblemDetails'
-    NotFound:
-      description: The requested resource was not found
+    Unauthorized:
+      description: Authentication token is missing or invalid
       content:
         application/json:
           schema:
@@ -346,6 +331,21 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ProblemDetails'
+  parameters:
+    siteId:
+      name: siteId
+      in: path
+      description: The unique identifier of the site
+      required: true
+      schema:
+        type: string
+    environmentId:
+      name: sc_env
+      in: query
+      description: The XM Cloud environment identifier
+      required: false
+      schema:
+        type: string
   securitySchemes:
     bearerAuth:
       type: http

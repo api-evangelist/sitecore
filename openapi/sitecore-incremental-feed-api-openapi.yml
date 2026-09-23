@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: Sitecore Discover Incremental Feed API
-  description: The Sitecore Discover API provides search and product discovery capabilities for commerce applications, enabling developers to build search experiences, product listing pages, and recommendation widgets. It exposes endpoints for full-text search, faceted filtering, product recommendations, behavioral event tracking, and incremental product feed updates. The Search and Recommendation API accepts requests as JSON and returns ranked results. Events sent through the Events API feed behavioral signals back into the discovery algorithms to improve recommendation relevance. The Incremental Feed API enables real-time product catalog updates. Endpoint URLs are customer-specific and contain either a subdomain URL or customer key retrieved from the Sitecore Discover Customer Engagement Console.
+  description: The Sitecore Discover API provides search and product discovery capabilities for commerce applications, enabling developers to build search experiences, product listing pages, and recommendation widgets.
   version: v3
   contact:
     name: Sitecore Support
@@ -49,6 +49,19 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
+  responses:
+    BadRequest:
+      description: The request body or parameters are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Authentication token is missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   parameters:
     customerKey:
       name: customerKey
@@ -58,6 +71,27 @@ components:
       schema:
         type: string
   schemas:
+    FeedUpdateResponse:
+      type: object
+      description: Response from a product feed update operation
+      properties:
+        status:
+          type: string
+          description: The status of the feed update request
+          enum:
+          - accepted
+          - failed
+        processed:
+          type: integer
+          description: The number of products successfully processed
+        failed:
+          type: integer
+          description: The number of products that failed to process
+        errors:
+          type: array
+          description: List of error details for failed products
+          items:
+            type: string
     ErrorResponse:
       type: object
       description: An error response body
@@ -116,27 +150,6 @@ components:
         in_stock:
           type: boolean
           description: Whether the product is currently in stock
-    FeedUpdateResponse:
-      type: object
-      description: Response from a product feed update operation
-      properties:
-        status:
-          type: string
-          description: The status of the feed update request
-          enum:
-          - accepted
-          - failed
-        processed:
-          type: integer
-          description: The number of products successfully processed
-        failed:
-          type: integer
-          description: The number of products that failed to process
-        errors:
-          type: array
-          description: List of error details for failed products
-          items:
-            type: string
     IncrementalFeedRequest:
       type: object
       description: Request body for incrementally updating the product catalog
@@ -156,19 +169,6 @@ components:
           description: The products to add, update, or delete
           items:
             $ref: '#/components/schemas/FeedProduct'
-  responses:
-    Unauthorized:
-      description: Authentication token is missing or invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    BadRequest:
-      description: The request body or parameters are invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
   securitySchemes:
     bearerAuth:
       type: http

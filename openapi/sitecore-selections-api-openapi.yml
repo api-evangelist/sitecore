@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: Sitecore Content Hub REST Selections API
-  description: The Sitecore Content Hub REST API is a hypermedia API built on HTTP that provides programmatic access to the full range of Content Hub resources, including entities, assets, jobs, search, selections, upload, and audit logs. Developers use it to automate digital asset management workflows, migrate content, build custom integrations, and manage Content Hub configuration. The API supports standard CRUD operations and is authenticated using OAuth 2.0 tokens obtained from the Content Hub identity provider. Navigation between resources uses hyperlinks rather than hardcoded URL patterns. The base URL is tenant-specific and corresponds to the URL of the Content Hub instance followed by /api/.
+  description: The Sitecore Content Hub REST API is a hypermedia API built on HTTP that provides programmatic access to the full range of Content Hub resources, including entities, assets, jobs, search, selections, upload, and audit logs.
   version: v1
   contact:
     name: Sitecore Support
@@ -62,7 +62,34 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
+  responses:
+    BadRequest:
+      description: The request body or parameters are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Authentication token is missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   schemas:
+    CreateSelectionRequest:
+      type: object
+      description: Request body for creating a selection
+      required:
+      - entityIds
+      properties:
+        name:
+          type: string
+          description: Optional name for the selection pool
+        entityIds:
+          type: array
+          description: Entity identifiers to include in the selection
+          items:
+            type: integer
     Selection:
       type: object
       description: A named selection pool containing entity identifiers
@@ -97,33 +124,6 @@ components:
           description: List of detailed error messages
           items:
             type: string
-    CreateSelectionRequest:
-      type: object
-      description: Request body for creating a selection
-      required:
-      - entityIds
-      properties:
-        name:
-          type: string
-          description: Optional name for the selection pool
-        entityIds:
-          type: array
-          description: Entity identifiers to include in the selection
-          items:
-            type: integer
-  responses:
-    Unauthorized:
-      description: Authentication token is missing or invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    BadRequest:
-      description: The request body or parameters are invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
   securitySchemes:
     bearerAuth:
       type: http

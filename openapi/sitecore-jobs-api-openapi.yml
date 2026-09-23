@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: Sitecore Content Hub REST Jobs API
-  description: The Sitecore Content Hub REST API is a hypermedia API built on HTTP that provides programmatic access to the full range of Content Hub resources, including entities, assets, jobs, search, selections, upload, and audit logs. Developers use it to automate digital asset management workflows, migrate content, build custom integrations, and manage Content Hub configuration. The API supports standard CRUD operations and is authenticated using OAuth 2.0 tokens obtained from the Content Hub identity provider. Navigation between resources uses hyperlinks rather than hardcoded URL patterns. The base URL is tenant-specific and corresponds to the URL of the Content Hub instance followed by /api/.
+  description: The Sitecore Content Hub REST API is a hypermedia API built on HTTP that provides programmatic access to the full range of Content Hub resources, including entities, assets, jobs, search, selections, upload, and audit logs.
   version: v1
   contact:
     name: Sitecore Support
@@ -53,29 +53,7 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
-  responses:
-    Unauthorized:
-      description: Authentication token is missing or invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
   schemas:
-    ErrorResponse:
-      type: object
-      description: An error response body
-      properties:
-        message:
-          type: string
-          description: A human-readable error message
-        statusCode:
-          type: integer
-          description: The HTTP status code
-        errors:
-          type: array
-          description: List of detailed error messages
-          items:
-            type: string
     Job:
       type: object
       description: A background job target in Content Hub
@@ -102,6 +80,21 @@ components:
           type: string
           description: The ISO 8601 timestamp when the job completed
           format: date-time
+    ErrorResponse:
+      type: object
+      description: An error response body
+      properties:
+        message:
+          type: string
+          description: A human-readable error message
+        statusCode:
+          type: integer
+          description: The HTTP status code
+        errors:
+          type: array
+          description: List of detailed error messages
+          items:
+            type: string
     JobListResponse:
       type: object
       description: A paginated list of job configurations
@@ -114,6 +107,13 @@ components:
         totalCount:
           type: integer
           description: Total number of jobs
+  responses:
+    Unauthorized:
+      description: Authentication token is missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   securitySchemes:
     bearerAuth:
       type: http

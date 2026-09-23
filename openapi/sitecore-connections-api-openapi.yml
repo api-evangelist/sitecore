@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: Sitecore Personalize REST Connections API
-  description: The Sitecore Personalize REST API allows developers to programmatically interact with Sitecore Personalize experiments, decisioning flows, connection configurations, and template assets. It supports retrieving, creating, updating, and deleting personalization resources through standard HTTP methods. Developers use this API to integrate decisioning logic into server-side applications, trigger personalization flows programmatically, manage personalization assets as part of automated deployment pipelines, and connect to external systems via configurable connection objects. The API base URL is environment-specific and is determined by the region of the Sitecore Personalize instance.
+  description: The Sitecore Personalize REST API allows developers to programmatically interact with Sitecore Personalize experiments, decisioning flows, connection configurations, and template assets.
   version: v1
   contact:
     name: Sitecore Support
@@ -129,40 +129,6 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  parameters:
-    resourceId:
-      name: id
-      in: path
-      description: The unique identifier of the resource
-      required: true
-      schema:
-        type: string
-    pageOffset:
-      name: pageOffset
-      in: query
-      description: Number of records to skip for pagination
-      required: false
-      schema:
-        type: integer
-        minimum: 0
-        default: 0
-    sortBy:
-      name: sort
-      in: query
-      description: Field name and direction to sort results by (e.g., name:asc)
-      required: false
-      schema:
-        type: string
-    pageSize:
-      name: pageSize
-      in: query
-      description: Number of items to return per page
-      required: false
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-        default: 20
   schemas:
     Connection:
       type: object
@@ -212,6 +178,19 @@ components:
           type: string
           description: The ISO 8601 timestamp when the connection was last modified
           format: date-time
+    ConnectionTestResult:
+      type: object
+      description: Result of a connection test
+      properties:
+        success:
+          type: boolean
+          description: Whether the connection test succeeded
+        statusCode:
+          type: integer
+          description: The HTTP status code returned by the external service
+        message:
+          type: string
+          description: A description of the test result or error
     ErrorResponse:
       type: object
       description: An error response body
@@ -227,19 +206,6 @@ components:
           description: List of detailed error messages
           items:
             type: string
-    ConnectionTestResult:
-      type: object
-      description: Result of a connection test
-      properties:
-        success:
-          type: boolean
-          description: Whether the connection test succeeded
-        statusCode:
-          type: integer
-          description: The HTTP status code returned by the external service
-        message:
-          type: string
-          description: A description of the test result or error
     ConnectionListResponse:
       type: object
       description: A paginated list of connections
@@ -294,12 +260,6 @@ components:
           type: integer
           description: Timeout in milliseconds waiting for response data
   responses:
-    Unauthorized:
-      description: Authentication credentials are missing or invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
     NotFound:
       description: The requested resource was not found
       content:
@@ -312,6 +272,46 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Authentication credentials are missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  parameters:
+    sortBy:
+      name: sort
+      in: query
+      description: Field name and direction to sort results by (e.g., name:asc)
+      required: false
+      schema:
+        type: string
+    pageOffset:
+      name: pageOffset
+      in: query
+      description: Number of records to skip for pagination
+      required: false
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+    pageSize:
+      name: pageSize
+      in: query
+      description: Number of items to return per page
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+    resourceId:
+      name: id
+      in: path
+      description: The unique identifier of the resource
+      required: true
+      schema:
+        type: string
   securitySchemes:
     apiKeyAuth:
       type: apiKey

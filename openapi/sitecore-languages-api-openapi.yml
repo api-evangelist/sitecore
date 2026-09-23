@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: Sitecore XM Cloud REST Languages API
-  description: 'The Sitecore XM Cloud REST API provides endpoints for creating and managing collections, sites, pages, languages, and publishing jobs within an XM Cloud tenant. It covers the full lifecycle of site and collection management through the XM Apps system, exposes page authoring operations, and enables programmatic control of publishing workflows. The API follows RESTful conventions and is authenticated via OAuth 2.0 tokens obtained from the Sitecore Cloud Portal automation client credentials. It is organized into several functional areas: the Sites API for managing sites, site collections, and languages; the Pages API for managing site pages; and the Publishing API for creating, monitoring, and managing publishing jobs.'
+  description: The Sitecore XM Cloud REST API provides endpoints for creating and managing collections, sites, pages, languages, and publishing jobs within an XM Cloud tenant.
   version: v1
   contact:
     name: Sitecore Support
@@ -128,7 +128,33 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  responses:
+    BadRequest:
+      description: The request body or parameters are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+    Unauthorized:
+      description: Authentication token is missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
   parameters:
+    siteId:
+      name: siteId
+      in: path
+      description: The unique identifier of the site
+      required: true
+      schema:
+        type: string
     environmentId:
       name: sc_env
       in: query
@@ -140,13 +166,6 @@ components:
       name: languageId
       in: path
       description: The language identifier (e.g., en, fr-FR)
-      required: true
-      schema:
-        type: string
-    siteId:
-      name: siteId
-      in: path
-      description: The unique identifier of the site
       required: true
       schema:
         type: string
@@ -167,15 +186,6 @@ components:
           type: string
           description: The language name in its native script
           example: English
-    AddLanguageRequest:
-      type: object
-      description: Request body for adding a language to a site
-      required:
-      - isoCode
-      properties:
-        isoCode:
-          type: string
-          description: The ISO language code to add (e.g., fr-FR, de-DE)
     ProblemDetails:
       type: object
       description: RFC 7807 problem details response for errors
@@ -195,25 +205,15 @@ components:
         instance:
           type: string
           description: A URI reference identifying the specific occurrence of the problem
-  responses:
-    Unauthorized:
-      description: Authentication token is missing or invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ProblemDetails'
-    NotFound:
-      description: The requested resource was not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ProblemDetails'
-    BadRequest:
-      description: The request body or parameters are invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ProblemDetails'
+    AddLanguageRequest:
+      type: object
+      description: Request body for adding a language to a site
+      required:
+      - isoCode
+      properties:
+        isoCode:
+          type: string
+          description: The ISO language code to add (e.g., fr-FR, de-DE)
   securitySchemes:
     bearerAuth:
       type: http

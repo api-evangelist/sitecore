@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: Sitecore OrderCloud Buyers API
-  description: The Sitecore OrderCloud API is a headless, API-first commerce platform providing RESTful endpoints for managing the full range of e-commerce operations including products, catalogs, orders, buyers, sellers, promotions, and fulfillment. It is designed to support B2C, B2B, and B2B2C commerce models with a highly flexible and extensible data model that allows custom extended properties (xp) on most resources. The API uses OAuth 2.0 for authentication and supports granular role-based access control for different buyer, seller, and supplier contexts. All responses are in JSON and the API supports filtering, sorting, searching, and pagination on list endpoints.
+  description: The Sitecore OrderCloud API is a headless, API-first commerce platform providing RESTful endpoints for managing the full range of e-commerce operations including products, catalogs, orders, buyers, sellers, promotions, and fulfillment.
   version: v1
   contact:
     name: Sitecore OrderCloud Support
@@ -123,53 +123,67 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  parameters:
+    sortBy:
+      name: sortBy
+      in: query
+      description: Field name to sort results by; prefix with ! to sort descending
+      required: false
+      schema:
+        type: string
+    pageSize:
+      name: pageSize
+      in: query
+      description: Number of items to return per page (max 100)
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+    search:
+      name: search
+      in: query
+      description: Full-text search term to filter results
+      required: false
+      schema:
+        type: string
+    buyerID:
+      name: buyerID
+      in: path
+      description: The unique identifier of the buyer organization
+      required: true
+      schema:
+        type: string
+    page:
+      name: page
+      in: query
+      description: Page number to retrieve (1-indexed)
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+  responses:
+    BadRequest:
+      description: The request body or parameters are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Authentication token is missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   schemas:
-    CreateBuyerRequest:
-      type: object
-      description: Request body for creating or updating a buyer
-      required:
-      - Name
-      properties:
-        ID:
-          type: string
-          description: Optional custom identifier for the buyer
-        Name:
-          type: string
-          description: The display name of the buyer organization
-        DefaultCatalogID:
-          type: string
-          description: The identifier of the default catalog to assign
-        Active:
-          type: boolean
-          description: Whether the buyer should be active on creation
-          default: true
-        xp:
-          type: object
-          description: Extended properties for custom buyer attributes
-          additionalProperties: true
-    ErrorDetail:
-      type: object
-      description: A single error detail
-      properties:
-        ErrorCode:
-          type: string
-          description: The machine-readable error code
-        Message:
-          type: string
-          description: A human-readable description of the error
-        Data:
-          type: object
-          description: Additional data about the error context
-          additionalProperties: true
-    ErrorResponse:
-      type: object
-      description: An error response body
-      properties:
-        Errors:
-          type: array
-          description: List of error details
-          items:
-            $ref: '#/components/schemas/ErrorDetail'
     ListMetadata:
       type: object
       description: Pagination metadata for list responses
@@ -222,66 +236,52 @@ components:
           type: object
           description: Extended properties for custom buyer attributes
           additionalProperties: true
-  parameters:
-    search:
-      name: search
-      in: query
-      description: Full-text search term to filter results
-      required: false
-      schema:
-        type: string
-    sortBy:
-      name: sortBy
-      in: query
-      description: Field name to sort results by; prefix with ! to sort descending
-      required: false
-      schema:
-        type: string
-    pageSize:
-      name: pageSize
-      in: query
-      description: Number of items to return per page (max 100)
-      required: false
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-        default: 20
-    buyerID:
-      name: buyerID
-      in: path
-      description: The unique identifier of the buyer organization
-      required: true
-      schema:
-        type: string
-    page:
-      name: page
-      in: query
-      description: Page number to retrieve (1-indexed)
-      required: false
-      schema:
-        type: integer
-        minimum: 1
-        default: 1
-  responses:
-    Unauthorized:
-      description: Authentication token is missing or invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    NotFound:
-      description: The requested resource was not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    BadRequest:
-      description: The request body or parameters are invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
+    ErrorResponse:
+      type: object
+      description: An error response body
+      properties:
+        Errors:
+          type: array
+          description: List of error details
+          items:
+            $ref: '#/components/schemas/ErrorDetail'
+    CreateBuyerRequest:
+      type: object
+      description: Request body for creating or updating a buyer
+      required:
+      - Name
+      properties:
+        ID:
+          type: string
+          description: Optional custom identifier for the buyer
+        Name:
+          type: string
+          description: The display name of the buyer organization
+        DefaultCatalogID:
+          type: string
+          description: The identifier of the default catalog to assign
+        Active:
+          type: boolean
+          description: Whether the buyer should be active on creation
+          default: true
+        xp:
+          type: object
+          description: Extended properties for custom buyer attributes
+          additionalProperties: true
+    ErrorDetail:
+      type: object
+      description: A single error detail
+      properties:
+        ErrorCode:
+          type: string
+          description: The machine-readable error code
+        Message:
+          type: string
+          description: A human-readable description of the error
+        Data:
+          type: object
+          description: Additional data about the error context
+          additionalProperties: true
   securitySchemes:
     bearerAuth:
       type: http

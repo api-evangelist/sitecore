@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: Sitecore Content Hub REST Search API
-  description: The Sitecore Content Hub REST API is a hypermedia API built on HTTP that provides programmatic access to the full range of Content Hub resources, including entities, assets, jobs, search, selections, upload, and audit logs. Developers use it to automate digital asset management workflows, migrate content, build custom integrations, and manage Content Hub configuration. The API supports standard CRUD operations and is authenticated using OAuth 2.0 tokens obtained from the Content Hub identity provider. Navigation between resources uses hyperlinks rather than hardcoded URL patterns. The base URL is tenant-specific and corresponds to the URL of the Content Hub instance followed by /api/.
+  description: The Sitecore Content Hub REST API is a hypermedia API built on HTTP that provides programmatic access to the full range of Content Hub resources, including entities, assets, jobs, search, selections, upload, and audit logs.
   version: v1
   contact:
     name: Sitecore Support
@@ -45,58 +45,20 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
+  responses:
+    BadRequest:
+      description: The request body or parameters are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Authentication token is missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   schemas:
-    SearchRequest:
-      type: object
-      description: A search request for querying entities with faceting
-      properties:
-        query:
-          type: string
-          description: Full-text search query string
-        filters:
-          type: array
-          description: Structured filters to apply to the search
-          items:
-            type: object
-            additionalProperties: true
-        skip:
-          type: integer
-          description: Number of results to skip
-          default: 0
-        take:
-          type: integer
-          description: Maximum number of results to return
-          default: 25
-        facets:
-          type: array
-          description: Facet field names to include in the response
-          items:
-            type: string
-    FacetValue:
-      type: object
-      description: A single facet value with its count in search results
-      properties:
-        value:
-          type: string
-          description: The facet value
-        count:
-          type: integer
-          description: The number of matching entities with this value
-    ErrorResponse:
-      type: object
-      description: An error response body
-      properties:
-        message:
-          type: string
-          description: A human-readable error message
-        statusCode:
-          type: integer
-          description: The HTTP status code
-        errors:
-          type: array
-          description: List of detailed error messages
-          items:
-            type: string
     SystemProperties:
       type: object
       description: System-managed metadata properties on a Content Hub entity
@@ -134,6 +96,21 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/FacetValue'
+    ErrorResponse:
+      type: object
+      description: An error response body
+      properties:
+        message:
+          type: string
+          description: A human-readable error message
+        statusCode:
+          type: integer
+          description: The HTTP status code
+        errors:
+          type: array
+          description: List of detailed error messages
+          items:
+            type: string
     Entity:
       type: object
       description: A Content Hub entity representing any resource such as an asset or taxonomy node
@@ -168,19 +145,42 @@ components:
           additionalProperties:
             type: string
             format: uri
-  responses:
-    Unauthorized:
-      description: Authentication token is missing or invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    BadRequest:
-      description: The request body or parameters are invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
+    SearchRequest:
+      type: object
+      description: A search request for querying entities with faceting
+      properties:
+        query:
+          type: string
+          description: Full-text search query string
+        filters:
+          type: array
+          description: Structured filters to apply to the search
+          items:
+            type: object
+            additionalProperties: true
+        skip:
+          type: integer
+          description: Number of results to skip
+          default: 0
+        take:
+          type: integer
+          description: Maximum number of results to return
+          default: 25
+        facets:
+          type: array
+          description: Facet field names to include in the response
+          items:
+            type: string
+    FacetValue:
+      type: object
+      description: A single facet value with its count in search results
+      properties:
+        value:
+          type: string
+          description: The facet value
+        count:
+          type: integer
+          description: The number of matching entities with this value
   securitySchemes:
     bearerAuth:
       type: http

@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: Sitecore XM Cloud REST Pages API
-  description: 'The Sitecore XM Cloud REST API provides endpoints for creating and managing collections, sites, pages, languages, and publishing jobs within an XM Cloud tenant. It covers the full lifecycle of site and collection management through the XM Apps system, exposes page authoring operations, and enables programmatic control of publishing workflows. The API follows RESTful conventions and is authenticated via OAuth 2.0 tokens obtained from the Sitecore Cloud Portal automation client credentials. It is organized into several functional areas: the Sites API for managing sites, site collections, and languages; the Pages API for managing site pages; and the Publishing API for creating, monitoring, and managing publishing jobs.'
+  description: The Sitecore XM Cloud REST API provides endpoints for creating and managing collections, sites, pages, languages, and publishing jobs within an XM Cloud tenant.
   version: v1
   contact:
     name: Sitecore Support
@@ -105,71 +105,26 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  parameters:
-    environmentId:
-      name: sc_env
-      in: query
-      description: The XM Cloud environment identifier
-      required: false
-      schema:
-        type: string
-    siteQueryParam:
-      name: siteId
-      in: query
-      description: Filter results by site identifier
-      required: false
-      schema:
-        type: string
-    version:
-      name: version
-      in: query
-      description: Content version number to retrieve
-      required: false
-      schema:
-        type: integer
-    language:
-      name: language
-      in: query
-      description: Language code for the content (e.g., en, fr-FR)
-      required: false
-      schema:
-        type: string
-    pageId:
-      name: pageId
-      in: path
-      description: The unique identifier of the page item
-      required: true
-      schema:
-        type: string
+  responses:
+    BadRequest:
+      description: The request body or parameters are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+    Unauthorized:
+      description: Authentication token is missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
   schemas:
-    CreatePageRequest:
-      type: object
-      description: Request body for creating a new page
-      required:
-      - name
-      - parentId
-      - templateId
-      - siteId
-      - language
-      properties:
-        name:
-          type: string
-          description: The item name for the new page
-        displayName:
-          type: string
-          description: The display name for the new page
-        parentId:
-          type: string
-          description: The identifier of the parent item under which the page is created
-        templateId:
-          type: string
-          description: The identifier of the template to use for the page
-        siteId:
-          type: string
-          description: The identifier of the site to create the page in
-        language:
-          type: string
-          description: The language of the initial page version
     Page:
       type: object
       description: A page item within an XM Cloud site
@@ -225,25 +180,70 @@ components:
         instance:
           type: string
           description: A URI reference identifying the specific occurrence of the problem
-  responses:
-    Unauthorized:
-      description: Authentication token is missing or invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ProblemDetails'
-    NotFound:
-      description: The requested resource was not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ProblemDetails'
-    BadRequest:
-      description: The request body or parameters are invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ProblemDetails'
+    CreatePageRequest:
+      type: object
+      description: Request body for creating a new page
+      required:
+      - name
+      - parentId
+      - templateId
+      - siteId
+      - language
+      properties:
+        name:
+          type: string
+          description: The item name for the new page
+        displayName:
+          type: string
+          description: The display name for the new page
+        parentId:
+          type: string
+          description: The identifier of the parent item under which the page is created
+        templateId:
+          type: string
+          description: The identifier of the template to use for the page
+        siteId:
+          type: string
+          description: The identifier of the site to create the page in
+        language:
+          type: string
+          description: The language of the initial page version
+  parameters:
+    environmentId:
+      name: sc_env
+      in: query
+      description: The XM Cloud environment identifier
+      required: false
+      schema:
+        type: string
+    version:
+      name: version
+      in: query
+      description: Content version number to retrieve
+      required: false
+      schema:
+        type: integer
+    pageId:
+      name: pageId
+      in: path
+      description: The unique identifier of the page item
+      required: true
+      schema:
+        type: string
+    siteQueryParam:
+      name: siteId
+      in: query
+      description: Filter results by site identifier
+      required: false
+      schema:
+        type: string
+    language:
+      name: language
+      in: query
+      description: Language code for the content (e.g., en, fr-FR)
+      required: false
+      schema:
+        type: string
   securitySchemes:
     bearerAuth:
       type: http

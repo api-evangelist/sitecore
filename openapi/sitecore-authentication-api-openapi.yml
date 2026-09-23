@@ -105,6 +105,19 @@ paths:
     - url: https://api.ordercloud.io/v1
       description: OrderCloud Production Server
 components:
+  responses:
+    BadRequest:
+      description: The request body or parameters are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Authentication token is missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   schemas:
     TokenCreateRequest:
       type: object
@@ -156,6 +169,32 @@ components:
         refreshToken:
           type: string
           description: The refresh token from a previous authentication response
+    TokenResponse_2:
+      type: object
+      description: OAuth 2.0 token response
+      properties:
+        access_token:
+          type: string
+          description: The bearer access token to include in API requests
+        token_type:
+          type: string
+          description: The token type, always Bearer
+          example: Bearer
+        expires_in:
+          type: integer
+          description: Time in seconds until the token expires
+        refresh_token:
+          type: string
+          description: Refresh token for obtaining a new access token
+    ErrorResponse_2:
+      type: object
+      description: An error response body
+      properties:
+        Errors:
+          type: array
+          description: List of error details
+          items:
+            $ref: '#/components/schemas/ErrorDetail'
     TokenRequest:
       type: object
       description: OAuth 2.0 token request parameters
@@ -185,23 +224,6 @@ components:
         refresh_token:
           type: string
           description: The refresh token (required for refresh_token grant)
-    TokenResponse_2:
-      type: object
-      description: OAuth 2.0 token response
-      properties:
-        access_token:
-          type: string
-          description: The bearer access token to include in API requests
-        token_type:
-          type: string
-          description: The token type, always Bearer
-          example: Bearer
-        expires_in:
-          type: integer
-          description: Time in seconds until the token expires
-        refresh_token:
-          type: string
-          description: Refresh token for obtaining a new access token
     ErrorDetail:
       type: object
       description: A single error detail
@@ -216,28 +238,6 @@ components:
           type: object
           description: Additional data about the error context
           additionalProperties: true
-    ErrorResponse_2:
-      type: object
-      description: An error response body
-      properties:
-        Errors:
-          type: array
-          description: List of error details
-          items:
-            $ref: '#/components/schemas/ErrorDetail'
-  responses:
-    Unauthorized:
-      description: Authentication token is missing or invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    BadRequest:
-      description: The request body or parameters are invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
   securitySchemes:
     bearerAuth:
       type: http

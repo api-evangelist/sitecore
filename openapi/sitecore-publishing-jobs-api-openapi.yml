@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: Sitecore XM Cloud REST Publishing Jobs API
-  description: 'The Sitecore XM Cloud REST API provides endpoints for creating and managing collections, sites, pages, languages, and publishing jobs within an XM Cloud tenant. It covers the full lifecycle of site and collection management through the XM Apps system, exposes page authoring operations, and enables programmatic control of publishing workflows. The API follows RESTful conventions and is authenticated via OAuth 2.0 tokens obtained from the Sitecore Cloud Portal automation client credentials. It is organized into several functional areas: the Sites API for managing sites, site collections, and languages; the Pages API for managing site pages; and the Publishing API for creating, monitoring, and managing publishing jobs.'
+  description: The Sitecore XM Cloud REST API provides endpoints for creating and managing collections, sites, pages, languages, and publishing jobs within an XM Cloud tenant.
   version: v1
   contact:
     name: Sitecore Support
@@ -139,7 +139,49 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
+  responses:
+    BadRequest:
+      description: The request body or parameters are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+    Unauthorized:
+      description: Authentication token is missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
   schemas:
+    CreatePublishingJobRequest:
+      type: object
+      description: Request body for creating a new publishing job
+      required:
+      - targetId
+      properties:
+        targetId:
+          type: string
+          description: The identifier of the publishing target (e.g., Experience Edge)
+        itemIds:
+          type: array
+          description: Specific item identifiers to publish; omit for full publish
+          items:
+            type: string
+        languages:
+          type: array
+          description: Language codes to publish; omit for all languages
+          items:
+            type: string
+        includeSubitems:
+          type: boolean
+          description: Whether to include child items in the publish
+          default: true
     PublishingJobSummary:
       type: object
       description: Statistical summary of publishing jobs for the tenant
@@ -169,59 +211,6 @@ components:
       - Failed
       - Canceled
       - Canceling
-    PublishingJob:
-      type: object
-      description: A publishing job that pushes content to Experience Edge
-      properties:
-        id:
-          type: string
-          description: The unique identifier of the publishing job
-        status:
-          $ref: '#/components/schemas/JobStatus'
-        createdAt:
-          type: string
-          description: The ISO 8601 timestamp when the job was created
-          format: date-time
-        startedAt:
-          type: string
-          description: The ISO 8601 timestamp when the job started processing
-          format: date-time
-        completedAt:
-          type: string
-          description: The ISO 8601 timestamp when the job finished
-          format: date-time
-        totalItems:
-          type: integer
-          description: Total number of items to be processed by the job
-        processedItems:
-          type: integer
-          description: Number of items processed so far
-        failedItems:
-          type: integer
-          description: Number of items that failed to publish
-    CreatePublishingJobRequest:
-      type: object
-      description: Request body for creating a new publishing job
-      required:
-      - targetId
-      properties:
-        targetId:
-          type: string
-          description: The identifier of the publishing target (e.g., Experience Edge)
-        itemIds:
-          type: array
-          description: Specific item identifiers to publish; omit for full publish
-          items:
-            type: string
-        languages:
-          type: array
-          description: Language codes to publish; omit for all languages
-          items:
-            type: string
-        includeSubitems:
-          type: boolean
-          description: Whether to include child items in the publish
-          default: true
     PublishingJobList:
       type: object
       description: A paginated list of publishing jobs
@@ -256,14 +245,37 @@ components:
         instance:
           type: string
           description: A URI reference identifying the specific occurrence of the problem
+    PublishingJob:
+      type: object
+      description: A publishing job that pushes content to Experience Edge
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the publishing job
+        status:
+          $ref: '#/components/schemas/JobStatus'
+        createdAt:
+          type: string
+          description: The ISO 8601 timestamp when the job was created
+          format: date-time
+        startedAt:
+          type: string
+          description: The ISO 8601 timestamp when the job started processing
+          format: date-time
+        completedAt:
+          type: string
+          description: The ISO 8601 timestamp when the job finished
+          format: date-time
+        totalItems:
+          type: integer
+          description: Total number of items to be processed by the job
+        processedItems:
+          type: integer
+          description: Number of items processed so far
+        failedItems:
+          type: integer
+          description: Number of items that failed to publish
   parameters:
-    jobId:
-      name: jobId
-      in: path
-      description: The unique identifier of the publishing job
-      required: true
-      schema:
-        type: string
     environmentId:
       name: sc_env
       in: query
@@ -271,25 +283,13 @@ components:
       required: false
       schema:
         type: string
-  responses:
-    Unauthorized:
-      description: Authentication token is missing or invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ProblemDetails'
-    BadRequest:
-      description: The request body or parameters are invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ProblemDetails'
-    NotFound:
-      description: The requested resource was not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ProblemDetails'
+    jobId:
+      name: jobId
+      in: path
+      description: The unique identifier of the publishing job
+      required: true
+      schema:
+        type: string
   securitySchemes:
     bearerAuth:
       type: http
