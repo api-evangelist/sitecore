@@ -107,72 +107,40 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  parameters:
-    sortBy:
-      name: sort
-      in: query
-      description: Field name and direction to sort results by (e.g., name:asc)
-      required: false
-      schema:
-        type: string
-    pageOffset:
-      name: pageOffset
-      in: query
-      description: Number of records to skip for pagination
-      required: false
-      schema:
-        type: integer
-        minimum: 0
-        default: 0
-    pageSize:
-      name: pageSize
-      in: query
-      description: Number of items to return per page
-      required: false
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-        default: 20
-    resourceId:
-      name: id
-      in: path
-      description: The unique identifier of the resource
-      required: true
-      schema:
-        type: string
-  responses:
-    BadRequest:
-      description: The request body or parameters are invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    NotFound:
-      description: The requested resource was not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Authentication credentials are missing or invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
   schemas:
-    VariantConfig:
+    CreateDecisionModelRequest:
       type: object
-      description: Configuration for a variant within a decision model or flow
+      description: Request body for creating or updating a decision model
+      required:
+      - name
       properties:
-        variantRef:
+        name:
           type: string
-          description: The identifier of the variant
-        split:
+          description: The display name of the decision model
+        status:
+          type: string
+          description: The deployment status of the decision model
+          enum:
+          - DRAFT
+          - TEST
+          - PRODUCTION
+        deploymentConfiguration:
+          type: array
+          description: Variant configuration for the decision model
+          items:
+            $ref: '#/components/schemas/VariantConfig'
+    DecisionModelListResponse:
+      type: object
+      description: A paginated list of decision models
+      properties:
+        items:
+          type: array
+          description: The decision models for the current page
+          items:
+            $ref: '#/components/schemas/DecisionModel'
+        total:
           type: integer
-          description: The percentage of traffic allocated to this variant
-          minimum: 0
-          maximum: 100
+          description: Total number of decision models
     DecisionModel:
       type: object
       description: A decision model that defines targeting and offer selection logic within Sitecore Personalize
@@ -210,27 +178,18 @@ components:
           type: string
           description: The ISO 8601 timestamp when the model was last modified
           format: date-time
-    CreateDecisionModelRequest:
+    VariantConfig:
       type: object
-      description: Request body for creating or updating a decision model
-      required:
-      - name
+      description: Configuration for a variant within a decision model or flow
       properties:
-        name:
+        variantRef:
           type: string
-          description: The display name of the decision model
-        status:
-          type: string
-          description: The deployment status of the decision model
-          enum:
-          - DRAFT
-          - TEST
-          - PRODUCTION
-        deploymentConfiguration:
-          type: array
-          description: Variant configuration for the decision model
-          items:
-            $ref: '#/components/schemas/VariantConfig'
+          description: The identifier of the variant
+        split:
+          type: integer
+          description: The percentage of traffic allocated to this variant
+          minimum: 0
+          maximum: 100
     ErrorResponse:
       type: object
       description: An error response body
@@ -246,18 +205,59 @@ components:
           description: List of detailed error messages
           items:
             type: string
-    DecisionModelListResponse:
-      type: object
-      description: A paginated list of decision models
-      properties:
-        items:
-          type: array
-          description: The decision models for the current page
-          items:
-            $ref: '#/components/schemas/DecisionModel'
-        total:
-          type: integer
-          description: Total number of decision models
+  responses:
+    Unauthorized:
+      description: Authentication credentials are missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: The request body or parameters are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  parameters:
+    pageOffset:
+      name: pageOffset
+      in: query
+      description: Number of records to skip for pagination
+      required: false
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+    resourceId:
+      name: id
+      in: path
+      description: The unique identifier of the resource
+      required: true
+      schema:
+        type: string
+    sortBy:
+      name: sort
+      in: query
+      description: Field name and direction to sort results by (e.g., name:asc)
+      required: false
+      schema:
+        type: string
+    pageSize:
+      name: pageSize
+      in: query
+      description: Number of items to return per page
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
   securitySchemes:
     apiKeyAuth:
       type: apiKey

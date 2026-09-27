@@ -106,6 +106,12 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   responses:
+    Unauthorized:
+      description: Authentication token is missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
     BadRequest:
       description: The request body or parameters are invalid
       content:
@@ -118,49 +124,43 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ProblemDetails'
-    Unauthorized:
-      description: Authentication token is missing or invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ProblemDetails'
+  parameters:
+    environmentId:
+      name: sc_env
+      in: query
+      description: The XM Cloud environment identifier
+      required: false
+      schema:
+        type: string
+    version:
+      name: version
+      in: query
+      description: Content version number to retrieve
+      required: false
+      schema:
+        type: integer
+    pageId:
+      name: pageId
+      in: path
+      description: The unique identifier of the page item
+      required: true
+      schema:
+        type: string
+    siteQueryParam:
+      name: siteId
+      in: query
+      description: Filter results by site identifier
+      required: false
+      schema:
+        type: string
+    language:
+      name: language
+      in: query
+      description: Language code for the content (e.g., en, fr-FR)
+      required: false
+      schema:
+        type: string
   schemas:
-    Page:
-      type: object
-      description: A page item within an XM Cloud site
-      properties:
-        id:
-          type: string
-          description: The unique Sitecore item identifier for the page
-        name:
-          type: string
-          description: The item name of the page
-        displayName:
-          type: string
-          description: The display name of the page shown in navigation
-        path:
-          type: string
-          description: The Sitecore item path of the page
-        language:
-          type: string
-          description: The language of the page content
-        version:
-          type: integer
-          description: The version number of the page content
-        templateId:
-          type: string
-          description: The identifier of the template used by this page
-        publishingState:
-          type: string
-          description: The current publishing state of the page
-          enum:
-          - Draft
-          - Published
-          - NeedsPublishing
-        url:
-          type: string
-          description: The relative URL of the page within the site
-          format: uri
     ProblemDetails:
       type: object
       description: RFC 7807 problem details response for errors
@@ -208,42 +208,42 @@ components:
         language:
           type: string
           description: The language of the initial page version
-  parameters:
-    environmentId:
-      name: sc_env
-      in: query
-      description: The XM Cloud environment identifier
-      required: false
-      schema:
-        type: string
-    version:
-      name: version
-      in: query
-      description: Content version number to retrieve
-      required: false
-      schema:
-        type: integer
-    pageId:
-      name: pageId
-      in: path
-      description: The unique identifier of the page item
-      required: true
-      schema:
-        type: string
-    siteQueryParam:
-      name: siteId
-      in: query
-      description: Filter results by site identifier
-      required: false
-      schema:
-        type: string
-    language:
-      name: language
-      in: query
-      description: Language code for the content (e.g., en, fr-FR)
-      required: false
-      schema:
-        type: string
+    Page:
+      type: object
+      description: A page item within an XM Cloud site
+      properties:
+        id:
+          type: string
+          description: The unique Sitecore item identifier for the page
+        name:
+          type: string
+          description: The item name of the page
+        displayName:
+          type: string
+          description: The display name of the page shown in navigation
+        path:
+          type: string
+          description: The Sitecore item path of the page
+        language:
+          type: string
+          description: The language of the page content
+        version:
+          type: integer
+          description: The version number of the page content
+        templateId:
+          type: string
+          description: The identifier of the template used by this page
+        publishingState:
+          type: string
+          description: The current publishing state of the page
+          enum:
+          - Draft
+          - Published
+          - NeedsPublishing
+        url:
+          type: string
+          description: The relative URL of the page within the site
+          format: uri
   securitySchemes:
     bearerAuth:
       type: http

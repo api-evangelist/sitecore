@@ -177,39 +177,22 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
+  parameters:
+    environmentId:
+      name: sc_env
+      in: query
+      description: The XM Cloud environment identifier
+      required: false
+      schema:
+        type: string
+    collectionId:
+      name: collectionId
+      in: path
+      description: The unique identifier of the site collection
+      required: true
+      schema:
+        type: string
   schemas:
-    ValidateNameResponse:
-      type: object
-      description: Result of a name validation check
-      properties:
-        isValid:
-          type: boolean
-          description: Whether the name is valid and available
-        errors:
-          type: array
-          description: List of validation error messages if the name is invalid
-          items:
-            type: string
-    ValidateNameRequest:
-      type: object
-      description: Request body for validating a name
-      required:
-      - name
-      properties:
-        name:
-          type: string
-          description: The name to validate
-    SortRequest:
-      type: object
-      description: Request body for updating the sort order of items
-      required:
-      - ids
-      properties:
-        ids:
-          type: array
-          description: Ordered list of item identifiers representing the new sort order
-          items:
-            type: string
     CreateCollectionRequest:
       type: object
       description: Request body for creating or updating a site collection
@@ -223,6 +206,15 @@ components:
         displayName:
           type: string
           description: The human-readable display name for the collection
+    ValidateNameRequest:
+      type: object
+      description: Request body for validating a name
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          description: The name to validate
     ProblemDetails:
       type: object
       description: RFC 7807 problem details response for errors
@@ -242,16 +234,17 @@ components:
         instance:
           type: string
           description: A URI reference identifying the specific occurrence of the problem
-    SiteSummary:
+    SortRequest:
       type: object
-      description: A summary representation of a site within a collection
+      description: Request body for updating the sort order of items
+      required:
+      - ids
       properties:
-        id:
-          type: string
-          description: The unique identifier of the site
-        name:
-          type: string
-          description: The name of the site
+        ids:
+          type: array
+          description: Ordered list of item identifiers representing the new sort order
+          items:
+            type: string
     SiteCollection:
       type: object
       description: A site collection that groups related sites within an XM Cloud tenant
@@ -273,13 +266,29 @@ components:
           description: Sites contained within this collection
           items:
             $ref: '#/components/schemas/SiteSummary'
+    ValidateNameResponse:
+      type: object
+      description: Result of a name validation check
+      properties:
+        isValid:
+          type: boolean
+          description: Whether the name is valid and available
+        errors:
+          type: array
+          description: List of validation error messages if the name is invalid
+          items:
+            type: string
+    SiteSummary:
+      type: object
+      description: A summary representation of a site within a collection
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the site
+        name:
+          type: string
+          description: The name of the site
   responses:
-    NotFound:
-      description: The requested resource was not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ProblemDetails'
     BadRequest:
       description: The request body or parameters are invalid
       content:
@@ -292,21 +301,12 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ProblemDetails'
-  parameters:
-    environmentId:
-      name: sc_env
-      in: query
-      description: The XM Cloud environment identifier
-      required: false
-      schema:
-        type: string
-    collectionId:
-      name: collectionId
-      in: path
-      description: The unique identifier of the site collection
-      required: true
-      schema:
-        type: string
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
   securitySchemes:
     bearerAuth:
       type: http

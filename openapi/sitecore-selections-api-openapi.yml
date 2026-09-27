@@ -63,33 +63,19 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   responses:
-    BadRequest:
-      description: The request body or parameters are invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
     Unauthorized:
       description: Authentication token is missing or invalid
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: The request body or parameters are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   schemas:
-    CreateSelectionRequest:
-      type: object
-      description: Request body for creating a selection
-      required:
-      - entityIds
-      properties:
-        name:
-          type: string
-          description: Optional name for the selection pool
-        entityIds:
-          type: array
-          description: Entity identifiers to include in the selection
-          items:
-            type: integer
     Selection:
       type: object
       description: A named selection pool containing entity identifiers
@@ -124,6 +110,20 @@ components:
           description: List of detailed error messages
           items:
             type: string
+    CreateSelectionRequest:
+      type: object
+      description: Request body for creating a selection
+      required:
+      - entityIds
+      properties:
+        name:
+          type: string
+          description: Optional name for the selection pool
+        entityIds:
+          type: array
+          description: Entity identifiers to include in the selection
+          items:
+            type: integer
   securitySchemes:
     bearerAuth:
       type: http

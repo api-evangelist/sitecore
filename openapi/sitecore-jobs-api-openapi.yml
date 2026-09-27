@@ -54,6 +54,18 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
+    JobListResponse:
+      type: object
+      description: A paginated list of job configurations
+      properties:
+        items:
+          type: array
+          description: The job targets
+          items:
+            $ref: '#/components/schemas/Job'
+        totalCount:
+          type: integer
+          description: Total number of jobs
     Job:
       type: object
       description: A background job target in Content Hub
@@ -95,18 +107,6 @@ components:
           description: List of detailed error messages
           items:
             type: string
-    JobListResponse:
-      type: object
-      description: A paginated list of job configurations
-      properties:
-        items:
-          type: array
-          description: The job targets
-          items:
-            $ref: '#/components/schemas/Job'
-        totalCount:
-          type: integer
-          description: Total number of jobs
   responses:
     Unauthorized:
       description: Authentication token is missing or invalid

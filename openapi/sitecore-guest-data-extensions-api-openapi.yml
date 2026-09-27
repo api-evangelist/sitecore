@@ -165,25 +165,6 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  responses:
-    BadRequest:
-      description: The request body or parameters are invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    NotFound:
-      description: The requested resource was not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Authentication credentials are missing or invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
   parameters:
     guestRef:
       name: guestRef
@@ -200,6 +181,19 @@ components:
       schema:
         type: string
   schemas:
+    DataExtension:
+      type: object
+      description: A named set of custom key-value pairs attached to a guest or order
+      properties:
+        name:
+          type: string
+          description: The unique name identifying this data extension
+        key:
+          type: string
+          description: The key within the data extension (for single-pair extensions)
+        value:
+          type: string
+          description: The value for the specified key
     ErrorResponse:
       type: object
       description: An error response body
@@ -215,19 +209,25 @@ components:
           description: List of detailed error messages
           items:
             type: string
-    DataExtension:
-      type: object
-      description: A named set of custom key-value pairs attached to a guest or order
-      properties:
-        name:
-          type: string
-          description: The unique name identifying this data extension
-        key:
-          type: string
-          description: The key within the data extension (for single-pair extensions)
-        value:
-          type: string
-          description: The value for the specified key
+  responses:
+    Unauthorized:
+      description: Authentication credentials are missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: The request body or parameters are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   securitySchemes:
     basicAuth:
       type: http

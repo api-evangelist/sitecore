@@ -163,6 +163,22 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   parameters:
+    page:
+      name: page
+      in: query
+      description: Page number to retrieve (1-indexed)
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+    productID:
+      name: productID
+      in: path
+      description: The unique identifier of the product
+      required: true
+      schema:
+        type: string
     sortBy:
       name: sortBy
       in: query
@@ -180,22 +196,6 @@ components:
         minimum: 1
         maximum: 100
         default: 20
-    productID:
-      name: productID
-      in: path
-      description: The unique identifier of the product
-      required: true
-      schema:
-        type: string
-    page:
-      name: page
-      in: query
-      description: Page number to retrieve (1-indexed)
-      required: false
-      schema:
-        type: integer
-        minimum: 1
-        default: 1
     search:
       name: search
       in: query
@@ -203,52 +203,7 @@ components:
       required: false
       schema:
         type: string
-  responses:
-    BadRequest:
-      description: The request body or parameters are invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    NotFound:
-      description: The requested resource was not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Authentication token is missing or invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
   schemas:
-    CreateProductRequest:
-      type: object
-      description: Request body for creating or updating a product
-      required:
-      - Name
-      properties:
-        ID:
-          type: string
-          description: Optional custom identifier for the product
-        Name:
-          type: string
-          description: The display name of the product
-        Description:
-          type: string
-          description: The detailed description of the product
-        Active:
-          type: boolean
-          description: Whether the product should be active
-          default: false
-        DefaultPriceScheduleID:
-          type: string
-          description: The identifier of the default price schedule
-        xp:
-          type: object
-          description: Extended properties for custom product attributes
-          additionalProperties: true
     Product:
       type: object
       description: A product available for purchase within the OrderCloud catalog
@@ -294,15 +249,6 @@ components:
           type: object
           description: Extended properties for custom product attributes
           additionalProperties: true
-    ErrorResponse:
-      type: object
-      description: An error response body
-      properties:
-        Errors:
-          type: array
-          description: List of error details
-          items:
-            $ref: '#/components/schemas/ErrorDetail'
     Inventory:
       type: object
       description: Inventory tracking configuration for a product
@@ -344,6 +290,15 @@ components:
           description: The inclusive range [start, end] of item indexes for this page
           items:
             type: integer
+    ErrorResponse:
+      type: object
+      description: An error response body
+      properties:
+        Errors:
+          type: array
+          description: List of error details
+          items:
+            $ref: '#/components/schemas/ErrorDetail'
     ErrorDetail:
       type: object
       description: A single error detail
@@ -358,6 +313,32 @@ components:
           type: object
           description: Additional data about the error context
           additionalProperties: true
+    CreateProductRequest:
+      type: object
+      description: Request body for creating or updating a product
+      required:
+      - Name
+      properties:
+        ID:
+          type: string
+          description: Optional custom identifier for the product
+        Name:
+          type: string
+          description: The display name of the product
+        Description:
+          type: string
+          description: The detailed description of the product
+        Active:
+          type: boolean
+          description: Whether the product should be active
+          default: false
+        DefaultPriceScheduleID:
+          type: string
+          description: The identifier of the default price schedule
+        xp:
+          type: object
+          description: Extended properties for custom product attributes
+          additionalProperties: true
     ProductListResponse:
       type: object
       description: A paginated list of products
@@ -369,6 +350,25 @@ components:
           description: The products for the current page
           items:
             $ref: '#/components/schemas/Product'
+  responses:
+    Unauthorized:
+      description: Authentication token is missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: The request body or parameters are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   securitySchemes:
     bearerAuth:
       type: http

@@ -49,27 +49,6 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
-  responses:
-    BadRequest:
-      description: The request body or parameters are invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Authentication token is missing or invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-  parameters:
-    customerKey:
-      name: customerKey
-      in: query
-      description: The customer key identifying the Sitecore Discover account. Found in the Customer Engagement Console under Developer Resources > API Access.
-      required: false
-      schema:
-        type: string
   schemas:
     FeedUpdateResponse:
       type: object
@@ -92,21 +71,25 @@ components:
           description: List of error details for failed products
           items:
             type: string
-    ErrorResponse:
+    IncrementalFeedRequest:
       type: object
-      description: An error response body
+      description: Request body for incrementally updating the product catalog
+      required:
+      - operation
+      - products
       properties:
-        message:
+        operation:
           type: string
-          description: A human-readable error message
-        statusCode:
-          type: integer
-          description: The HTTP status code
-        errors:
+          description: The operation to perform on the products
+          enum:
+          - add
+          - update
+          - delete
+        products:
           type: array
-          description: List of detailed error messages
+          description: The products to add, update, or delete
           items:
-            type: string
+            $ref: '#/components/schemas/FeedProduct'
     FeedProduct:
       type: object
       description: A product record for the Discover catalog feed
@@ -150,25 +133,42 @@ components:
         in_stock:
           type: boolean
           description: Whether the product is currently in stock
-    IncrementalFeedRequest:
+    ErrorResponse:
       type: object
-      description: Request body for incrementally updating the product catalog
-      required:
-      - operation
-      - products
+      description: An error response body
       properties:
-        operation:
+        message:
           type: string
-          description: The operation to perform on the products
-          enum:
-          - add
-          - update
-          - delete
-        products:
+          description: A human-readable error message
+        statusCode:
+          type: integer
+          description: The HTTP status code
+        errors:
           type: array
-          description: The products to add, update, or delete
+          description: List of detailed error messages
           items:
-            $ref: '#/components/schemas/FeedProduct'
+            type: string
+  responses:
+    Unauthorized:
+      description: Authentication token is missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: The request body or parameters are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  parameters:
+    customerKey:
+      name: customerKey
+      in: query
+      description: The customer key identifying the Sitecore Discover account. Found in the Customer Engagement Console under Developer Resources > API Access.
+      required: false
+      schema:
+        type: string
   securitySchemes:
     bearerAuth:
       type: http

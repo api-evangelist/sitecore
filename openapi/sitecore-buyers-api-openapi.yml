@@ -124,6 +124,22 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   parameters:
+    page:
+      name: page
+      in: query
+      description: Page number to retrieve (1-indexed)
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+    buyerID:
+      name: buyerID
+      in: path
+      description: The unique identifier of the buyer organization
+      required: true
+      schema:
+        type: string
     sortBy:
       name: sortBy
       in: query
@@ -148,23 +164,13 @@ components:
       required: false
       schema:
         type: string
-    buyerID:
-      name: buyerID
-      in: path
-      description: The unique identifier of the buyer organization
-      required: true
-      schema:
-        type: string
-    page:
-      name: page
-      in: query
-      description: Page number to retrieve (1-indexed)
-      required: false
-      schema:
-        type: integer
-        minimum: 1
-        default: 1
   responses:
+    Unauthorized:
+      description: Authentication token is missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
     BadRequest:
       description: The request body or parameters are invalid
       content:
@@ -173,12 +179,6 @@ components:
             $ref: '#/components/schemas/ErrorResponse'
     NotFound:
       description: The requested resource was not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Authentication token is missing or invalid
       content:
         application/json:
           schema:
@@ -205,17 +205,6 @@ components:
           description: The inclusive range [start, end] of item indexes for this page
           items:
             type: integer
-    BuyerListResponse:
-      type: object
-      description: A paginated list of buyers
-      properties:
-        Meta:
-          $ref: '#/components/schemas/ListMetadata'
-        Items:
-          type: array
-          description: The buyers for the current page
-          items:
-            $ref: '#/components/schemas/Buyer'
     Buyer:
       type: object
       description: A buyer organization in the OrderCloud marketplace
@@ -282,6 +271,17 @@ components:
           type: object
           description: Additional data about the error context
           additionalProperties: true
+    BuyerListResponse:
+      type: object
+      description: A paginated list of buyers
+      properties:
+        Meta:
+          $ref: '#/components/schemas/ListMetadata'
+        Items:
+          type: array
+          description: The buyers for the current page
+          items:
+            $ref: '#/components/schemas/Buyer'
   securitySchemes:
     bearerAuth:
       type: http

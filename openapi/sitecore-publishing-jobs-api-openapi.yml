@@ -139,49 +139,22 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
-  responses:
-    BadRequest:
-      description: The request body or parameters are invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ProblemDetails'
-    NotFound:
-      description: The requested resource was not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ProblemDetails'
-    Unauthorized:
-      description: Authentication token is missing or invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ProblemDetails'
   schemas:
-    CreatePublishingJobRequest:
+    PublishingJobList:
       type: object
-      description: Request body for creating a new publishing job
-      required:
-      - targetId
+      description: A paginated list of publishing jobs
       properties:
-        targetId:
-          type: string
-          description: The identifier of the publishing target (e.g., Experience Edge)
-        itemIds:
+        items:
           type: array
-          description: Specific item identifiers to publish; omit for full publish
+          description: The list of publishing jobs for the current page
           items:
-            type: string
-        languages:
-          type: array
-          description: Language codes to publish; omit for all languages
-          items:
-            type: string
-        includeSubitems:
-          type: boolean
-          description: Whether to include child items in the publish
-          default: true
+            $ref: '#/components/schemas/PublishingJob'
+        totalCount:
+          type: integer
+          description: The total number of jobs matching the query
+        pageSize:
+          type: integer
+          description: The number of items returned per page
     PublishingJobSummary:
       type: object
       description: Statistical summary of publishing jobs for the tenant
@@ -211,21 +184,29 @@ components:
       - Failed
       - Canceled
       - Canceling
-    PublishingJobList:
+    CreatePublishingJobRequest:
       type: object
-      description: A paginated list of publishing jobs
+      description: Request body for creating a new publishing job
+      required:
+      - targetId
       properties:
-        items:
+        targetId:
+          type: string
+          description: The identifier of the publishing target (e.g., Experience Edge)
+        itemIds:
           type: array
-          description: The list of publishing jobs for the current page
+          description: Specific item identifiers to publish; omit for full publish
           items:
-            $ref: '#/components/schemas/PublishingJob'
-        totalCount:
-          type: integer
-          description: The total number of jobs matching the query
-        pageSize:
-          type: integer
-          description: The number of items returned per page
+            type: string
+        languages:
+          type: array
+          description: Language codes to publish; omit for all languages
+          items:
+            type: string
+        includeSubitems:
+          type: boolean
+          description: Whether to include child items in the publish
+          default: true
     ProblemDetails:
       type: object
       description: RFC 7807 problem details response for errors
@@ -275,6 +256,25 @@ components:
         failedItems:
           type: integer
           description: Number of items that failed to publish
+  responses:
+    Unauthorized:
+      description: Authentication token is missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+    BadRequest:
+      description: The request body or parameters are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
   parameters:
     environmentId:
       name: sc_env

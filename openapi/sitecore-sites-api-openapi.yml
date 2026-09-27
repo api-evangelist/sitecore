@@ -179,27 +179,31 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
-    ValidateNameResponse:
+    CreateSiteRequest:
       type: object
-      description: Result of a name validation check
-      properties:
-        isValid:
-          type: boolean
-          description: Whether the name is valid and available
-        errors:
-          type: array
-          description: List of validation error messages if the name is invalid
-          items:
-            type: string
-    ValidateNameRequest:
-      type: object
-      description: Request body for validating a name
+      description: Request body for creating a new site
       required:
       - name
+      - collectionId
+      - language
       properties:
         name:
           type: string
-          description: The name to validate
+          description: The name of the new site
+          maxLength: 100
+        displayName:
+          type: string
+          description: The human-readable display name for the site
+        collectionId:
+          type: string
+          description: The identifier of the parent site collection
+        language:
+          type: string
+          description: The default language ISO code for the site
+          example: en
+        templateId:
+          type: string
+          description: The identifier of the site template to use for creation
     Language:
       type: object
       description: A language configuration for a tenant or site
@@ -216,31 +220,15 @@ components:
           type: string
           description: The language name in its native script
           example: English
-    SortRequest:
+    ValidateNameRequest:
       type: object
-      description: Request body for updating the sort order of items
+      description: Request body for validating a name
       required:
-      - ids
+      - name
       properties:
-        ids:
-          type: array
-          description: Ordered list of item identifiers representing the new sort order
-          items:
-            type: string
-    RenderingHost:
-      type: object
-      description: A rendering host endpoint that can be assigned to a site
-      properties:
-        id:
-          type: string
-          description: The unique identifier of the rendering host
         name:
           type: string
-          description: The display name of the rendering host
-        url:
-          type: string
-          description: The URL of the rendering host endpoint
-          format: uri
+          description: The name to validate
     ProblemDetails:
       type: object
       description: RFC 7807 problem details response for errors
@@ -260,6 +248,20 @@ components:
         instance:
           type: string
           description: A URI reference identifying the specific occurrence of the problem
+    RenderingHost:
+      type: object
+      description: A rendering host endpoint that can be assigned to a site
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the rendering host
+        name:
+          type: string
+          description: The display name of the rendering host
+        url:
+          type: string
+          description: The URL of the rendering host endpoint
+          format: uri
     Site:
       type: object
       description: A website managed within an XM Cloud site collection
@@ -287,38 +289,30 @@ components:
         renderingHost:
           type: string
           description: The URL of the rendering host assigned to this site
-    CreateSiteRequest:
+    SortRequest:
       type: object
-      description: Request body for creating a new site
+      description: Request body for updating the sort order of items
       required:
-      - name
-      - collectionId
-      - language
+      - ids
       properties:
-        name:
-          type: string
-          description: The name of the new site
-          maxLength: 100
-        displayName:
-          type: string
-          description: The human-readable display name for the site
-        collectionId:
-          type: string
-          description: The identifier of the parent site collection
-        language:
-          type: string
-          description: The default language ISO code for the site
-          example: en
-        templateId:
-          type: string
-          description: The identifier of the site template to use for creation
+        ids:
+          type: array
+          description: Ordered list of item identifiers representing the new sort order
+          items:
+            type: string
+    ValidateNameResponse:
+      type: object
+      description: Result of a name validation check
+      properties:
+        isValid:
+          type: boolean
+          description: Whether the name is valid and available
+        errors:
+          type: array
+          description: List of validation error messages if the name is invalid
+          items:
+            type: string
   responses:
-    NotFound:
-      description: The requested resource was not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ProblemDetails'
     Unauthorized:
       description: Authentication token is missing or invalid
       content:
@@ -331,19 +325,25 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ProblemDetails'
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
   parameters:
-    siteId:
-      name: siteId
-      in: path
-      description: The unique identifier of the site
-      required: true
-      schema:
-        type: string
     environmentId:
       name: sc_env
       in: query
       description: The XM Cloud environment identifier
       required: false
+      schema:
+        type: string
+    siteId:
+      name: siteId
+      in: path
+      description: The unique identifier of the site
+      required: true
       schema:
         type: string
   securitySchemes:

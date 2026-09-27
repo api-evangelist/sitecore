@@ -188,69 +188,22 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  responses:
-    BadRequest:
-      description: The request body or parameters are invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    NotFound:
-      description: The requested resource was not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Authentication token is missing or invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
   schemas:
-    CreateEntityRequest:
+    LifecycleRequest:
       type: object
-      description: Request body for creating or updating an entity
+      description: Request body for updating an entity's lifecycle state
       required:
-      - definitionName
+      - state
       properties:
-        definitionName:
+        state:
           type: string
-          description: The name of the entity definition for the new entity
-        identifier:
-          type: string
-          description: Optional custom string identifier for the entity
-        cultures:
-          type: array
-          description: Culture codes for which to set localized properties
-          items:
-            type: string
-        properties:
-          type: object
-          description: Property name to value mappings for the entity
-          additionalProperties: true
-        relations:
-          type: object
-          description: Relation name to entity reference mappings
-          additionalProperties: true
-    EntityListResponse:
-      type: object
-      description: A paginated list of entities
-      properties:
-        items:
-          type: array
-          description: The entities for the current page
-          items:
-            $ref: '#/components/schemas/Entity'
-        totalCount:
-          type: integer
-          description: The total number of entities matching the query
-        skip:
-          type: integer
-          description: The number of entities skipped
-        take:
-          type: integer
-          description: The maximum number of entities returned
+          description: The target lifecycle state for the entity
+          enum:
+          - Draft
+          - InProgress
+          - Approved
+          - Published
+          - Archived
     SystemProperties:
       type: object
       description: System-managed metadata properties on a Content Hub entity
@@ -269,21 +222,6 @@ components:
         modifiedBy:
           type: string
           description: The username of the user who last modified the entity
-    ErrorResponse:
-      type: object
-      description: An error response body
-      properties:
-        message:
-          type: string
-          description: A human-readable error message
-        statusCode:
-          type: integer
-          description: The HTTP status code
-        errors:
-          type: array
-          description: List of detailed error messages
-          items:
-            type: string
     Entity:
       type: object
       description: A Content Hub entity representing any resource such as an asset or taxonomy node
@@ -318,21 +256,83 @@ components:
           additionalProperties:
             type: string
             format: uri
-    LifecycleRequest:
+    CreateEntityRequest:
       type: object
-      description: Request body for updating an entity's lifecycle state
+      description: Request body for creating or updating an entity
       required:
-      - state
+      - definitionName
       properties:
-        state:
+        definitionName:
           type: string
-          description: The target lifecycle state for the entity
-          enum:
-          - Draft
-          - InProgress
-          - Approved
-          - Published
-          - Archived
+          description: The name of the entity definition for the new entity
+        identifier:
+          type: string
+          description: Optional custom string identifier for the entity
+        cultures:
+          type: array
+          description: Culture codes for which to set localized properties
+          items:
+            type: string
+        properties:
+          type: object
+          description: Property name to value mappings for the entity
+          additionalProperties: true
+        relations:
+          type: object
+          description: Relation name to entity reference mappings
+          additionalProperties: true
+    ErrorResponse:
+      type: object
+      description: An error response body
+      properties:
+        message:
+          type: string
+          description: A human-readable error message
+        statusCode:
+          type: integer
+          description: The HTTP status code
+        errors:
+          type: array
+          description: List of detailed error messages
+          items:
+            type: string
+    EntityListResponse:
+      type: object
+      description: A paginated list of entities
+      properties:
+        items:
+          type: array
+          description: The entities for the current page
+          items:
+            $ref: '#/components/schemas/Entity'
+        totalCount:
+          type: integer
+          description: The total number of entities matching the query
+        skip:
+          type: integer
+          description: The number of entities skipped
+        take:
+          type: integer
+          description: The maximum number of entities returned
+  responses:
+    BadRequest:
+      description: The request body or parameters are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Authentication token is missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   parameters:
     entityId:
       name: id

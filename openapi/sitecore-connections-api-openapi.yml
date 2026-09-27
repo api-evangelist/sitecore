@@ -130,6 +130,59 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
+    ConnectionListResponse:
+      type: object
+      description: A paginated list of connections
+      properties:
+        items:
+          type: array
+          description: The connections for the current page
+          items:
+            $ref: '#/components/schemas/Connection'
+        total:
+          type: integer
+          description: Total number of connections
+    CreateConnectionRequest:
+      type: object
+      description: Request body for creating or updating a connection
+      required:
+      - name
+      - connectionUrl
+      - requestType
+      properties:
+        name:
+          type: string
+          description: The display name of the connection
+        description:
+          type: string
+          description: A description of what the connection is used for
+        authType:
+          type: string
+          description: The authentication method
+          enum:
+          - NONE
+          - BASIC
+          - OAUTH
+          - API_KEY
+        connectionUrl:
+          type: string
+          description: The URL of the external service endpoint
+          format: uri
+        requestType:
+          type: string
+          description: The HTTP method for requests
+          enum:
+          - GET
+          - POST
+          - PUT
+          - PATCH
+          - DELETE
+        connectionTimeout:
+          type: integer
+          description: Timeout in milliseconds before aborting the connection
+        socketTimeout:
+          type: integer
+          description: Timeout in milliseconds waiting for response data
     Connection:
       type: object
       description: A connection to an external system used within Sitecore Personalize decision models and flows
@@ -206,86 +259,7 @@ components:
           description: List of detailed error messages
           items:
             type: string
-    ConnectionListResponse:
-      type: object
-      description: A paginated list of connections
-      properties:
-        items:
-          type: array
-          description: The connections for the current page
-          items:
-            $ref: '#/components/schemas/Connection'
-        total:
-          type: integer
-          description: Total number of connections
-    CreateConnectionRequest:
-      type: object
-      description: Request body for creating or updating a connection
-      required:
-      - name
-      - connectionUrl
-      - requestType
-      properties:
-        name:
-          type: string
-          description: The display name of the connection
-        description:
-          type: string
-          description: A description of what the connection is used for
-        authType:
-          type: string
-          description: The authentication method
-          enum:
-          - NONE
-          - BASIC
-          - OAUTH
-          - API_KEY
-        connectionUrl:
-          type: string
-          description: The URL of the external service endpoint
-          format: uri
-        requestType:
-          type: string
-          description: The HTTP method for requests
-          enum:
-          - GET
-          - POST
-          - PUT
-          - PATCH
-          - DELETE
-        connectionTimeout:
-          type: integer
-          description: Timeout in milliseconds before aborting the connection
-        socketTimeout:
-          type: integer
-          description: Timeout in milliseconds waiting for response data
-  responses:
-    NotFound:
-      description: The requested resource was not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    BadRequest:
-      description: The request body or parameters are invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Authentication credentials are missing or invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
   parameters:
-    sortBy:
-      name: sort
-      in: query
-      description: Field name and direction to sort results by (e.g., name:asc)
-      required: false
-      schema:
-        type: string
     pageOffset:
       name: pageOffset
       in: query
@@ -295,6 +269,20 @@ components:
         type: integer
         minimum: 0
         default: 0
+    resourceId:
+      name: id
+      in: path
+      description: The unique identifier of the resource
+      required: true
+      schema:
+        type: string
+    sortBy:
+      name: sort
+      in: query
+      description: Field name and direction to sort results by (e.g., name:asc)
+      required: false
+      schema:
+        type: string
     pageSize:
       name: pageSize
       in: query
@@ -305,13 +293,25 @@ components:
         minimum: 1
         maximum: 100
         default: 20
-    resourceId:
-      name: id
-      in: path
-      description: The unique identifier of the resource
-      required: true
-      schema:
-        type: string
+  responses:
+    Unauthorized:
+      description: Authentication credentials are missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: The request body or parameters are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   securitySchemes:
     apiKeyAuth:
       type: apiKey

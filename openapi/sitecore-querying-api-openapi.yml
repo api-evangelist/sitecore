@@ -46,19 +46,86 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   responses:
-    BadRequest:
-      description: The request body or parameters are invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
     Unauthorized:
       description: Authentication token is missing or invalid
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: The request body or parameters are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   schemas:
+    SystemProperties:
+      type: object
+      description: System-managed metadata properties on a Content Hub entity
+      properties:
+        createdOn:
+          type: string
+          description: The ISO 8601 timestamp when the entity was created
+          format: date-time
+        createdBy:
+          type: string
+          description: The username of the user who created the entity
+        modifiedOn:
+          type: string
+          description: The ISO 8601 timestamp when the entity was last modified
+          format: date-time
+        modifiedBy:
+          type: string
+          description: The username of the user who last modified the entity
+    Entity:
+      type: object
+      description: A Content Hub entity representing any resource such as an asset or taxonomy node
+      properties:
+        id:
+          type: integer
+          description: The numeric identifier of the entity
+        identifier:
+          type: string
+          description: The human-readable string identifier of the entity
+        definitionName:
+          type: string
+          description: The name of the entity definition this entity conforms to
+        cultures:
+          type: array
+          description: Culture codes for which the entity has localized data
+          items:
+            type: string
+        properties:
+          type: object
+          description: Key-value map of entity property names to their values
+          additionalProperties: true
+        relations:
+          type: object
+          description: Key-value map of relation names to related entity references
+          additionalProperties: true
+        systemProperties:
+          $ref: '#/components/schemas/SystemProperties'
+        links:
+          type: object
+          description: Hypermedia links for navigating to related resources
+          additionalProperties:
+            type: string
+            format: uri
+    ErrorResponse:
+      type: object
+      description: An error response body
+      properties:
+        message:
+          type: string
+          description: A human-readable error message
+        statusCode:
+          type: integer
+          description: The HTTP status code
+        errors:
+          type: array
+          description: List of detailed error messages
+          items:
+            type: string
     EntityQuery:
       type: object
       description: A structured query for filtering entities
@@ -98,73 +165,6 @@ components:
         take:
           type: integer
           description: The maximum number of entities returned
-    SystemProperties:
-      type: object
-      description: System-managed metadata properties on a Content Hub entity
-      properties:
-        createdOn:
-          type: string
-          description: The ISO 8601 timestamp when the entity was created
-          format: date-time
-        createdBy:
-          type: string
-          description: The username of the user who created the entity
-        modifiedOn:
-          type: string
-          description: The ISO 8601 timestamp when the entity was last modified
-          format: date-time
-        modifiedBy:
-          type: string
-          description: The username of the user who last modified the entity
-    ErrorResponse:
-      type: object
-      description: An error response body
-      properties:
-        message:
-          type: string
-          description: A human-readable error message
-        statusCode:
-          type: integer
-          description: The HTTP status code
-        errors:
-          type: array
-          description: List of detailed error messages
-          items:
-            type: string
-    Entity:
-      type: object
-      description: A Content Hub entity representing any resource such as an asset or taxonomy node
-      properties:
-        id:
-          type: integer
-          description: The numeric identifier of the entity
-        identifier:
-          type: string
-          description: The human-readable string identifier of the entity
-        definitionName:
-          type: string
-          description: The name of the entity definition this entity conforms to
-        cultures:
-          type: array
-          description: Culture codes for which the entity has localized data
-          items:
-            type: string
-        properties:
-          type: object
-          description: Key-value map of entity property names to their values
-          additionalProperties: true
-        relations:
-          type: object
-          description: Key-value map of relation names to related entity references
-          additionalProperties: true
-        systemProperties:
-          $ref: '#/components/schemas/SystemProperties'
-        links:
-          type: object
-          description: Hypermedia links for navigating to related resources
-          additionalProperties:
-            type: string
-            format: uri
   securitySchemes:
     bearerAuth:
       type: http
