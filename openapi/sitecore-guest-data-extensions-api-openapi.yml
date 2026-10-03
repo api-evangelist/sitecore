@@ -166,13 +166,6 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   parameters:
-    guestRef:
-      name: guestRef
-      in: path
-      description: The unique reference identifier for the guest profile
-      required: true
-      schema:
-        type: string
     dataExtensionName:
       name: dataExtensionName
       in: path
@@ -180,20 +173,14 @@ components:
       required: true
       schema:
         type: string
+    guestRef:
+      name: guestRef
+      in: path
+      description: The unique reference identifier for the guest profile
+      required: true
+      schema:
+        type: string
   schemas:
-    DataExtension:
-      type: object
-      description: A named set of custom key-value pairs attached to a guest or order
-      properties:
-        name:
-          type: string
-          description: The unique name identifying this data extension
-        key:
-          type: string
-          description: The key within the data extension (for single-pair extensions)
-        value:
-          type: string
-          description: The value for the specified key
     ErrorResponse:
       type: object
       description: An error response body
@@ -209,6 +196,19 @@ components:
           description: List of detailed error messages
           items:
             type: string
+    DataExtension:
+      type: object
+      description: A named set of custom key-value pairs attached to a guest or order
+      properties:
+        name:
+          type: string
+          description: The unique name identifying this data extension
+        key:
+          type: string
+          description: The key within the data extension (for single-pair extensions)
+        value:
+          type: string
+          description: The value for the specified key
   responses:
     Unauthorized:
       description: Authentication credentials are missing or invalid

@@ -74,45 +74,49 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
-  responses:
-    Unauthorized:
-      description: Authentication token is missing or invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    BadRequest:
-      description: The request body or parameters are invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
   schemas:
-    FacetValue:
+    DiscoverProduct:
       type: object
-      description: A single facet value with its count
+      description: A product result from Sitecore Discover search or recommendations
       properties:
         id:
           type: string
-          description: The facet value identifier
-        text:
+          description: The unique identifier of the product
+        name:
           type: string
-          description: The display text for the facet value
-        count:
-          type: integer
-          description: The number of matching products with this value
-    ProductResults:
-      type: object
-      description: Product-level search results
-      properties:
-        value:
-          type: array
-          description: The list of matching product results
-          items:
-            $ref: '#/components/schemas/DiscoverProduct'
-        total_item:
-          type: integer
-          description: Total number of matching products
+          description: The display name of the product
+        sku:
+          type: string
+          description: The product SKU or variant identifier
+        description:
+          type: string
+          description: The product description
+        url:
+          type: string
+          description: The URL of the product detail page
+          format: uri
+        image_url:
+          type: string
+          description: The URL of the product image
+          format: uri
+        price:
+          type: number
+          description: The base price of the product
+          format: float
+        final_price:
+          type: number
+          description: The final selling price after any discounts
+          format: float
+        brand:
+          type: string
+          description: The brand name of the product
+        category:
+          type: string
+          description: The primary category of the product
+        ccurrencyCode:
+          type: string
+          description: The ISO 4217 currency code for prices
+          example: USD
     SearchRequest:
       type: object
       description: Search and recommendation request parameters
@@ -167,48 +171,6 @@ components:
                   type: string
                   description: ISO 639-1 language code
                   example: en
-    DiscoverProduct:
-      type: object
-      description: A product result from Sitecore Discover search or recommendations
-      properties:
-        id:
-          type: string
-          description: The unique identifier of the product
-        name:
-          type: string
-          description: The display name of the product
-        sku:
-          type: string
-          description: The product SKU or variant identifier
-        description:
-          type: string
-          description: The product description
-        url:
-          type: string
-          description: The URL of the product detail page
-          format: uri
-        image_url:
-          type: string
-          description: The URL of the product image
-          format: uri
-        price:
-          type: number
-          description: The base price of the product
-          format: float
-        final_price:
-          type: number
-          description: The final selling price after any discounts
-          format: float
-        brand:
-          type: string
-          description: The brand name of the product
-        category:
-          type: string
-          description: The primary category of the product
-        ccurrencyCode:
-          type: string
-          description: The ISO 4217 currency code for prices
-          example: USD
     ErrorResponse:
       type: object
       description: An error response body
@@ -224,6 +186,15 @@ components:
           description: List of detailed error messages
           items:
             type: string
+    SearchResponse:
+      type: object
+      description: Search and recommendation results
+      properties:
+        widgets:
+          type: array
+          description: Widget-level results containing search hits and facets
+          items:
+            $ref: '#/components/schemas/WidgetResult'
     Facet:
       type: object
       description: A search facet with available filter values
@@ -239,15 +210,6 @@ components:
           description: Available values for this facet
           items:
             $ref: '#/components/schemas/FacetValue'
-    SearchResponse:
-      type: object
-      description: Search and recommendation results
-      properties:
-        widgets:
-          type: array
-          description: Widget-level results containing search hits and facets
-          items:
-            $ref: '#/components/schemas/WidgetResult'
     WidgetResult:
       type: object
       description: Results for a specific search or recommendation widget
@@ -269,6 +231,31 @@ components:
           description: Available facets for filtering results
           items:
             $ref: '#/components/schemas/Facet'
+    ProductResults:
+      type: object
+      description: Product-level search results
+      properties:
+        value:
+          type: array
+          description: The list of matching product results
+          items:
+            $ref: '#/components/schemas/DiscoverProduct'
+        total_item:
+          type: integer
+          description: Total number of matching products
+    FacetValue:
+      type: object
+      description: A single facet value with its count
+      properties:
+        id:
+          type: string
+          description: The facet value identifier
+        text:
+          type: string
+          description: The display text for the facet value
+        count:
+          type: integer
+          description: The number of matching products with this value
   parameters:
     customerKey:
       name: customerKey
@@ -277,6 +264,19 @@ components:
       required: false
       schema:
         type: string
+  responses:
+    Unauthorized:
+      description: Authentication token is missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: The request body or parameters are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   securitySchemes:
     bearerAuth:
       type: http

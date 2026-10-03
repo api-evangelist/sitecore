@@ -189,39 +189,6 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
-    LifecycleRequest:
-      type: object
-      description: Request body for updating an entity's lifecycle state
-      required:
-      - state
-      properties:
-        state:
-          type: string
-          description: The target lifecycle state for the entity
-          enum:
-          - Draft
-          - InProgress
-          - Approved
-          - Published
-          - Archived
-    SystemProperties:
-      type: object
-      description: System-managed metadata properties on a Content Hub entity
-      properties:
-        createdOn:
-          type: string
-          description: The ISO 8601 timestamp when the entity was created
-          format: date-time
-        createdBy:
-          type: string
-          description: The username of the user who created the entity
-        modifiedOn:
-          type: string
-          description: The ISO 8601 timestamp when the entity was last modified
-          format: date-time
-        modifiedBy:
-          type: string
-          description: The username of the user who last modified the entity
     Entity:
       type: object
       description: A Content Hub entity representing any resource such as an asset or taxonomy node
@@ -256,6 +223,57 @@ components:
           additionalProperties:
             type: string
             format: uri
+    EntityListResponse:
+      type: object
+      description: A paginated list of entities
+      properties:
+        items:
+          type: array
+          description: The entities for the current page
+          items:
+            $ref: '#/components/schemas/Entity'
+        totalCount:
+          type: integer
+          description: The total number of entities matching the query
+        skip:
+          type: integer
+          description: The number of entities skipped
+        take:
+          type: integer
+          description: The maximum number of entities returned
+    ErrorResponse:
+      type: object
+      description: An error response body
+      properties:
+        message:
+          type: string
+          description: A human-readable error message
+        statusCode:
+          type: integer
+          description: The HTTP status code
+        errors:
+          type: array
+          description: List of detailed error messages
+          items:
+            type: string
+    SystemProperties:
+      type: object
+      description: System-managed metadata properties on a Content Hub entity
+      properties:
+        createdOn:
+          type: string
+          description: The ISO 8601 timestamp when the entity was created
+          format: date-time
+        createdBy:
+          type: string
+          description: The username of the user who created the entity
+        modifiedOn:
+          type: string
+          description: The ISO 8601 timestamp when the entity was last modified
+          format: date-time
+        modifiedBy:
+          type: string
+          description: The username of the user who last modified the entity
     CreateEntityRequest:
       type: object
       description: Request body for creating or updating an entity
@@ -281,48 +299,38 @@ components:
           type: object
           description: Relation name to entity reference mappings
           additionalProperties: true
-    ErrorResponse:
+    LifecycleRequest:
       type: object
-      description: An error response body
+      description: Request body for updating an entity's lifecycle state
+      required:
+      - state
       properties:
-        message:
+        state:
           type: string
-          description: A human-readable error message
-        statusCode:
-          type: integer
-          description: The HTTP status code
-        errors:
-          type: array
-          description: List of detailed error messages
-          items:
-            type: string
-    EntityListResponse:
-      type: object
-      description: A paginated list of entities
-      properties:
-        items:
-          type: array
-          description: The entities for the current page
-          items:
-            $ref: '#/components/schemas/Entity'
-        totalCount:
-          type: integer
-          description: The total number of entities matching the query
-        skip:
-          type: integer
-          description: The number of entities skipped
-        take:
-          type: integer
-          description: The maximum number of entities returned
+          description: The target lifecycle state for the entity
+          enum:
+          - Draft
+          - InProgress
+          - Approved
+          - Published
+          - Archived
+  parameters:
+    entityId:
+      name: id
+      in: path
+      description: The numeric identifier of the entity
+      required: true
+      schema:
+        type: integer
   responses:
-    BadRequest:
-      description: The request body or parameters are invalid
+    Unauthorized:
+      description: Authentication token is missing or invalid
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Authentication token is missing or invalid
+    BadRequest:
+      description: The request body or parameters are invalid
       content:
         application/json:
           schema:
@@ -333,14 +341,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-  parameters:
-    entityId:
-      name: id
-      in: path
-      description: The numeric identifier of the entity
-      required: true
-      schema:
-        type: integer
   securitySchemes:
     bearerAuth:
       type: http

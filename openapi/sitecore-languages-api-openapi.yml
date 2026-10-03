@@ -129,22 +129,6 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
-    Language:
-      type: object
-      description: A language configuration for a tenant or site
-      properties:
-        isoCode:
-          type: string
-          description: The ISO language code (e.g., en, fr-FR, de-DE)
-          example: en
-        name:
-          type: string
-          description: The display name of the language
-          example: English
-        nativeName:
-          type: string
-          description: The language name in its native script
-          example: English
     ProblemDetails:
       type: object
       description: RFC 7807 problem details response for errors
@@ -164,6 +148,22 @@ components:
         instance:
           type: string
           description: A URI reference identifying the specific occurrence of the problem
+    Language:
+      type: object
+      description: A language configuration for a tenant or site
+      properties:
+        isoCode:
+          type: string
+          description: The ISO language code (e.g., en, fr-FR, de-DE)
+          example: en
+        name:
+          type: string
+          description: The display name of the language
+          example: English
+        nativeName:
+          type: string
+          description: The language name in its native script
+          example: English
     AddLanguageRequest:
       type: object
       description: Request body for adding a language to a site
@@ -174,13 +174,6 @@ components:
           type: string
           description: The ISO language code to add (e.g., fr-FR, de-DE)
   parameters:
-    environmentId:
-      name: sc_env
-      in: query
-      description: The XM Cloud environment identifier
-      required: false
-      schema:
-        type: string
     siteId:
       name: siteId
       in: path
@@ -193,6 +186,13 @@ components:
       in: path
       description: The language identifier (e.g., en, fr-FR)
       required: true
+      schema:
+        type: string
+    environmentId:
+      name: sc_env
+      in: query
+      description: The XM Cloud environment identifier
+      required: false
       schema:
         type: string
   responses:

@@ -74,41 +74,43 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  parameters:
-    guestRef:
-      name: guestRef
-      in: path
-      description: The unique reference identifier for the guest profile
-      required: true
-      schema:
-        type: string
-    orderRef:
-      name: orderRef
-      in: path
-      description: The unique reference identifier for the order
-      required: true
-      schema:
-        type: string
-  responses:
-    Unauthorized:
-      description: Authentication credentials are missing or invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    BadRequest:
-      description: The request body or parameters are invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    NotFound:
-      description: The requested resource was not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
   schemas:
+    CreateOrderItemRequest:
+      type: object
+      description: Request body for adding a line item to an order
+      required:
+      - sku
+      - quantity
+      properties:
+        sku:
+          type: string
+          description: The product SKU or identifier
+        name:
+          type: string
+          description: The product name
+        quantity:
+          type: integer
+          description: The quantity of this product purchased
+          minimum: 1
+        price:
+          type: number
+          description: The unit price of the product
+          format: float
+    ErrorResponse:
+      type: object
+      description: An error response body
+      properties:
+        message:
+          type: string
+          description: A human-readable error message
+        statusCode:
+          type: integer
+          description: The HTTP status code
+        errors:
+          type: array
+          description: List of detailed error messages
+          items:
+            type: string
     OrderItem:
       type: object
       description: A line item within an order representing a purchased product
@@ -134,42 +136,40 @@ components:
           type: number
           description: The total price for this line item (quantity * price)
           format: float
-    ErrorResponse:
-      type: object
-      description: An error response body
-      properties:
-        message:
-          type: string
-          description: A human-readable error message
-        statusCode:
-          type: integer
-          description: The HTTP status code
-        errors:
-          type: array
-          description: List of detailed error messages
-          items:
-            type: string
-    CreateOrderItemRequest:
-      type: object
-      description: Request body for adding a line item to an order
-      required:
-      - sku
-      - quantity
-      properties:
-        sku:
-          type: string
-          description: The product SKU or identifier
-        name:
-          type: string
-          description: The product name
-        quantity:
-          type: integer
-          description: The quantity of this product purchased
-          minimum: 1
-        price:
-          type: number
-          description: The unit price of the product
-          format: float
+  responses:
+    Unauthorized:
+      description: Authentication credentials are missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: The request body or parameters are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  parameters:
+    guestRef:
+      name: guestRef
+      in: path
+      description: The unique reference identifier for the guest profile
+      required: true
+      schema:
+        type: string
+    orderRef:
+      name: orderRef
+      in: path
+      description: The unique reference identifier for the order
+      required: true
+      schema:
+        type: string
   securitySchemes:
     basicAuth:
       type: http

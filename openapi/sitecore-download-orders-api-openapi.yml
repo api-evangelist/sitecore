@@ -45,20 +45,22 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
-  responses:
-    Unauthorized:
-      description: Authentication token is missing or invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    BadRequest:
-      description: The request body or parameters are invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
   schemas:
+    ErrorResponse:
+      type: object
+      description: An error response body
+      properties:
+        message:
+          type: string
+          description: A human-readable error message
+        statusCode:
+          type: integer
+          description: The HTTP status code
+        errors:
+          type: array
+          description: List of detailed error messages
+          items:
+            type: string
     CreateDownloadOrderRequest:
       type: object
       description: Request body for creating a download order
@@ -104,21 +106,19 @@ components:
           type: string
           description: The ISO 8601 timestamp when the download order was completed
           format: date-time
-    ErrorResponse:
-      type: object
-      description: An error response body
-      properties:
-        message:
-          type: string
-          description: A human-readable error message
-        statusCode:
-          type: integer
-          description: The HTTP status code
-        errors:
-          type: array
-          description: List of detailed error messages
-          items:
-            type: string
+  responses:
+    Unauthorized:
+      description: Authentication token is missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: The request body or parameters are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   securitySchemes:
     bearerAuth:
       type: http

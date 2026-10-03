@@ -66,6 +66,21 @@ components:
         totalCount:
           type: integer
           description: Total number of jobs
+    ErrorResponse:
+      type: object
+      description: An error response body
+      properties:
+        message:
+          type: string
+          description: A human-readable error message
+        statusCode:
+          type: integer
+          description: The HTTP status code
+        errors:
+          type: array
+          description: List of detailed error messages
+          items:
+            type: string
     Job:
       type: object
       description: A background job target in Content Hub
@@ -92,21 +107,6 @@ components:
           type: string
           description: The ISO 8601 timestamp when the job completed
           format: date-time
-    ErrorResponse:
-      type: object
-      description: An error response body
-      properties:
-        message:
-          type: string
-          description: A human-readable error message
-        statusCode:
-          type: integer
-          description: The HTTP status code
-        errors:
-          type: array
-          description: List of detailed error messages
-          items:
-            type: string
   responses:
     Unauthorized:
       description: Authentication token is missing or invalid

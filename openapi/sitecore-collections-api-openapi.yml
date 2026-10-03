@@ -177,44 +177,7 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
-  parameters:
-    environmentId:
-      name: sc_env
-      in: query
-      description: The XM Cloud environment identifier
-      required: false
-      schema:
-        type: string
-    collectionId:
-      name: collectionId
-      in: path
-      description: The unique identifier of the site collection
-      required: true
-      schema:
-        type: string
   schemas:
-    CreateCollectionRequest:
-      type: object
-      description: Request body for creating or updating a site collection
-      required:
-      - name
-      properties:
-        name:
-          type: string
-          description: The name for the site collection
-          maxLength: 100
-        displayName:
-          type: string
-          description: The human-readable display name for the collection
-    ValidateNameRequest:
-      type: object
-      description: Request body for validating a name
-      required:
-      - name
-      properties:
-        name:
-          type: string
-          description: The name to validate
     ProblemDetails:
       type: object
       description: RFC 7807 problem details response for errors
@@ -234,17 +197,38 @@ components:
         instance:
           type: string
           description: A URI reference identifying the specific occurrence of the problem
-    SortRequest:
+    CreateCollectionRequest:
       type: object
-      description: Request body for updating the sort order of items
+      description: Request body for creating or updating a site collection
       required:
-      - ids
+      - name
       properties:
-        ids:
-          type: array
-          description: Ordered list of item identifiers representing the new sort order
-          items:
-            type: string
+        name:
+          type: string
+          description: The name for the site collection
+          maxLength: 100
+        displayName:
+          type: string
+          description: The human-readable display name for the collection
+    SiteSummary:
+      type: object
+      description: A summary representation of a site within a collection
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the site
+        name:
+          type: string
+          description: The name of the site
+    ValidateNameRequest:
+      type: object
+      description: Request body for validating a name
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          description: The name to validate
     SiteCollection:
       type: object
       description: A site collection that groups related sites within an XM Cloud tenant
@@ -266,6 +250,17 @@ components:
           description: Sites contained within this collection
           items:
             $ref: '#/components/schemas/SiteSummary'
+    SortRequest:
+      type: object
+      description: Request body for updating the sort order of items
+      required:
+      - ids
+      properties:
+        ids:
+          type: array
+          description: Ordered list of item identifiers representing the new sort order
+          items:
+            type: string
     ValidateNameResponse:
       type: object
       description: Result of a name validation check
@@ -278,25 +273,15 @@ components:
           description: List of validation error messages if the name is invalid
           items:
             type: string
-    SiteSummary:
-      type: object
-      description: A summary representation of a site within a collection
-      properties:
-        id:
-          type: string
-          description: The unique identifier of the site
-        name:
-          type: string
-          description: The name of the site
   responses:
-    BadRequest:
-      description: The request body or parameters are invalid
+    Unauthorized:
+      description: Authentication token is missing or invalid
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/ProblemDetails'
-    Unauthorized:
-      description: Authentication token is missing or invalid
+    BadRequest:
+      description: The request body or parameters are invalid
       content:
         application/json:
           schema:
@@ -307,6 +292,21 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ProblemDetails'
+  parameters:
+    collectionId:
+      name: collectionId
+      in: path
+      description: The unique identifier of the site collection
+      required: true
+      schema:
+        type: string
+    environmentId:
+      name: sc_env
+      in: query
+      description: The XM Cloud environment identifier
+      required: false
+      schema:
+        type: string
   securitySchemes:
     bearerAuth:
       type: http

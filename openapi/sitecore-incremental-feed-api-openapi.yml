@@ -49,26 +49,28 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
+  parameters:
+    customerKey:
+      name: customerKey
+      in: query
+      description: The customer key identifying the Sitecore Discover account. Found in the Customer Engagement Console under Developer Resources > API Access.
+      required: false
+      schema:
+        type: string
   schemas:
-    FeedUpdateResponse:
+    ErrorResponse:
       type: object
-      description: Response from a product feed update operation
+      description: An error response body
       properties:
-        status:
+        message:
           type: string
-          description: The status of the feed update request
-          enum:
-          - accepted
-          - failed
-        processed:
+          description: A human-readable error message
+        statusCode:
           type: integer
-          description: The number of products successfully processed
-        failed:
-          type: integer
-          description: The number of products that failed to process
+          description: The HTTP status code
         errors:
           type: array
-          description: List of error details for failed products
+          description: List of detailed error messages
           items:
             type: string
     IncrementalFeedRequest:
@@ -133,19 +135,25 @@ components:
         in_stock:
           type: boolean
           description: Whether the product is currently in stock
-    ErrorResponse:
+    FeedUpdateResponse:
       type: object
-      description: An error response body
+      description: Response from a product feed update operation
       properties:
-        message:
+        status:
           type: string
-          description: A human-readable error message
-        statusCode:
+          description: The status of the feed update request
+          enum:
+          - accepted
+          - failed
+        processed:
           type: integer
-          description: The HTTP status code
+          description: The number of products successfully processed
+        failed:
+          type: integer
+          description: The number of products that failed to process
         errors:
           type: array
-          description: List of detailed error messages
+          description: List of error details for failed products
           items:
             type: string
   responses:
@@ -161,14 +169,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-  parameters:
-    customerKey:
-      name: customerKey
-      in: query
-      description: The customer key identifying the Sitecore Discover account. Found in the Customer Engagement Console under Developer Resources > API Access.
-      required: false
-      schema:
-        type: string
   securitySchemes:
     bearerAuth:
       type: http

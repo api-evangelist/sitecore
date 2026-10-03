@@ -66,20 +66,30 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
-  responses:
-    Unauthorized:
-      description: Authentication token is missing or invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    BadRequest:
-      description: The request body or parameters are invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
+  parameters:
+    customerKey:
+      name: customerKey
+      in: query
+      description: The customer key identifying the Sitecore Discover account. Found in the Customer Engagement Console under Developer Resources > API Access.
+      required: false
+      schema:
+        type: string
   schemas:
+    ErrorResponse:
+      type: object
+      description: An error response body
+      properties:
+        message:
+          type: string
+          description: A human-readable error message
+        statusCode:
+          type: integer
+          description: The HTTP status code
+        errors:
+          type: array
+          description: List of detailed error messages
+          items:
+            type: string
     BehavioralEvent:
       type: object
       description: A single behavioral event from a storefront visitor
@@ -121,21 +131,6 @@ components:
           - cart
           - order-confirm
           - other
-    ErrorResponse:
-      type: object
-      description: An error response body
-      properties:
-        message:
-          type: string
-          description: A human-readable error message
-        statusCode:
-          type: integer
-          description: The HTTP status code
-        errors:
-          type: array
-          description: List of detailed error messages
-          items:
-            type: string
     EventRequest:
       type: object
       description: Behavioral event tracking request
@@ -147,14 +142,19 @@ components:
           description: List of behavioral events to track
           items:
             $ref: '#/components/schemas/BehavioralEvent'
-  parameters:
-    customerKey:
-      name: customerKey
-      in: query
-      description: The customer key identifying the Sitecore Discover account. Found in the Customer Engagement Console under Developer Resources > API Access.
-      required: false
-      schema:
-        type: string
+  responses:
+    Unauthorized:
+      description: Authentication token is missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: The request body or parameters are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   securitySchemes:
     bearerAuth:
       type: http

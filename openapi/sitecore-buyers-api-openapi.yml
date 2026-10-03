@@ -133,13 +133,6 @@ components:
         type: integer
         minimum: 1
         default: 1
-    buyerID:
-      name: buyerID
-      in: path
-      description: The unique identifier of the buyer organization
-      required: true
-      schema:
-        type: string
     sortBy:
       name: sortBy
       in: query
@@ -164,26 +157,23 @@ components:
       required: false
       schema:
         type: string
-  responses:
-    Unauthorized:
-      description: Authentication token is missing or invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    BadRequest:
-      description: The request body or parameters are invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    NotFound:
-      description: The requested resource was not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
+    buyerID:
+      name: buyerID
+      in: path
+      description: The unique identifier of the buyer organization
+      required: true
+      schema:
+        type: string
   schemas:
+    ErrorResponse:
+      type: object
+      description: An error response body
+      properties:
+        Errors:
+          type: array
+          description: List of error details
+          items:
+            $ref: '#/components/schemas/ErrorDetail'
     ListMetadata:
       type: object
       description: Pagination metadata for list responses
@@ -225,38 +215,6 @@ components:
           type: object
           description: Extended properties for custom buyer attributes
           additionalProperties: true
-    ErrorResponse:
-      type: object
-      description: An error response body
-      properties:
-        Errors:
-          type: array
-          description: List of error details
-          items:
-            $ref: '#/components/schemas/ErrorDetail'
-    CreateBuyerRequest:
-      type: object
-      description: Request body for creating or updating a buyer
-      required:
-      - Name
-      properties:
-        ID:
-          type: string
-          description: Optional custom identifier for the buyer
-        Name:
-          type: string
-          description: The display name of the buyer organization
-        DefaultCatalogID:
-          type: string
-          description: The identifier of the default catalog to assign
-        Active:
-          type: boolean
-          description: Whether the buyer should be active on creation
-          default: true
-        xp:
-          type: object
-          description: Extended properties for custom buyer attributes
-          additionalProperties: true
     ErrorDetail:
       type: object
       description: A single error detail
@@ -282,6 +240,48 @@ components:
           description: The buyers for the current page
           items:
             $ref: '#/components/schemas/Buyer'
+    CreateBuyerRequest:
+      type: object
+      description: Request body for creating or updating a buyer
+      required:
+      - Name
+      properties:
+        ID:
+          type: string
+          description: Optional custom identifier for the buyer
+        Name:
+          type: string
+          description: The display name of the buyer organization
+        DefaultCatalogID:
+          type: string
+          description: The identifier of the default catalog to assign
+        Active:
+          type: boolean
+          description: Whether the buyer should be active on creation
+          default: true
+        xp:
+          type: object
+          description: Extended properties for custom buyer attributes
+          additionalProperties: true
+  responses:
+    Unauthorized:
+      description: Authentication token is missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: The request body or parameters are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   securitySchemes:
     bearerAuth:
       type: http

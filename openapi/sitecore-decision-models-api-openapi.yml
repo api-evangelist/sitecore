@@ -107,6 +107,40 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  parameters:
+    sortBy:
+      name: sort
+      in: query
+      description: Field name and direction to sort results by (e.g., name:asc)
+      required: false
+      schema:
+        type: string
+    resourceId:
+      name: id
+      in: path
+      description: The unique identifier of the resource
+      required: true
+      schema:
+        type: string
+    pageSize:
+      name: pageSize
+      in: query
+      description: Number of items to return per page
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+    pageOffset:
+      name: pageOffset
+      in: query
+      description: Number of records to skip for pagination
+      required: false
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
   schemas:
     CreateDecisionModelRequest:
       type: object
@@ -129,6 +163,21 @@ components:
           description: Variant configuration for the decision model
           items:
             $ref: '#/components/schemas/VariantConfig'
+    ErrorResponse:
+      type: object
+      description: An error response body
+      properties:
+        message:
+          type: string
+          description: A human-readable error message
+        statusCode:
+          type: integer
+          description: The HTTP status code
+        errors:
+          type: array
+          description: List of detailed error messages
+          items:
+            type: string
     DecisionModelListResponse:
       type: object
       description: A paginated list of decision models
@@ -190,21 +239,6 @@ components:
           description: The percentage of traffic allocated to this variant
           minimum: 0
           maximum: 100
-    ErrorResponse:
-      type: object
-      description: An error response body
-      properties:
-        message:
-          type: string
-          description: A human-readable error message
-        statusCode:
-          type: integer
-          description: The HTTP status code
-        errors:
-          type: array
-          description: List of detailed error messages
-          items:
-            type: string
   responses:
     Unauthorized:
       description: Authentication credentials are missing or invalid
@@ -224,40 +258,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-  parameters:
-    pageOffset:
-      name: pageOffset
-      in: query
-      description: Number of records to skip for pagination
-      required: false
-      schema:
-        type: integer
-        minimum: 0
-        default: 0
-    resourceId:
-      name: id
-      in: path
-      description: The unique identifier of the resource
-      required: true
-      schema:
-        type: string
-    sortBy:
-      name: sort
-      in: query
-      description: Field name and direction to sort results by (e.g., name:asc)
-      required: false
-      schema:
-        type: string
-    pageSize:
-      name: pageSize
-      in: query
-      description: Number of items to return per page
-      required: false
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-        default: 20
   securitySchemes:
     apiKeyAuth:
       type: apiKey

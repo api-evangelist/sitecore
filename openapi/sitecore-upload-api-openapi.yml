@@ -46,6 +46,21 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
+    ErrorResponse:
+      type: object
+      description: An error response body
+      properties:
+        message:
+          type: string
+          description: A human-readable error message
+        statusCode:
+          type: integer
+          description: The HTTP status code
+        errors:
+          type: array
+          description: List of detailed error messages
+          items:
+            type: string
     UploadRequest:
       type: object
       description: Request body for creating an asset upload request
@@ -79,21 +94,6 @@ components:
         entityId:
           type: integer
           description: The identifier of the entity that will be created upon completion
-    ErrorResponse:
-      type: object
-      description: An error response body
-      properties:
-        message:
-          type: string
-          description: A human-readable error message
-        statusCode:
-          type: integer
-          description: The HTTP status code
-        errors:
-          type: array
-          description: List of detailed error messages
-          items:
-            type: string
   responses:
     Unauthorized:
       description: Authentication token is missing or invalid

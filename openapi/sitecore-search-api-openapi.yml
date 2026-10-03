@@ -45,19 +45,6 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
-  responses:
-    Unauthorized:
-      description: Authentication token is missing or invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    BadRequest:
-      description: The request body or parameters are invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
   schemas:
     Entity:
       type: object
@@ -93,34 +80,6 @@ components:
           additionalProperties:
             type: string
             format: uri
-    FacetValue:
-      type: object
-      description: A single facet value with its count in search results
-      properties:
-        value:
-          type: string
-          description: The facet value
-        count:
-          type: integer
-          description: The number of matching entities with this value
-    SystemProperties:
-      type: object
-      description: System-managed metadata properties on a Content Hub entity
-      properties:
-        createdOn:
-          type: string
-          description: The ISO 8601 timestamp when the entity was created
-          format: date-time
-        createdBy:
-          type: string
-          description: The username of the user who created the entity
-        modifiedOn:
-          type: string
-          description: The ISO 8601 timestamp when the entity was last modified
-          format: date-time
-        modifiedBy:
-          type: string
-          description: The username of the user who last modified the entity
     SearchRequest:
       type: object
       description: A search request for querying entities with faceting
@@ -162,6 +121,24 @@ components:
           description: List of detailed error messages
           items:
             type: string
+    SystemProperties:
+      type: object
+      description: System-managed metadata properties on a Content Hub entity
+      properties:
+        createdOn:
+          type: string
+          description: The ISO 8601 timestamp when the entity was created
+          format: date-time
+        createdBy:
+          type: string
+          description: The username of the user who created the entity
+        modifiedOn:
+          type: string
+          description: The ISO 8601 timestamp when the entity was last modified
+          format: date-time
+        modifiedBy:
+          type: string
+          description: The username of the user who last modified the entity
     SearchResponse:
       type: object
       description: Search results with facet aggregations
@@ -181,6 +158,29 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/FacetValue'
+    FacetValue:
+      type: object
+      description: A single facet value with its count in search results
+      properties:
+        value:
+          type: string
+          description: The facet value
+        count:
+          type: integer
+          description: The number of matching entities with this value
+  responses:
+    Unauthorized:
+      description: Authentication token is missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: The request body or parameters are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   securitySchemes:
     bearerAuth:
       type: http

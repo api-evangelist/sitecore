@@ -129,19 +129,69 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  parameters:
+    sortBy:
+      name: sort
+      in: query
+      description: Field name and direction to sort results by (e.g., name:asc)
+      required: false
+      schema:
+        type: string
+    resourceId:
+      name: id
+      in: path
+      description: The unique identifier of the resource
+      required: true
+      schema:
+        type: string
+    pageSize:
+      name: pageSize
+      in: query
+      description: Number of items to return per page
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+    pageOffset:
+      name: pageOffset
+      in: query
+      description: Number of records to skip for pagination
+      required: false
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
   schemas:
-    ConnectionListResponse:
+    ErrorResponse:
       type: object
-      description: A paginated list of connections
+      description: An error response body
       properties:
-        items:
-          type: array
-          description: The connections for the current page
-          items:
-            $ref: '#/components/schemas/Connection'
-        total:
+        message:
+          type: string
+          description: A human-readable error message
+        statusCode:
           type: integer
-          description: Total number of connections
+          description: The HTTP status code
+        errors:
+          type: array
+          description: List of detailed error messages
+          items:
+            type: string
+    ConnectionTestResult:
+      type: object
+      description: Result of a connection test
+      properties:
+        success:
+          type: boolean
+          description: Whether the connection test succeeded
+        statusCode:
+          type: integer
+          description: The HTTP status code returned by the external service
+        message:
+          type: string
+          description: A description of the test result or error
     CreateConnectionRequest:
       type: object
       description: Request body for creating or updating a connection
@@ -183,6 +233,18 @@ components:
         socketTimeout:
           type: integer
           description: Timeout in milliseconds waiting for response data
+    ConnectionListResponse:
+      type: object
+      description: A paginated list of connections
+      properties:
+        items:
+          type: array
+          description: The connections for the current page
+          items:
+            $ref: '#/components/schemas/Connection'
+        total:
+          type: integer
+          description: Total number of connections
     Connection:
       type: object
       description: A connection to an external system used within Sitecore Personalize decision models and flows
@@ -231,68 +293,6 @@ components:
           type: string
           description: The ISO 8601 timestamp when the connection was last modified
           format: date-time
-    ConnectionTestResult:
-      type: object
-      description: Result of a connection test
-      properties:
-        success:
-          type: boolean
-          description: Whether the connection test succeeded
-        statusCode:
-          type: integer
-          description: The HTTP status code returned by the external service
-        message:
-          type: string
-          description: A description of the test result or error
-    ErrorResponse:
-      type: object
-      description: An error response body
-      properties:
-        message:
-          type: string
-          description: A human-readable error message
-        statusCode:
-          type: integer
-          description: The HTTP status code
-        errors:
-          type: array
-          description: List of detailed error messages
-          items:
-            type: string
-  parameters:
-    pageOffset:
-      name: pageOffset
-      in: query
-      description: Number of records to skip for pagination
-      required: false
-      schema:
-        type: integer
-        minimum: 0
-        default: 0
-    resourceId:
-      name: id
-      in: path
-      description: The unique identifier of the resource
-      required: true
-      schema:
-        type: string
-    sortBy:
-      name: sort
-      in: query
-      description: Field name and direction to sort results by (e.g., name:asc)
-      required: false
-      schema:
-        type: string
-    pageSize:
-      name: pageSize
-      in: query
-      description: Number of items to return per page
-      required: false
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-        default: 20
   responses:
     Unauthorized:
       description: Authentication credentials are missing or invalid

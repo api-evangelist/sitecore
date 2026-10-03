@@ -179,6 +179,41 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
+    ProblemDetails:
+      type: object
+      description: RFC 7807 problem details response for errors
+      properties:
+        type:
+          type: string
+          description: A URI reference identifying the problem type
+        title:
+          type: string
+          description: A short human-readable summary of the problem
+        status:
+          type: integer
+          description: The HTTP status code for this occurrence of the problem
+        detail:
+          type: string
+          description: A human-readable explanation of the problem
+        instance:
+          type: string
+          description: A URI reference identifying the specific occurrence of the problem
+    Language:
+      type: object
+      description: A language configuration for a tenant or site
+      properties:
+        isoCode:
+          type: string
+          description: The ISO language code (e.g., en, fr-FR, de-DE)
+          example: en
+        name:
+          type: string
+          description: The display name of the language
+          example: English
+        nativeName:
+          type: string
+          description: The language name in its native script
+          example: English
     CreateSiteRequest:
       type: object
       description: Request body for creating a new site
@@ -204,22 +239,17 @@ components:
         templateId:
           type: string
           description: The identifier of the site template to use for creation
-    Language:
+    SortRequest:
       type: object
-      description: A language configuration for a tenant or site
+      description: Request body for updating the sort order of items
+      required:
+      - ids
       properties:
-        isoCode:
-          type: string
-          description: The ISO language code (e.g., en, fr-FR, de-DE)
-          example: en
-        name:
-          type: string
-          description: The display name of the language
-          example: English
-        nativeName:
-          type: string
-          description: The language name in its native script
-          example: English
+        ids:
+          type: array
+          description: Ordered list of item identifiers representing the new sort order
+          items:
+            type: string
     ValidateNameRequest:
       type: object
       description: Request body for validating a name
@@ -229,25 +259,6 @@ components:
         name:
           type: string
           description: The name to validate
-    ProblemDetails:
-      type: object
-      description: RFC 7807 problem details response for errors
-      properties:
-        type:
-          type: string
-          description: A URI reference identifying the problem type
-        title:
-          type: string
-          description: A short human-readable summary of the problem
-        status:
-          type: integer
-          description: The HTTP status code for this occurrence of the problem
-        detail:
-          type: string
-          description: A human-readable explanation of the problem
-        instance:
-          type: string
-          description: A URI reference identifying the specific occurrence of the problem
     RenderingHost:
       type: object
       description: A rendering host endpoint that can be assigned to a site
@@ -289,17 +300,6 @@ components:
         renderingHost:
           type: string
           description: The URL of the rendering host assigned to this site
-    SortRequest:
-      type: object
-      description: Request body for updating the sort order of items
-      required:
-      - ids
-      properties:
-        ids:
-          type: array
-          description: Ordered list of item identifiers representing the new sort order
-          items:
-            type: string
     ValidateNameResponse:
       type: object
       description: Result of a name validation check
@@ -312,6 +312,21 @@ components:
           description: List of validation error messages if the name is invalid
           items:
             type: string
+  parameters:
+    siteId:
+      name: siteId
+      in: path
+      description: The unique identifier of the site
+      required: true
+      schema:
+        type: string
+    environmentId:
+      name: sc_env
+      in: query
+      description: The XM Cloud environment identifier
+      required: false
+      schema:
+        type: string
   responses:
     Unauthorized:
       description: Authentication token is missing or invalid
@@ -331,21 +346,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ProblemDetails'
-  parameters:
-    environmentId:
-      name: sc_env
-      in: query
-      description: The XM Cloud environment identifier
-      required: false
-      schema:
-        type: string
-    siteId:
-      name: siteId
-      in: path
-      description: The unique identifier of the site
-      required: true
-      schema:
-        type: string
   securitySchemes:
     bearerAuth:
       type: http

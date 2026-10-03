@@ -62,20 +62,36 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
-  responses:
-    Unauthorized:
-      description: Authentication token is missing or invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    BadRequest:
-      description: The request body or parameters are invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
   schemas:
+    CreateSelectionRequest:
+      type: object
+      description: Request body for creating a selection
+      required:
+      - entityIds
+      properties:
+        name:
+          type: string
+          description: Optional name for the selection pool
+        entityIds:
+          type: array
+          description: Entity identifiers to include in the selection
+          items:
+            type: integer
+    ErrorResponse:
+      type: object
+      description: An error response body
+      properties:
+        message:
+          type: string
+          description: A human-readable error message
+        statusCode:
+          type: integer
+          description: The HTTP status code
+        errors:
+          type: array
+          description: List of detailed error messages
+          items:
+            type: string
     Selection:
       type: object
       description: A named selection pool containing entity identifiers
@@ -95,35 +111,19 @@ components:
           type: string
           description: The ISO 8601 timestamp when the selection was created
           format: date-time
-    ErrorResponse:
-      type: object
-      description: An error response body
-      properties:
-        message:
-          type: string
-          description: A human-readable error message
-        statusCode:
-          type: integer
-          description: The HTTP status code
-        errors:
-          type: array
-          description: List of detailed error messages
-          items:
-            type: string
-    CreateSelectionRequest:
-      type: object
-      description: Request body for creating a selection
-      required:
-      - entityIds
-      properties:
-        name:
-          type: string
-          description: Optional name for the selection pool
-        entityIds:
-          type: array
-          description: Entity identifiers to include in the selection
-          items:
-            type: integer
+  responses:
+    Unauthorized:
+      description: Authentication token is missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    BadRequest:
+      description: The request body or parameters are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   securitySchemes:
     bearerAuth:
       type: http

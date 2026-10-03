@@ -105,61 +105,6 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  responses:
-    Unauthorized:
-      description: Authentication token is missing or invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ProblemDetails'
-    BadRequest:
-      description: The request body or parameters are invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ProblemDetails'
-    NotFound:
-      description: The requested resource was not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ProblemDetails'
-  parameters:
-    environmentId:
-      name: sc_env
-      in: query
-      description: The XM Cloud environment identifier
-      required: false
-      schema:
-        type: string
-    version:
-      name: version
-      in: query
-      description: Content version number to retrieve
-      required: false
-      schema:
-        type: integer
-    pageId:
-      name: pageId
-      in: path
-      description: The unique identifier of the page item
-      required: true
-      schema:
-        type: string
-    siteQueryParam:
-      name: siteId
-      in: query
-      description: Filter results by site identifier
-      required: false
-      schema:
-        type: string
-    language:
-      name: language
-      in: query
-      description: Language code for the content (e.g., en, fr-FR)
-      required: false
-      schema:
-        type: string
   schemas:
     ProblemDetails:
       type: object
@@ -244,6 +189,61 @@ components:
           type: string
           description: The relative URL of the page within the site
           format: uri
+  parameters:
+    pageId:
+      name: pageId
+      in: path
+      description: The unique identifier of the page item
+      required: true
+      schema:
+        type: string
+    language:
+      name: language
+      in: query
+      description: Language code for the content (e.g., en, fr-FR)
+      required: false
+      schema:
+        type: string
+    version:
+      name: version
+      in: query
+      description: Content version number to retrieve
+      required: false
+      schema:
+        type: integer
+    environmentId:
+      name: sc_env
+      in: query
+      description: The XM Cloud environment identifier
+      required: false
+      schema:
+        type: string
+    siteQueryParam:
+      name: siteId
+      in: query
+      description: Filter results by site identifier
+      required: false
+      schema:
+        type: string
+  responses:
+    Unauthorized:
+      description: Authentication token is missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+    BadRequest:
+      description: The request body or parameters are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
   securitySchemes:
     bearerAuth:
       type: http
