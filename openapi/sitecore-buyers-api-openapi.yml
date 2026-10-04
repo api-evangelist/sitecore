@@ -123,78 +123,7 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  parameters:
-    page:
-      name: page
-      in: query
-      description: Page number to retrieve (1-indexed)
-      required: false
-      schema:
-        type: integer
-        minimum: 1
-        default: 1
-    sortBy:
-      name: sortBy
-      in: query
-      description: Field name to sort results by; prefix with ! to sort descending
-      required: false
-      schema:
-        type: string
-    pageSize:
-      name: pageSize
-      in: query
-      description: Number of items to return per page (max 100)
-      required: false
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-        default: 20
-    search:
-      name: search
-      in: query
-      description: Full-text search term to filter results
-      required: false
-      schema:
-        type: string
-    buyerID:
-      name: buyerID
-      in: path
-      description: The unique identifier of the buyer organization
-      required: true
-      schema:
-        type: string
   schemas:
-    ErrorResponse:
-      type: object
-      description: An error response body
-      properties:
-        Errors:
-          type: array
-          description: List of error details
-          items:
-            $ref: '#/components/schemas/ErrorDetail'
-    ListMetadata:
-      type: object
-      description: Pagination metadata for list responses
-      properties:
-        Page:
-          type: integer
-          description: The current page number (1-indexed)
-        PageSize:
-          type: integer
-          description: The number of items per page
-        TotalCount:
-          type: integer
-          description: The total number of items matching the query
-        TotalPages:
-          type: integer
-          description: The total number of pages
-        ItemRange:
-          type: array
-          description: The inclusive range [start, end] of item indexes for this page
-          items:
-            type: integer
     Buyer:
       type: object
       description: A buyer organization in the OrderCloud marketplace
@@ -215,31 +144,6 @@ components:
           type: object
           description: Extended properties for custom buyer attributes
           additionalProperties: true
-    ErrorDetail:
-      type: object
-      description: A single error detail
-      properties:
-        ErrorCode:
-          type: string
-          description: The machine-readable error code
-        Message:
-          type: string
-          description: A human-readable description of the error
-        Data:
-          type: object
-          description: Additional data about the error context
-          additionalProperties: true
-    BuyerListResponse:
-      type: object
-      description: A paginated list of buyers
-      properties:
-        Meta:
-          $ref: '#/components/schemas/ListMetadata'
-        Items:
-          type: array
-          description: The buyers for the current page
-          items:
-            $ref: '#/components/schemas/Buyer'
     CreateBuyerRequest:
       type: object
       description: Request body for creating or updating a buyer
@@ -263,15 +167,111 @@ components:
           type: object
           description: Extended properties for custom buyer attributes
           additionalProperties: true
+    ErrorDetail:
+      type: object
+      description: A single error detail
+      properties:
+        ErrorCode:
+          type: string
+          description: The machine-readable error code
+        Message:
+          type: string
+          description: A human-readable description of the error
+        Data:
+          type: object
+          description: Additional data about the error context
+          additionalProperties: true
+    ListMetadata:
+      type: object
+      description: Pagination metadata for list responses
+      properties:
+        Page:
+          type: integer
+          description: The current page number (1-indexed)
+        PageSize:
+          type: integer
+          description: The number of items per page
+        TotalCount:
+          type: integer
+          description: The total number of items matching the query
+        TotalPages:
+          type: integer
+          description: The total number of pages
+        ItemRange:
+          type: array
+          description: The inclusive range [start, end] of item indexes for this page
+          items:
+            type: integer
+    BuyerListResponse:
+      type: object
+      description: A paginated list of buyers
+      properties:
+        Meta:
+          $ref: '#/components/schemas/ListMetadata'
+        Items:
+          type: array
+          description: The buyers for the current page
+          items:
+            $ref: '#/components/schemas/Buyer'
+    ErrorResponse:
+      type: object
+      description: An error response body
+      properties:
+        Errors:
+          type: array
+          description: List of error details
+          items:
+            $ref: '#/components/schemas/ErrorDetail'
+  parameters:
+    page:
+      name: page
+      in: query
+      description: Page number to retrieve (1-indexed)
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+    buyerID:
+      name: buyerID
+      in: path
+      description: The unique identifier of the buyer organization
+      required: true
+      schema:
+        type: string
+    search:
+      name: search
+      in: query
+      description: Full-text search term to filter results
+      required: false
+      schema:
+        type: string
+    sortBy:
+      name: sortBy
+      in: query
+      description: Field name to sort results by; prefix with ! to sort descending
+      required: false
+      schema:
+        type: string
+    pageSize:
+      name: pageSize
+      in: query
+      description: Number of items to return per page (max 100)
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
   responses:
-    Unauthorized:
-      description: Authentication token is missing or invalid
+    BadRequest:
+      description: The request body or parameters are invalid
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    BadRequest:
-      description: The request body or parameters are invalid
+    Unauthorized:
+      description: Authentication token is missing or invalid
       content:
         application/json:
           schema:

@@ -128,26 +128,48 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  parameters:
+    environmentId:
+      name: sc_env
+      in: query
+      description: The XM Cloud environment identifier
+      required: false
+      schema:
+        type: string
+    languageId:
+      name: languageId
+      in: path
+      description: The language identifier (e.g., en, fr-FR)
+      required: true
+      schema:
+        type: string
+    siteId:
+      name: siteId
+      in: path
+      description: The unique identifier of the site
+      required: true
+      schema:
+        type: string
+  responses:
+    BadRequest:
+      description: The request body or parameters are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+    Unauthorized:
+      description: Authentication token is missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
   schemas:
-    ProblemDetails:
-      type: object
-      description: RFC 7807 problem details response for errors
-      properties:
-        type:
-          type: string
-          description: A URI reference identifying the problem type
-        title:
-          type: string
-          description: A short human-readable summary of the problem
-        status:
-          type: integer
-          description: The HTTP status code for this occurrence of the problem
-        detail:
-          type: string
-          description: A human-readable explanation of the problem
-        instance:
-          type: string
-          description: A URI reference identifying the specific occurrence of the problem
     Language:
       type: object
       description: A language configuration for a tenant or site
@@ -173,47 +195,25 @@ components:
         isoCode:
           type: string
           description: The ISO language code to add (e.g., fr-FR, de-DE)
-  parameters:
-    siteId:
-      name: siteId
-      in: path
-      description: The unique identifier of the site
-      required: true
-      schema:
-        type: string
-    languageId:
-      name: languageId
-      in: path
-      description: The language identifier (e.g., en, fr-FR)
-      required: true
-      schema:
-        type: string
-    environmentId:
-      name: sc_env
-      in: query
-      description: The XM Cloud environment identifier
-      required: false
-      schema:
-        type: string
-  responses:
-    Unauthorized:
-      description: Authentication token is missing or invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ProblemDetails'
-    BadRequest:
-      description: The request body or parameters are invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ProblemDetails'
-    NotFound:
-      description: The requested resource was not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ProblemDetails'
+    ProblemDetails:
+      type: object
+      description: RFC 7807 problem details response for errors
+      properties:
+        type:
+          type: string
+          description: A URI reference identifying the problem type
+        title:
+          type: string
+          description: A short human-readable summary of the problem
+        status:
+          type: integer
+          description: The HTTP status code for this occurrence of the problem
+        detail:
+          type: string
+          description: A human-readable explanation of the problem
+        instance:
+          type: string
+          description: A URI reference identifying the specific occurrence of the problem
   securitySchemes:
     bearerAuth:
       type: http

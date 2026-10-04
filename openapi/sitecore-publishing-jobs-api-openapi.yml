@@ -139,26 +139,70 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
+  parameters:
+    environmentId:
+      name: sc_env
+      in: query
+      description: The XM Cloud environment identifier
+      required: false
+      schema:
+        type: string
+    jobId:
+      name: jobId
+      in: path
+      description: The unique identifier of the publishing job
+      required: true
+      schema:
+        type: string
+  responses:
+    BadRequest:
+      description: The request body or parameters are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+    Unauthorized:
+      description: Authentication token is missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
   schemas:
-    ProblemDetails:
+    JobStatus:
+      type: string
+      description: The current status of a publishing job
+      enum:
+      - Queued
+      - Running
+      - Completed
+      - Failed
+      - Canceled
+      - Canceling
+    PublishingJobSummary:
       type: object
-      description: RFC 7807 problem details response for errors
+      description: Statistical summary of publishing jobs for the tenant
       properties:
-        type:
-          type: string
-          description: A URI reference identifying the problem type
-        title:
-          type: string
-          description: A short human-readable summary of the problem
-        status:
+        queued:
           type: integer
-          description: The HTTP status code for this occurrence of the problem
-        detail:
-          type: string
-          description: A human-readable explanation of the problem
-        instance:
-          type: string
-          description: A URI reference identifying the specific occurrence of the problem
+          description: Number of jobs currently queued
+        running:
+          type: integer
+          description: Number of jobs currently running
+        completed:
+          type: integer
+          description: Number of jobs completed
+        failed:
+          type: integer
+          description: Number of jobs that failed
+        canceled:
+          type: integer
+          description: Number of jobs that were canceled
     PublishingJob:
       type: object
       description: A publishing job that pushes content to Experience Edge
@@ -189,35 +233,25 @@ components:
         failedItems:
           type: integer
           description: Number of items that failed to publish
-    PublishingJobSummary:
+    ProblemDetails:
       type: object
-      description: Statistical summary of publishing jobs for the tenant
+      description: RFC 7807 problem details response for errors
       properties:
-        queued:
+        type:
+          type: string
+          description: A URI reference identifying the problem type
+        title:
+          type: string
+          description: A short human-readable summary of the problem
+        status:
           type: integer
-          description: Number of jobs currently queued
-        running:
-          type: integer
-          description: Number of jobs currently running
-        completed:
-          type: integer
-          description: Number of jobs completed
-        failed:
-          type: integer
-          description: Number of jobs that failed
-        canceled:
-          type: integer
-          description: Number of jobs that were canceled
-    JobStatus:
-      type: string
-      description: The current status of a publishing job
-      enum:
-      - Queued
-      - Running
-      - Completed
-      - Failed
-      - Canceled
-      - Canceling
+          description: The HTTP status code for this occurrence of the problem
+        detail:
+          type: string
+          description: A human-readable explanation of the problem
+        instance:
+          type: string
+          description: A URI reference identifying the specific occurrence of the problem
     PublishingJobList:
       type: object
       description: A paginated list of publishing jobs
@@ -256,40 +290,6 @@ components:
           type: boolean
           description: Whether to include child items in the publish
           default: true
-  parameters:
-    jobId:
-      name: jobId
-      in: path
-      description: The unique identifier of the publishing job
-      required: true
-      schema:
-        type: string
-    environmentId:
-      name: sc_env
-      in: query
-      description: The XM Cloud environment identifier
-      required: false
-      schema:
-        type: string
-  responses:
-    BadRequest:
-      description: The request body or parameters are invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ProblemDetails'
-    Unauthorized:
-      description: Authentication token is missing or invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ProblemDetails'
-    NotFound:
-      description: The requested resource was not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ProblemDetails'
   securitySchemes:
     bearerAuth:
       type: http

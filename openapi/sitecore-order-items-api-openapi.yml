@@ -75,6 +75,31 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
+    OrderItem:
+      type: object
+      description: A line item within an order representing a purchased product
+      properties:
+        itemRef:
+          type: string
+          description: The unique reference identifier for the order item
+        sku:
+          type: string
+          description: The product SKU or identifier
+        name:
+          type: string
+          description: The product name
+        quantity:
+          type: integer
+          description: The quantity of this product purchased
+          minimum: 1
+        price:
+          type: number
+          description: The unit price of the product
+          format: float
+        totalPrice:
+          type: number
+          description: The total price for this line item (quantity * price)
+          format: float
     CreateOrderItemRequest:
       type: object
       description: Request body for adding a line item to an order
@@ -111,40 +136,15 @@ components:
           description: List of detailed error messages
           items:
             type: string
-    OrderItem:
-      type: object
-      description: A line item within an order representing a purchased product
-      properties:
-        itemRef:
-          type: string
-          description: The unique reference identifier for the order item
-        sku:
-          type: string
-          description: The product SKU or identifier
-        name:
-          type: string
-          description: The product name
-        quantity:
-          type: integer
-          description: The quantity of this product purchased
-          minimum: 1
-        price:
-          type: number
-          description: The unit price of the product
-          format: float
-        totalPrice:
-          type: number
-          description: The total price for this line item (quantity * price)
-          format: float
   responses:
-    Unauthorized:
-      description: Authentication credentials are missing or invalid
+    BadRequest:
+      description: The request body or parameters are invalid
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    BadRequest:
-      description: The request body or parameters are invalid
+    Unauthorized:
+      description: Authentication credentials are missing or invalid
       content:
         application/json:
           schema:
@@ -156,17 +156,17 @@ components:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
   parameters:
-    guestRef:
-      name: guestRef
-      in: path
-      description: The unique reference identifier for the guest profile
-      required: true
-      schema:
-        type: string
     orderRef:
       name: orderRef
       in: path
       description: The unique reference identifier for the order
+      required: true
+      schema:
+        type: string
+    guestRef:
+      name: guestRef
+      in: path
+      description: The unique reference identifier for the guest profile
       required: true
       schema:
         type: string

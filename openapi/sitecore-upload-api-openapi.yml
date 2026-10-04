@@ -46,21 +46,20 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
-    ErrorResponse:
+    UploadResponse:
       type: object
-      description: An error response body
+      description: Response from creating an upload request with target URLs
       properties:
-        message:
+        uploadId:
           type: string
-          description: A human-readable error message
-        statusCode:
+          description: The unique identifier for the upload session
+        uploadUrl:
+          type: string
+          description: The URL to which the binary file content should be uploaded
+          format: uri
+        entityId:
           type: integer
-          description: The HTTP status code
-        errors:
-          type: array
-          description: List of detailed error messages
-          items:
-            type: string
+          description: The identifier of the entity that will be created upon completion
     UploadRequest:
       type: object
       description: Request body for creating an asset upload request
@@ -80,29 +79,30 @@ components:
         culture:
           type: string
           description: The culture code for the asset metadata
-    UploadResponse:
+    ErrorResponse:
       type: object
-      description: Response from creating an upload request with target URLs
+      description: An error response body
       properties:
-        uploadId:
+        message:
           type: string
-          description: The unique identifier for the upload session
-        uploadUrl:
-          type: string
-          description: The URL to which the binary file content should be uploaded
-          format: uri
-        entityId:
+          description: A human-readable error message
+        statusCode:
           type: integer
-          description: The identifier of the entity that will be created upon completion
+          description: The HTTP status code
+        errors:
+          type: array
+          description: List of detailed error messages
+          items:
+            type: string
   responses:
-    Unauthorized:
-      description: Authentication token is missing or invalid
+    BadRequest:
+      description: The request body or parameters are invalid
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    BadRequest:
-      description: The request body or parameters are invalid
+    Unauthorized:
+      description: Authentication token is missing or invalid
       content:
         application/json:
           schema:

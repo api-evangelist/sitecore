@@ -46,6 +46,60 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
+    SearchRequest:
+      type: object
+      description: A search request for querying entities with faceting
+      properties:
+        query:
+          type: string
+          description: Full-text search query string
+        filters:
+          type: array
+          description: Structured filters to apply to the search
+          items:
+            type: object
+            additionalProperties: true
+        skip:
+          type: integer
+          description: Number of results to skip
+          default: 0
+        take:
+          type: integer
+          description: Maximum number of results to return
+          default: 25
+        facets:
+          type: array
+          description: Facet field names to include in the response
+          items:
+            type: string
+    FacetValue:
+      type: object
+      description: A single facet value with its count in search results
+      properties:
+        value:
+          type: string
+          description: The facet value
+        count:
+          type: integer
+          description: The number of matching entities with this value
+    SystemProperties:
+      type: object
+      description: System-managed metadata properties on a Content Hub entity
+      properties:
+        createdOn:
+          type: string
+          description: The ISO 8601 timestamp when the entity was created
+          format: date-time
+        createdBy:
+          type: string
+          description: The username of the user who created the entity
+        modifiedOn:
+          type: string
+          description: The ISO 8601 timestamp when the entity was last modified
+          format: date-time
+        modifiedBy:
+          type: string
+          description: The username of the user who last modified the entity
     Entity:
       type: object
       description: A Content Hub entity representing any resource such as an asset or taxonomy node
@@ -80,65 +134,6 @@ components:
           additionalProperties:
             type: string
             format: uri
-    SearchRequest:
-      type: object
-      description: A search request for querying entities with faceting
-      properties:
-        query:
-          type: string
-          description: Full-text search query string
-        filters:
-          type: array
-          description: Structured filters to apply to the search
-          items:
-            type: object
-            additionalProperties: true
-        skip:
-          type: integer
-          description: Number of results to skip
-          default: 0
-        take:
-          type: integer
-          description: Maximum number of results to return
-          default: 25
-        facets:
-          type: array
-          description: Facet field names to include in the response
-          items:
-            type: string
-    ErrorResponse:
-      type: object
-      description: An error response body
-      properties:
-        message:
-          type: string
-          description: A human-readable error message
-        statusCode:
-          type: integer
-          description: The HTTP status code
-        errors:
-          type: array
-          description: List of detailed error messages
-          items:
-            type: string
-    SystemProperties:
-      type: object
-      description: System-managed metadata properties on a Content Hub entity
-      properties:
-        createdOn:
-          type: string
-          description: The ISO 8601 timestamp when the entity was created
-          format: date-time
-        createdBy:
-          type: string
-          description: The username of the user who created the entity
-        modifiedOn:
-          type: string
-          description: The ISO 8601 timestamp when the entity was last modified
-          format: date-time
-        modifiedBy:
-          type: string
-          description: The username of the user who last modified the entity
     SearchResponse:
       type: object
       description: Search results with facet aggregations
@@ -158,25 +153,30 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/FacetValue'
-    FacetValue:
+    ErrorResponse:
       type: object
-      description: A single facet value with its count in search results
+      description: An error response body
       properties:
-        value:
+        message:
           type: string
-          description: The facet value
-        count:
+          description: A human-readable error message
+        statusCode:
           type: integer
-          description: The number of matching entities with this value
+          description: The HTTP status code
+        errors:
+          type: array
+          description: List of detailed error messages
+          items:
+            type: string
   responses:
-    Unauthorized:
-      description: Authentication token is missing or invalid
+    BadRequest:
+      description: The request body or parameters are invalid
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    BadRequest:
-      description: The request body or parameters are invalid
+    Unauthorized:
+      description: Authentication token is missing or invalid
       content:
         application/json:
           schema:

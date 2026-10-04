@@ -77,22 +77,26 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
+  responses:
+    Unauthorized:
+      description: Authentication token is missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   schemas:
-    ErrorResponse:
+    AuditListResponse:
       type: object
-      description: An error response body
+      description: A paginated list of audit log entries
       properties:
-        message:
-          type: string
-          description: A human-readable error message
-        statusCode:
-          type: integer
-          description: The HTTP status code
-        errors:
+        items:
           type: array
-          description: List of detailed error messages
+          description: The audit entries for the current page
           items:
-            type: string
+            $ref: '#/components/schemas/AuditEntry'
+        totalCount:
+          type: integer
+          description: Total number of matching audit entries
     AuditEntry:
       type: object
       description: An audit log entry recording a change within Content Hub
@@ -122,25 +126,21 @@ components:
           type: object
           description: The property changes made during this operation
           additionalProperties: true
-    AuditListResponse:
+    ErrorResponse:
       type: object
-      description: A paginated list of audit log entries
+      description: An error response body
       properties:
-        items:
-          type: array
-          description: The audit entries for the current page
-          items:
-            $ref: '#/components/schemas/AuditEntry'
-        totalCount:
+        message:
+          type: string
+          description: A human-readable error message
+        statusCode:
           type: integer
-          description: Total number of matching audit entries
-  responses:
-    Unauthorized:
-      description: Authentication token is missing or invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
+          description: The HTTP status code
+        errors:
+          type: array
+          description: List of detailed error messages
+          items:
+            type: string
   securitySchemes:
     bearerAuth:
       type: http

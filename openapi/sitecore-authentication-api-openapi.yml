@@ -105,22 +105,33 @@ paths:
     - url: https://api.ordercloud.io/v1
       description: OrderCloud Production Server
 components:
+  responses:
+    BadRequest:
+      description: The request body or parameters are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Authentication token is missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   schemas:
-    ErrorResponse:
+    TokenResponse:
       type: object
-      description: An error response body
+      description: Authentication token response
       properties:
-        message:
+        accessToken:
           type: string
-          description: A human-readable error message
-        statusCode:
+          description: The bearer access token for API authentication
+        expiresIn:
           type: integer
-          description: The HTTP status code
-        errors:
-          type: array
-          description: List of detailed error messages
-          items:
-            type: string
+          description: Token validity duration in seconds
+        refreshToken:
+          type: string
+          description: Refresh token for renewing access
     TokenRenewRequest:
       type: object
       description: Request body for renewing an access token
@@ -143,59 +154,21 @@ components:
         customerId:
           type: string
           description: The customer identifier for the Discover account
-    TokenResponse:
-      type: object
-      description: Authentication token response
-      properties:
-        accessToken:
-          type: string
-          description: The bearer access token for API authentication
-        expiresIn:
-          type: integer
-          description: Token validity duration in seconds
-        refreshToken:
-          type: string
-          description: Refresh token for renewing access
-    ErrorResponse_2:
+    ErrorResponse:
       type: object
       description: An error response body
       properties:
-        Errors:
-          type: array
-          description: List of error details
-          items:
-            $ref: '#/components/schemas/ErrorDetail'
-    ErrorDetail:
-      type: object
-      description: A single error detail
-      properties:
-        ErrorCode:
+        message:
           type: string
-          description: The machine-readable error code
-        Message:
-          type: string
-          description: A human-readable description of the error
-        Data:
-          type: object
-          description: Additional data about the error context
-          additionalProperties: true
-    TokenResponse_2:
-      type: object
-      description: OAuth 2.0 token response
-      properties:
-        access_token:
-          type: string
-          description: The bearer access token to include in API requests
-        token_type:
-          type: string
-          description: The token type, always Bearer
-          example: Bearer
-        expires_in:
+          description: A human-readable error message
+        statusCode:
           type: integer
-          description: Time in seconds until the token expires
-        refresh_token:
-          type: string
-          description: Refresh token for obtaining a new access token
+          description: The HTTP status code
+        errors:
+          type: array
+          description: List of detailed error messages
+          items:
+            type: string
     TokenRequest:
       type: object
       description: OAuth 2.0 token request parameters
@@ -225,19 +198,46 @@ components:
         refresh_token:
           type: string
           description: The refresh token (required for refresh_token grant)
-  responses:
-    Unauthorized:
-      description: Authentication token is missing or invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    BadRequest:
-      description: The request body or parameters are invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
+    TokenResponse_2:
+      type: object
+      description: OAuth 2.0 token response
+      properties:
+        access_token:
+          type: string
+          description: The bearer access token to include in API requests
+        token_type:
+          type: string
+          description: The token type, always Bearer
+          example: Bearer
+        expires_in:
+          type: integer
+          description: Time in seconds until the token expires
+        refresh_token:
+          type: string
+          description: Refresh token for obtaining a new access token
+    ErrorDetail:
+      type: object
+      description: A single error detail
+      properties:
+        ErrorCode:
+          type: string
+          description: The machine-readable error code
+        Message:
+          type: string
+          description: A human-readable description of the error
+        Data:
+          type: object
+          description: Additional data about the error context
+          additionalProperties: true
+    ErrorResponse_2:
+      type: object
+      description: An error response body
+      properties:
+        Errors:
+          type: array
+          description: List of error details
+          items:
+            $ref: '#/components/schemas/ErrorDetail'
   securitySchemes:
     bearerAuth:
       type: http

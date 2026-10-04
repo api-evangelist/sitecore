@@ -400,6 +400,31 @@ paths:
       description: OrderCloud Production Server
 components:
   schemas:
+    OrderItem:
+      type: object
+      description: A line item within an order representing a purchased product
+      properties:
+        itemRef:
+          type: string
+          description: The unique reference identifier for the order item
+        sku:
+          type: string
+          description: The product SKU or identifier
+        name:
+          type: string
+          description: The product name
+        quantity:
+          type: integer
+          description: The quantity of this product purchased
+          minimum: 1
+        price:
+          type: number
+          description: The unit price of the product
+          format: float
+        totalPrice:
+          type: number
+          description: The total price for this line item (quantity * price)
+          format: float
     CreateOrderRequest:
       type: object
       description: Request body for creating or updating an order record
@@ -485,31 +510,6 @@ components:
           description: List of detailed error messages
           items:
             type: string
-    OrderItem:
-      type: object
-      description: A line item within an order representing a purchased product
-      properties:
-        itemRef:
-          type: string
-          description: The unique reference identifier for the order item
-        sku:
-          type: string
-          description: The product SKU or identifier
-        name:
-          type: string
-          description: The product name
-        quantity:
-          type: integer
-          description: The quantity of this product purchased
-          minimum: 1
-        price:
-          type: number
-          description: The unit price of the product
-          format: float
-        totalPrice:
-          type: number
-          description: The total price for this line item (quantity * price)
-          format: float
     LineItemListResponse:
       type: object
       description: A paginated list of order line items
@@ -521,6 +521,59 @@ components:
           description: The line items for the current page
           items:
             $ref: '#/components/schemas/LineItem'
+    OrderListResponse:
+      type: object
+      description: A paginated list of orders
+      properties:
+        Meta:
+          $ref: '#/components/schemas/ListMetadata'
+        Items:
+          type: array
+          description: The orders for the current page
+          items:
+            $ref: '#/components/schemas/Order_2'
+    ListMetadata:
+      type: object
+      description: Pagination metadata for list responses
+      properties:
+        Page:
+          type: integer
+          description: The current page number (1-indexed)
+        PageSize:
+          type: integer
+          description: The number of items per page
+        TotalCount:
+          type: integer
+          description: The total number of items matching the query
+        TotalPages:
+          type: integer
+          description: The total number of pages
+        ItemRange:
+          type: array
+          description: The inclusive range [start, end] of item indexes for this page
+          items:
+            type: integer
+    CreateLineItemRequest:
+      type: object
+      description: Request body for creating a line item
+      required:
+      - ProductID
+      - Quantity
+      properties:
+        ProductID:
+          type: string
+          description: The identifier of the product to add
+        Quantity:
+          type: integer
+          description: The quantity to purchase
+          minimum: 1
+        ShippingAddressID:
+          type: string
+          description: The identifier of the shipping address for this item
+        xp:
+          type: object
+          description: Extended properties for custom line item attributes
+          additionalProperties: true
     LineItem:
       type: object
       description: A line item within an OrderCloud order
@@ -567,50 +620,6 @@ components:
           type: object
           description: Extended properties for custom order attributes
           additionalProperties: true
-    ErrorResponse_2:
-      type: object
-      description: An error response body
-      properties:
-        Errors:
-          type: array
-          description: List of error details
-          items:
-            $ref: '#/components/schemas/ErrorDetail'
-    ErrorDetail:
-      type: object
-      description: A single error detail
-      properties:
-        ErrorCode:
-          type: string
-          description: The machine-readable error code
-        Message:
-          type: string
-          description: A human-readable description of the error
-        Data:
-          type: object
-          description: Additional data about the error context
-          additionalProperties: true
-    ListMetadata:
-      type: object
-      description: Pagination metadata for list responses
-      properties:
-        Page:
-          type: integer
-          description: The current page number (1-indexed)
-        PageSize:
-          type: integer
-          description: The number of items per page
-        TotalCount:
-          type: integer
-          description: The total number of items matching the query
-        TotalPages:
-          type: integer
-          description: The total number of pages
-        ItemRange:
-          type: array
-          description: The inclusive range [start, end] of item indexes for this page
-          items:
-            type: integer
     Order_2:
       type: object
       description: An order in the OrderCloud marketplace
@@ -681,38 +690,6 @@ components:
           type: object
           description: Extended properties for custom order attributes
           additionalProperties: true
-    CreateLineItemRequest:
-      type: object
-      description: Request body for creating a line item
-      required:
-      - ProductID
-      - Quantity
-      properties:
-        ProductID:
-          type: string
-          description: The identifier of the product to add
-        Quantity:
-          type: integer
-          description: The quantity to purchase
-          minimum: 1
-        ShippingAddressID:
-          type: string
-          description: The identifier of the shipping address for this item
-        xp:
-          type: object
-          description: Extended properties for custom line item attributes
-          additionalProperties: true
-    OrderListResponse:
-      type: object
-      description: A paginated list of orders
-      properties:
-        Meta:
-          $ref: '#/components/schemas/ListMetadata'
-        Items:
-          type: array
-          description: The orders for the current page
-          items:
-            $ref: '#/components/schemas/Order_2'
     Address:
       type: object
       description: A shipping or billing address
@@ -771,15 +748,38 @@ components:
           type: string
           description: The user's email address
           format: email
+    ErrorDetail:
+      type: object
+      description: A single error detail
+      properties:
+        ErrorCode:
+          type: string
+          description: The machine-readable error code
+        Message:
+          type: string
+          description: A human-readable description of the error
+        Data:
+          type: object
+          description: Additional data about the error context
+          additionalProperties: true
+    ErrorResponse_2:
+      type: object
+      description: An error response body
+      properties:
+        Errors:
+          type: array
+          description: List of error details
+          items:
+            $ref: '#/components/schemas/ErrorDetail'
   responses:
-    Unauthorized:
-      description: Authentication credentials are missing or invalid
+    BadRequest:
+      description: The request body or parameters are invalid
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-    BadRequest:
-      description: The request body or parameters are invalid
+    Unauthorized:
+      description: Authentication credentials are missing or invalid
       content:
         application/json:
           schema:
@@ -797,13 +797,6 @@ components:
           schema:
             $ref: '#/components/schemas/ErrorResponse_2'
   parameters:
-    guestRef:
-      name: guestRef
-      in: path
-      description: The unique reference identifier for the guest profile
-      required: true
-      schema:
-        type: string
     orderRef:
       name: orderRef
       in: path
@@ -811,29 +804,13 @@ components:
       required: true
       schema:
         type: string
-    search:
-      name: search
-      in: query
-      description: Full-text search term to filter results
-      required: false
-      schema:
-        type: string
-    orderID:
-      name: orderID
+    guestRef:
+      name: guestRef
       in: path
-      description: The unique identifier of the order
+      description: The unique reference identifier for the guest profile
       required: true
       schema:
         type: string
-    page:
-      name: page
-      in: query
-      description: Page number to retrieve (1-indexed)
-      required: false
-      schema:
-        type: integer
-        minimum: 1
-        default: 1
     pageSize:
       name: pageSize
       in: query
@@ -844,6 +821,20 @@ components:
         minimum: 1
         maximum: 100
         default: 20
+    orderID:
+      name: orderID
+      in: path
+      description: The unique identifier of the order
+      required: true
+      schema:
+        type: string
+    search:
+      name: search
+      in: query
+      description: Full-text search term to filter results
+      required: false
+      schema:
+        type: string
     direction:
       name: direction
       in: path
@@ -854,6 +845,15 @@ components:
         enum:
         - Incoming
         - Outgoing
+    page:
+      name: page
+      in: query
+      description: Page number to retrieve (1-indexed)
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
   securitySchemes:
     basicAuth:
       type: http

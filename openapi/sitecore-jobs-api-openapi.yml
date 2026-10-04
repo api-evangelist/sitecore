@@ -53,19 +53,14 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
+  responses:
+    Unauthorized:
+      description: Authentication token is missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   schemas:
-    JobListResponse:
-      type: object
-      description: A paginated list of job configurations
-      properties:
-        items:
-          type: array
-          description: The job targets
-          items:
-            $ref: '#/components/schemas/Job'
-        totalCount:
-          type: integer
-          description: Total number of jobs
     ErrorResponse:
       type: object
       description: An error response body
@@ -107,13 +102,18 @@ components:
           type: string
           description: The ISO 8601 timestamp when the job completed
           format: date-time
-  responses:
-    Unauthorized:
-      description: Authentication token is missing or invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
+    JobListResponse:
+      type: object
+      description: A paginated list of job configurations
+      properties:
+        items:
+          type: array
+          description: The job targets
+          items:
+            $ref: '#/components/schemas/Job'
+        totalCount:
+          type: integer
+          description: Total number of jobs
   securitySchemes:
     bearerAuth:
       type: http

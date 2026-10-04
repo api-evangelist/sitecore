@@ -179,41 +179,41 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
-    ProblemDetails:
+    RenderingHost:
       type: object
-      description: RFC 7807 problem details response for errors
+      description: A rendering host endpoint that can be assigned to a site
       properties:
-        type:
+        id:
           type: string
-          description: A URI reference identifying the problem type
-        title:
-          type: string
-          description: A short human-readable summary of the problem
-        status:
-          type: integer
-          description: The HTTP status code for this occurrence of the problem
-        detail:
-          type: string
-          description: A human-readable explanation of the problem
-        instance:
-          type: string
-          description: A URI reference identifying the specific occurrence of the problem
-    Language:
-      type: object
-      description: A language configuration for a tenant or site
-      properties:
-        isoCode:
-          type: string
-          description: The ISO language code (e.g., en, fr-FR, de-DE)
-          example: en
+          description: The unique identifier of the rendering host
         name:
           type: string
-          description: The display name of the language
-          example: English
-        nativeName:
+          description: The display name of the rendering host
+        url:
           type: string
-          description: The language name in its native script
-          example: English
+          description: The URL of the rendering host endpoint
+          format: uri
+    ValidateNameResponse:
+      type: object
+      description: Result of a name validation check
+      properties:
+        isValid:
+          type: boolean
+          description: Whether the name is valid and available
+        errors:
+          type: array
+          description: List of validation error messages if the name is invalid
+          items:
+            type: string
+    ValidateNameRequest:
+      type: object
+      description: Request body for validating a name
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          description: The name to validate
     CreateSiteRequest:
       type: object
       description: Request body for creating a new site
@@ -239,40 +239,6 @@ components:
         templateId:
           type: string
           description: The identifier of the site template to use for creation
-    SortRequest:
-      type: object
-      description: Request body for updating the sort order of items
-      required:
-      - ids
-      properties:
-        ids:
-          type: array
-          description: Ordered list of item identifiers representing the new sort order
-          items:
-            type: string
-    ValidateNameRequest:
-      type: object
-      description: Request body for validating a name
-      required:
-      - name
-      properties:
-        name:
-          type: string
-          description: The name to validate
-    RenderingHost:
-      type: object
-      description: A rendering host endpoint that can be assigned to a site
-      properties:
-        id:
-          type: string
-          description: The unique identifier of the rendering host
-        name:
-          type: string
-          description: The display name of the rendering host
-        url:
-          type: string
-          description: The URL of the rendering host endpoint
-          format: uri
     Site:
       type: object
       description: A website managed within an XM Cloud site collection
@@ -300,26 +266,53 @@ components:
         renderingHost:
           type: string
           description: The URL of the rendering host assigned to this site
-    ValidateNameResponse:
+    Language:
       type: object
-      description: Result of a name validation check
+      description: A language configuration for a tenant or site
       properties:
-        isValid:
-          type: boolean
-          description: Whether the name is valid and available
-        errors:
+        isoCode:
+          type: string
+          description: The ISO language code (e.g., en, fr-FR, de-DE)
+          example: en
+        name:
+          type: string
+          description: The display name of the language
+          example: English
+        nativeName:
+          type: string
+          description: The language name in its native script
+          example: English
+    ProblemDetails:
+      type: object
+      description: RFC 7807 problem details response for errors
+      properties:
+        type:
+          type: string
+          description: A URI reference identifying the problem type
+        title:
+          type: string
+          description: A short human-readable summary of the problem
+        status:
+          type: integer
+          description: The HTTP status code for this occurrence of the problem
+        detail:
+          type: string
+          description: A human-readable explanation of the problem
+        instance:
+          type: string
+          description: A URI reference identifying the specific occurrence of the problem
+    SortRequest:
+      type: object
+      description: Request body for updating the sort order of items
+      required:
+      - ids
+      properties:
+        ids:
           type: array
-          description: List of validation error messages if the name is invalid
+          description: Ordered list of item identifiers representing the new sort order
           items:
             type: string
   parameters:
-    siteId:
-      name: siteId
-      in: path
-      description: The unique identifier of the site
-      required: true
-      schema:
-        type: string
     environmentId:
       name: sc_env
       in: query
@@ -327,15 +320,22 @@ components:
       required: false
       schema:
         type: string
+    siteId:
+      name: siteId
+      in: path
+      description: The unique identifier of the site
+      required: true
+      schema:
+        type: string
   responses:
-    Unauthorized:
-      description: Authentication token is missing or invalid
+    BadRequest:
+      description: The request body or parameters are invalid
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/ProblemDetails'
-    BadRequest:
-      description: The request body or parameters are invalid
+    Unauthorized:
+      description: Authentication token is missing or invalid
       content:
         application/json:
           schema:
