@@ -1,0 +1,43 @@
+slug: sitecore
+provider: Sitecore
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 3
+edges:
+- tag: Guests
+  spec_file: sitecore-guests-api-openapi.yml
+  capability_id: BC-420.10
+  capability_id_l1: BC-420
+  capability_name: Customer Data Management
+  confidence: 0.85
+  evidence: 'GET /v2.1/guests  listGuests; schemas: Guest, GuestIdentifier, CreateGuestRequest'
+  reason: '''Guest'' is Sitecore CDP''s term for a customer profile; CRUD over guests plus GuestIdentifier
+    schemas is customer master/identity record management in a customer data platform.'
+- tag: Promotions
+  spec_file: sitecore-promotions-api-openapi.yml
+  capability_id: BC-440.30
+  capability_id_l1: BC-440
+  capability_name: Discount & Promotion Management
+  confidence: 0.85
+  evidence: POST /promotions createPromotion "Create a promotion"; schema CreatePromotionRequest in a
+    "headless, API-first commerce platform"
+  reason: Commerce promotion objects created and listed — directly realises discount & promotion management.
+- tag: Guest Data Extensions
+  spec_file: sitecore-guest-data-extensions-api-openapi.yml
+  capability_id: BC-420.10
+  capability_id_l1: BC-420
+  capability_name: Customer Data Management
+  confidence: 0.75
+  evidence: 'POST /v2.1/guests/{guestRef}/extensions  createGuestDataExtension; description: ''data stored
+    in Sitecore Customer Data Platform'''
+  reason: Data extensions attach custom attribute sets to a guest (customer) profile in the Customer Data
+    Platform — extension of the customer master record, i.e. customer data management.
