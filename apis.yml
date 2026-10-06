@@ -837,6 +837,8 @@ apis:
   - type: Documentation
     url: https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html
 common:
+- url: https://www.sitecore.com/resources/insights
+  type: Blog
 - type: Website
   url: https://sitecore.com
 - type: CapabilityMap
@@ -862,7 +864,7 @@ common:
   url: rules/sitecore-rules.yml
 - type: Vocabulary
   url: vocabulary/sitecore-vocabulary.yml
-modified: '2026-09-16'
+modified: '2026-10-06'
 description: Sitecore is a global digital experience platform that combines content management, marketing
   automation, e-commerce, customer insight, and personalization to help brands deliver personalized customer
   experiences. Through its developer documentation at doc.sitecore.com and api-docs.sitecore.com, Sitecore
