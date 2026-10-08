@@ -837,6 +837,12 @@ apis:
   - type: Documentation
     url: https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html
 common:
+- type: Plans
+  url: plans/sitecore-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/sitecore-rate-limits.yml
+- type: FinOps
+  url: finops/sitecore-finops.yml
 - url: https://www.sitecore.com/resources/insights
   type: Blog
 - type: Website
