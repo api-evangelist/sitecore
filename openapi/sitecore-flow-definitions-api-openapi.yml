@@ -117,41 +117,19 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  parameters:
-    resourceId:
-      name: id
-      in: path
-      description: The unique identifier of the resource
-      required: true
-      schema:
-        type: string
-    pageOffset:
-      name: pageOffset
-      in: query
-      description: Number of records to skip for pagination
-      required: false
-      schema:
-        type: integer
-        minimum: 0
-        default: 0
-    sortBy:
-      name: sort
-      in: query
-      description: Field name and direction to sort results by (e.g., name:asc)
-      required: false
-      schema:
-        type: string
-    pageSize:
-      name: pageSize
-      in: query
-      description: Number of items to return per page
-      required: false
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-        default: 20
   schemas:
+    VariantConfig:
+      type: object
+      description: Configuration for a variant within a decision model or flow
+      properties:
+        variantRef:
+          type: string
+          description: The identifier of the variant
+        split:
+          type: integer
+          description: The percentage of traffic allocated to this variant
+          minimum: 0
+          maximum: 100
     FlowDefinition:
       type: object
       description: A flow definition representing a personalization experiment or experience in Sitecore Personalize
@@ -191,6 +169,21 @@ components:
           type: string
           description: The ISO 8601 timestamp when the flow was last modified
           format: date-time
+    ErrorResponse:
+      type: object
+      description: An error response body
+      properties:
+        message:
+          type: string
+          description: A human-readable error message
+        statusCode:
+          type: integer
+          description: The HTTP status code
+        errors:
+          type: array
+          description: List of detailed error messages
+          items:
+            type: string
     FlowDefinitionListResponse:
       type: object
       description: A paginated list of flow definitions
@@ -227,34 +220,47 @@ components:
           - DRAFT
           - ACTIVE
           - PAUSED
-    VariantConfig:
-      type: object
-      description: Configuration for a variant within a decision model or flow
-      properties:
-        variantRef:
-          type: string
-          description: The identifier of the variant
-        split:
-          type: integer
-          description: The percentage of traffic allocated to this variant
-          minimum: 0
-          maximum: 100
-    ErrorResponse:
-      type: object
-      description: An error response body
-      properties:
-        message:
-          type: string
-          description: A human-readable error message
-        statusCode:
-          type: integer
-          description: The HTTP status code
-        errors:
-          type: array
-          description: List of detailed error messages
-          items:
-            type: string
+  parameters:
+    pageSize:
+      name: pageSize
+      in: query
+      description: Number of items to return per page
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+    pageOffset:
+      name: pageOffset
+      in: query
+      description: Number of records to skip for pagination
+      required: false
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+    sortBy:
+      name: sort
+      in: query
+      description: Field name and direction to sort results by (e.g., name:asc)
+      required: false
+      schema:
+        type: string
+    resourceId:
+      name: id
+      in: path
+      description: The unique identifier of the resource
+      required: true
+      schema:
+        type: string
   responses:
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
     BadRequest:
       description: The request body or parameters are invalid
       content:
@@ -263,12 +269,6 @@ components:
             $ref: '#/components/schemas/ErrorResponse'
     Unauthorized:
       description: Authentication credentials are missing or invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    NotFound:
-      description: The requested resource was not found
       content:
         application/json:
           schema:

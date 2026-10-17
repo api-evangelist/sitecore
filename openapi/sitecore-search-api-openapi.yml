@@ -46,6 +46,50 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
+    SearchResponse:
+      type: object
+      description: Search results with facet aggregations
+      properties:
+        items:
+          type: array
+          description: Matching entities for the current page
+          items:
+            $ref: '#/components/schemas/Entity'
+        totalCount:
+          type: integer
+          description: Total number of matching entities
+        facets:
+          type: object
+          description: Facet aggregations keyed by facet field name
+          additionalProperties:
+            type: array
+            items:
+              $ref: '#/components/schemas/FacetValue'
+    FacetValue:
+      type: object
+      description: A single facet value with its count in search results
+      properties:
+        value:
+          type: string
+          description: The facet value
+        count:
+          type: integer
+          description: The number of matching entities with this value
+    ErrorResponse:
+      type: object
+      description: An error response body
+      properties:
+        message:
+          type: string
+          description: A human-readable error message
+        statusCode:
+          type: integer
+          description: The HTTP status code
+        errors:
+          type: array
+          description: List of detailed error messages
+          items:
+            type: string
     SearchRequest:
       type: object
       description: A search request for querying entities with faceting
@@ -72,16 +116,6 @@ components:
           description: Facet field names to include in the response
           items:
             type: string
-    FacetValue:
-      type: object
-      description: A single facet value with its count in search results
-      properties:
-        value:
-          type: string
-          description: The facet value
-        count:
-          type: integer
-          description: The number of matching entities with this value
     SystemProperties:
       type: object
       description: System-managed metadata properties on a Content Hub entity
@@ -134,40 +168,6 @@ components:
           additionalProperties:
             type: string
             format: uri
-    SearchResponse:
-      type: object
-      description: Search results with facet aggregations
-      properties:
-        items:
-          type: array
-          description: Matching entities for the current page
-          items:
-            $ref: '#/components/schemas/Entity'
-        totalCount:
-          type: integer
-          description: Total number of matching entities
-        facets:
-          type: object
-          description: Facet aggregations keyed by facet field name
-          additionalProperties:
-            type: array
-            items:
-              $ref: '#/components/schemas/FacetValue'
-    ErrorResponse:
-      type: object
-      description: An error response body
-      properties:
-        message:
-          type: string
-          description: A human-readable error message
-        statusCode:
-          type: integer
-          description: The HTTP status code
-        errors:
-          type: array
-          description: List of detailed error messages
-          items:
-            type: string
   responses:
     BadRequest:
       description: The request body or parameters are invalid

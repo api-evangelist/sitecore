@@ -75,6 +75,64 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
+    SearchResponse:
+      type: object
+      description: Search and recommendation results
+      properties:
+        widgets:
+          type: array
+          description: Widget-level results containing search hits and facets
+          items:
+            $ref: '#/components/schemas/WidgetResult'
+    FacetValue:
+      type: object
+      description: A single facet value with its count
+      properties:
+        id:
+          type: string
+          description: The facet value identifier
+        text:
+          type: string
+          description: The display text for the facet value
+        count:
+          type: integer
+          description: The number of matching products with this value
+    ErrorResponse:
+      type: object
+      description: An error response body
+      properties:
+        message:
+          type: string
+          description: A human-readable error message
+        statusCode:
+          type: integer
+          description: The HTTP status code
+        errors:
+          type: array
+          description: List of detailed error messages
+          items:
+            type: string
+    WidgetResult:
+      type: object
+      description: Results for a specific search or recommendation widget
+      properties:
+        rfkid:
+          type: string
+          description: The widget identifier
+        total_item:
+          type: integer
+          description: Total number of matching items
+        content:
+          type: object
+          description: Content result metadata
+          properties:
+            product:
+              $ref: '#/components/schemas/ProductResults'
+        facet:
+          type: array
+          description: Available facets for filtering results
+          items:
+            $ref: '#/components/schemas/Facet'
     SearchRequest:
       type: object
       description: Search and recommendation request parameters
@@ -129,34 +187,6 @@ components:
                   type: string
                   description: ISO 639-1 language code
                   example: en
-    Facet:
-      type: object
-      description: A search facet with available filter values
-      properties:
-        name:
-          type: string
-          description: The facet field name
-        label:
-          type: string
-          description: The display label for the facet
-        value:
-          type: array
-          description: Available values for this facet
-          items:
-            $ref: '#/components/schemas/FacetValue'
-    FacetValue:
-      type: object
-      description: A single facet value with its count
-      properties:
-        id:
-          type: string
-          description: The facet value identifier
-        text:
-          type: string
-          description: The display text for the facet value
-        count:
-          type: integer
-          description: The number of matching products with this value
     DiscoverProduct:
       type: object
       description: A product result from Sitecore Discover search or recommendations
@@ -211,51 +241,29 @@ components:
         total_item:
           type: integer
           description: Total number of matching products
-    WidgetResult:
+    Facet:
       type: object
-      description: Results for a specific search or recommendation widget
+      description: A search facet with available filter values
       properties:
-        rfkid:
+        name:
           type: string
-          description: The widget identifier
-        total_item:
-          type: integer
-          description: Total number of matching items
-        content:
-          type: object
-          description: Content result metadata
-          properties:
-            product:
-              $ref: '#/components/schemas/ProductResults'
-        facet:
-          type: array
-          description: Available facets for filtering results
-          items:
-            $ref: '#/components/schemas/Facet'
-    SearchResponse:
-      type: object
-      description: Search and recommendation results
-      properties:
-        widgets:
-          type: array
-          description: Widget-level results containing search hits and facets
-          items:
-            $ref: '#/components/schemas/WidgetResult'
-    ErrorResponse:
-      type: object
-      description: An error response body
-      properties:
-        message:
+          description: The facet field name
+        label:
           type: string
-          description: A human-readable error message
-        statusCode:
-          type: integer
-          description: The HTTP status code
-        errors:
+          description: The display label for the facet
+        value:
           type: array
-          description: List of detailed error messages
+          description: Available values for this facet
           items:
-            type: string
+            $ref: '#/components/schemas/FacetValue'
+  parameters:
+    customerKey:
+      name: customerKey
+      in: query
+      description: The customer key identifying the Sitecore Discover account. Found in the Customer Engagement Console under Developer Resources > API Access.
+      required: false
+      schema:
+        type: string
   responses:
     BadRequest:
       description: The request body or parameters are invalid
@@ -269,14 +277,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
-  parameters:
-    customerKey:
-      name: customerKey
-      in: query
-      description: The customer key identifying the Sitecore Discover account. Found in the Customer Engagement Console under Developer Resources > API Access.
-      required: false
-      schema:
-        type: string
   securitySchemes:
     bearerAuth:
       type: http

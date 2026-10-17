@@ -49,39 +49,36 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
-  responses:
-    BadRequest:
-      description: The request body or parameters are invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-    Unauthorized:
-      description: Authentication token is missing or invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
+  parameters:
+    customerKey:
+      name: customerKey
+      in: query
+      description: The customer key identifying the Sitecore Discover account. Found in the Customer Engagement Console under Developer Resources > API Access.
+      required: false
+      schema:
+        type: string
   schemas:
-    IncrementalFeedRequest:
+    FeedUpdateResponse:
       type: object
-      description: Request body for incrementally updating the product catalog
-      required:
-      - operation
-      - products
+      description: Response from a product feed update operation
       properties:
-        operation:
+        status:
           type: string
-          description: The operation to perform on the products
+          description: The status of the feed update request
           enum:
-          - add
-          - update
-          - delete
-        products:
+          - accepted
+          - failed
+        processed:
+          type: integer
+          description: The number of products successfully processed
+        failed:
+          type: integer
+          description: The number of products that failed to process
+        errors:
           type: array
-          description: The products to add, update, or delete
+          description: List of error details for failed products
           items:
-            $ref: '#/components/schemas/FeedProduct'
+            type: string
     FeedProduct:
       type: object
       description: A product record for the Discover catalog feed
@@ -125,27 +122,6 @@ components:
         in_stock:
           type: boolean
           description: Whether the product is currently in stock
-    FeedUpdateResponse:
-      type: object
-      description: Response from a product feed update operation
-      properties:
-        status:
-          type: string
-          description: The status of the feed update request
-          enum:
-          - accepted
-          - failed
-        processed:
-          type: integer
-          description: The number of products successfully processed
-        failed:
-          type: integer
-          description: The number of products that failed to process
-        errors:
-          type: array
-          description: List of error details for failed products
-          items:
-            type: string
     ErrorResponse:
       type: object
       description: An error response body
@@ -161,14 +137,38 @@ components:
           description: List of detailed error messages
           items:
             type: string
-  parameters:
-    customerKey:
-      name: customerKey
-      in: query
-      description: The customer key identifying the Sitecore Discover account. Found in the Customer Engagement Console under Developer Resources > API Access.
-      required: false
-      schema:
-        type: string
+    IncrementalFeedRequest:
+      type: object
+      description: Request body for incrementally updating the product catalog
+      required:
+      - operation
+      - products
+      properties:
+        operation:
+          type: string
+          description: The operation to perform on the products
+          enum:
+          - add
+          - update
+          - delete
+        products:
+          type: array
+          description: The products to add, update, or delete
+          items:
+            $ref: '#/components/schemas/FeedProduct'
+  responses:
+    BadRequest:
+      description: The request body or parameters are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Authentication token is missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
   securitySchemes:
     bearerAuth:
       type: http

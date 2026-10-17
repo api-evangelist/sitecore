@@ -177,19 +177,26 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
+  responses:
+    NotFound:
+      description: The requested resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+    BadRequest:
+      description: The request body or parameters are invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+    Unauthorized:
+      description: Authentication token is missing or invalid
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
   schemas:
-    ValidateNameResponse:
-      type: object
-      description: Result of a name validation check
-      properties:
-        isValid:
-          type: boolean
-          description: Whether the name is valid and available
-        errors:
-          type: array
-          description: List of validation error messages if the name is invalid
-          items:
-            type: string
     ValidateNameRequest:
       type: object
       description: Request body for validating a name
@@ -199,6 +206,51 @@ components:
         name:
           type: string
           description: The name to validate
+    SortRequest:
+      type: object
+      description: Request body for updating the sort order of items
+      required:
+      - ids
+      properties:
+        ids:
+          type: array
+          description: Ordered list of item identifiers representing the new sort order
+          items:
+            type: string
+    CreateCollectionRequest:
+      type: object
+      description: Request body for creating or updating a site collection
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          description: The name for the site collection
+          maxLength: 100
+        displayName:
+          type: string
+          description: The human-readable display name for the collection
+    SiteCollection:
+      type: object
+      description: A site collection that groups related sites within an XM Cloud tenant
+      properties:
+        id:
+          type: string
+          description: The unique identifier of the site collection
+        name:
+          type: string
+          description: The display name of the site collection
+        displayName:
+          type: string
+          description: The human-readable display name for the collection
+        sortOrder:
+          type: integer
+          description: The sort position of this collection relative to others
+        sites:
+          type: array
+          description: Sites contained within this collection
+          items:
+            $ref: '#/components/schemas/SiteSummary'
     ProblemDetails:
       type: object
       description: RFC 7807 problem details response for errors
@@ -228,49 +280,16 @@ components:
         name:
           type: string
           description: The name of the site
-    SiteCollection:
+    ValidateNameResponse:
       type: object
-      description: A site collection that groups related sites within an XM Cloud tenant
+      description: Result of a name validation check
       properties:
-        id:
-          type: string
-          description: The unique identifier of the site collection
-        name:
-          type: string
-          description: The display name of the site collection
-        displayName:
-          type: string
-          description: The human-readable display name for the collection
-        sortOrder:
-          type: integer
-          description: The sort position of this collection relative to others
-        sites:
+        isValid:
+          type: boolean
+          description: Whether the name is valid and available
+        errors:
           type: array
-          description: Sites contained within this collection
-          items:
-            $ref: '#/components/schemas/SiteSummary'
-    CreateCollectionRequest:
-      type: object
-      description: Request body for creating or updating a site collection
-      required:
-      - name
-      properties:
-        name:
-          type: string
-          description: The name for the site collection
-          maxLength: 100
-        displayName:
-          type: string
-          description: The human-readable display name for the collection
-    SortRequest:
-      type: object
-      description: Request body for updating the sort order of items
-      required:
-      - ids
-      properties:
-        ids:
-          type: array
-          description: Ordered list of item identifiers representing the new sort order
+          description: List of validation error messages if the name is invalid
           items:
             type: string
   parameters:
@@ -288,25 +307,6 @@ components:
       required: true
       schema:
         type: string
-  responses:
-    BadRequest:
-      description: The request body or parameters are invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ProblemDetails'
-    Unauthorized:
-      description: Authentication token is missing or invalid
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ProblemDetails'
-    NotFound:
-      description: The requested resource was not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ProblemDetails'
   securitySchemes:
     bearerAuth:
       type: http

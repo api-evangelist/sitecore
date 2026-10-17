@@ -61,15 +61,6 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   parameters:
-    page:
-      name: page
-      in: query
-      description: Page number to retrieve (1-indexed)
-      required: false
-      schema:
-        type: integer
-        minimum: 1
-        default: 1
     pageSize:
       name: pageSize
       in: query
@@ -87,6 +78,15 @@ components:
       required: false
       schema:
         type: string
+    page:
+      name: page
+      in: query
+      description: Page number to retrieve (1-indexed)
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
   responses:
     BadRequest:
       description: The request body or parameters are invalid
@@ -101,6 +101,64 @@ components:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
   schemas:
+    ErrorDetail:
+      type: object
+      description: A single error detail
+      properties:
+        ErrorCode:
+          type: string
+          description: The machine-readable error code
+        Message:
+          type: string
+          description: A human-readable description of the error
+        Data:
+          type: object
+          description: Additional data about the error context
+          additionalProperties: true
+    ErrorResponse:
+      type: object
+      description: An error response body
+      properties:
+        Errors:
+          type: array
+          description: List of error details
+          items:
+            $ref: '#/components/schemas/ErrorDetail'
+    Promotion:
+      type: object
+      description: A discount promotion that can be applied to orders
+      properties:
+        ID:
+          type: string
+          description: The unique identifier of the promotion
+        Code:
+          type: string
+          description: The coupon code customers enter to apply the promotion
+        Name:
+          type: string
+          description: The display name of the promotion
+        Description:
+          type: string
+          description: A description of the promotion
+        Active:
+          type: boolean
+          description: Whether the promotion is currently active
+        StartDate:
+          type: string
+          description: The ISO 8601 start date for the promotion
+          format: date-time
+        ExpirationDate:
+          type: string
+          description: The ISO 8601 expiration date for the promotion
+          format: date-time
+        Value:
+          type: number
+          description: The discount value (amount or percentage based on type)
+          format: float
+        xp:
+          type: object
+          description: Extended properties for custom promotion attributes
+          additionalProperties: true
     CreatePromotionRequest:
       type: object
       description: Request body for creating a promotion
@@ -140,6 +198,17 @@ components:
           type: object
           description: Extended properties for custom promotion attributes
           additionalProperties: true
+    PromotionListResponse:
+      type: object
+      description: A paginated list of promotions
+      properties:
+        Meta:
+          $ref: '#/components/schemas/ListMetadata'
+        Items:
+          type: array
+          description: The promotions for the current page
+          items:
+            $ref: '#/components/schemas/Promotion'
     ListMetadata:
       type: object
       description: Pagination metadata for list responses
@@ -161,75 +230,6 @@ components:
           description: The inclusive range [start, end] of item indexes for this page
           items:
             type: integer
-    ErrorDetail:
-      type: object
-      description: A single error detail
-      properties:
-        ErrorCode:
-          type: string
-          description: The machine-readable error code
-        Message:
-          type: string
-          description: A human-readable description of the error
-        Data:
-          type: object
-          description: Additional data about the error context
-          additionalProperties: true
-    Promotion:
-      type: object
-      description: A discount promotion that can be applied to orders
-      properties:
-        ID:
-          type: string
-          description: The unique identifier of the promotion
-        Code:
-          type: string
-          description: The coupon code customers enter to apply the promotion
-        Name:
-          type: string
-          description: The display name of the promotion
-        Description:
-          type: string
-          description: A description of the promotion
-        Active:
-          type: boolean
-          description: Whether the promotion is currently active
-        StartDate:
-          type: string
-          description: The ISO 8601 start date for the promotion
-          format: date-time
-        ExpirationDate:
-          type: string
-          description: The ISO 8601 expiration date for the promotion
-          format: date-time
-        Value:
-          type: number
-          description: The discount value (amount or percentage based on type)
-          format: float
-        xp:
-          type: object
-          description: Extended properties for custom promotion attributes
-          additionalProperties: true
-    PromotionListResponse:
-      type: object
-      description: A paginated list of promotions
-      properties:
-        Meta:
-          $ref: '#/components/schemas/ListMetadata'
-        Items:
-          type: array
-          description: The promotions for the current page
-          items:
-            $ref: '#/components/schemas/Promotion'
-    ErrorResponse:
-      type: object
-      description: An error response body
-      properties:
-        Errors:
-          type: array
-          description: List of error details
-          items:
-            $ref: '#/components/schemas/ErrorDetail'
   securitySchemes:
     bearerAuth:
       type: http
