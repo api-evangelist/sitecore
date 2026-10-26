@@ -1,0 +1,368 @@
+# sitecore (sitecore)
+
+<!-- API-EVANGELIST-PROVENANCE:BEGIN -->
+> ### About this repository
+>
+> **This is not our API.** This repository is an independent, third-party profile of a company's
+> **publicly available** API surface, maintained by [API Evangelist](https://apievangelist.com).
+> API Evangelist does not operate, host, resell, or support this company's APIs, and is not
+> affiliated with or endorsed by the company unless stated on the profile.
+>
+> **Where the information came from.** Everything here is assembled from material a member of the
+> public can reach with a browser and no credentials — the company's own website, developer portal
+> and documentation, the specifications it publishes for public use (OpenAPI, AsyncAPI, JSON Schema,
+> `apis.json`, `llms.txt` and similar), its public repositories, and its public status, pricing and
+> changelog pages. **Nothing here is obtained by breaching a system, defeating an access control, or
+> using credentials of any kind.**
+>
+> **The rating is an independent assessment.** The Kin Score and Agent Readiness rating are
+> independently calculated scores of a company's *public* API artifacts, produced by API Evangelist
+> against a published rubric. They are not certifications, endorsements, security assessments, or
+> audits, and they score published artifacts — not the quality, safety, or security of the software.
+>
+> **Corrections, re-scores, and removal are free.** No partnership, contract, or purchase is
+> required, and you do not need to justify the request.
+>
+> - **Something wrong?** Open an issue on this repository, or email
+>   [info@apievangelist.com](mailto:info@apievangelist.com).
+> - **Published something new?** Ask for a re-score and we will re-run the rating.
+> - **Want the listing taken down?** Say so and we will honor it. The profile is reduced to your
+>   company name, a factual description, and a link to your own site, and the company is recorded as
+>   **unrated** — never scored zero for having asked.
+>
+> **Response times.** Acknowledgement within **one business day**; removal or restriction within
+> **two business days**; corrections and re-scores within **five business days**.
+>
+> **Not from the company, and here with a question?** You are welcome here — we would rather be the
+> front line and point you the right way than have a good report go nowhere. What this repository
+> can answer is narrow, though, so it is worth knowing who you are actually looking for:
+>
+> - **A question about how the API works, an account, billing, or a bug in the service** — that is
+>   the company's own support, not us. We profile this API; we do not operate it and cannot see
+>   your account.
+> - **A bug in an open-source project we only catalog** — file it on that project's own repository.
+>   This has happened with a real and correct bug report that reached us instead of the people who
+>   could fix it, which helped nobody.
+> - **Anything about this listing itself** — the description, the tags, the rating, a missing or
+>   wrong artifact — is ours. Open an issue here.
+> - **Not sure, or something general about API Evangelist or APIs.io** — open an issue on the
+>   [APIs.io Inbox](https://github.com/api-search/inbox) and we will route it.
+>
+> **This repository contains no software, and we will never ask you to download anything.** There is
+> no build, release, installer, or binary here — only text and machine-readable API descriptions, so
+> there is nothing here that can be "corrupt" or need "repairing". Any issue, comment, or email
+> claiming otherwise and offering a download link is not from us and is hostile. Do not follow the
+> link; it is a lure. Report it to GitHub and, if you like, tell us at
+> [info@apievangelist.com](mailto:info@apievangelist.com) so we can take it down.
+>
+> **On a security or compliance team?** Email
+> [info@apievangelist.com](mailto:info@apievangelist.com) with *security* in the subject line and
+> you will get a person, not a form. We will tell you exactly which public URLs this profile was
+> built from so your team can see the same surface we did, and we will take the listing down on
+> request while you work through it.
+>
+> Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
+<!-- API-EVANGELIST-PROVENANCE:END -->
+
+Sitecore is a global digital experience platform that combines content management, marketing automation, e-commerce, customer insight, and personalization to help brands deliver personalized customer experiences. Through its developer documentation at doc.sitecore.com and api-docs.sitecore.com, Sitecore provides REST, GraphQL, and event-streaming APIs spanning XM Cloud, Customer Data Platform, Personalize, OrderCloud, Content Hub, and Discover.
+
+**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/sitecore/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/sitecore/refs/heads/main/apis.yml)
+
+## Timestamps
+
+- **Modified:** 2026-05-19
+
+## APIs
+
+### Sitecore XM Cloud GraphQL Delivery API
+
+The Sitecore XM Cloud GraphQL Delivery API provides access to approved and published content from Sitecore XM Cloud via a GraphQL endpoint optimized for production delivery. Developers use this API to query content items, fields, and relationships with precise control over the data returned in each request, reducing over-fetching in front-end applications. The API is authenticated via API keys and is designed for high availability and performance at scale.
+
+- **Human URL:** [https://doc.sitecore.com/xmc/en/developers/xm-cloud/delivery-api.html](https://doc.sitecore.com/xmc/en/developers/xm-cloud/delivery-api.html)
+- **Base URL:** `https://edge.sitecorecloud.io/api/graphql`
+
+#### Tags
+
+- Content Delivery
+- Digital Experience Platform
+- GraphQL
+- Headless CMS
+
+#### Properties
+
+- [Documentation](https://doc.sitecore.com/xmc/en/developers/xm-cloud/delivery-api.html)
+- [Postman Collection](collections/sitecore-cdp-rest-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/sitecore-cdp-rest-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Postman Collection](collections/sitecore-content-hub-rest-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/sitecore-content-hub-rest-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Postman Collection](collections/sitecore-discover-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/sitecore-discover-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Postman Collection](collections/sitecore-ordercloud-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/sitecore-ordercloud-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Postman Collection](collections/sitecore-personalize-rest-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/sitecore-personalize-rest-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Postman Collection](collections/sitecore-xm-cloud-rest-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/sitecore-xm-cloud-rest-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+
+### Sitecore XM Cloud Authoring and Management GraphQL API
+
+The Sitecore XM Cloud Authoring and Management GraphQL API provides a single GraphQL endpoint and schema for managing Sitecore content programmatically. It supports creating, updating, and querying content items, templates, and site structures within an XM Cloud environment. This API is intended for integration builders, content migration tools, and CI/CD pipelines that need to automate content operations against an XM Cloud instance.
+
+- **Human URL:** [https://doc.sitecore.com/xmc/en/developers/xm-cloud/sitecore-authoring-and-management-graphql-api.html](https://doc.sitecore.com/xmc/en/developers/xm-cloud/sitecore-authoring-and-management-graphql-api.html)
+- **Base URL:** `https://edge.sitecorecloud.io/api/graphql`
+
+#### Tags
+
+- Content Management
+- Digital Experience Platform
+- GraphQL
+- Headless CMS
+
+#### Properties
+
+- [Documentation](https://doc.sitecore.com/xmc/en/developers/xm-cloud/sitecore-authoring-and-management-graphql-api.html)
+- [Postman Collection](collections/sitecore-cdp-rest-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/sitecore-cdp-rest-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Postman Collection](collections/sitecore-content-hub-rest-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/sitecore-content-hub-rest-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Postman Collection](collections/sitecore-discover-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/sitecore-discover-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Postman Collection](collections/sitecore-ordercloud-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/sitecore-ordercloud-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Postman Collection](collections/sitecore-personalize-rest-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/sitecore-personalize-rest-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Postman Collection](collections/sitecore-xm-cloud-rest-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/sitecore-xm-cloud-rest-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+
+### Sitecore XM Cloud REST API
+
+The Sitecore XM Cloud REST API provides endpoints for creating and managing collections, sites, analytics identifiers, and languages within an XM Cloud tenant. It follows RESTful conventions and exposes over 34 endpoints covering the full lifecycle of site and collection management. Developers use this API to automate site provisioning, manage organizational hierarchies, and integrate XM Cloud administration tasks into external workflows.
+
+- **Human URL:** [https://doc.sitecore.com/xmc/en/developers/xm-cloud/sitecore-xm-cloud.html](https://doc.sitecore.com/xmc/en/developers/xm-cloud/sitecore-xm-cloud.html)
+- **Base URL:** `https://xmapps-api.sitecorecloud.io`
+
+#### Tags
+
+- Collections
+- Content Management
+- Digital Experience Platform
+- REST
+- Sites
+
+#### Properties
+
+- [Documentation](https://doc.sitecore.com/xmc/en/developers/xm-cloud/sitecore-xm-cloud.html)
+- [OpenAPI](openapi/sitecore-xm-cloud-rest-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
+- [Postman Collection](collections/sitecore-xm-cloud-rest-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/sitecore-xm-cloud-rest-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+
+### Sitecore CDP REST API
+
+The Sitecore CDP REST API allows developers to retrieve, create, update, and delete data stored in Sitecore Customer Data Platform. It provides access to guest profiles, orders, sessions, and behavioral data through standard HTTP methods. Developers use this API to build integrations that read or write customer data programmatically, enabling use cases such as audience segmentation, data enrichment, and reporting.
+
+- **Human URL:** [https://doc.sitecore.com/cdp/en/developers/api/rest-apis.html](https://doc.sitecore.com/cdp/en/developers/api/rest-apis.html)
+- **Base URL:** `https://api-engage-us.sitecorecloud.io`
+
+#### Tags
+
+- Customer Data Platform
+- Guest Data
+- Personalization
+- REST
+
+#### Properties
+
+- [Documentation](https://doc.sitecore.com/cdp/en/developers/api/rest-apis.html)
+- [OpenAPI](openapi/sitecore-cdp-rest-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
+- [Postman Collection](collections/sitecore-cdp-rest-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/sitecore-cdp-rest-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+
+### Sitecore CDP Stream API
+
+The Sitecore CDP Stream API enables applications to send real-time behavioral and transactional events about users to the Sitecore Customer Data Platform. It is designed for high-throughput event ingestion from web, mobile, and server-side applications, capturing interactions such as page views, product views, and purchases. Events sent through the Stream API update guest profiles in near real-time, powering personalization and segmentation use cases.
+
+- **Human URL:** [https://doc.sitecore.com/cdp/en/developers/api/stream-api.html](https://doc.sitecore.com/cdp/en/developers/api/stream-api.html)
+- **Base URL:** `https://api-engage-us.sitecorecloud.io`
+
+#### Tags
+
+- Behavioral Data
+- Customer Data Platform
+- Event Tracking
+- Real-Time
+
+#### Properties
+
+- [Documentation](https://doc.sitecore.com/cdp/en/developers/api/stream-api.html)
+- [AsyncAPI](asyncapi/sitecore-cdp-stream-api-asyncapi.yml) — [AsyncAPI Specification](https://www.asyncapi.com/docs/reference/specification/latest)
+- [Postman Collection](collections/sitecore-cdp-rest-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/sitecore-cdp-rest-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Postman Collection](collections/sitecore-content-hub-rest-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/sitecore-content-hub-rest-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Postman Collection](collections/sitecore-discover-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/sitecore-discover-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Postman Collection](collections/sitecore-ordercloud-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/sitecore-ordercloud-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Postman Collection](collections/sitecore-personalize-rest-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/sitecore-personalize-rest-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Postman Collection](collections/sitecore-xm-cloud-rest-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/sitecore-xm-cloud-rest-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+
+### Sitecore CDP Batch API
+
+The Sitecore CDP Batch API supports uploading large volumes of guest data and offline order records into Sitecore Customer Data Platform. It is intended for bulk data migration, historical data ingestion, and scenarios where real-time streaming is not practical, such as nightly data syncs from CRM or ERP systems. The API accepts structured data files and processes them asynchronously, updating guest profiles and order histories in CDP.
+
+- **Human URL:** [https://doc.sitecore.com/cdp/en/developers/api/index-en.html](https://doc.sitecore.com/cdp/en/developers/api/index-en.html)
+- **Base URL:** `https://api-engage-us.sitecorecloud.io`
+
+#### Tags
+
+- Batch Processing
+- Customer Data Platform
+- Data Import
+- Guest Data
+
+#### Properties
+
+- [Documentation](https://doc.sitecore.com/cdp/en/developers/api/index-en.html)
+- [Postman Collection](collections/sitecore-cdp-rest-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/sitecore-cdp-rest-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Postman Collection](collections/sitecore-content-hub-rest-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/sitecore-content-hub-rest-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Postman Collection](collections/sitecore-discover-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/sitecore-discover-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Postman Collection](collections/sitecore-ordercloud-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/sitecore-ordercloud-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Postman Collection](collections/sitecore-personalize-rest-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/sitecore-personalize-rest-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Postman Collection](collections/sitecore-xm-cloud-rest-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/sitecore-xm-cloud-rest-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+
+### Sitecore Personalize REST API
+
+The Sitecore Personalize REST API allows developers to programmatically interact with Sitecore Personalize experiments, decisioning flows, and connection configurations. It supports retrieving, creating, updating, and deleting personalization resources through standard HTTP methods. Developers use this API to integrate decisioning logic into server-side applications, trigger personalization flows programmatically, and manage personalization assets as part of automated deployment pipelines.
+
+- **Human URL:** [https://doc.sitecore.com/personalize/en/developers/api/index-en.html](https://doc.sitecore.com/personalize/en/developers/api/index-en.html)
+- **Base URL:** `https://api.boxever.com`
+
+#### Tags
+
+- Decisioning
+- Experiments
+- Personalization
+- REST
+
+#### Properties
+
+- [Documentation](https://doc.sitecore.com/personalize/en/developers/api/index-en.html)
+- [OpenAPI](openapi/sitecore-personalize-rest-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
+- [Postman Collection](collections/sitecore-personalize-rest-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/sitecore-personalize-rest-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+
+### Sitecore Content Hub REST API
+
+The Sitecore Content Hub REST API is a hypermedia API built on HTTP that provides programmatic access to the full range of Content Hub resources, including entities, assets, jobs, search, selections, and audit logs. Developers use it to automate digital asset management workflows, migrate content, build custom integrations, and manage Content Hub configuration. The API supports standard CRUD operations and is authenticated using OAuth 2.0 tokens obtained from the Content Hub identity provider.
+
+- **Human URL:** [https://doc.sitecore.com/ch/en/developers/cloud-dev/rest-apis.html](https://doc.sitecore.com/ch/en/developers/cloud-dev/rest-apis.html)
+- **Base URL:** `https://your-tenant.stylelabs.io/api`
+
+#### Tags
+
+- Content Hub
+- Digital Asset Management
+- Media Management
+- REST
+
+#### Properties
+
+- [Documentation](https://doc.sitecore.com/ch/en/developers/cloud-dev/rest-apis.html)
+- [OpenAPI](openapi/sitecore-content-hub-rest-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
+- [Postman Collection](collections/sitecore-content-hub-rest-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/sitecore-content-hub-rest-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+
+### Sitecore Content Hub Admin API
+
+The Sitecore Content Hub Admin API is a GraphQL API that provides access to administrative functions within a Content Hub tenant, accessible at the path /api/graphql/admin/v1 relative to the Content Hub instance URL. It enables programmatic management of tenant-level configuration, schema definitions, and other administrative resources that are not exposed through the standard REST API.
+
+- **Human URL:** [https://doc.sitecore.com/ch/en/developers/cloud-dev/content-hub-admin-api.html](https://doc.sitecore.com/ch/en/developers/cloud-dev/content-hub-admin-api.html)
+- **Base URL:** `https://your-tenant.stylelabs.io/api/graphql/admin/v1`
+
+#### Tags
+
+- Administration
+- Content Hub
+- Digital Asset Management
+- GraphQL
+
+#### Properties
+
+- [Documentation](https://doc.sitecore.com/ch/en/developers/cloud-dev/content-hub-admin-api.html)
+- [Postman Collection](collections/sitecore-cdp-rest-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/sitecore-cdp-rest-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Postman Collection](collections/sitecore-content-hub-rest-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/sitecore-content-hub-rest-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Postman Collection](collections/sitecore-discover-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/sitecore-discover-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Postman Collection](collections/sitecore-ordercloud-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/sitecore-ordercloud-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Postman Collection](collections/sitecore-personalize-rest-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/sitecore-personalize-rest-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Postman Collection](collections/sitecore-xm-cloud-rest-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/sitecore-xm-cloud-rest-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+
+### Sitecore OrderCloud API
+
+The Sitecore OrderCloud API is a headless, API-first commerce platform providing RESTful endpoints for managing the full range of e-commerce operations including products, catalogs, orders, buyers, sellers, promotions, and fulfillment. It is designed to support B2C, B2B, and B2B2C commerce models with a highly flexible and extensible data model that allows custom properties on most resources.
+
+- **Human URL:** [https://api-docs.sitecore.com/ordercloud](https://api-docs.sitecore.com/ordercloud)
+- **Base URL:** `https://api.ordercloud.io/v1`
+
+#### Tags
+
+- B2B
+- B2C
+- Commerce
+- Order Management
+- REST
+
+#### Properties
+
+- [Documentation](https://api-docs.sitecore.com/ordercloud)
+- [OpenAPI](openapi/sitecore-ordercloud-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
+- [Postman Collection](collections/sitecore-ordercloud-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/sitecore-ordercloud-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [JSON Schema](json-schema/sitecore-ordercloud-order-schema.json) — [JSON Schema](https://json-schema.org/specification)
+
+### Sitecore Discover API
+
+The Sitecore Discover API provides search and product discovery capabilities for commerce applications, enabling developers to build search experiences, product listing pages, and recommendation widgets. It exposes endpoints for full-text search, faceted filtering, product recommendations, and behavioral event tracking that feeds back into the discovery algorithms.
+
+- **Human URL:** [https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html](https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html)
+- **Base URL:** `https://api.rfksrv.com`
+
+#### Tags
+
+- Commerce
+- Product Discovery
+- Recommendations
+- Search
+
+#### Properties
+
+- [Documentation](https://doc.sitecore.com/discover/en/developers/discover-developer-guide/api-endpoints-and-methods.html)
+- [OpenAPI](openapi/sitecore-discover-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
+- [Postman Collection](collections/sitecore-discover-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
+- [Open Collection](collections/sitecore-discover-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+
+## Common Properties
+
+- [GitHub Organization](https://github.com/Sitecore)
+- [LinkedIn](https://www.linkedin.com/company/sitecore)
+- [JSON-LD](json-ld/sitecore-context.jsonld) — [JSON-LD](https://www.w3.org/TR/json-ld11/)
+- [JSON Schema](json-schema/sitecore-cdp-guest-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [JSON Schema](json-schema/sitecore-ordercloud-order-schema.json) — [JSON Schema](https://json-schema.org/specification)
+- [Spectral Rules](rules/sitecore-rules.yml)
+- [Vocabulary](vocabulary/sitecore-vocabulary.yml)
+- [Capabilities](capabilities/content-management.yaml)
+- [Capabilities](capabilities/customer-data-personalization.yaml)
+- [Capabilities](capabilities/commerce-discovery.yaml)
